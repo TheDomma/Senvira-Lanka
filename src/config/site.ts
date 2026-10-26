@@ -33,7 +33,7 @@ export const siteConfig: SiteConfig = {
     headerEmblem: { src: '/brand/logo-emblem-dark.png', width: 1080, height: 1020 },
     footerPrimaryLight: { src: '/brand/logo-primary-light.png', width: 1376, height: 912 },
     footerWordmarkLight: { src: '/brand/logo-wordmark-light.png', width: 1536, height: 525 },
-    favicon: '/brand/favicon-circle-dark.png',
+    favicon: '/brand/logo-emblem-light.png',
   },
   contact: {
     isConfigured: false,
