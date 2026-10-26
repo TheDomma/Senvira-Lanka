@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import { heroContent } from '../data/homepage';
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container hero-layout">
+    <div class="hero-content">
+      <span class="eyebrow">{heroContent.eyebrow}</span>
+      <h1 id="hero-heading" class="hero-headline">{heroContent.headline}</h1>
+      <p class="hero-copy">{heroContent.supportingCopy}</p>
+
+      <div class="hero-actions">
+        <a href={heroContent.primaryAction.href} class="btn btn-primary">{heroContent.primaryAction.label}</a>
+        <a href={heroContent.secondaryAction.href} class="btn btn-secondary">{heroContent.secondaryAction.label}</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-frame">
+        <Image
+          src={heroContent.image}
+          alt={heroContent.imageAlt}
+          widths={[480, 768, 1080, 1440]}
+          sizes="(max-width: 768px) 92vw, (max-width: 1200px) 54vw, 660px"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+          class="hero-img"
+        />
+        <span class="hero-photo-note">A slower way around the island</span>
+        <div class="hero-pill liquid-glass-pill">
+          <span class="pill-marker" aria-hidden="true"></span>
+          <div>
+            <strong class="pill-title">{heroContent.locationBadge.title}</strong>
+            <span class="pill-subtitle">{heroContent.locationBadge.subtitle}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: clamp(2rem, 5vw, 4.75rem); background: linear-gradient(115deg, #f6f1e7 0%, #f6f1e7 54%, #e8eee8 100%); overflow: hidden; }
+  .hero-layout { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); align-items: center; }
+  .hero-content { position: relative; z-index: 1; padding-block: 0.75rem; }
+  .hero-headline { max-width: 10ch; font-size: clamp(3.2rem, 7.5vw, 6.25rem); line-height: 0.98; letter-spacing: -0.045em; color: var(--color-forest-deep); margin-bottom: var(--space-md); }
+  .hero-copy { max-width: 34ch; font-size: var(--text-lg); color: var(--color-charcoal-muted); margin-bottom: var(--space-lg); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .hero-frame { position: relative; aspect-ratio: 1.18 / 1; border-radius: 42% 42% 0.75rem 0.75rem; overflow: hidden; background-color: var(--color-forest-deep); box-shadow: 0 2rem 4rem -2.5rem rgba(18, 62, 58, 0.5); }
+  .hero-frame::after { content: ''; position: absolute; inset: 35% 0 0; pointer-events: none; background: linear-gradient(180deg, transparent 20%, rgba(10, 40, 37, 0.3) 100%); }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: 20% center; }
+  .hero-pill { position: absolute; z-index: 1; bottom: 1.25rem; left: 1.25rem; right: 1.25rem; display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: var(--text-xs); line-height: 1.38; }
+  .pill-marker { width: 0.5rem; height: 0.5rem; border-radius: 999px; background-color: var(--color-amber); margin-top: 0.28rem; flex-shrink: 0; }
+  .pill-title { display: block; font-weight: 600; color: var(--color-ivory); }
+  .pill-subtitle { display: block; color: rgba(246, 241, 231, 0.84); }
+  .hero-photo-note { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1; padding: 0.45rem 0.7rem; border: 1px solid rgba(255, 255, 255, 0.56); border-radius: 999px; color: white; background: rgba(18, 62, 58, 0.28); backdrop-filter: blur(10px); font-size: 0.72rem; letter-spacing: 0.04em; }
+
+  @media (min-width: 56rem) {
+    .hero-layout { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 5rem); min-height: 36rem; }
+    .hero-frame { aspect-ratio: 0.9 / 1; border-radius: 48% 48% 0.75rem 0.75rem; }
+    .hero-pill { right: auto; max-width: 22rem; }
+  }
+
+  @media (max-width: 55.99rem) {
+    .hero-content { max-width: 38rem; }
+    .hero-frame { max-height: 28rem; }
+  }
+</style>

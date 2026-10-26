@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import type { DestinationHighlight } from '../data/homepage';
+
+interface Props {
+  destination: DestinationHighlight;
+  index?: number;
+}
+
+const { destination, index = 0 } = Astro.props;
+---
+
+<article class="destination-card">
+  <Image
+    src={destination.image}
+    alt={destination.imageAlt}
+    widths={[360, 640, 900]}
+    sizes="(max-width: 608px) 92vw, (max-width: 1152px) 45vw, 270px"
+    loading="lazy"
+    decoding="async"
+    class="destination-img"
+  />
+  <span class="landscape-badge">{destination.landscapeTag}</span>
+  <div class="destination-copy">
+    <p class="destination-region">{destination.region}</p>
+    <h3 class="destination-title">{destination.name}</h3>
+    <p class="destination-summary">{destination.summary}</p>
+    <span class="destination-number">0{index + 1}</span>
+  </div>
+</article>
+
+<style>
+  .destination-card { position: relative; min-width: 0; aspect-ratio: 0.78; overflow: hidden; isolation: isolate; background: var(--color-forest-deep); color: white; }
+  .destination-card::after { content: ''; position: absolute; z-index: -1; inset: 28% 0 0; background: linear-gradient(180deg, transparent 0%, rgba(12, 39, 35, 0.24) 22%, rgba(12, 39, 35, 0.88) 100%); }
+  .destination-img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .destination-card:hover .destination-img { transform: scale(1.04); }
+  .landscape-badge { position: absolute; top: 1rem; left: 1rem; max-width: calc(100% - 2rem); padding: 0.4rem 0.65rem; border: 1px solid rgba(255, 255, 255, 0.46); border-radius: 999px; background: rgba(18, 62, 58, 0.36); backdrop-filter: blur(10px); color: white; font-size: 0.66rem; line-height: 1.25; }
+  .destination-copy { position: absolute; right: 1.1rem; bottom: 1.1rem; left: 1.1rem; }
+  .destination-region { color: rgba(255, 255, 255, 0.82); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .destination-title { color: white; font-size: clamp(1.65rem, 2.2vw, 2.2rem); line-height: 1; margin-bottom: 0.5rem; }
+  .destination-summary { max-width: 28ch; color: rgba(255, 255, 255, 0.86); font-size: 0.8rem; line-height: 1.5; margin-bottom: 0; }
+  .destination-number { position: absolute; top: 0; right: 0; color: rgba(255, 255, 255, 0.84); font-family: var(--font-serif); font-size: 1rem; }
+
+  @media (min-width: 72rem) {
+    .destination-card:nth-child(even) { transform: translateY(2rem); }
+  }
+
+  @media (max-width: 38rem) {
+    .destination-card { aspect-ratio: 1.1; }
+    .destination-copy { right: 1rem; bottom: 1rem; left: 1rem; }
+    .destination-card:nth-child(even) { transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .destination-img { transition: none; }
+  }
+</style>

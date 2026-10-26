@@ -1,0 +1,54 @@
+---
+import { siteConfig } from '../config/site';
+const { footerWordmarkLight } = siteConfig.logos;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-identity">
+      <a href="/" class="footer-brand-link" aria-label={`${siteConfig.brandName} — Home`}>
+        <img
+          src={footerWordmarkLight.src}
+          alt={siteConfig.brandName}
+          width={footerWordmarkLight.width}
+          height={footerWordmarkLight.height}
+          loading="lazy"
+          decoding="async"
+          class="footer-logo"
+        />
+      </a>
+      <p class="footer-summary">{siteConfig.description}</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <h2 class="footer-nav-title">On This Page</h2>
+      <ul class="footer-nav-list">
+        {siteConfig.navigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="#plan-a-trip">Plan a Trip</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="footer-copy">© {currentYear} {siteConfig.brandName}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background-color: var(--color-teal); color: var(--color-ivory); padding-top: var(--space-xl); padding-bottom: var(--space-lg); }
+  .footer-top { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); padding-bottom: var(--space-lg); border-bottom: 1px solid rgba(246, 241, 231, 0.18); }
+  .footer-logo { width: 10.5rem; height: auto; margin-bottom: var(--space-sm); }
+  .footer-summary { font-size: var(--text-sm); color: rgba(246, 241, 231, 0.86); max-width: 36ch; margin-bottom: 0; }
+  .footer-nav-title { font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-amber); margin-bottom: var(--space-xs); }
+  .footer-nav-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-nav-list a { font-size: var(--text-sm); color: rgba(246, 241, 231, 0.9); text-decoration: none; }
+  .footer-nav-list a:hover { color: #ffffff; text-decoration: underline; }
+  .footer-bottom { padding-top: var(--space-md); display: flex; flex-direction: column; gap: 0.35rem; font-size: var(--text-xs); color: rgba(246, 241, 231, 0.76); }
+  .footer-copy { margin: 0; }
+
+  @media (min-width: 48rem) {
+    .footer-top { grid-template-columns: 1.5fr 1fr; align-items: start; }
+    .footer-bottom { flex-direction: row; justify-content: flex-start; align-items: center; }
+  }
+</style>

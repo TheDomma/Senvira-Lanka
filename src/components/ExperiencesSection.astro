@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import { experiencesContent } from '../data/homepage';
+---
+
+<section id="experiences" class="experiences-section section-spacing" aria-labelledby="experiences-heading">
+  <div class="container">
+    <div class="section-intro-block">
+      <span class="eyebrow">{experiencesContent.eyebrow}</span>
+      <h2 id="experiences-heading" class="section-heading">{experiencesContent.heading}</h2>
+      <p class="section-lead">{experiencesContent.intro}</p>
+    </div>
+
+    <div class="experiences-grid">
+      {
+        experiencesContent.items.map((item, idx) => (
+          <article class="experience-card">
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              widths={[420, 720, 960]}
+              sizes="(max-width: 768px) 92vw, (max-width: 1200px) 30vw, 370px"
+              loading="lazy"
+              decoding="async"
+              class="experience-img"
+            />
+            <span class="experience-number">0{idx + 1} / 03</span>
+            <div class="experience-copy">
+              <p class="experience-geography">{item.geography}</p>
+              <h3 class="experience-title">{item.title}</h3>
+              <p class="experience-description">{item.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .experiences-section { background: var(--color-forest-deep); color: var(--color-ivory); }
+  .section-intro-block { max-width: 43rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .section-intro-block .eyebrow { color: #e8c486; }
+  .section-heading { max-width: 14ch; font-size: var(--text-2xl); color: var(--color-ivory); margin-bottom: var(--space-xs); }
+  .section-lead { color: rgba(246, 241, 231, 0.76); font-size: var(--text-base); margin-bottom: 0; }
+  .experiences-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .experience-card { position: relative; min-height: 24rem; aspect-ratio: 0.95; overflow: hidden; isolation: isolate; background: var(--color-canopy-green); }
+  .experience-card::after { content: ''; position: absolute; z-index: -1; inset: 25% 0 0; background: linear-gradient(180deg, transparent 0%, rgba(10, 37, 34, 0.28) 30%, rgba(10, 37, 34, 0.92) 100%); }
+  .experience-img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+  .experience-card:hover .experience-img { transform: scale(1.035); }
+  .experience-number { position: absolute; top: 1rem; left: 1rem; color: white; font-size: 0.68rem; letter-spacing: 0.13em; }
+  .experience-copy { position: absolute; right: 1.25rem; bottom: 1.25rem; left: 1.25rem; }
+  .experience-geography { color: #e8c486; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.45rem; }
+  .experience-title { max-width: 16ch; color: white; font-size: clamp(1.5rem, 2vw, 2rem); margin-bottom: 0.5rem; }
+  .experience-description { max-width: 35ch; color: rgba(255, 255, 255, 0.84); font-size: 0.82rem; line-height: 1.5; margin-bottom: 0; }
+
+  @media (min-width: 46rem) {
+    .experiences-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .experience-card { min-height: 27rem; }
+    .experience-card:first-child { transform: translateY(2.25rem); }
+  }
+
+  @media (max-width: 45.99rem) {
+    .experience-card { aspect-ratio: 1.1; min-height: 20rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .experience-img { transition: none; }
+  }
+</style>

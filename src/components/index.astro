@@ -1,0 +1,42 @@
+---
+import Hero from './Hero.astro';
+import DestinationCard from './DestinationCard.astro';
+import ExperiencesSection from './ExperiencesSection.astro';
+import CallToAction from './CallToAction.astro';
+import { destinationsContent } from '../data/homepage';
+---
+
+<Hero />
+
+<section id="destinations" class="destinations-section section-spacing" aria-labelledby="destinations-heading">
+  <div class="container">
+    <div class="destinations-header">
+      <span class="eyebrow">{destinationsContent.eyebrow}</span>
+      <h2 id="destinations-heading" class="section-heading">{destinationsContent.heading}</h2>
+      <p class="destinations-intro">{destinationsContent.intro}</p>
+    </div>
+
+    <div class="destinations-grid">
+      {destinationsContent.items.map((destination, index) => <DestinationCard destination={destination} index={index} />)}
+    </div>
+  </div>
+</section>
+
+<ExperiencesSection />
+<CallToAction />
+
+<style>
+  .destinations-section { background: var(--color-ivory); }
+  .destinations-header { max-width: 42rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .section-heading { max-width: 15ch; font-size: var(--text-2xl); color: var(--color-forest-deep); margin-bottom: var(--space-xs); }
+  .destinations-intro { font-size: var(--text-base); color: var(--color-charcoal-muted); margin-bottom: 0; }
+  .destinations-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+
+  @media (max-width: 38rem) {
+    .destinations-grid { grid-template-columns: 1fr; gap: 1rem; }
+  }
+
+  @media (min-width: 72rem) {
+    .destinations-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; padding-bottom: 2rem; }
+  }
+</style>
