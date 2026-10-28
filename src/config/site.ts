@@ -10,6 +10,7 @@ export interface SiteConfig {
   siteUrl?: string;
   logos: {
     headerEmblem: { src: string; width: number; height: number };
+    headerWordmark: { src: string; width: number; height: number };
     footerPrimaryLight: { src: string; width: number; height: number };
     footerWordmarkLight: { src: string; width: number; height: number };
     favicon: string;
@@ -31,8 +32,9 @@ export const siteConfig: SiteConfig = {
   siteUrl: import.meta.env.PUBLIC_SITE_URL || undefined,
   logos: {
     headerEmblem: { src: '/brand/logo-emblem-dark.png', width: 1080, height: 1020 },
+    headerWordmark: { src: '/brand/logo-wordmark-light.png', width: 2048, height: 620 },
     footerPrimaryLight: { src: '/brand/logo-primary-light.png', width: 1376, height: 912 },
-    footerWordmarkLight: { src: '/brand/logo-wordmark-light.png', width: 1536, height: 525 },
+    footerWordmarkLight: { src: '/brand/Senvira Lanka Nature Emblem white.png', width: 1536, height: 525 },
     favicon: '/brand/logo-emblem-light.png',
   },
   contact: {
@@ -42,7 +44,11 @@ export const siteConfig: SiteConfig = {
     whatsappDisplay: undefined,
   },
   navigation: [
-    { label: 'Destinations', href: '#destinations' },
-    { label: 'Experiences', href: '#experiences' },
+    { label: 'Destinations', href: '/destinations/' },
+    { label: 'Experiences', href: '/experiences/' },
+    { label: 'Packages', href: '/packages/' },
+    { label: 'Plan your journey', href: '/journeys/' },
+    { label: 'Our story', href: '/our-story/' },
+    { label: 'Contact', href: '/contact/' },
   ],
 };

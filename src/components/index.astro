@@ -1,42 +1,129 @@
 ---
+import { Image } from 'astro:assets';
 import Hero from './Hero.astro';
-import DestinationCard from './DestinationCard.astro';
-import ExperiencesSection from './ExperiencesSection.astro';
-import CallToAction from './CallToAction.astro';
-import { destinationsContent } from '../data/homepage';
+import sigiriyaImage from '../assets/images/destinations/sigiriya-panorama.jpg';
+import ellaImage from '../assets/images/destinations/ella-panorama.jpg';
+import coastImage from '../assets/images/destinations/down-south-panorama.jpg';
+
+const landscapes = [
+  {
+    number: '01',
+    region: 'The Hill Country',
+    title: 'Green, all the way up.',
+    note: 'Tea trails · cloud forest · blue trains',
+    image: ellaImage,
+    alt: 'A blue train crossing the Nine Arch Bridge through Ella’s green highlands.',
+    href: '/destinations/#hill-country',
+  },
+  {
+    number: '02',
+    region: 'The Cultural Triangle',
+    title: 'Centuries in the making.',
+    note: 'Ancient kingdoms · sacred places · open skies',
+    image: sigiriyaImage,
+    alt: 'Sigiriya Rock and its gardens rising from a wide green forest.',
+    href: '/destinations/#cultural-triangle',
+  },
+  {
+    number: '03',
+    region: 'The Southern Coast',
+    title: 'Let the days drift.',
+    note: 'Warm water · palm shade · old port towns',
+    image: coastImage,
+    alt: 'A palm-lined southern coastline and turquoise water in late afternoon light.',
+    href: '/destinations/#southern-coast',
+  },
+];
 ---
 
 <Hero />
 
-<section id="destinations" class="destinations-section section-spacing" aria-labelledby="destinations-heading">
-  <div class="container">
-    <div class="destinations-header">
-      <span class="eyebrow">{destinationsContent.eyebrow}</span>
-      <h2 id="destinations-heading" class="section-heading">{destinationsContent.heading}</h2>
-      <p class="destinations-intro">{destinationsContent.intro}</p>
+<section id="landscapes" class="landscapes-section" aria-labelledby="landscapes-heading">
+  <div class="container landscapes-container">
+    <div class="landscapes-heading-row">
+      <div>
+        <span class="section-kicker">A few ways into the island</span>
+        <h2 id="landscapes-heading">A small island, <em>many worlds.</em></h2>
+      </div>
+      <a href="/destinations/" class="text-link">Explore destinations <span aria-hidden="true">↗</span></a>
     </div>
 
-    <div class="destinations-grid">
-      {destinationsContent.items.map((destination, index) => <DestinationCard destination={destination} index={index} />)}
+    <div class="landscape-grid">
+      {landscapes.map((landscape) => (
+        <a href={landscape.href} class="landscape-card">
+          <Image
+            src={landscape.image}
+            alt={landscape.alt}
+            widths={[480, 720, 960]}
+            sizes="(max-width: 700px) 88vw, (max-width: 1050px) 45vw, 30vw"
+            loading="lazy"
+            decoding="async"
+            class="landscape-image"
+          />
+          <span class="landscape-card-shade" aria-hidden="true"></span>
+          <span class="landscape-number">{landscape.number}</span>
+          <span class="landscape-card-copy">
+            <span class="landscape-region">{landscape.region}</span>
+            <strong>{landscape.title}</strong>
+            <span class="landscape-note">{landscape.note}</span>
+          </span>
+          <span class="landscape-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="journey-note">
+      <p>Start with a place, a season, or simply a feeling.</p>
+      <a href="/journeys/" class="text-link">Plan your journey <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
 
-<ExperiencesSection />
-<CallToAction />
-
 <style>
-  .destinations-section { background: var(--color-ivory); }
-  .destinations-header { max-width: 42rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-  .section-heading { max-width: 15ch; font-size: var(--text-2xl); color: var(--color-forest-deep); margin-bottom: var(--space-xs); }
-  .destinations-intro { font-size: var(--text-base); color: var(--color-charcoal-muted); margin-bottom: 0; }
-  .destinations-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .landscapes-section { position: relative; overflow: hidden; padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4.5rem); background: radial-gradient(ellipse at 12% 0%, rgba(35, 90, 70, 0.26), transparent 42%), var(--color-forest-deep); color: var(--color-ivory); }
+  .landscapes-section::before { position: absolute; top: 0; right: 0; left: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(239, 226, 191, 0.3), transparent); content: ''; }
+  .landscapes-container { position: relative; }
+  .landscapes-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: clamp(1.6rem, 3vw, 2.5rem); }
+  .section-kicker { display: block; margin-bottom: 0.8rem; color: var(--color-gold-light); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+  .landscapes-heading-row h2 { max-width: 13ch; margin: 0; color: var(--color-ivory); font-size: clamp(2.8rem, 5vw, 4.9rem); font-weight: 500; letter-spacing: -0.045em; line-height: 0.98; }
+  .landscapes-heading-row h2 em { color: var(--color-gold-light); font-weight: 500; }
+  .text-link { display: inline-flex; align-items: center; gap: 0.7rem; color: var(--color-ivory); font-size: 0.78rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .text-link span { color: var(--color-gold-light); font-size: 1rem; transition: transform 180ms ease; }
+  .text-link:hover span { transform: translate(2px, -2px); }
 
-  @media (max-width: 38rem) {
-    .destinations-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .landscape-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+  .landscape-card { position: relative; display: block; min-width: 0; aspect-ratio: 0.94; overflow: hidden; border: 1px solid rgba(238, 241, 228, 0.16); border-radius: 1.25rem; background: #153d31; color: white; isolation: isolate; text-decoration: none; }
+  .landscape-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .landscape-card:hover .landscape-image { transform: scale(1.045); }
+  .landscape-card-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(4, 24, 18, 0.88), rgba(4, 24, 18, 0.02) 68%), linear-gradient(180deg, rgba(4, 24, 18, 0.28), transparent 34%); }
+  .landscape-number { position: absolute; top: 1rem; left: 1rem; display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid rgba(246, 244, 235, 0.46); border-radius: 50%; background: rgba(8, 35, 28, 0.25); color: var(--color-ivory); font-size: 0.63rem; backdrop-filter: blur(10px); }
+  .landscape-card-copy { position: absolute; right: 1.25rem; bottom: 1.2rem; left: 1.25rem; display: grid; gap: 0.32rem; }
+  .landscape-region { color: var(--color-gold-light); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .landscape-card-copy strong { max-width: 14ch; font-family: var(--font-serif); font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 500; line-height: 1.04; }
+  .landscape-note { margin-top: 0.2rem; color: rgba(250, 248, 240, 0.77); font-size: 0.69rem; line-height: 1.45; }
+  .landscape-arrow { position: absolute; top: 0.9rem; right: 0.9rem; display: grid; width: 2.2rem; height: 2.2rem; place-items: center; border: 1px solid rgba(246, 244, 235, 0.38); border-radius: 50%; background: rgba(8, 35, 28, 0.23); color: white; font-size: 0.9rem; backdrop-filter: blur(10px); transition: background-color 180ms ease, transform 180ms ease; }
+  .landscape-card:hover .landscape-arrow { transform: translate(2px, -2px); background: rgba(8, 35, 28, 0.55); }
+
+  .journey-note { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.2rem); padding-top: 1.2rem; border-top: 1px solid rgba(246, 244, 235, 0.16); }
+  .journey-note p { margin: 0; color: rgba(250, 248, 240, 0.72); font-family: var(--font-serif); font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
+
+  @media (max-width: 48rem) {
+    .landscapes-heading-row { align-items: start; }
+    .landscapes-heading-row .text-link { margin-top: 0.3rem; }
+    .landscape-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .landscape-card:last-child { grid-column: 1 / -1; aspect-ratio: 1.55; }
   }
 
-  @media (min-width: 72rem) {
-    .destinations-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; padding-bottom: 2rem; }
+  @media (max-width: 34rem) {
+    .landscapes-heading-row { display: grid; gap: 1rem; }
+    .landscapes-heading-row .text-link { justify-self: start; }
+    .landscape-grid { grid-template-columns: 1fr; gap: 0.7rem; }
+    .landscape-card, .landscape-card:last-child { aspect-ratio: 1.16; grid-column: auto; }
+    .landscape-card-copy strong { font-size: 2rem; }
+    .journey-note { align-items: flex-start; flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landscape-image, .landscape-arrow, .text-link span { transition: none; }
   }
 </style>
