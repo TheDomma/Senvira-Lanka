@@ -1,129 +1,517 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
 import Hero from './Hero.astro';
-import sigiriyaImage from '../assets/images/destinations/sigiriya-panorama.jpg';
+import sigiriyaImage from '../assets/images/gallery/sigiriya-aerial.jpg';
 import ellaImage from '../assets/images/destinations/ella-panorama.jpg';
+import elephantImage from '../assets/images/destinations/elephants-bathing.jpg';
 import coastImage from '../assets/images/destinations/down-south-panorama.jpg';
+import safariImage from '../assets/images/experiences/elephant-safari.jpg';
+import railImage from '../assets/images/destinations/ella-nine-arch-train.png';
+import peraheraImage from '../assets/images/experiences/kandy-esala-perahera.jpg';
+import oceanImage from '../assets/images/destinations/mirissa-beach-entrance.jpg';
+import kandyImage from '../assets/images/destinations/kandy-panorama.jpg';
 
-const landscapes = [
+const startingPoints = [
   {
+    id: 'heritage',
     number: '01',
-    region: 'The Hill Country',
-    title: 'Green, all the way up.',
-    note: 'Tea trails · cloud forest · blue trains',
-    image: ellaImage,
-    alt: 'A blue train crossing the Nine Arch Bridge through Ella’s green highlands.',
-    href: '/destinations/#hill-country',
-  },
-  {
-    number: '02',
-    region: 'The Cultural Triangle',
-    title: 'Centuries in the making.',
-    note: 'Ancient kingdoms · sacred places · open skies',
+    title: 'Ancient places',
+    places: 'Sigiriya · Anuradhapura · Polonnaruwa',
+    region: 'Cultural Triangle',
+    featuredName: 'Sigiriya',
     image: sigiriyaImage,
-    alt: 'Sigiriya Rock and its gardens rising from a wide green forest.',
+    alt: 'Sigiriya Rock rising above a misty green forest.',
     href: '/destinations/#cultural-triangle',
   },
   {
+    id: 'highlands',
+    number: '02',
+    title: 'Tea country & highlands',
+    places: 'Kandy · Ella · Adam’s Peak',
+    region: 'Hill Country',
+    featuredName: 'Ella',
+    image: ellaImage,
+    alt: 'A train crossing a stone viaduct through Ella’s highland forest.',
+    href: '/destinations/#hill-country',
+  },
+  {
+    id: 'wildlife',
     number: '03',
-    region: 'The Southern Coast',
-    title: 'Let the days drift.',
-    note: 'Warm water · palm shade · old port towns',
+    title: 'Wildlife',
+    places: 'Yala · Udawalawe · Minneriya',
+    region: 'National parks',
+    featuredName: 'The wild south',
+    image: elephantImage,
+    alt: 'An Asian elephant standing in an open grassland.',
+    href: '/destinations/#wildlife',
+  },
+  {
+    id: 'coast',
+    number: '04',
+    title: 'The southern coast',
+    places: 'Galle · Mirissa · Tangalle',
+    region: 'Indian Ocean',
+    featuredName: 'South Coast',
     image: coastImage,
-    alt: 'A palm-lined southern coastline and turquoise water in late afternoon light.',
+    alt: 'The green palm-lined shoreline along Sri Lanka’s southern coast.',
     href: '/destinations/#southern-coast',
   },
+];
+
+const discoverPlaces = await Promise.all(
+  startingPoints.map(async (place) => ({
+    ...place,
+    background: (await getImage({ src: place.image, width: 1200, format: 'webp', quality: 78 })).src,
+  })),
+);
+
+const experienceCards = [
+  {
+    number: '01',
+    label: 'Wildlife · Udawalawe & Yala',
+    title: 'Safari mornings',
+    summary: 'Set out early for a closer look at Sri Lanka’s wildlife and wide-open park landscapes.',
+    image: safariImage,
+    alt: 'An elephant in a Sri Lankan wildlife park.',
+  },
+  {
+    number: '02',
+    label: 'Hill Country · Kandy to Ella',
+    title: 'The railway through the hills',
+    summary: 'Follow the highland line past tea slopes, forest and stone railway bridges.',
+    image: railImage,
+    alt: 'A blue train travelling over the Nine Arch Bridge in Ella.',
+  },
+  {
+    number: '03',
+    label: 'Kandy · Seasonal',
+    title: 'Festival nights',
+    summary: 'Kandyan drumming, dance and the colour of Esala Perahera in the hill capital.',
+    image: peraheraImage,
+    alt: 'A ceremonial elephant and dancers during Kandy Esala Perahera.',
+  },
+  {
+    number: '04',
+    label: 'Southern Coast · East Coast',
+    title: 'Days on the water',
+    summary: 'Make room for the ocean, from a slow swim to a day built around the waves.',
+    image: oceanImage,
+    alt: 'A sandy beach and palm trees beside the Indian Ocean in Sri Lanka.',
+  },
+];
+
+const packageIdeas = [
+  {
+    id: 'cultural-triangle-kandy',
+    type: 'Heritage & culture',
+    title: 'Cultural Triangle & Kandy',
+    route: 'Sigiriya · Dambulla · Kandy',
+    summary: 'Ancient rock sites, cave temples and time in Sri Lanka’s hill capital.',
+    image: sigiriyaImage,
+    alt: 'Sigiriya Rock above a misty green forest.',
+  },
+  {
+    id: 'tea-country-rail',
+    type: 'Highlands & rail',
+    title: 'Tea Country by Rail',
+    route: 'Kandy · Nuwara Eliya · Ella',
+    summary: 'Tea-growing landscapes, cool highland air and the railway to Ella.',
+    image: railImage,
+    alt: 'The highland train crossing the Nine Arch Bridge in Ella.',
+  },
+  {
+    id: 'wildlife-south-coast',
+    type: 'Wildlife & coast',
+    title: 'Wildlife & the South Coast',
+    route: 'Udawalawe · Yala · Tangalle',
+    summary: 'Wildlife park mornings followed by a few days beside the sea.',
+    image: safariImage,
+    alt: 'An elephant in a Sri Lankan wildlife park.',
+  },
+  {
+    id: 'island-highlights',
+    type: 'A little of everything',
+    title: 'Sri Lanka Highlights',
+    route: 'Sigiriya · Ella · Galle',
+    summary: 'A first look at ancient places, green hills and the southern coast.',
+    image: kandyImage,
+    alt: 'Kandy Lake and the green hills around the city.',
+  },
+];
+
+const planningSteps = [
+  { number: '01', title: 'Share your trip details', copy: 'Tell us when you hope to travel, who is coming and what you would love to see.' },
+  { number: '02', title: 'Meet a local expert', copy: 'Talk through your ideas in a free online consultation.' },
+  { number: '03', title: 'Receive a tailored proposal', copy: 'Review a suggested itinerary and a clear travel quotation.' },
+  { number: '04', title: 'Refine and confirm', copy: 'Discuss the details, then move ahead with the bookings that suit you.' },
 ];
 ---
 
 <Hero />
 
-<section id="landscapes" class="landscapes-section" aria-labelledby="landscapes-heading">
-  <div class="container landscapes-container">
-    <div class="landscapes-heading-row">
+<section id="discover" class="discover-section" aria-labelledby="discover-heading">
+  <div class="container discover-container">
+    <div class="section-heading" data-reveal>
       <div>
-        <span class="section-kicker">A few ways into the island</span>
-        <h2 id="landscapes-heading">A small island, <em>many worlds.</em></h2>
+        <span class="section-kicker">Start with what interests you</span>
+        <h2 id="discover-heading">What would you like to see first?</h2>
       </div>
-      <a href="/destinations/" class="text-link">Explore destinations <span aria-hidden="true">↗</span></a>
+      <a href="/destinations/" class="section-link">All destinations <span aria-hidden="true">↗</span></a>
     </div>
 
-    <div class="landscape-grid">
-      {landscapes.map((landscape) => (
-        <a href={landscape.href} class="landscape-card">
-          <Image
-            src={landscape.image}
-            alt={landscape.alt}
-            widths={[480, 720, 960]}
-            sizes="(max-width: 700px) 88vw, (max-width: 1050px) 45vw, 30vw"
-            loading="lazy"
-            decoding="async"
-            class="landscape-image"
-          />
-          <span class="landscape-card-shade" aria-hidden="true"></span>
-          <span class="landscape-number">{landscape.number}</span>
-          <span class="landscape-card-copy">
-            <span class="landscape-region">{landscape.region}</span>
-            <strong>{landscape.title}</strong>
-            <span class="landscape-note">{landscape.note}</span>
-          </span>
-          <span class="landscape-arrow" aria-hidden="true">↗</span>
-        </a>
-      ))}
-    </div>
+    <div class="discover-layout" data-reveal>
+      <div class="interest-list" aria-label="Explore Sri Lanka by interest">
+        {discoverPlaces.map((place, index) => (
+          <div class="interest-row">
+            <button
+              type="button"
+              class="interest-select"
+              data-discover-select
+              data-discover-src={place.background}
+              data-discover-alt={place.alt}
+              data-place-region={place.region}
+              data-place-name={place.featuredName}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+            >
+              <span class="interest-number">{place.number}</span>
+              <span class="interest-copy"><strong>{place.title}</strong><small>{place.places}</small></span>
+            </button>
+            <a href={place.href} class="interest-arrow" aria-label={`Explore ${place.title}`}><span aria-hidden="true">↗</span></a>
+          </div>
+        ))}
+      </div>
 
-    <div class="journey-note">
-      <p>Start with a place, a season, or simply a feeling.</p>
-      <a href="/journeys/" class="text-link">Plan your journey <span aria-hidden="true">↗</span></a>
+      <figure class="discover-feature">
+        <img
+          src={discoverPlaces[0].background}
+          alt={discoverPlaces[0].alt}
+          width="1200"
+          height="800"
+          decoding="async"
+          loading="lazy"
+          class="discover-image"
+          data-discover-image
+        />
+        <figcaption class="discover-caption">
+          <span data-discover-region>{discoverPlaces[0].region}</span>
+          <strong data-discover-name>{discoverPlaces[0].featuredName}</strong>
+          <a href="/destinations/#cultural-triangle" class="caption-arrow" data-discover-link aria-label="Explore this destination">↗</a>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
+<section id="experiences" class="experiences-section" aria-labelledby="experiences-heading">
+  <div class="container experiences-container">
+    <div class="section-heading section-heading-light" data-reveal>
+      <div>
+        <span class="section-kicker">Beyond the landmarks</span>
+        <h2 id="experiences-heading">Find your kind of island day.</h2>
+      </div>
+      <a href="/experiences/" class="section-link">Explore experiences <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="experience-grid" data-reveal>
+      {experienceCards.map((experience) => (
+        <a href="/experiences/" class="experience-card">
+          <Image
+            src={experience.image}
+            alt={experience.alt}
+            widths={[320, 480, 720]}
+            sizes="(max-width: 600px) 78vw, (max-width: 1000px) 44vw, 22vw"
+            loading="lazy"
+            decoding="async"
+            class="experience-image"
+          />
+          <span class="experience-shade" aria-hidden="true"></span>
+          <span class="experience-number">{experience.number}</span>
+          <span class="experience-copy">
+            <small>{experience.label}</small>
+            <strong>{experience.title}</strong>
+            <span>{experience.summary}</span>
+          </span>
+          <span class="experience-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="experience-tags" data-reveal>
+      <span>More to explore</span>
+      <a href="/experiences/#rafting">White-water rafting</a>
+      <a href="/experiences/#whale-watching">Whale watching</a>
+      <a href="/experiences/#surfing">Surfing</a>
+      <a href="/experiences/#scuba-diving">Scuba diving</a>
+      <a href="/experiences/#festival-nights">Festival nights</a>
+    </div>
+  </div>
+</section>
+
+<section id="packages" class="packages-section" aria-labelledby="packages-heading">
+  <div class="container packages-container">
+    <div class="section-heading" data-reveal>
+      <div>
+        <span class="section-kicker">Package previews · sample itineraries</span>
+        <h2 id="packages-heading">Choose a starting point.</h2>
+        <p class="section-lead">A few trip styles to picture what your time in Sri Lanka could look like.</p>
+      </div>
+      <a href="/packages/" class="section-link">All packages <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="package-grid" data-reveal>
+      {packageIdeas.map((packageIdea, index) => (
+        <a href={`/packages/#${packageIdea.id}`} class="package-card">
+          <div class="package-photo">
+            <Image
+              src={packageIdea.image}
+              alt={packageIdea.alt}
+              widths={[360, 560, 760]}
+              sizes="(max-width: 600px) 88vw, (max-width: 1000px) 44vw, 23vw"
+              loading="lazy"
+              decoding="async"
+              class="package-image"
+            />
+            <span class="package-type">{packageIdea.type}</span>
+            <span class="package-index">0{index + 1}</span>
+          </div>
+          <span class="package-copy">
+            <strong>{packageIdea.title}</strong>
+            <small>{packageIdea.route}</small>
+            <span>{packageIdea.summary}</span>
+            <span class="package-link">View itinerary <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="planning" class="planning-section" aria-labelledby="planning-heading">
+  <div class="container planning-container">
+    <div class="planning-heading" data-reveal>
+      <span class="section-kicker">How it works</span>
+      <h2 id="planning-heading">From first idea to a trip you can look forward to.</h2>
+      <p>Get clear on the places, the pace and the practical details before you decide what to book.</p>
+    </div>
+
+    <ol class="planning-steps" data-reveal>
+      {planningSteps.map((step) => (
+        <li class="planning-step">
+          <span>{step.number}</span>
+          <strong>{step.title}</strong>
+          <p>{step.copy}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="planning-footer" data-reveal>
+      <span>Ready to start shaping your trip?</span>
+      <div class="planning-actions">
+        <a href="/journeys/" class="planning-primary">Plan your trip <span aria-hidden="true">↗</span></a>
+        <a href="#contact" class="planning-contact">Ask about a free call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="#contact" class="floating-chat" aria-label="Jump to Senvira’s contact details" title="Contact Senvira">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M20 11.4a7.7 7.7 0 0 1-8 7.6 8.4 8.4 0 0 1-3.3-.7L4 19.5l1.2-3.3A7.3 7.3 0 0 1 4 11.4a7.7 7.7 0 0 1 8-7.5 7.7 7.7 0 0 1 8 7.5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8.4 10.1h7.2M8.4 13.1h4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  </svg>
+</a>
+
+<script>
+  const discoverImage = document.querySelector<HTMLImageElement>('[data-discover-image]');
+  const discoverRegion = document.querySelector<HTMLElement>('[data-discover-region]');
+  const discoverName = document.querySelector<HTMLElement>('[data-discover-name]');
+  const discoverLink = document.querySelector<HTMLAnchorElement>('[data-discover-link]');
+  const discoverSelectors = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-discover-select]'));
+
+  const selectDiscoverPlace = (selector: HTMLButtonElement) => {
+    const nextSrc = selector.dataset.discoverSrc;
+    if (!nextSrc || !discoverImage) return;
+
+    discoverSelectors.forEach((item) => item.setAttribute('aria-pressed', String(item === selector)));
+    discoverImage.classList.add('is-transitioning');
+
+    const nextImage = new window.Image();
+    nextImage.onload = () => {
+      discoverImage.src = nextImage.src;
+      discoverImage.alt = selector.dataset.discoverAlt || '';
+      if (discoverRegion) discoverRegion.textContent = selector.dataset.placeRegion || '';
+      if (discoverName) discoverName.textContent = selector.dataset.placeName || '';
+      if (discoverLink) discoverLink.href = selector.nextElementSibling instanceof HTMLAnchorElement ? selector.nextElementSibling.href : '/destinations/';
+      requestAnimationFrame(() => discoverImage.classList.remove('is-transitioning'));
+    };
+    nextImage.onerror = () => discoverImage.classList.remove('is-transitioning');
+    nextImage.src = nextSrc;
+  };
+
+  discoverSelectors.forEach((selector) => {
+    selector.addEventListener('pointerenter', () => selectDiscoverPlace(selector));
+    selector.addEventListener('focus', () => selectDiscoverPlace(selector));
+    selector.addEventListener('click', () => selectDiscoverPlace(selector));
+  });
+
+  const revealTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    revealTargets.forEach((target) => {
+      target.classList.add('reveal-ready');
+      revealObserver.observe(target);
+    });
+  }
+</script>
+
 <style>
-  .landscapes-section { position: relative; overflow: hidden; padding-block: clamp(4rem, 8vw, 7rem) clamp(3rem, 5vw, 4.5rem); background: radial-gradient(ellipse at 12% 0%, rgba(35, 90, 70, 0.26), transparent 42%), var(--color-forest-deep); color: var(--color-ivory); }
-  .landscapes-section::before { position: absolute; top: 0; right: 0; left: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(239, 226, 191, 0.3), transparent); content: ''; }
-  .landscapes-container { position: relative; }
-  .landscapes-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: clamp(1.6rem, 3vw, 2.5rem); }
-  .section-kicker { display: block; margin-bottom: 0.8rem; color: var(--color-gold-light); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
-  .landscapes-heading-row h2 { max-width: 13ch; margin: 0; color: var(--color-ivory); font-size: clamp(2.8rem, 5vw, 4.9rem); font-weight: 500; letter-spacing: -0.045em; line-height: 0.98; }
-  .landscapes-heading-row h2 em { color: var(--color-gold-light); font-weight: 500; }
-  .text-link { display: inline-flex; align-items: center; gap: 0.7rem; color: var(--color-ivory); font-size: 0.78rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
-  .text-link span { color: var(--color-gold-light); font-size: 1rem; transition: transform 180ms ease; }
-  .text-link:hover span { transform: translate(2px, -2px); }
+  .discover-section { scroll-margin-top: 5.5rem; padding-block: clamp(4.5rem, 8vw, 7.5rem); background: #f1eee5; color: #15382e; }
+  .discover-container, .packages-container { max-width: 88rem; }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: clamp(2rem, 4vw, 3.2rem); }
+  .section-kicker { display: block; margin-bottom: 0.78rem; color: #47715e; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+  .section-heading h2, .planning-heading h2 { max-width: 15ch; margin: 0; color: #15382e; font-size: clamp(2.65rem, 5vw, 4.6rem); font-weight: 500; letter-spacing: -0.045em; line-height: 0.99; text-wrap: balance; }
+  .section-link { display: inline-flex; align-items: center; gap: 0.65rem; color: #214b3d; font-size: 0.76rem; font-weight: 650; text-decoration: none; white-space: nowrap; }
+  .section-link span { color: #9b7133; font-size: 1rem; transition: transform 180ms ease; }
+  .section-link:hover span { transform: translate(2px, -2px); }
 
-  .landscape-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
-  .landscape-card { position: relative; display: block; min-width: 0; aspect-ratio: 0.94; overflow: hidden; border: 1px solid rgba(238, 241, 228, 0.16); border-radius: 1.25rem; background: #153d31; color: white; isolation: isolate; text-decoration: none; }
-  .landscape-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1); }
-  .landscape-card:hover .landscape-image { transform: scale(1.045); }
-  .landscape-card-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(4, 24, 18, 0.88), rgba(4, 24, 18, 0.02) 68%), linear-gradient(180deg, rgba(4, 24, 18, 0.28), transparent 34%); }
-  .landscape-number { position: absolute; top: 1rem; left: 1rem; display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid rgba(246, 244, 235, 0.46); border-radius: 50%; background: rgba(8, 35, 28, 0.25); color: var(--color-ivory); font-size: 0.63rem; backdrop-filter: blur(10px); }
-  .landscape-card-copy { position: absolute; right: 1.25rem; bottom: 1.2rem; left: 1.25rem; display: grid; gap: 0.32rem; }
-  .landscape-region { color: var(--color-gold-light); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-  .landscape-card-copy strong { max-width: 14ch; font-family: var(--font-serif); font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 500; line-height: 1.04; }
-  .landscape-note { margin-top: 0.2rem; color: rgba(250, 248, 240, 0.77); font-size: 0.69rem; line-height: 1.45; }
-  .landscape-arrow { position: absolute; top: 0.9rem; right: 0.9rem; display: grid; width: 2.2rem; height: 2.2rem; place-items: center; border: 1px solid rgba(246, 244, 235, 0.38); border-radius: 50%; background: rgba(8, 35, 28, 0.23); color: white; font-size: 0.9rem; backdrop-filter: blur(10px); transition: background-color 180ms ease, transform 180ms ease; }
-  .landscape-card:hover .landscape-arrow { transform: translate(2px, -2px); background: rgba(8, 35, 28, 0.55); }
+  .discover-layout { display: grid; grid-template-columns: minmax(19rem, 0.83fr) minmax(0, 1.17fr); align-items: stretch; gap: clamp(2rem, 6vw, 6rem); }
+  .interest-list { display: grid; align-content: center; }
+  .interest-row { display: grid; min-height: 6.3rem; grid-template-columns: minmax(0, 1fr) 2.5rem; align-items: stretch; gap: 0.4rem; border-top: 1px solid rgba(21, 56, 46, 0.19); }
+  .interest-row:last-child { border-bottom: 1px solid rgba(21, 56, 46, 0.19); }
+  .interest-select { display: grid; min-width: 0; grid-template-columns: 2rem minmax(0, 1fr); align-items: center; gap: 0.75rem; padding: 0.8rem 0.15rem; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; transition: padding 180ms ease; }
+  .interest-select:hover, .interest-select:focus-visible, .interest-select[aria-pressed="true"] { padding-inline: 0.5rem; }
+  .interest-number { align-self: start; padding-top: 0.25rem; color: #9b7133; font-family: var(--font-serif); font-size: 0.92rem; }
+  .interest-copy { display: grid; gap: 0.3rem; }
+  .interest-copy strong { font-family: var(--font-serif); font-size: clamp(1.35rem, 2vw, 1.7rem); font-weight: 600; line-height: 1.1; }
+  .interest-copy small { color: #65786d; font-size: 0.68rem; line-height: 1.4; }
+  .interest-arrow { display: grid; place-items: center; align-self: center; width: 2.2rem; height: 2.2rem; border: 1px solid rgba(21, 56, 46, 0.18); border-radius: 50%; color: #9b7133; font-size: 1rem; text-decoration: none; transition: transform 180ms ease, background-color 180ms ease; }
+  .interest-arrow:hover { transform: translate(2px, -2px); background: rgba(21, 56, 46, 0.08); }
 
-  .journey-note { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(1.5rem, 3vw, 2.2rem); padding-top: 1.2rem; border-top: 1px solid rgba(246, 244, 235, 0.16); }
-  .journey-note p { margin: 0; color: rgba(250, 248, 240, 0.72); font-family: var(--font-serif); font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
+  .discover-feature { position: relative; min-height: 31rem; margin: 0; overflow: hidden; background: #254a3b; }
+  .discover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.78) brightness(0.9); opacity: 1; transition: opacity 260ms ease, transform 700ms cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .discover-image.is-transitioning { opacity: 0.45; }
+  .discover-feature:hover .discover-image { transform: scale(1.025); }
+  .discover-feature::after { position: absolute; inset: 35% 0 0; background: linear-gradient(0deg, rgba(8, 27, 21, 0.82), transparent); content: ''; pointer-events: none; }
+  .discover-caption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; display: grid; gap: 0.18rem; color: #fbf8f0; }
+  .discover-caption > span:first-child { color: #f0d48d; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .discover-caption strong { font-family: var(--font-serif); font-size: clamp(2.15rem, 4vw, 3.6rem); font-weight: 500; line-height: 1; }
+  .caption-arrow { position: absolute; right: 0; bottom: 0.35rem; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid rgba(251, 248, 240, 0.58); border-radius: 50%; color: #fbf8f0; font-size: 1rem; text-decoration: none; }
 
-  @media (max-width: 48rem) {
-    .landscapes-heading-row { align-items: start; }
-    .landscapes-heading-row .text-link { margin-top: 0.3rem; }
-    .landscape-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .landscape-card:last-child { grid-column: 1 / -1; aspect-ratio: 1.55; }
+  .experiences-section { scroll-margin-top: 5.5rem; padding-block: clamp(4.5rem, 8vw, 7rem); background: #10372d; color: #f7f3e9; }
+  .experiences-container { max-width: 88rem; }
+  .section-heading-light h2 { max-width: 14ch; color: #f7f3e9; }
+  .section-heading-light .section-kicker { color: #e9c66f; }
+  .section-heading-light .section-link { color: #f7f3e9; }
+  .experience-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+  .experience-card { position: relative; display: block; min-width: 0; min-height: 22rem; aspect-ratio: 0.78; overflow: hidden; background: #1c4b3c; color: #fff; isolation: isolate; text-decoration: none; }
+  .experience-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.82) brightness(0.88); transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .experience-card:hover .experience-image { transform: scale(1.045); }
+  .experience-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(5, 23, 18, 0.9), rgba(5, 23, 18, 0.02) 72%); }
+  .experience-number { position: absolute; top: 0.95rem; left: 0.95rem; color: #f0d48d; font-family: var(--font-serif); font-size: 0.9rem; }
+  .experience-copy { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; display: grid; gap: 0.4rem; }
+  .experience-copy small { color: #f0d48d; font-size: 0.58rem; font-weight: 650; letter-spacing: 0.11em; line-height: 1.5; text-transform: uppercase; }
+  .experience-copy strong { max-width: 13ch; font-family: var(--font-serif); font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 500; line-height: 1.02; }
+  .experience-copy > span { color: rgba(250, 248, 240, 0.8); font-size: 0.66rem; line-height: 1.55; }
+  .experience-arrow { position: absolute; top: 0.75rem; right: 0.75rem; display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgba(255, 255, 255, 0.45); border-radius: 50%; color: white; }
+  .experience-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(247, 243, 233, 0.18); }
+  .experience-tags > span { margin-right: 0.45rem; color: rgba(247, 243, 233, 0.65); font-size: 0.67rem; }
+  .experience-tags a { padding: 0.42rem 0.65rem; border: 1px solid rgba(247, 243, 233, 0.2); border-radius: 999px; color: #f7f3e9; font-size: 0.63rem; text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease; }
+  .experience-tags a:hover { border-color: rgba(233, 198, 111, 0.7); background: rgba(233, 198, 111, 0.1); }
+
+  .packages-section { scroll-margin-top: 5.5rem; padding-block: clamp(4.5rem, 8vw, 7.5rem); background: #e7eee8; color: #15382e; }
+  .packages-section .section-heading { align-items: end; }
+  .packages-section .section-heading h2 { max-width: 13ch; }
+  .section-lead { max-width: 34rem; margin: 0.8rem 0 0; color: #5d7166; font-size: 0.84rem; line-height: 1.7; }
+  .package-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+  .package-card { display: grid; min-width: 0; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid rgba(21, 56, 46, 0.14); background: #f8f6ef; color: #15382e; text-decoration: none; transition: transform 220ms ease, box-shadow 220ms ease; }
+  .package-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(21, 56, 46, 0.12); }
+  .package-photo { position: relative; aspect-ratio: 1.28; overflow: hidden; background: #254a3b; }
+  .package-image { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8) brightness(0.91); transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .package-card:hover .package-image { transform: scale(1.045); }
+  .package-type { position: absolute; bottom: 0.8rem; left: 0.8rem; padding: 0.38rem 0.55rem; border: 1px solid rgba(255, 255, 255, 0.32); border-radius: 999px; background: rgba(8, 35, 28, 0.55); color: white; font-size: 0.57rem; backdrop-filter: blur(8px); }
+  .package-index { position: absolute; top: 0.75rem; right: 0.75rem; color: white; font-family: var(--font-serif); font-size: 0.88rem; text-shadow: 0 2px 12px rgba(0,0,0,.45); }
+  .package-copy { display: grid; align-content: start; gap: 0.52rem; padding: 1rem 1rem 1.1rem; }
+  .package-copy strong { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.8vw, 1.7rem); font-weight: 600; line-height: 1.05; }
+  .package-copy small { color: #567163; font-size: 0.63rem; line-height: 1.45; }
+  .package-copy > span:not(.package-link) { color: #5d7166; font-size: 0.69rem; line-height: 1.55; }
+  .package-link { display: flex; align-items: center; justify-content: space-between; margin-top: 0.55rem; padding-top: 0.7rem; border-top: 1px solid rgba(21, 56, 46, 0.16); color: #214b3d; font-size: 0.68rem; font-weight: 650; }
+  .package-link span { color: #9b7133; font-size: 0.95rem; }
+
+  .planning-section { scroll-margin-top: 5.5rem; padding-block: clamp(4.5rem, 8vw, 7.5rem) clamp(3rem, 5vw, 4.5rem); background: #f1eee5; color: #15382e; }
+  .planning-container { max-width: 88rem; }
+  .planning-heading { display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; align-items: end; }
+  .planning-heading .section-kicker { grid-column: 1 / -1; }
+  .planning-heading h2 { max-width: 13ch; font-size: clamp(2.5rem, 4.5vw, 4.1rem); }
+  .planning-heading p { max-width: 31rem; margin: 0 0 0.25rem; color: #5d7166; font-size: 0.9rem; line-height: 1.75; }
+  .planning-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin: clamp(2.25rem, 4vw, 3.5rem) 0 0; padding: 0; list-style: none; }
+  .planning-step { display: grid; align-content: start; gap: 0.55rem; padding: 1rem 0.8rem 0 0; border-top: 1px solid rgba(21, 56, 46, 0.26); }
+  .planning-step > span { color: #9b7133; font-family: var(--font-serif); font-size: 0.9rem; }
+  .planning-step strong { color: #15382e; font-family: var(--font-serif); font-size: 1.35rem; font-weight: 600; line-height: 1.15; }
+  .planning-step p { margin: 0; color: #64766d; font-size: 0.7rem; line-height: 1.65; }
+  .planning-footer { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: clamp(2.5rem, 5vw, 4rem); padding-top: 1.25rem; border-top: 1px solid rgba(21, 56, 46, 0.2); }
+  .planning-footer > span { color: #47715e; font-family: var(--font-serif); font-size: 1.25rem; }
+  .planning-actions { display: flex; align-items: center; gap: 1.3rem; }
+  .planning-primary { display: inline-flex; min-height: 3rem; align-items: center; gap: 1.1rem; padding: 0.55rem 0.9rem; border-radius: 0.45rem; background: #174e3f; color: #f7f3e9; font-size: 0.74rem; font-weight: 650; text-decoration: none; transition: background-color 180ms ease; }
+  .planning-primary:hover { background: #0e3d31; }
+  .planning-primary span { color: #e9c66f; font-size: 1rem; }
+  .planning-contact { color: #214b3d; font-size: 0.73rem; font-weight: 600; text-underline-offset: 0.25rem; }
+  .floating-chat { position: fixed; z-index: 80; right: clamp(1rem, 2vw, 1.6rem); bottom: clamp(1rem, 2vw, 1.6rem); display: grid; width: 3.35rem; height: 3.35rem; place-items: center; border: 1px solid rgba(255, 255, 255, 0.48); border-radius: 50%; background: #168b52; box-shadow: 0 8px 28px rgba(4, 28, 19, 0.25); color: white; transition: transform 180ms ease, background-color 180ms ease; }
+  .floating-chat:hover { transform: translateY(-3px); background: #117342; }
+  .reveal-ready:not(.is-revealed) { opacity: 0; transform: translateY(1.1rem); }
+  .reveal-ready { transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1); }
+  .is-revealed { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 64rem) {
+    .experience-grid, .package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .experience-card { min-height: 25rem; }
+    .package-photo { aspect-ratio: 1.55; }
+    .planning-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.4rem; }
+  }
+
+  @media (max-width: 50rem) {
+    .discover-layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .interest-list { order: 2; }
+    .discover-feature { min-height: 24rem; order: 1; }
+    .planning-heading { grid-template-columns: 1fr; gap: 1rem; }
+    .planning-heading .section-kicker { grid-column: auto; }
+    .planning-heading p { max-width: 38rem; }
   }
 
   @media (max-width: 34rem) {
-    .landscapes-heading-row { display: grid; gap: 1rem; }
-    .landscapes-heading-row .text-link { justify-self: start; }
-    .landscape-grid { grid-template-columns: 1fr; gap: 0.7rem; }
-    .landscape-card, .landscape-card:last-child { aspect-ratio: 1.16; grid-column: auto; }
-    .landscape-card-copy strong { font-size: 2rem; }
-    .journey-note { align-items: flex-start; flex-direction: column; }
+    .section-heading { align-items: start; flex-direction: column; gap: 1rem; }
+    .section-heading h2 { font-size: clamp(2.6rem, 12vw, 3.4rem); }
+    .section-lead { margin-top: 0.65rem; }
+    .discover-feature { min-height: 20rem; }
+    .interest-row { min-height: 5.9rem; grid-template-columns: minmax(0, 1fr) 2.3rem; }
+    .interest-select { grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0.55rem; }
+    .interest-copy strong { font-size: 1.32rem; }
+    .interest-copy small { font-size: 0.64rem; }
+    .experience-grid, .package-grid { grid-template-columns: 1fr; gap: 0.7rem; }
+    .experience-card { min-height: 20rem; aspect-ratio: 1.22; }
+    .experience-copy strong { font-size: 1.75rem; }
+    .experience-tags { gap: 0.4rem; }
+    .experience-tags > span { width: 100%; }
+    .package-photo { aspect-ratio: 1.58; }
+    .planning-steps { grid-template-columns: 1fr; gap: 0.75rem; }
+    .planning-step { grid-template-columns: 2rem 1fr; column-gap: 0.65rem; padding-block: 0.75rem; }
+    .planning-step > span { grid-row: 1 / 3; }
+    .planning-step p { grid-column: 2; }
+    .planning-footer { align-items: flex-start; flex-direction: column; }
+    .planning-actions { align-items: flex-start; flex-direction: column; gap: 1rem; }
+    .floating-chat { right: 0.9rem; bottom: 0.9rem; width: 3rem; height: 3rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .landscape-image, .landscape-arrow, .text-link span { transition: none; }
+    .section-link span, .interest-select, .interest-arrow, .discover-image, .experience-image, .experience-tags a, .package-card, .package-image, .planning-primary, .floating-chat { transition: none; }
+    .reveal-ready:not(.is-revealed) { opacity: 1; transform: none; }
   }
 </style>
