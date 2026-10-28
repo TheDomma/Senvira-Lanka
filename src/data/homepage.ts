@@ -26,12 +26,12 @@ export interface ExperienceHighlight {
 }
 
 export const heroContent = {
-  eyebrow: 'Sri Lanka · journeys shaped around you',
-  headline: 'Find your rhythm on the island.',
+  eyebrow: 'Senvira Lanka · private island journeys',
+  headline: 'Come find your own Sri Lanka.',
   supportingCopy:
-    'From ancient stone and tea-covered hills to the southern shore, discover Sri Lanka at a pace that leaves room to feel it.',
-  primaryAction: { label: 'Explore the island', href: '#destinations' },
-  secondaryAction: { label: 'Plan a journey', href: '#plan-a-trip' },
+    'Tea-covered highlands, ancient kingdoms and warm southern shores—brought together with time to truly see them.',
+  primaryAction: { label: 'Start planning', href: '/journeys/' },
+  secondaryAction: { label: 'Explore destinations', href: '/destinations/' },
   locationBadge: {
     title: 'The Central Highlands',
     subtitle: 'Tea country · misty ridgelines · quiet roads',
