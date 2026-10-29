@@ -1,152 +1,265 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
 import { heroContent } from '../data/homepage';
-import ellaImage from '../assets/images/destinations/ella-panorama.jpg';
-import sigiriyaImage from '../assets/images/destinations/sigiriya-rock-entrance.jpg';
-import southCoastImage from '../assets/images/destinations/down-south-panorama.jpg';
+import sigiriyaImage from '../assets/images/gallery/sigiriya-aerial.jpg';
+import kandyImage from '../assets/images/destinations/kandy-temple-lake.webp';
+import ellaImage from '../assets/images/destinations/ella-nine-arch-licensed.webp';
+import coastImage from '../assets/images/destinations/south-coast-tangalle-drone.webp';
+import wildlifeImage from '../assets/images/destinations/elephants-bathing.jpg';
 
 const heroPlaces = [
-  { name: 'Ella', region: 'Hill country', image: ellaImage, alt: 'A train winding through the misty green hills near Ella.' },
-  { name: 'Sigiriya', region: 'Cultural Triangle', image: sigiriyaImage, alt: 'Sigiriya Rock rising above the surrounding forest.' },
-  { name: 'South Coast', region: 'Ocean side', image: southCoastImage, alt: 'A quiet cove along Sri Lanka’s southern coast.' },
+  { id: 'sigiriya', name: 'Sigiriya', region: 'Cultural Triangle', image: sigiriyaImage, alt: 'Sigiriya Rock above a misty green forest.', position: 'center 22%' },
+  { id: 'kandy', name: 'Kandy', region: 'Hill Capital', image: kandyImage, alt: 'The Temple of the Tooth glowing beside the water in Kandy at dusk.', position: 'center 40%' },
+  { id: 'ella', name: 'Ella', region: 'Hill Country', image: ellaImage, alt: 'A blue train crossing the Nine Arch Bridge in Ella, framed by forest.', position: 'center 42%' },
+  { id: 'south-coast', name: 'South Coast', region: 'Ocean side', image: coastImage, alt: 'Aerial view of Tangalle’s green coastline meeting the Indian Ocean.', position: 'center 50%' },
+  { id: 'wildlife', name: 'Wildlife', region: 'National parks', image: wildlifeImage, alt: 'An Asian elephant standing in an open grassland.', position: 'center 46%' },
 ];
+
+const heroBackground = await getImage({ src: heroContent.image, width: 1800, format: 'webp', quality: 82 });
+const heroPlacesWithBackground = await Promise.all(
+  heroPlaces.map(async (place) => ({
+    ...place,
+    background: (await getImage({ src: place.image, width: 1600, format: 'webp', quality: 80 })).src,
+  })),
+);
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
-  <Image
-    src={heroContent.image}
+  <img
+    src={heroBackground.src}
     alt={heroContent.imageAlt}
-    widths={[640, 960, 1280, 1600, 1920]}
-    sizes="100vw"
-    loading="eager"
+    width="1800"
+    height="1200"
+    decoding="async"
     fetchpriority="high"
-    decoding="sync"
     class="hero-image"
+    data-hero-image
   />
   <div class="hero-shade" aria-hidden="true"></div>
 
   <div class="container hero-inner">
     <div class="hero-copy">
       <span class="hero-eyebrow">{heroContent.eyebrow}</span>
-      <h1 id="hero-heading">Come find your <em>own Sri Lanka.</em></h1>
-      <p class="hero-description">
-        Tea-covered highlands, ancient kingdoms and warm southern shores—brought together with time to truly see them.
-      </p>
+      <h1 id="hero-heading">Plan a journey that <em>feels like yours.</em></h1>
+      <p class="hero-description">{heroContent.supportingCopy}</p>
       <div class="hero-actions">
-        <a href="/journeys/" class="hero-button hero-button-primary">
-          <span>Start planning</span><span class="button-arrow" aria-hidden="true">↗</span>
-        </a>
-        <a href="/destinations/" class="hero-button hero-button-glass">
-          <span>Explore destinations</span><span class="button-down" aria-hidden="true">↓</span>
-        </a>
+        <a href="/destinations/" class="hero-button hero-button-primary">Explore places <span aria-hidden="true">↗</span></a>
+        <a href="/journeys/" class="hero-button hero-button-secondary">Plan your trip <span aria-hidden="true">→</span></a>
       </div>
     </div>
 
-    <aside class="hero-places" aria-label="A few places to begin">
-      <span class="places-label">A few places to begin</span>
-      {heroPlaces.map((place, index) => (
-        <a href={`/destinations/#${place.name.toLowerCase().replaceAll(' ', '-')}`} class="place-card">
-          <Image
-            src={place.image}
-            alt={place.alt}
-            widths={[128, 192, 256]}
-            sizes="(max-width: 54rem) 28vw, 150px"
-            loading="lazy"
-            decoding="async"
-            class="place-image"
-          />
-          <span class="place-shade" aria-hidden="true"></span>
-          <span class="place-index">0{index + 1}</span>
-          <span class="place-copy"><strong>{place.name}</strong><small>{place.region}</small></span>
-          <span class="place-arrow" aria-hidden="true">↗</span>
-        </a>
-      ))}
+    <aside class="hero-place-picker" aria-label="Featured destination slider">
+      <span class="picker-heading">Choose a place to begin</span>
+      <div class="hero-slider-viewport" data-hero-viewport>
+        <div class="hero-place-list">
+        {heroPlacesWithBackground.map((place, index) => (
+          <button
+            type="button"
+            class="hero-place"
+            data-hero-select
+            data-hero-src={place.background}
+            data-hero-alt={place.alt}
+            data-hero-region={`${place.region} · Sri Lanka`}
+    data-hero-position={place.position}
+            aria-pressed="false"
+          >
+            <Image
+              src={place.image}
+              alt=""
+              widths={[96, 144, 192]}
+              sizes="(max-width: 54rem) 56px, 64px"
+              loading="lazy"
+              decoding="async"
+              class="hero-place-image"
+            />
+            <span class="hero-place-copy"><small>{place.region}</small><strong>{place.name}</strong></span>
+            <span class="hero-place-number" aria-hidden="true">0{index + 1}</span>
+          </button>
+        ))}
+        </div>
+      </div>
+      <div class="hero-slider-controls" aria-label="Destination slider controls">
+        <span data-hero-counter aria-live="polite">05 PLACES</span>
+        <div>
+          <button type="button" data-hero-prev aria-label="Show previous destination">←</button>
+          <button type="button" data-hero-next aria-label="Show next destination">→</button>
+        </div>
+      </div>
     </aside>
 
-    <div class="hero-footnote">
-      <span class="footnote-dot" aria-hidden="true"></span>
-      <span>One island. A thousand ways to feel at home.</span>
+    <div class="hero-footline">
+      <span class="hero-location"><span class="location-mark" aria-hidden="true"></span><span data-hero-location>{heroContent.locationBadge.title} · Sri Lanka</span></span>
+      <a href="#discover" class="scroll-cue">Discover the island <span aria-hidden="true">↓</span></a>
     </div>
-    <a href="#landscapes" class="scroll-cue"><span>Scroll to explore</span><span class="scroll-line" aria-hidden="true"></span></a>
   </div>
 </section>
 
+<script>
+  const heroImage = document.querySelector<HTMLImageElement>('[data-hero-image]');
+  const heroLocation = document.querySelector<HTMLElement>('[data-hero-location]');
+  const heroCounter = document.querySelector<HTMLElement>('[data-hero-counter]');
+  const heroPrevious = document.querySelector<HTMLButtonElement>('[data-hero-prev]');
+  const heroNext = document.querySelector<HTMLButtonElement>('[data-hero-next]');
+  const heroViewport = document.querySelector<HTMLElement>('[data-hero-viewport]');
+  const heroSelectors = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-hero-select]'));
+  let currentHeroIndex = -1;
+  let heroAutoSlide: number | undefined;
+
+  const selectHeroPlace = (selector: HTMLButtonElement) => {
+    const nextSrc = selector.dataset.heroSrc;
+    if (!nextSrc || !heroImage) return;
+
+    currentHeroIndex = heroSelectors.indexOf(selector);
+    heroSelectors.forEach((item) => item.setAttribute('aria-pressed', String(item === selector)));
+    heroImage.classList.add('is-transitioning');
+
+    const nextImage = new window.Image();
+    nextImage.onload = () => {
+      heroImage.src = nextImage.src;
+      heroImage.alt = selector.dataset.heroAlt || '';
+      if (heroLocation && selector.dataset.heroRegion) heroLocation.textContent = selector.dataset.heroRegion;
+      if (selector.dataset.heroPosition) heroImage.style.objectPosition = selector.dataset.heroPosition;
+      if (heroCounter) heroCounter.textContent = `${String(currentHeroIndex + 1).padStart(2, '0')} / ${String(heroSelectors.length).padStart(2, '0')}`;
+      requestAnimationFrame(() => heroImage.classList.remove('is-transitioning'));
+      selector.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    };
+    nextImage.onerror = () => {
+      heroImage.classList.remove('is-transitioning');
+    };
+    nextImage.src = nextSrc;
+  };
+
+  const moveHero = (direction: -1 | 1) => {
+    if (!heroSelectors.length) return;
+    const nextIndex = currentHeroIndex < 0
+      ? (direction > 0 ? 0 : heroSelectors.length - 1)
+      : (currentHeroIndex + direction + heroSelectors.length) % heroSelectors.length;
+    selectHeroPlace(heroSelectors[nextIndex]);
+  };
+
+  const stopHeroAutoSlide = () => {
+    if (heroAutoSlide !== undefined) window.clearInterval(heroAutoSlide);
+    heroAutoSlide = undefined;
+  };
+
+  const startHeroAutoSlide = () => {
+    stopHeroAutoSlide();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    heroAutoSlide = window.setInterval(() => moveHero(1), 3600);
+  };
+
+  heroViewport?.addEventListener('pointerenter', (event) => {
+    if (event.pointerType === 'mouse') startHeroAutoSlide();
+  });
+  heroViewport?.addEventListener('pointerleave', stopHeroAutoSlide);
+  heroViewport?.addEventListener('focusin', stopHeroAutoSlide);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopHeroAutoSlide();
+  });
+
+  heroSelectors.forEach((selector) => {
+    selector.addEventListener('pointerenter', () => selectHeroPlace(selector));
+    selector.addEventListener('focus', () => selectHeroPlace(selector));
+    selector.addEventListener('click', () => selectHeroPlace(selector));
+  });
+  heroPrevious?.addEventListener('click', () => moveHero(-1));
+  heroNext?.addEventListener('click', () => moveHero(1));
+</script>
+
 <style>
-  .hero { position: relative; isolation: isolate; display: flex; min-height: max(44rem, 100svh); align-items: stretch; overflow: hidden; background: #0b2d24; color: var(--color-ivory); }
-  .hero-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 54%; }
-  .hero-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(3, 24, 19, 0.78) 0%, rgba(4, 27, 21, 0.46) 47%, rgba(5, 28, 23, 0.18) 100%), linear-gradient(0deg, rgba(4, 24, 19, 0.63) 0%, transparent 34%, rgba(4, 22, 18, 0.17) 100%); }
-  .hero-inner { position: relative; display: grid; width: min(100%, 84rem); min-height: inherit; grid-template-columns: minmax(0, 1fr) 12rem; align-items: center; column-gap: clamp(2rem, 6vw, 7rem); padding-top: 8rem; padding-bottom: 7.25rem; }
-  .hero-copy { max-width: 56rem; padding-top: 1rem; }
-  .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.62rem; margin-bottom: clamp(1rem, 2vw, 1.6rem); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; line-height: 1.4; text-transform: uppercase; }
-  .hero-eyebrow::before { content: ''; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--color-gold-light); box-shadow: 0 0 0 0.28rem rgba(231, 193, 104, 0.13); }
-  .hero h1 { max-width: 11.5ch; margin: 0 0 clamp(1.2rem, 2.5vw, 1.8rem); color: #fbf8f0; font-size: clamp(3.8rem, 7.45vw, 7.3rem); font-weight: 500; letter-spacing: -0.055em; line-height: 0.92; text-wrap: balance; }
-  .hero h1 em { color: var(--color-gold-light); font-weight: 500; }
-  .hero-description { max-width: 38rem; margin: 0; color: rgba(250, 248, 240, 0.83); font-size: clamp(1rem, 1.25vw, 1.15rem); line-height: 1.75; text-wrap: pretty; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: clamp(1.6rem, 3vw, 2.35rem); }
-  .hero-button { display: inline-flex; min-height: 3.35rem; align-items: center; justify-content: center; gap: 1.1rem; padding: 0.42rem 0.48rem 0.42rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
+  .hero { position: relative; isolation: isolate; min-height: max(42rem, 100svh); overflow: hidden; background: var(--color-forest-deep); color: var(--color-ivory); }
+  .hero-image { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 44%; filter: saturate(0.86) brightness(0.84); opacity: 1; transition: opacity 260ms ease; }
+  .hero-image.is-transitioning { opacity: 0.46; }
+  .hero-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(5, 25, 20, 0.72) 0%, rgba(5, 25, 20, 0.42) 42%, rgba(5, 25, 20, 0.18) 100%), linear-gradient(0deg, rgba(5, 25, 20, 0.62) 0%, transparent 35%, rgba(5, 25, 20, 0.2) 100%); }
+  .hero-inner { position: relative; z-index: 2; display: grid; width: min(100%, 88rem); min-height: inherit; grid-template-columns: minmax(0, 1fr) minmax(22rem, 25rem); align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); padding-top: 6rem; padding-bottom: 5.5rem; }
+  .hero-copy { max-width: 52rem; padding-top: 0.5rem; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: clamp(1.1rem, 2vw, 1.6rem); color: #f0d48d; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; line-height: 1.4; text-transform: uppercase; }
+  .hero-eyebrow::before { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: #e9c66f; content: ''; }
+  .hero h1 { max-width: 10.5ch; margin: 0 0 clamp(1.15rem, 2.4vw, 1.8rem); color: #fbf8f0; font-size: clamp(3.65rem, 7.5vw, 7.1rem); font-weight: 500; letter-spacing: -0.055em; line-height: 0.94; text-wrap: balance; }
+  .hero h1 em { color: #f0d48d; font-weight: 500; }
+  .hero-description { max-width: 37rem; margin: 0; color: rgba(250, 248, 240, 0.86); font-size: clamp(1rem, 1.23vw, 1.13rem); line-height: 1.75; text-wrap: pretty; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: clamp(1.6rem, 3vw, 2.35rem); }
+  .hero-button { display: inline-flex; min-height: 3.25rem; align-items: center; justify-content: center; gap: 1.3rem; padding: 0.6rem 1.1rem; border: 1px solid transparent; border-radius: 0.55rem; font-size: 0.8rem; font-weight: 650; text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
   .hero-button:hover { transform: translateY(-2px); }
+  .hero-button span { font-size: 1rem; }
   .hero-button-primary { background: var(--color-gold-light); color: #15271f; }
   .hero-button-primary:hover { background: #f1d88f; }
-  .button-arrow, .button-down { display: grid; width: 2.3rem; height: 2.3rem; place-items: center; border-radius: 50%; font-size: 0.95rem; }
-  .button-arrow { background: rgba(13, 43, 34, 0.12); }
-  .hero-button-glass { padding-left: 1.2rem; border-color: rgba(246, 244, 235, 0.3); background: rgba(246, 244, 235, 0.1); color: var(--color-ivory); backdrop-filter: blur(10px); }
-  .hero-button-glass:hover { border-color: rgba(246, 244, 235, 0.58); background: rgba(246, 244, 235, 0.17); }
-  .button-down { border: 1px solid rgba(246, 244, 235, 0.25); }
+  .hero-button-secondary { border-color: rgba(246, 244, 235, 0.5); background: rgba(8, 31, 25, 0.24); color: var(--color-ivory); backdrop-filter: blur(8px); }
+  .hero-button-secondary:hover { border-color: rgba(246, 244, 235, 0.8); background: rgba(8, 31, 25, 0.46); }
 
-  .hero-places { display: grid; gap: 0.65rem; align-self: center; padding-top: 2rem; }
-  .places-label { margin: 0 0 0.15rem 0.15rem; color: rgba(250, 248, 240, 0.75); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
-  .place-card { position: relative; display: flex; min-height: 6.1rem; align-items: flex-end; overflow: hidden; padding: 0.85rem; border: 1px solid rgba(246, 244, 235, 0.29); border-radius: 1.1rem; color: white; text-decoration: none; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13), inset 0 1px 0 rgba(255,255,255,0.16); transition: transform 220ms ease, border-color 220ms ease; }
-  .place-card:hover { transform: translateX(-4px); border-color: rgba(246, 244, 235, 0.7); }
-  .place-image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .place-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(0deg, rgba(3, 23, 18, 0.8), rgba(3, 23, 18, 0.02) 75%); }
-  .place-index { position: absolute; top: 0.58rem; right: 0.65rem; color: rgba(255,255,255,0.75); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; }
-  .place-copy { display: grid; gap: 0.08rem; }
-  .place-copy strong { font-family: var(--font-serif); font-size: 1.12rem; font-weight: 600; line-height: 1.1; }
-  .place-copy small { color: rgba(255,255,255,0.8); font-size: 0.59rem; letter-spacing: 0.06em; text-transform: uppercase; }
-  .place-arrow { position: absolute; right: 0.75rem; bottom: 0.82rem; display: grid; width: 1.75rem; height: 1.75rem; place-items: center; border: 1px solid rgba(255,255,255,0.42); border-radius: 50%; background: rgba(7, 35, 28, 0.3); font-size: 0.8rem; backdrop-filter: blur(8px); }
+  .hero-place-picker { display: grid; gap: 0.6rem; align-self: center; min-width: 0; }
+  .picker-heading { margin: 0 0 0.12rem 0.15rem; color: rgba(250, 248, 240, 0.82); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
+  .hero-slider-viewport { min-width: 0; overflow: hidden; }
+  .hero-place-list { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.35rem 0.15rem 0.7rem; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .hero-place-list::-webkit-scrollbar { display: none; }
+  .hero-place { position: relative; display: grid; flex: 0 0 7.1rem; grid-template-rows: 7.6rem auto; gap: 0.45rem; min-width: 0; min-height: 10.7rem; padding: 0.34rem 0.34rem 0.48rem; border: 1px solid rgba(246, 244, 235, 0.3); border-radius: 1.08rem; background: rgba(9, 34, 28, 0.58); box-shadow: 0 10px 24px rgba(5, 20, 16, 0.18); color: #fbf8f0; text-align: left; cursor: pointer; scroll-snap-align: center; backdrop-filter: blur(10px) saturate(120%); transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease; }
+  .hero-place:hover, .hero-place[aria-pressed="true"] { transform: translateY(-0.2rem); border-color: rgba(240, 212, 141, 0.92); background: rgba(11, 48, 39, 0.82); }
+  .hero-place-image { width: 100%; height: 7.6rem; border-radius: 0.78rem; object-fit: cover; }
+  .hero-place-copy { display: grid; min-width: 0; align-content: start; gap: 0.16rem; padding-inline: 0.18rem; }
+  .hero-place-copy small { overflow: hidden; color: rgba(250, 248, 240, 0.72); font-size: 0.5rem; text-overflow: ellipsis; white-space: nowrap; }
+  .hero-place-copy strong { overflow: hidden; font-family: var(--font-serif); font-size: 0.95rem; font-weight: 600; line-height: 1.08; text-overflow: ellipsis; white-space: nowrap; }
+  .hero-place-number { position: absolute; top: 0.55rem; left: 0.55rem; display: grid; width: 1.4rem; height: 1.4rem; place-items: center; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; background: rgba(7, 30, 24, 0.7); color: #f0d48d; font-size: 0.5rem; font-weight: 700; }
+  .hero-slider-controls { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.55rem 0.1rem 0.05rem; border-top: 1px solid rgba(246, 244, 235, 0.22); color: rgba(250, 248, 240, 0.82); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; }
+  .hero-slider-controls > div { display: flex; gap: 0.35rem; }
+  .hero-slider-controls button { display: grid; width: 1.85rem; height: 1.85rem; place-items: center; border: 1px solid rgba(246, 244, 235, 0.35); border-radius: 50%; background: rgba(246, 244, 235, 0.08); color: var(--color-ivory); font-size: 0.95rem; line-height: 1; cursor: pointer; transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease; }
+  .hero-slider-controls button:hover { transform: translateY(-1px); border-color: var(--color-gold-light); background: rgba(246, 244, 235, 0.18); }
 
-  .hero-footnote { position: absolute; bottom: 2.2rem; left: 0; display: inline-flex; align-items: center; gap: 0.62rem; color: rgba(250, 248, 240, 0.78); font-size: 0.73rem; letter-spacing: 0.02em; }
-  .footnote-dot { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--color-gold-light); }
-  .scroll-cue { position: absolute; right: 0; bottom: 2.05rem; display: inline-flex; align-items: center; gap: 0.9rem; color: rgba(250, 248, 240, 0.78); font-size: 0.7rem; text-decoration: none; }
-  .scroll-line { position: relative; display: inline-block; width: 3.25rem; height: 1px; background: rgba(250, 248, 240, 0.55); }
-  .scroll-line::after { position: absolute; top: -0.18rem; right: 0; width: 0.38rem; height: 0.38rem; border-right: 1px solid white; border-bottom: 1px solid white; content: ''; transform: rotate(45deg); }
+  .hero-footline { position: absolute; right: clamp(1.125rem, 4vw, 2.5rem); bottom: 1.8rem; left: clamp(1.125rem, 4vw, 2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; border-top: 1px solid rgba(250, 248, 240, 0.28); }
+  .hero-location, .scroll-cue { display: inline-flex; align-items: center; gap: 0.55rem; color: rgba(250, 248, 240, 0.82); font-size: 0.68rem; letter-spacing: 0.06em; text-decoration: none; }
+  .hero-location { text-transform: uppercase; }
+  .location-mark { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--color-gold-light); }
+  .scroll-cue span { color: var(--color-gold-light); font-size: 0.95rem; transition: transform 180ms ease; }
+  .scroll-cue:hover span { transform: translateY(3px); }
+
+  @media (max-width: 64rem) {
+    .hero-inner { grid-template-columns: minmax(0, 1fr) minmax(21rem, 24rem); gap: 1.5rem; }
+    .hero-place { flex-basis: 6.8rem; grid-template-rows: 7.2rem auto; min-height: 10.3rem; }
+    .hero-place-image { height: 7.2rem; }
+  }
 
   @media (max-width: 54rem) {
-    .hero { min-height: max(48rem, 100svh); }
-    .hero-image { object-position: 48% center; }
-    .hero-shade { background: linear-gradient(90deg, rgba(3, 24, 19, 0.62), rgba(4, 27, 21, 0.22)), linear-gradient(0deg, rgba(4, 24, 19, 0.79), rgba(4, 22, 18, 0.08) 74%); }
-    .hero-inner { grid-template-columns: minmax(0, 1fr); align-content: center; row-gap: 1.5rem; padding-top: 8.5rem; padding-bottom: 8rem; }
+    .hero { min-height: max(49rem, 100svh); }
+    .hero-image { object-position: center 50%; }
+    .hero-shade { background: linear-gradient(90deg, rgba(5, 25, 20, 0.68), rgba(5, 25, 20, 0.2)), linear-gradient(0deg, rgba(5, 25, 20, 0.79), rgba(5, 22, 18, 0.08) 80%); }
+    .hero-inner { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 1.5rem; padding-top: 8rem; padding-bottom: 7rem; }
     .hero-copy { padding-top: 0; }
-    .hero h1 { max-width: 10ch; font-size: clamp(3.8rem, 12vw, 6rem); }
-    .hero-description { max-width: 34rem; }
-    .hero-places { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; align-self: end; padding-top: 0.6rem; }
-    .places-label { grid-column: 1 / -1; }
-    .place-card { min-height: 5.6rem; padding: 0.6rem; border-radius: 0.8rem; }
-    .place-copy strong { font-size: 0.95rem; }
-    .place-copy small { font-size: 0.5rem; letter-spacing: 0.04em; }
-    .place-index, .place-arrow { display: none; }
-    .hero-footnote { bottom: 2rem; font-size: 0.67rem; }
-    .scroll-cue { bottom: 1.9rem; font-size: 0; }
-    .scroll-line { width: 2.5rem; }
+    .hero h1 { max-width: 9.5ch; font-size: clamp(3.7rem, 11vw, 6rem); }
+    .hero-place-picker { width: 100%; }
+    .hero-slider-viewport { margin-inline: -0.45rem; }
+    .hero-place-list { gap: 0.55rem; padding-inline: 0.45rem; }
+    .hero-place { flex: 0 0 6.7rem; grid-template-rows: 7rem auto; min-height: 10.1rem; }
+    .hero-place-image { height: 7rem; }
+  }
+
+  @media (min-width: 54.01rem) and (max-height: 48rem) {
+    .hero { min-height: max(39rem, 100svh); }
+    .hero-inner { padding-top: 5.2rem; padding-bottom: 4.8rem; }
+    .hero h1 { font-size: clamp(3.35rem, 6.6vw, 5.7rem); }
+    .hero-eyebrow { margin-bottom: 0.9rem; }
+    .hero-description { max-width: 34rem; font-size: 1rem; line-height: 1.6; }
+    .hero-actions { margin-top: 1.35rem; }
+    .hero-place-list { gap: 0.42rem; }
+    .hero-place { flex-basis: 6.1rem; grid-template-rows: 6.2rem auto; min-height: 9.2rem; }
+    .hero-place-image { height: 6.2rem; }
+    .picker-heading { font-size: 0.56rem; }
+    .hero-footline { bottom: 1.25rem; }
   }
 
   @media (max-width: 34rem) {
-    .hero { min-height: max(47rem, 100svh); }
-    .hero-inner { padding-top: 8rem; padding-bottom: 7.4rem; }
-    .hero-eyebrow { max-width: 24rem; font-size: 0.6rem; letter-spacing: 0.12em; }
-    .hero h1 { font-size: clamp(3.5rem, 14vw, 4.7rem); }
-    .hero-description { font-size: 0.95rem; line-height: 1.6; }
-    .hero-actions { gap: 0.5rem; }
-    .hero-button { min-height: 3.1rem; gap: 0.55rem; padding-left: 0.9rem; font-size: 0.73rem; }
-    .button-arrow, .button-down { width: 2rem; height: 2rem; }
-    .hero-places { gap: 0.38rem; }
-    .place-card { min-height: 5.1rem; padding: 0.5rem; }
-    .place-copy strong { font-size: 0.88rem; }
-    .place-copy small { font-size: 0.46rem; }
-    .hero-footnote { max-width: calc(100% - 3rem); font-size: 0.62rem; }
+    .hero { min-height: max(46rem, 100svh); }
+    .hero-image { object-position: center 48%; }
+    .hero-inner { padding-top: 7rem; padding-bottom: 6.25rem; }
+    .hero-eyebrow { max-width: 22rem; font-size: 0.61rem; letter-spacing: 0.13em; }
+    .hero h1 { max-width: 11.5ch; font-size: clamp(3rem, 11vw, 3.9rem); line-height: 0.98; }
+    .hero-description { font-size: 0.94rem; line-height: 1.65; }
+    .hero-actions { gap: 0.55rem; }
+    .hero-button { min-height: 3rem; gap: 0.8rem; padding-inline: 0.85rem; font-size: 0.73rem; }
+    .hero-place-picker { gap: 0.4rem; }
+    .hero-footline { bottom: 1.25rem; align-items: flex-start; }
+    .hero-location, .scroll-cue { font-size: 0.58rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-button, .place-card { transition: none; }
+    .hero-button, .scroll-cue span, .hero-image, .hero-place, .hero-slider-controls button { transition: none; }
   }
 </style>

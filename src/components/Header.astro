@@ -69,9 +69,12 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
         </div>
       </details>
 
-      <a href="/journeys/" class="header-cta">
-        <span>Start planning</span>
-        <span class="cta-arrow" aria-hidden="true">↗</span>
+      <a href="#contact" class="header-cta" aria-label="Find Senvira’s WhatsApp contact details">
+        <svg class="header-chat-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 11.4a7.7 7.7 0 0 1-8 7.6 8.4 8.4 0 0 1-3.3-.7L4 19.5l1.2-3.3A7.3 7.3 0 0 1 4 11.4a7.7 7.7 0 0 1 8-7.5 7.7 7.7 0 0 1 8 7.5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M8.4 10.1h7.2M8.4 13.1h4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+        <span class="header-cta-label">WhatsApp</span>
       </a>
     </div>
   </div>
@@ -110,10 +113,13 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
   .site-header {
     position: fixed;
     z-index: 100;
-    top: 1rem;
-    left: 50%;
-    width: min(calc(100% - 2rem), 88rem);
-    transform: translateX(-50%);
+    inset: 0 0 auto;
+    width: 100%;
+    border-bottom: 1px solid rgba(237, 241, 227, 0.2);
+    background: rgba(7, 36, 30, 0.68);
+    box-shadow: 0 8px 32px rgba(4, 20, 16, 0.12);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
   }
 
   .header-inner {
@@ -121,16 +127,12 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 4.25rem;
+    width: min(100%, 88rem);
+    min-height: 5.1rem;
+    margin-inline: auto;
     gap: clamp(0.75rem, 2vw, 2rem);
-    padding: 0.45rem 0.5rem 0.45rem 0.7rem;
-    border: 1px solid rgba(237, 241, 227, 0.2);
-    border-radius: 999px;
-    background: rgba(7, 36, 30, 0.76);
-    box-shadow: 0 12px 42px rgba(4, 20, 16, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.13);
+    padding: 0.55rem clamp(1.125rem, 4vw, 2.5rem);
     color: var(--color-ivory);
-    backdrop-filter: blur(22px) saturate(140%);
-    -webkit-backdrop-filter: blur(22px) saturate(140%);
   }
 
   .brand-lockup {
@@ -208,19 +210,19 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
     display: inline-flex;
     min-height: 2.85rem;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.42rem 0.48rem 0.42rem 1.05rem;
-    border-radius: 999px;
-    background: var(--color-gold-light);
-    color: #10251f;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.55rem;
+    background: #168b52;
+    color: #fff;
     font-size: 0.75rem;
     font-weight: 650;
     text-decoration: none;
     white-space: nowrap;
     transition: background-color 180ms ease, transform 180ms ease;
   }
-  .header-cta:hover { background: #f1d88f; transform: translateY(-1px); }
-  .cta-arrow { display: grid; width: 2rem; height: 2rem; place-items: center; border-radius: 50%; background: rgba(14, 47, 38, 0.1); font-size: 0.9rem; }
+  .header-cta:hover { background: #117342; transform: translateY(-1px); }
+  .header-chat-icon { flex: 0 0 auto; }
 
   .nav-toggle {
     display: none;
@@ -236,6 +238,7 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
     font-size: 0.75rem;
     cursor: pointer;
   }
+  .nav-toggle svg { display: block; flex: 0 0 auto; }
 
   @media (max-width: 69rem) {
     .header-inner { gap: 0.8rem; }
@@ -246,8 +249,7 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
   }
 
   @media (max-width: 54rem) {
-    .site-header { top: 0.7rem; width: calc(100% - 1.25rem); }
-    .header-inner { min-height: 3.75rem; padding: 0.35rem 0.4rem 0.35rem 0.55rem; gap: 0.5rem; }
+    .header-inner { min-height: 4.35rem; padding: 0.4rem 1rem; gap: 0.5rem; }
     .brand-emblem-wrap { width: 2.45rem; height: 2.45rem; }
     .brand-emblem { width: 1.95rem; height: 1.85rem; }
     .brand-lockup { gap: 0.45rem; }
@@ -259,14 +261,16 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
     .nav-link:hover { background: rgba(246, 244, 235, 0.08); }
     .nav-toggle { display: inline-flex; }
     .header-actions { margin-left: auto; }
-    .header-cta { display: none; }
+    .header-cta { min-height: 2.6rem; width: 2.6rem; justify-content: center; padding: 0; }
+    .header-cta-label { display: none; }
   }
 
   @media (max-width: 24rem) {
     .nav-toggle-text { display: none; }
-    .nav-toggle { width: 2.6rem; justify-content: center; padding: 0.4rem; }
-    .language-trigger { min-height: 2.4rem; padding-inline: 0.58rem; }
+    .nav-toggle { width: 2.7rem; height: 2.7rem; flex: 0 0 2.7rem; justify-content: center; padding: 0.4rem; }
+    .language-trigger { width: 2.35rem; min-height: 2.4rem; padding-inline: 0; }
     .language-trigger svg:first-child { width: 16px; height: 16px; }
+    .language-trigger > span, .language-chevron { display: none; }
     .brand-wordmark { width: 5.4rem; }
   }
 

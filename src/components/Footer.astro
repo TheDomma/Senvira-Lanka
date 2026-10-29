@@ -1,67 +1,142 @@
 ---
 import { siteConfig } from '../config/site';
 
-const { headerEmblem, headerWordmark } = siteConfig.logos;
 const currentYear = new Date().getFullYear();
+const footerLogo = siteConfig.logos.footerWordmarkLight;
+
+const exploreLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Destinations', href: '/destinations/' },
+  { label: 'Experiences', href: '/experiences/' },
+  { label: 'Plan your journey', href: '/journeys/' },
+  { label: 'Our story', href: '/our-story/' },
+];
+
+const packageLinks = [
+  { label: 'Cultural Triangle & Kandy', href: '/packages/#cultural-triangle-kandy' },
+  { label: 'Tea Country by Rail', href: '/packages/#tea-country-rail' },
+  { label: 'Wildlife & the South Coast', href: '/packages/#wildlife-south-coast' },
+  { label: 'Sri Lanka Highlights', href: '/packages/#island-highlights' },
+];
+
+const socialChannels = [
+  { label: 'Instagram', short: 'IG' },
+  { label: 'Facebook', short: 'f' },
+  { label: 'Tripadvisor', short: 'TA' },
+  { label: 'LinkedIn', short: 'in' },
+  { label: 'TikTok', short: '♪' },
+];
 ---
 
-<footer class="site-footer">
+<footer id="contact" class="site-footer">
   <div class="container footer-top">
     <div class="footer-identity">
       <a href="/" class="footer-brand" aria-label={`${siteConfig.brandName} — Home`}>
-        <span class="footer-emblem-wrap"><img src={headerEmblem.src} alt="" width="42" height="40" loading="lazy" decoding="async" /></span>
-        <img src={headerWordmark.src} alt="Senvira Lanka" width="132" height="44" loading="lazy" decoding="async" class="footer-wordmark" />
+        <img
+          src={footerLogo.src}
+          alt="Senvira Lanka"
+          width={footerLogo.width}
+          height={footerLogo.height}
+          loading="lazy"
+          decoding="async"
+        />
       </a>
       <p>{siteConfig.description}</p>
+      <span class="footer-note">Thoughtfully planned in Sri Lanka.</span>
+      <div class="footer-socials" aria-label="Social media profiles coming soon">
+        {socialChannels.map((channel) => (
+          <button type="button" disabled aria-label={`${channel.label} profile coming soon`} title={`${channel.label} · Coming soon`}>
+            <span aria-hidden="true">{channel.short}</span>
+            <small>{channel.label}</small>
+          </button>
+        ))}
+      </div>
+      <span class="footer-social-note">Follow along · social pages coming soon</span>
     </div>
 
-    <nav class="footer-navigation" aria-label="Explore Senvira Lanka">
+    <nav class="footer-column" aria-label="Explore Senvira Lanka">
       <span class="footer-label">Explore</span>
       <ul>
-        {siteConfig.navigation.slice(0, 4).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {exploreLinks.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="footer-column" aria-label="Tour package ideas">
+      <span class="footer-label">Tour packages</span>
+      <ul>
+        {packageLinks.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
       </ul>
     </nav>
 
     <div class="footer-contact">
-      <span class="footer-label">Your journey starts here</span>
-      <p>Tell us what you would love to discover.</p>
-      <a href="/contact/" class="footer-contact-link">Get in touch <span aria-hidden="true">↗</span></a>
+      <span class="footer-label">Get in touch</span>
+      <p>Have a place in mind? Tell us what you would love your Sri Lanka trip to feel like.</p>
+      <div class="contact-detail">
+        <span class="contact-icon" aria-hidden="true">✉</span>
+        <span><strong>Email</strong><small>hello@example.com <em>Temporary placeholder</em></small></span>
+      </div>
+      <div class="contact-detail">
+        <span class="contact-icon" aria-hidden="true">◉</span>
+        <span><strong>WhatsApp</strong><small>Contact details coming soon</small></span>
+      </div>
+      <a href="/journeys/" class="footer-contact-link">Plan your trip <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 
   <div class="container footer-bottom">
     <span>© {currentYear} {siteConfig.brandName}</span>
-    <span>Thoughtfully planned in Sri Lanka</span>
+    <span>Made with care in Sri Lanka</span>
     <a href="/contact/">Contact</a>
   </div>
 </footer>
 
 <style>
-  .site-footer { padding-block: 3.5rem 1.4rem; border-top: 1px solid rgba(246, 244, 235, 0.12); background: #071a15; color: var(--color-ivory); }
-  .footer-top { display: grid; grid-template-columns: minmax(14rem, 1.6fr) minmax(8rem, 0.8fr) minmax(12rem, 1fr); gap: clamp(2rem, 5vw, 5rem); padding-bottom: 2.6rem; }
-  .footer-brand { display: inline-flex; align-items: center; gap: 0.65rem; text-decoration: none; }
-  .footer-emblem-wrap { display: grid; width: 2.6rem; height: 2.6rem; place-items: center; overflow: hidden; border: 1px solid rgba(237, 241, 227, 0.38); border-radius: 50%; background: var(--color-ivory); }
-  .footer-emblem-wrap img { width: 2rem; height: 1.9rem; object-fit: contain; }
-  .footer-wordmark { width: 7.4rem; height: auto; }
-  .footer-identity p, .footer-contact p { max-width: 31ch; margin: 1rem 0 0; color: rgba(246, 244, 235, 0.64); font-size: 0.82rem; line-height: 1.75; }
-  .footer-label { display: block; margin-bottom: 0.9rem; color: var(--color-gold-light); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
-  .footer-navigation ul { display: grid; gap: 0.58rem; list-style: none; margin: 0; padding: 0; }
-  .footer-navigation a, .footer-bottom a { color: rgba(246, 244, 235, 0.82); font-size: 0.78rem; text-decoration: none; }
-  .footer-navigation a:hover, .footer-bottom a:hover { color: white; text-decoration: underline; }
-  .footer-contact p { margin: 0 0 0.85rem; }
-  .footer-contact-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-ivory); font-size: 0.8rem; font-weight: 600; text-decoration: none; }
-  .footer-contact-link span { color: var(--color-gold-light); font-size: 1rem; }
-  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid rgba(246, 244, 235, 0.12); color: rgba(246, 244, 235, 0.52); font-size: 0.7rem; }
+  .site-footer { scroll-margin-top: 5rem; padding-block: 3.75rem 1.35rem; border-top: 1px solid rgba(246, 244, 235, 0.12); background: #071a15; color: var(--color-ivory); }
+  .footer-top { display: grid; grid-template-columns: minmax(13rem, 1.5fr) repeat(2, minmax(9rem, 0.8fr)) minmax(14rem, 1fr); gap: clamp(1.6rem, 3.5vw, 3.6rem); padding-bottom: 2.8rem; }
+  .footer-brand { display: inline-flex; width: 10.5rem; align-items: center; }
+  .footer-brand img { display: block; width: 100%; height: auto; max-height: 5rem; object-fit: contain; object-position: left center; }
+  .footer-identity p, .footer-contact > p { max-width: 32ch; margin: 1.05rem 0 0; color: rgba(246, 244, 235, 0.68); font-size: 0.77rem; line-height: 1.75; }
+  .footer-note { display: block; margin-top: 0.95rem; color: rgba(246, 244, 235, 0.47); font-size: 0.65rem; }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-top: 1.1rem; }
+  .footer-socials button { display: inline-flex; align-items: center; gap: 0.36rem; min-height: 2.05rem; padding: 0.25rem 0.52rem 0.25rem 0.3rem; border: 1px solid rgba(246, 244, 235, 0.17); border-radius: 999px; background: rgba(246, 244, 235, 0.035); color: rgba(246, 244, 235, 0.72); font: inherit; }
+  .footer-socials button:disabled { cursor: default; opacity: 0.82; }
+  .footer-socials button > span { display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border-radius: 50%; background: rgba(233, 198, 111, 0.14); color: var(--color-gold-light); font-size: 0.58rem; font-weight: 700; }
+  .footer-socials button small { font-size: 0.57rem; white-space: nowrap; }
+  .footer-social-note { display: block; margin-top: 0.45rem; color: rgba(246, 244, 235, 0.42); font-size: 0.57rem; }
+  .footer-label { display: block; margin: 0.2rem 0 1rem; color: var(--color-gold-light); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .footer-column ul { display: grid; gap: 0.68rem; margin: 0; padding: 0; list-style: none; }
+  .footer-column a, .footer-bottom a { color: rgba(246, 244, 235, 0.8); font-size: 0.72rem; line-height: 1.45; text-decoration: none; text-underline-offset: 0.2rem; }
+  .footer-column a:hover, .footer-bottom a:hover { color: white; text-decoration: underline; }
+  .footer-contact > p { margin: -0.1rem 0 1rem; }
+  .contact-detail { display: flex; align-items: flex-start; gap: 0.7rem; margin-top: 0.8rem; }
+  .contact-icon { display: grid; width: 1.55rem; height: 1.55rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(246, 244, 235, 0.2); border-radius: 50%; color: var(--color-gold-light); font-size: 0.78rem; }
+  .contact-detail > span:last-child { display: grid; gap: 0.18rem; }
+  .contact-detail strong { color: rgba(246, 244, 235, 0.9); font-size: 0.7rem; font-weight: 600; }
+  .contact-detail small { color: rgba(246, 244, 235, 0.63); font-size: 0.66rem; line-height: 1.5; }
+  .contact-detail em { display: block; color: rgba(246, 244, 235, 0.4); font-size: 0.59rem; font-style: normal; }
+  .footer-contact-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.1rem; color: var(--color-ivory); font-size: 0.72rem; font-weight: 650; text-decoration: none; }
+  .footer-contact-link span { color: var(--color-gold-light); font-size: 0.95rem; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid rgba(246, 244, 235, 0.12); color: rgba(246, 244, 235, 0.48); font-size: 0.66rem; }
 
-  @media (max-width: 48rem) {
-    .footer-top { grid-template-columns: 1fr 1fr; }
-    .footer-identity { grid-column: 1 / -1; }
+  @media (max-width: 64rem) {
+    .footer-top { grid-template-columns: minmax(13rem, 1.3fr) repeat(2, minmax(8rem, 0.8fr)); }
+    .footer-contact { grid-column: 2 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: start; column-gap: 1.5rem; }
+    .footer-contact .footer-label, .footer-contact > p { grid-column: 1 / -1; }
+    .footer-contact > p { margin-top: -0.2rem; }
+    .footer-contact-link { align-self: center; }
+  }
+
+  @media (max-width: 46rem) {
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
+    .footer-identity, .footer-contact { grid-column: 1 / -1; }
+    .footer-contact { display: block; }
     .footer-bottom { flex-wrap: wrap; }
   }
 
-  @media (max-width: 34rem) {
-    .footer-top { grid-template-columns: 1fr; gap: 1.75rem; }
-    .footer-identity { grid-column: auto; }
+  @media (max-width: 30rem) {
+    .site-footer { padding-top: 3rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 1.8rem; }
+    .footer-identity, .footer-contact { grid-column: auto; }
     .footer-bottom { display: grid; grid-template-columns: 1fr auto; }
     .footer-bottom span:nth-child(2) { grid-row: 2; grid-column: 1 / -1; }
   }

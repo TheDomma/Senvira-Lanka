@@ -1,27 +1,27 @@
 :root {
-  --color-ivory: #f7f3e9;
-  --color-teal: #145b4c;
-  --color-charcoal: #15251f;
-  --color-amber: #d9a647;
-  --color-gold-light: #e9c66f;
+  --color-ivory: #F6F1E7;
+  --color-teal: #145B59;
+  --color-charcoal: #263238;
+  --color-amber: #D99A45;
+  --color-gold-light: #E9C779;
 
-  --color-canopy-green: #124d3e;
-  --color-forest-deep: #0a211a;
-  --color-sage-surface: #e9efe9;
-  --color-sage-card: #f2f5f0;
-  --color-ivory-elevated: #fbf8f2;
-  --color-charcoal-muted: #53625a;
+  --color-canopy-green: #0F4C49;
+  --color-forest-deep: #0A302E;
+  --color-sage-surface: #E8EFEB;
+  --color-sage-card: #F6F1E7;
+  --color-ivory-elevated: #FFFCF5;
+  --color-charcoal-muted: #526168;
 
-  --color-border-subtle: rgba(38, 50, 44, 0.14);
-  --color-border-green: rgba(20, 91, 76, 0.24);
+  --color-border-subtle: rgba(38, 50, 56, 0.14);
+  --color-border-green: rgba(20, 91, 89, 0.24);
 
-  --glass-header-fallback: #0a211a;
-  --glass-header-bg: rgba(7, 36, 30, 0.76);
-  --glass-header-border: rgba(246, 244, 235, 0.2);
+  --glass-header-fallback: #0A302E;
+  --glass-header-bg: rgba(7, 48, 46, 0.78);
+  --glass-header-border: rgba(246, 241, 231, 0.2);
   --glass-header-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.13);
 
-  --glass-pill-fallback: #123e35;
-  --glass-pill-bg: rgba(18, 62, 53, 0.78);
+  --glass-pill-fallback: #145B59;
+  --glass-pill-bg: rgba(20, 91, 89, 0.78);
   --glass-pill-border: rgba(246, 241, 231, 0.24);
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
@@ -47,5 +47,5 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.25rem;
-  --shadow-card: 0 14px 34px -10px rgba(4, 25, 19, 0.28);
+  --shadow-card: 0 14px 34px -10px rgba(7, 48, 46, 0.25);
 }
