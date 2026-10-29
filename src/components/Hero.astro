@@ -32,8 +32,18 @@ const heroPlacesWithBackground = await Promise.all(
     height="1200"
     decoding="async"
     fetchpriority="high"
-    class="hero-image"
+    class="hero-image is-visible"
     data-hero-image
+  />
+  <img
+    src={heroBackground.src}
+    alt=""
+    width="1800"
+    height="1200"
+    decoding="async"
+    aria-hidden="true"
+    class="hero-image"
+    data-hero-image-next
   />
   <div class="hero-shade" aria-hidden="true"></div>
 
@@ -95,7 +105,10 @@ const heroPlacesWithBackground = await Promise.all(
 </section>
 
 <script>
-  const heroImage = document.querySelector<HTMLImageElement>('[data-hero-image]');
+  const heroImages = [
+    document.querySelector<HTMLImageElement>('[data-hero-image]'),
+    document.querySelector<HTMLImageElement>('[data-hero-image-next]'),
+  ].filter((image): image is HTMLImageElement => image !== null);
   const heroLocation = document.querySelector<HTMLElement>('[data-hero-location]');
   const heroCounter = document.querySelector<HTMLElement>('[data-hero-counter]');
   const heroPrevious = document.querySelector<HTMLButtonElement>('[data-hero-prev]');
@@ -103,28 +116,37 @@ const heroPlacesWithBackground = await Promise.all(
   const heroViewport = document.querySelector<HTMLElement>('[data-hero-viewport]');
   const heroSelectors = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-hero-select]'));
   let currentHeroIndex = -1;
-  let heroAutoSlide: number | undefined;
+  let activeHeroImage = 0;
+  let imageTransitionId = 0;
+  let lastPointerX: number | null = null;
 
   const selectHeroPlace = (selector: HTMLButtonElement) => {
     const nextSrc = selector.dataset.heroSrc;
-    if (!nextSrc || !heroImage) return;
+    if (!nextSrc || !heroImages.length) return;
 
     currentHeroIndex = heroSelectors.indexOf(selector);
     heroSelectors.forEach((item) => item.setAttribute('aria-pressed', String(item === selector)));
-    heroImage.classList.add('is-transitioning');
-
+    const transitionId = ++imageTransitionId;
+    const nextLayerIndex = 1 - activeHeroImage;
+    const nextLayer = heroImages[nextLayerIndex];
     const nextImage = new window.Image();
     nextImage.onload = () => {
-      heroImage.src = nextImage.src;
-      heroImage.alt = selector.dataset.heroAlt || '';
+      if (transitionId !== imageTransitionId) return;
+      nextLayer.src = nextImage.src;
+      nextLayer.alt = selector.dataset.heroAlt || '';
       if (heroLocation && selector.dataset.heroRegion) heroLocation.textContent = selector.dataset.heroRegion;
-      if (selector.dataset.heroPosition) heroImage.style.objectPosition = selector.dataset.heroPosition;
+      if (selector.dataset.heroPosition) nextLayer.style.objectPosition = selector.dataset.heroPosition;
       if (heroCounter) heroCounter.textContent = `${String(currentHeroIndex + 1).padStart(2, '0')} / ${String(heroSelectors.length).padStart(2, '0')}`;
-      requestAnimationFrame(() => heroImage.classList.remove('is-transitioning'));
-      selector.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      nextLayer.setAttribute('aria-hidden', 'false');
+      heroImages[activeHeroImage].setAttribute('aria-hidden', 'true');
+      requestAnimationFrame(() => {
+        nextLayer.classList.add('is-visible');
+        heroImages[activeHeroImage].classList.remove('is-visible');
+        activeHeroImage = nextLayerIndex;
+      });
     };
     nextImage.onerror = () => {
-      heroImage.classList.remove('is-transitioning');
+      if (transitionId === imageTransitionId) selector.setAttribute('aria-pressed', 'false');
     };
     nextImage.src = nextSrc;
   };
@@ -135,27 +157,25 @@ const heroPlacesWithBackground = await Promise.all(
       ? (direction > 0 ? 0 : heroSelectors.length - 1)
       : (currentHeroIndex + direction + heroSelectors.length) % heroSelectors.length;
     selectHeroPlace(heroSelectors[nextIndex]);
+    heroSelectors[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
   };
 
-  const stopHeroAutoSlide = () => {
-    if (heroAutoSlide !== undefined) window.clearInterval(heroAutoSlide);
-    heroAutoSlide = undefined;
-  };
-
-  const startHeroAutoSlide = () => {
-    stopHeroAutoSlide();
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    heroAutoSlide = window.setInterval(() => moveHero(1), 3600);
-  };
-
+  const heroPlaceList = heroViewport?.querySelector<HTMLElement>('.hero-place-list');
   heroViewport?.addEventListener('pointerenter', (event) => {
-    if (event.pointerType === 'mouse') startHeroAutoSlide();
+    if (event.pointerType === 'mouse') lastPointerX = event.clientX;
   });
-  heroViewport?.addEventListener('pointerleave', stopHeroAutoSlide);
-  heroViewport?.addEventListener('focusin', stopHeroAutoSlide);
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopHeroAutoSlide();
+  heroViewport?.addEventListener('pointermove', (event) => {
+    if (event.pointerType !== 'mouse' || event.buttons > 0) return;
+    if (lastPointerX === null) {
+      lastPointerX = event.clientX;
+      return;
+    }
+    const movement = event.clientX - lastPointerX;
+    lastPointerX = event.clientX;
+    if (Math.abs(movement) < 1 || !heroPlaceList) return;
+    heroPlaceList.scrollLeft += movement * 1.8;
   });
+  heroViewport?.addEventListener('pointerleave', () => { lastPointerX = null; });
 
   heroSelectors.forEach((selector) => {
     selector.addEventListener('pointerenter', () => selectHeroPlace(selector));
@@ -168,8 +188,8 @@ const heroPlacesWithBackground = await Promise.all(
 
 <style>
   .hero { position: relative; isolation: isolate; min-height: max(42rem, 100svh); overflow: hidden; background: var(--color-forest-deep); color: var(--color-ivory); }
-  .hero-image { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 44%; filter: saturate(0.86) brightness(0.84); opacity: 1; transition: opacity 260ms ease; }
-  .hero-image.is-transitioning { opacity: 0.46; }
+  .hero-image { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 44%; filter: saturate(0.86) brightness(0.84); opacity: 0; transition: opacity 760ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+  .hero-image.is-visible { opacity: 1; }
   .hero-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(5, 25, 20, 0.72) 0%, rgba(5, 25, 20, 0.42) 42%, rgba(5, 25, 20, 0.18) 100%), linear-gradient(0deg, rgba(5, 25, 20, 0.62) 0%, transparent 35%, rgba(5, 25, 20, 0.2) 100%); }
   .hero-inner { position: relative; z-index: 2; display: grid; width: min(100%, 88rem); min-height: inherit; grid-template-columns: minmax(0, 1fr) minmax(22rem, 25rem); align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); padding-top: 6rem; padding-bottom: 5.5rem; }
   .hero-copy { max-width: 52rem; padding-top: 0.5rem; }
@@ -190,11 +210,11 @@ const heroPlacesWithBackground = await Promise.all(
   .hero-place-picker { display: grid; gap: 0.6rem; align-self: center; min-width: 0; }
   .picker-heading { margin: 0 0 0.12rem 0.15rem; color: rgba(250, 248, 240, 0.82); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
   .hero-slider-viewport { min-width: 0; overflow: hidden; }
-  .hero-place-list { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.35rem 0.15rem 0.7rem; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .hero-place-list { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.35rem 0.15rem 0.7rem; scroll-behavior: auto; scrollbar-width: none; }
   .hero-place-list::-webkit-scrollbar { display: none; }
-  .hero-place { position: relative; display: grid; flex: 0 0 7.1rem; grid-template-rows: 7.6rem auto; gap: 0.45rem; min-width: 0; min-height: 10.7rem; padding: 0.34rem 0.34rem 0.48rem; border: 1px solid rgba(246, 244, 235, 0.3); border-radius: 1.08rem; background: rgba(9, 34, 28, 0.58); box-shadow: 0 10px 24px rgba(5, 20, 16, 0.18); color: #fbf8f0; text-align: left; cursor: pointer; scroll-snap-align: center; backdrop-filter: blur(10px) saturate(120%); transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease; }
+  .hero-place { position: relative; display: grid; flex: 0 0 7.5rem; grid-template-rows: 8rem auto; gap: 0.45rem; min-width: 0; min-height: 11.1rem; padding: 0.34rem 0.34rem 0.48rem; border: 1px solid rgba(246, 244, 235, 0.3); border-radius: 1.08rem; background: rgba(9, 34, 28, 0.58); box-shadow: 0 10px 24px rgba(5, 20, 16, 0.18); color: #fbf8f0; text-align: left; cursor: pointer; scroll-snap-align: center; backdrop-filter: blur(10px) saturate(120%); transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease; }
   .hero-place:hover, .hero-place[aria-pressed="true"] { transform: translateY(-0.2rem); border-color: rgba(240, 212, 141, 0.92); background: rgba(11, 48, 39, 0.82); }
-  .hero-place-image { width: 100%; height: 7.6rem; border-radius: 0.78rem; object-fit: cover; }
+  .hero-place-image { width: 100%; height: 8rem; border-radius: 0.78rem; object-fit: cover; }
   .hero-place-copy { display: grid; min-width: 0; align-content: start; gap: 0.16rem; padding-inline: 0.18rem; }
   .hero-place-copy small { overflow: hidden; color: rgba(250, 248, 240, 0.72); font-size: 0.5rem; text-overflow: ellipsis; white-space: nowrap; }
   .hero-place-copy strong { overflow: hidden; font-family: var(--font-serif); font-size: 0.95rem; font-weight: 600; line-height: 1.08; text-overflow: ellipsis; white-space: nowrap; }
@@ -226,7 +246,7 @@ const heroPlacesWithBackground = await Promise.all(
     .hero h1 { max-width: 9.5ch; font-size: clamp(3.7rem, 11vw, 6rem); }
     .hero-place-picker { width: 100%; }
     .hero-slider-viewport { margin-inline: -0.45rem; }
-    .hero-place-list { gap: 0.55rem; padding-inline: 0.45rem; }
+    .hero-place-list { gap: 0.55rem; padding-inline: 0.45rem; scroll-snap-type: x proximity; }
     .hero-place { flex: 0 0 6.7rem; grid-template-rows: 7rem auto; min-height: 10.1rem; }
     .hero-place-image { height: 7rem; }
   }
