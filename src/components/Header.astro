@@ -238,6 +238,7 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
     font-size: 0.75rem;
     cursor: pointer;
   }
+  .nav-toggle svg { display: block; flex: 0 0 auto; }
 
   @media (max-width: 69rem) {
     .header-inner { gap: 0.8rem; }
@@ -266,9 +267,10 @@ const { headerEmblem, headerWordmark } = siteConfig.logos;
 
   @media (max-width: 24rem) {
     .nav-toggle-text { display: none; }
-    .nav-toggle { width: 2.6rem; justify-content: center; padding: 0.4rem; }
-    .language-trigger { min-height: 2.4rem; padding-inline: 0.58rem; }
+    .nav-toggle { width: 2.7rem; height: 2.7rem; flex: 0 0 2.7rem; justify-content: center; padding: 0.4rem; }
+    .language-trigger { width: 2.35rem; min-height: 2.4rem; padding-inline: 0; }
     .language-trigger svg:first-child { width: 16px; height: 16px; }
+    .language-trigger > span, .language-chevron { display: none; }
     .brand-wordmark { width: 5.4rem; }
   }
 

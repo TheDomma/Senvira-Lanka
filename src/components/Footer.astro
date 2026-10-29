@@ -18,6 +18,14 @@ const packageLinks = [
   { label: 'Wildlife & the South Coast', href: '/packages/#wildlife-south-coast' },
   { label: 'Sri Lanka Highlights', href: '/packages/#island-highlights' },
 ];
+
+const socialChannels = [
+  { label: 'Instagram', short: 'IG' },
+  { label: 'Facebook', short: 'f' },
+  { label: 'Tripadvisor', short: 'TA' },
+  { label: 'LinkedIn', short: 'in' },
+  { label: 'TikTok', short: '♪' },
+];
 ---
 
 <footer id="contact" class="site-footer">
@@ -35,6 +43,15 @@ const packageLinks = [
       </a>
       <p>{siteConfig.description}</p>
       <span class="footer-note">Thoughtfully planned in Sri Lanka.</span>
+      <div class="footer-socials" aria-label="Social media profiles coming soon">
+        {socialChannels.map((channel) => (
+          <button type="button" disabled aria-label={`${channel.label} profile coming soon`} title={`${channel.label} · Coming soon`}>
+            <span aria-hidden="true">{channel.short}</span>
+            <small>{channel.label}</small>
+          </button>
+        ))}
+      </div>
+      <span class="footer-social-note">Follow along · social pages coming soon</span>
     </div>
 
     <nav class="footer-column" aria-label="Explore Senvira Lanka">
@@ -80,6 +97,12 @@ const packageLinks = [
   .footer-brand img { display: block; width: 100%; height: auto; max-height: 5rem; object-fit: contain; object-position: left center; }
   .footer-identity p, .footer-contact > p { max-width: 32ch; margin: 1.05rem 0 0; color: rgba(246, 244, 235, 0.68); font-size: 0.77rem; line-height: 1.75; }
   .footer-note { display: block; margin-top: 0.95rem; color: rgba(246, 244, 235, 0.47); font-size: 0.65rem; }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-top: 1.1rem; }
+  .footer-socials button { display: inline-flex; align-items: center; gap: 0.36rem; min-height: 2.05rem; padding: 0.25rem 0.52rem 0.25rem 0.3rem; border: 1px solid rgba(246, 244, 235, 0.17); border-radius: 999px; background: rgba(246, 244, 235, 0.035); color: rgba(246, 244, 235, 0.72); font: inherit; }
+  .footer-socials button:disabled { cursor: default; opacity: 0.82; }
+  .footer-socials button > span { display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border-radius: 50%; background: rgba(233, 198, 111, 0.14); color: var(--color-gold-light); font-size: 0.58rem; font-weight: 700; }
+  .footer-socials button small { font-size: 0.57rem; white-space: nowrap; }
+  .footer-social-note { display: block; margin-top: 0.45rem; color: rgba(246, 244, 235, 0.42); font-size: 0.57rem; }
   .footer-label { display: block; margin: 0.2rem 0 1rem; color: var(--color-gold-light); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .footer-column ul { display: grid; gap: 0.68rem; margin: 0; padding: 0; list-style: none; }
   .footer-column a, .footer-bottom a { color: rgba(246, 244, 235, 0.8); font-size: 0.72rem; line-height: 1.45; text-decoration: none; text-underline-offset: 0.2rem; }
