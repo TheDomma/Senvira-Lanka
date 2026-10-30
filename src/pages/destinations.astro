@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DestinationDirectory from '../components/destinations/DestinationDirectory.astro';
+import DestinationDetail from '../components/destinations/DestinationDetail.astro';
+import SriLankaMap from '../components/destinations/SriLankaMap.astro';
+import { destinations, destinationRegions } from '../data/destinations';
+
+const initialDestination = destinations[0];
+---
+
+<BaseLayout
+  title="Explore Sri Lanka's destinations | Senvira Lanka"
+  description="Browse Sri Lanka by region, discover places across the island, and start shaping a journey that feels like yours."
+>
+  <section class="destinations-page" aria-labelledby="page-title" data-destination-page>
+    <header class="page-intro">
+      <p class="eyebrow">An island-wide directory</p>
+      <h1 id="page-title">Find your place in Sri Lanka.</h1>
+      <p class="intro-copy">From northern lagoons to southern shores, explore the places that make this island feel like many worlds in one.</p>
+    </header>
+
+    <div class="directory-layout">
+      <aside class="directory-panel" aria-label="Browse destinations">
+        <DestinationDirectory destinations={destinations} regions={destinationRegions} selectedId={initialDestination.id} />
+      </aside>
+
+      <div class="discover-panel">
+        <section class="map-panel" aria-labelledby="map-heading">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">A little guide to the island</p>
+              <h2 id="map-heading">Sri Lanka, at a glance</h2>
+            </div>
+            <p class="map-note">Illustrative locations</p>
+          </div>
+          <SriLankaMap destinations={destinations} regions={destinationRegions} selectedId={initialDestination.id} />
+        </section>
+
+        <div class="detail-panels" aria-live="polite" aria-atomic="true" data-detail-panels>
+          {destinations.map((destination, index) => (
+            <div data-detail-panel={destination.id} hidden={index !== 0}>
+              <DestinationDetail destination={destination} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const pages = document.querySelectorAll<HTMLElement>('[data-destination-page]');
+  pages.forEach((page) => {
+    const validIds = new Set(
+      [...page.querySelectorAll<HTMLElement>('[data-detail-panel]')]
+        .map((panel) => panel.dataset.detailPanel)
+        .filter((id): id is string => Boolean(id)),
+    );
+    const panels = [...page.querySelectorAll<HTMLElement>('[data-detail-panel]')];
+    const firstId = panels[0]?.dataset.detailPanel;
+    if (!firstId) return;
+
+    const select = (id: string, updateFragment = true) => {
+      if (!validIds.has(id)) return;
+
+      page.querySelectorAll<HTMLButtonElement>('[data-destination-id]').forEach((button) => {
+        const selected = button.dataset.destinationId === id;
+        button.classList.toggle('active', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
+      const choice = page.querySelector<HTMLSelectElement>('[data-select]');
+      if (choice) choice.value = id;
+      panels.forEach((panel) => {
+        const selected = panel.dataset.detailPanel === id;
+        panel.hidden = !selected;
+        panel.setAttribute('aria-hidden', String(!selected));
+      });
+
+      if (updateFragment && window.location.hash !== `#${id}`) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${id}`);
+      }
+    };
+
+    page.addEventListener('destination-select', (event) => {
+      const id = (event as CustomEvent<{ id?: string }>).detail?.id;
+      if (id) select(id);
+    });
+
+    let fragmentId = '';
+    try {
+      fragmentId = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      // Malformed percent encoding is an unknown fragment; use the default place.
+    }
+    select(validIds.has(fragmentId) ? fragmentId : firstId, true);
+  });
+</script>
+
+<style>
+  .destinations-page {
+    --destination-ivory: #f6f1e7;
+    --destination-teal: #145b59;
+    --destination-amber: #d99a45;
+    --destination-ink: #263238;
+    min-height: 75vh;
+    padding: calc(5.1rem + clamp(1.6rem, 4.3vw, 3.5rem)) clamp(1rem, 5vw, 4.5rem) clamp(3rem, 7vw, 6rem);
+    color: var(--destination-ink);
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(217, 154, 69, .09), transparent 27rem),
+      var(--destination-ivory);
+  }
+  .page-intro { width: min(100%, 54rem); margin: 0 auto clamp(1.8rem, 4vw, 3rem); text-align: center; }
+  .eyebrow { margin: 0 0 .45rem; color: var(--destination-teal); font-size: .7rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+  .page-intro h1 { margin: 0; color: var(--destination-ink); font: 500 clamp(2.25rem, 5vw, 4.25rem)/.98 var(--font-serif, 'Cormorant Garamond', Georgia, serif); letter-spacing: -.035em; }
+  .intro-copy { max-width: 42rem; margin: .9rem auto 0; color: #5c6968; font-size: clamp(.9rem, 1.4vw, 1rem); line-height: 1.65; }
+  .directory-layout { display: grid; grid-template-columns: minmax(17rem, .82fr) minmax(0, 1.45fr); align-items: start; gap: clamp(1rem, 2.3vw, 2rem); max-width: 86rem; margin-inline: auto; }
+  .directory-panel, .map-panel { border: 1px solid rgba(20, 91, 89, .16); border-radius: 1.3rem; background: rgba(255, 252, 245, .72); box-shadow: 0 18px 50px -34px rgba(10, 48, 46, .4); backdrop-filter: blur(14px); }
+  .directory-panel { padding: clamp(1rem, 2vw, 1.45rem); }
+  .discover-panel { display: grid; gap: 1rem; min-width: 0; }
+  .map-panel { padding: clamp(.9rem, 2vw, 1.35rem); }
+  .panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+  .panel-heading .eyebrow { margin-bottom: .15rem; }
+  .panel-heading h2 { margin: 0; color: var(--destination-ink); font: 500 clamp(1.3rem, 2.4vw, 1.8rem)/1.1 var(--font-serif, 'Cormorant Garamond', Georgia, serif); }
+  .map-note { margin: 0; color: #687372; font-size: .68rem; white-space: nowrap; }
+  .map-panel :global(.destination-map) { max-width: 19rem; }
+  .detail-panels { min-width: 0; }
+  .detail-panels > [hidden] { display: none; }
+  @media (max-width: 56rem) {
+    .directory-layout { grid-template-columns: minmax(0, 1fr); }
+    .directory-panel { order: 1; }
+    .discover-panel { order: 2; grid-template-columns: minmax(15rem, .8fr) minmax(0, 1.2fr); align-items: start; }
+    .map-panel :global(.destination-map) { max-width: 16rem; }
+  }
+  @media (max-width: 54rem) {
+    .destinations-page { padding-top: calc(4.35rem + 1.6rem); }
+  }
+  @media (max-width: 42rem) {
+    .destinations-page { padding-inline: .85rem; }
+    .page-intro { text-align: left; }
+    .intro-copy { margin-inline: 0; }
+    .discover-panel { grid-template-columns: minmax(0, 1fr); }
+    .map-panel { order: 1; }
+    .detail-panels { order: 2; }
+    .panel-heading { align-items: start; }
+    .map-panel :global(.destination-map) { max-width: 15rem; }
+  }
+</style>
