@@ -3,77 +3,148 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import DestinationDirectory from '../components/destinations/DestinationDirectory.astro';
 import DestinationDetail from '../components/destinations/DestinationDetail.astro';
 import SriLankaMap from '../components/destinations/SriLankaMap.astro';
+import DestinationCatalogue from '../components/destinations/DestinationCatalogue.astro';
 import { destinations, destinationRegions } from '../data/destinations';
 
 const initialDestination = destinations[0];
+const aliasEntries = destinations.flatMap((d) => [
+  [d.id, d.id],
+  ...(d.aliases ?? []).map((alias) => [alias, d.id]),
+]);
+const aliasMapJson = JSON.stringify(Object.fromEntries(aliasEntries));
 ---
 
 <BaseLayout
-  title="Explore Sri Lanka's destinations | Senvira Lanka"
-  description="Browse Sri Lanka by region, discover places across the island, and start shaping a journey that feels like yours."
+  title="Explore Sri Lanka's Destinations | Senvira Lanka"
+  description="Browse 158 Sri Lankan destinations and attractions by region, explore our interactive island map, and start shaping a journey that feels like yours."
 >
-  <section class="destinations-page" aria-labelledby="page-title" data-destination-page>
-    <header class="page-intro">
-      <p class="eyebrow">An island-wide directory</p>
-      <h1 id="page-title">Find your place in Sri Lanka.</h1>
-      <p class="intro-copy">From northern lagoons to southern shores, explore the places that make this island feel like many worlds in one.</p>
+  <div class="destinations-page" data-destination-page data-alias-map={aliasMapJson}>
+    <header class="destinations-hero" aria-labelledby="page-title">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-container">
+        <div class="hero-intro">
+          <p class="hero-eyebrow">Senvira Lanka · Islandwide Directory</p>
+          <h1 id="page-title">Find your place in <em>Sri Lanka.</em></h1>
+          <p class="hero-copy">
+            From northern lagoons and ancient stone capitals to misty tea ridges and southern coves, explore 158 curated places across seven distinct regions of the island.
+          </p>
+        </div>
+
+        <nav class="hero-tier-nav" aria-label="Jump to directory sections">
+          <a href="#interactive-explorer" class="tier-nav-pill tier-nav-pill-active">
+            <strong>15</strong>
+            <span>Interactive Map Hubs</span>
+          </a>
+          <a href="#featured-hubs" class="tier-nav-pill">
+            <strong>15</strong>
+            <span>Featured Photo Cards</span>
+          </a>
+          <a href="#island-catalogue" class="tier-nav-pill">
+            <strong>40</strong>
+            <span>Core Destinations</span>
+          </a>
+          <a href="#island-catalogue" class="tier-nav-pill">
+            <strong>25</strong>
+            <span>Hidden Gems</span>
+          </a>
+          <a href="#island-catalogue" class="tier-nav-pill">
+            <strong>78</strong>
+            <span>Regional Attractions</span>
+          </a>
+        </nav>
+      </div>
     </header>
 
-    <div class="directory-layout">
-      <aside class="directory-panel" aria-label="Browse destinations">
-        <DestinationDirectory destinations={destinations} regions={destinationRegions} selectedId={initialDestination.id} />
-      </aside>
+    <section
+      id="interactive-explorer"
+      class="explorer-section"
+      aria-label="Interactive Sri Lanka destination explorer"
+    >
+      <div class="explorer-container">
+        <div class="explorer-layout">
+          <aside class="map-column" aria-labelledby="map-heading">
+            <SriLankaMap
+              destinations={destinations}
+              regions={destinationRegions}
+              selectedId={initialDestination.id}
+            />
+          </aside>
 
-      <div class="discover-panel">
-        <section class="map-panel" aria-labelledby="map-heading">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">A little guide to the island</p>
-              <h2 id="map-heading">Sri Lanka, at a glance</h2>
+          <div class="selector-detail-column">
+            <div class="directory-controls-wrap">
+              <DestinationDirectory
+                destinations={destinations}
+                regions={destinationRegions}
+                selectedId={initialDestination.id}
+              />
             </div>
-            <p class="map-note">Illustrative locations</p>
+
+            <div class="detail-panels" aria-live="polite" aria-atomic="true" data-detail-panels>
+              {
+                destinations.map((destination, index) => (
+                  <div data-detail-panel={destination.id} hidden={index !== 0}>
+                    <DestinationDetail destination={destination} />
+                  </div>
+                ))
+              }
+            </div>
           </div>
-          <SriLankaMap destinations={destinations} regions={destinationRegions} selectedId={initialDestination.id} />
-        </section>
-
-        <div class="detail-panels" aria-live="polite" aria-atomic="true" data-detail-panels>
-          {destinations.map((destination, index) => (
-            <div data-detail-panel={destination.id} hidden={index !== 0}>
-              <DestinationDetail destination={destination} />
-            </div>
-          ))}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <DestinationCatalogue />
+  </div>
 </BaseLayout>
 
 <script>
   const pages = document.querySelectorAll<HTMLElement>('[data-destination-page]');
   pages.forEach((page) => {
-    const validIds = new Set(
-      [...page.querySelectorAll<HTMLElement>('[data-detail-panel]')]
-        .map((panel) => panel.dataset.detailPanel)
-        .filter((id): id is string => Boolean(id)),
-    );
+    let aliasMap: Record<string, string> = {};
+    try {
+      aliasMap = JSON.parse(page.dataset.aliasMap || '{}');
+    } catch {
+      aliasMap = {};
+    }
+
     const panels = [...page.querySelectorAll<HTMLElement>('[data-detail-panel]')];
+    const validIds = new Set(
+      panels.map((panel) => panel.dataset.detailPanel).filter((id): id is string => Boolean(id)),
+    );
     const firstId = panels[0]?.dataset.detailPanel;
     if (!firstId) return;
 
-    const select = (id: string, updateFragment = true) => {
-      if (!validIds.has(id)) return;
+    const resolveId = (rawId: string): string | undefined => {
+      const normalized = rawId.trim().toLowerCase();
+      if (validIds.has(normalized)) return normalized;
+      const mapped = aliasMap[normalized];
+      if (mapped && validIds.has(mapped)) return mapped;
+      return undefined;
+    };
+
+    const select = (rawId: string, updateFragment = true) => {
+      const id = resolveId(rawId);
+      if (!id) return;
 
       page.querySelectorAll<HTMLButtonElement>('[data-destination-id]').forEach((button) => {
         const selected = button.dataset.destinationId === id;
         button.classList.toggle('active', selected);
         button.setAttribute('aria-pressed', String(selected));
       });
+
       const choice = page.querySelector<HTMLSelectElement>('[data-select]');
-      if (choice) choice.value = id;
+      if (choice && choice.value !== id) {
+        choice.value = id;
+      }
+
       panels.forEach((panel) => {
         const selected = panel.dataset.detailPanel === id;
         panel.hidden = !selected;
         panel.setAttribute('aria-hidden', String(!selected));
+      });
+
+      page.querySelectorAll<HTMLElement>('[data-featured-card]').forEach((card) => {
+        card.classList.toggle('is-selected-hub', card.dataset.featuredCard === id);
       });
 
       if (updateFragment && window.location.hash !== `#${id}`) {
@@ -86,62 +157,209 @@ const initialDestination = destinations[0];
       if (id) select(id);
     });
 
+    page.addEventListener('explorer-filters-change', (event) => {
+      const detail = (event as CustomEvent<{ region: string; category: string; query: string }>).detail;
+      if (!detail) return;
+      const { region, category } = detail;
+
+      page.querySelectorAll<HTMLButtonElement>('.map-marker').forEach((marker) => {
+        const matchRegion = region === 'all' || marker.dataset.markerRegion === region;
+        const matchCategory = category === 'all' || marker.dataset.markerCategory === category;
+        marker.classList.toggle('is-filtered-out', !(matchRegion && matchCategory));
+      });
+    });
+
     let fragmentId = '';
     try {
       fragmentId = decodeURIComponent(window.location.hash.slice(1));
     } catch {
-      // Malformed percent encoding is an unknown fragment; use the default place.
+      fragmentId = '';
     }
-    select(validIds.has(fragmentId) ? fragmentId : firstId, true);
+    const initialResolved = resolveId(fragmentId) ?? firstId;
+    select(initialResolved, Boolean(fragmentId));
   });
 </script>
 
 <style>
   .destinations-page {
-    --destination-ivory: #f6f1e7;
-    --destination-teal: #145b59;
-    --destination-amber: #d99a45;
-    --destination-ink: #263238;
-    min-height: 75vh;
-    padding: calc(5.1rem + clamp(1.6rem, 4.3vw, 3.5rem)) clamp(1rem, 5vw, 4.5rem) clamp(3rem, 7vw, 6rem);
-    color: var(--destination-ink);
+    --dp-bg: #031413;
+    --dp-bg-2: #062421;
+    --dp-teal-deep: #08413e;
+    --dp-teal: #0b4f4b;
+    --dp-glass: rgba(9, 54, 51, 0.46);
+    --dp-glass-strong: rgba(5, 36, 34, 0.72);
+    --dp-glass-border: rgba(233, 199, 121, 0.18);
+    --dp-glass-edge: rgba(255, 255, 255, 0.14);
+    --dp-text: #f6f1e7;
+    --dp-text-soft: rgba(246, 241, 231, 0.76);
+    min-height: 100vh;
     background:
-      radial-gradient(ellipse at 100% 0%, rgba(217, 154, 69, .09), transparent 27rem),
-      var(--destination-ivory);
+      radial-gradient(ellipse at 10% 0%, rgba(11, 79, 75, 0.45), transparent 40rem),
+      radial-gradient(ellipse at 100% 30%, rgba(217, 154, 69, 0.07), transparent 36rem),
+      linear-gradient(180deg, var(--dp-bg) 0%, var(--dp-bg-2) 50%, var(--dp-bg) 100%);
+    color: var(--dp-text);
   }
-  .page-intro { width: min(100%, 54rem); margin: 0 auto clamp(1.8rem, 4vw, 3rem); text-align: center; }
-  .eyebrow { margin: 0 0 .45rem; color: var(--destination-teal); font-size: .7rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
-  .page-intro h1 { margin: 0; color: var(--destination-ink); font: 500 clamp(2.25rem, 5vw, 4.25rem)/.98 var(--font-serif, 'Cormorant Garamond', Georgia, serif); letter-spacing: -.035em; }
-  .intro-copy { max-width: 42rem; margin: .9rem auto 0; color: #5c6968; font-size: clamp(.9rem, 1.4vw, 1rem); line-height: 1.65; }
-  .directory-layout { display: grid; grid-template-columns: minmax(17rem, .82fr) minmax(0, 1.45fr); align-items: start; gap: clamp(1rem, 2.3vw, 2rem); max-width: 86rem; margin-inline: auto; }
-  .directory-panel, .map-panel { border: 1px solid rgba(20, 91, 89, .16); border-radius: 1.3rem; background: rgba(255, 252, 245, .72); box-shadow: 0 18px 50px -34px rgba(10, 48, 46, .4); backdrop-filter: blur(14px); }
-  .directory-panel { padding: clamp(1rem, 2vw, 1.45rem); }
-  .discover-panel { display: grid; gap: 1rem; min-width: 0; }
-  .map-panel { padding: clamp(.9rem, 2vw, 1.35rem); }
-  .panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
-  .panel-heading .eyebrow { margin-bottom: .15rem; }
-  .panel-heading h2 { margin: 0; color: var(--destination-ink); font: 500 clamp(1.3rem, 2.4vw, 1.8rem)/1.1 var(--font-serif, 'Cormorant Garamond', Georgia, serif); }
-  .map-note { margin: 0; color: #687372; font-size: .68rem; white-space: nowrap; }
-  .map-panel :global(.destination-map) { max-width: 19rem; }
-  .detail-panels { min-width: 0; }
-  .detail-panels > [hidden] { display: none; }
-  @media (max-width: 56rem) {
-    .directory-layout { grid-template-columns: minmax(0, 1fr); }
-    .directory-panel { order: 1; }
-    .discover-panel { order: 2; grid-template-columns: minmax(15rem, .8fr) minmax(0, 1.2fr); align-items: start; }
-    .map-panel :global(.destination-map) { max-width: 16rem; }
+
+  /* HERO */
+  .destinations-hero {
+    position: relative;
+    overflow: hidden;
+    padding: calc(5.1rem + clamp(1.75rem, 3.5vw, 2.75rem)) clamp(1rem, 4vw, 3rem) clamp(2rem, 3.5vw, 2.75rem);
+    background:
+      radial-gradient(ellipse at 82% 18%, rgba(217, 154, 69, 0.14), transparent 32rem),
+      radial-gradient(ellipse at 14% 85%, rgba(11, 79, 75, 0.55), transparent 36rem),
+      linear-gradient(165deg, #020d0c 0%, #05201e 55%, #072a27 100%);
+    color: var(--color-ivory);
+    border-bottom: 1px solid rgba(233, 199, 121, 0.14);
   }
+
+  .hero-container {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .hero-intro { max-width: 46rem; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.65rem;
+    color: var(--color-gold-light);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .hero-eyebrow::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--color-amber);
+    content: '';
+  }
+
+  .destinations-hero h1 {
+    margin: 0;
+    color: #fbf8f0;
+    font: 500 clamp(2.4rem, 5vw, 4.2rem)/0.96 var(--font-serif);
+    letter-spacing: -0.04em;
+  }
+
+  .destinations-hero h1 em { color: var(--color-gold-light); font-weight: 500; }
+
+  .hero-copy {
+    max-width: 56ch;
+    margin: 0.85rem 0 0;
+    color: var(--dp-text-soft);
+    font-size: clamp(0.92rem, 1.25vw, 1.04rem);
+    line-height: 1.65;
+  }
+
+  .hero-tier-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  .tier-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--dp-glass-border);
+    border-radius: 999px;
+    background: rgba(9, 54, 51, 0.4);
+    box-shadow: inset 0 1px 0 var(--dp-glass-edge);
+    color: var(--color-ivory);
+    font-size: 0.74rem;
+    text-decoration: none;
+    backdrop-filter: blur(14px);
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .tier-nav-pill:hover,
+  .tier-nav-pill-active {
+    border-color: rgba(233, 199, 121, 0.7);
+    background: rgba(217, 154, 69, 0.18);
+    transform: translateY(-1px);
+  }
+
+  .tier-nav-pill strong {
+    color: var(--color-gold-light);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* EXPLORER: map + selector card, equal height, no dead space */
+  .explorer-section {
+    scroll-margin-top: 5.2rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+    background:
+      radial-gradient(ellipse at 15% 25%, rgba(11, 79, 75, 0.4), transparent 34rem),
+      radial-gradient(ellipse at 90% 10%, rgba(217, 154, 69, 0.08), transparent 28rem);
+  }
+
+  .explorer-container { width: min(100%, 88rem); margin-inline: auto; }
+
+  .explorer-layout {
+    display: grid;
+    grid-template-columns: minmax(21rem, 30rem) minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(0.9rem, 1.6vw, 1.25rem);
+  }
+
+  .map-column,
+  .selector-detail-column {
+    min-width: 0;
+    border: 1px solid var(--dp-glass-border);
+    border-radius: 1.4rem;
+    background:
+      linear-gradient(160deg, rgba(14, 76, 72, 0.42), rgba(4, 28, 26, 0.62));
+    box-shadow:
+      0 24px 50px -26px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 var(--dp-glass-edge);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+  }
+
+  .map-column {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(0.85rem, 1.5vw, 1.1rem);
+  }
+
+  .selector-detail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: clamp(0.85rem, 1.5vw, 1.1rem);
+  }
+
+  .directory-controls-wrap {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(246, 241, 231, 0.12);
+  }
+
+  .detail-panels { flex: 1 1 auto; min-width: 0; display: flex; }
+  .detail-panels > [data-detail-panel] { flex: 1 1 auto; display: flex; min-width: 0; }
+  .detail-panels > [hidden] { display: none !important; }
+
+  @media (max-width: 60rem) {
+    .explorer-layout { grid-template-columns: minmax(0, 1fr); }
+    .map-column { max-width: 32rem; width: 100%; margin-inline: auto; }
+  }
+
   @media (max-width: 54rem) {
-    .destinations-page { padding-top: calc(4.35rem + 1.6rem); }
+    .destinations-hero { padding-top: calc(4.35rem + 1.5rem); }
   }
-  @media (max-width: 42rem) {
-    .destinations-page { padding-inline: .85rem; }
-    .page-intro { text-align: left; }
-    .intro-copy { margin-inline: 0; }
-    .discover-panel { grid-template-columns: minmax(0, 1fr); }
-    .map-panel { order: 1; }
-    .detail-panels { order: 2; }
-    .panel-heading { align-items: start; }
-    .map-panel :global(.destination-map) { max-width: 15rem; }
+
+  @media (max-width: 40rem) {
+    .destinations-hero,
+    .explorer-section { padding-inline: 0.85rem; }
+    .selector-detail-column { padding: 0.8rem; }
   }
 </style>

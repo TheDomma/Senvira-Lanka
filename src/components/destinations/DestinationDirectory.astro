@@ -1,5 +1,9 @@
 ---
-import type { Destination, DestinationRegion } from '../../data/destinations';
+import {
+  destinationCategories,
+  type Destination,
+  type DestinationRegion,
+} from '../../data/destinations';
 
 interface Props {
   destinations: Destination[];
@@ -10,41 +14,112 @@ interface Props {
 const { destinations, regions, selectedId } = Astro.props;
 ---
 
-<section class="directory" aria-labelledby="directory-title" data-destination-directory>
-  <div class="directory-heading">
-    <div><p class="eyebrow">Find your island moment</p><h2 id="directory-title">Choose a place</h2></div>
-    <p class="count" data-result-count aria-live="polite">{destinations.length} places</p>
-  </div>
-
-  <label class="search-label" for="destination-search">Search destinations</label>
-  <input id="destination-search" class="search" type="search" placeholder="Try Ella or the coast…" autocomplete="off" data-search />
-
-  <div class="filters" role="group" aria-label="Filter destinations by region">
-    <button class="filter active" type="button" data-region-filter="all" aria-pressed="true">All regions</button>
-    {regions.map((region) => <button class="filter" type="button" data-region-filter={region.id} aria-pressed="false">{region.name}</button>)}
-  </div>
-
-  <label class="destination-label" for="destination-choice">Destination</label>
-  <div class="select-wrap">
-    <select class="destination-select" id="destination-choice" data-destination-choice data-select aria-label="Choose a destination">
-      {regions.map((region) => {
-        const places = destinations.filter((destination) => destination.regionId === region.id);
-        return places.length > 0 && (
-          <optgroup label={region.name} data-option-region={region.id}>
-            {places.map((destination) => <option value={destination.id} data-destination-item data-region={destination.regionId} data-name={destination.name.toLowerCase()} selected={destination.id === selectedId}>{destination.name}</option>)}
-          </optgroup>
-        );
-      })}
-    </select>
-    <span class="select-chevron" aria-hidden="true">⌄</span>
-  </div>
-
-  <p class="selection-hint">Choose a place to see its highlights, map location and a locally sourced photograph.</p>
-  <div class="results" data-results aria-live="polite">
-    <div class="empty" data-empty hidden>
-      <p>No destinations match those filters.</p>
-      <button class="reset" type="button" data-reset>Clear search and filters</button>
+<section class="directory-controls" aria-labelledby="directory-title" data-destination-directory>
+  <div class="controls-header">
+    <div>
+      <span class="eyebrow-tag">Featured Island Hubs</span>
+      <h2 id="directory-title">Select a destination</h2>
     </div>
+    <p class="result-badge" data-result-count aria-live="polite">{destinations.length} featured places</p>
+  </div>
+
+  <div class="search-box">
+    <label class="sr-only" for="destination-search">Search featured destinations</label>
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+      <path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+    <input
+      id="destination-search"
+      class="search-input"
+      type="search"
+      placeholder="Search Sigiriya, Galle, Kandy, wildlife..."
+      autocomplete="off"
+      data-search
+    />
+  </div>
+
+  <div class="filter-dropdowns">
+    <div class="select-field">
+      <label class="sr-only" for="region-filter-select">Filter by region</label>
+      <select id="region-filter-select" class="glass-select" data-region-select aria-label="Filter by region">
+        <option value="all">All Regions</option>
+        {regions.map((region) => (
+          <option value={region.id}>{region.shortName || region.name}</option>
+        ))}
+      </select>
+      <span class="select-arrow" aria-hidden="true">⌄</span>
+    </div>
+
+    <div class="select-field">
+      <label class="sr-only" for="category-filter-select">Filter by category</label>
+      <select id="category-filter-select" class="glass-select" data-category-select aria-label="Filter by category">
+        <option value="all">All Categories</option>
+        {destinationCategories.map((cat) => (
+          <option value={cat.id}>{cat.label}</option>
+        ))}
+      </select>
+      <span class="select-arrow" aria-hidden="true">⌄</span>
+    </div>
+
+    <div class="select-field select-field-place">
+      <label class="sr-only" for="destination-choice">Choose a featured destination</label>
+      <select
+        id="destination-choice"
+        class="glass-select glass-select-accent"
+        data-destination-choice
+        data-select
+        aria-label="Choose a featured destination"
+      >
+        {regions.map((region) => {
+          const places = destinations.filter((destination) => destination.regionId === region.id);
+          return (
+            places.length > 0 && (
+              <optgroup label={region.name} data-option-region={region.id}>
+                {places.map((destination) => (
+                  <option
+                    value={destination.id}
+                    data-destination-item
+                    data-region={destination.regionId}
+                    data-category={destination.categoryId}
+                    data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
+                    selected={destination.id === selectedId}
+                  >
+                    {destination.number} · {destination.shortName}
+                  </option>
+                ))}
+              </optgroup>
+            )
+          );
+        })}
+      </select>
+      <span class="select-arrow" aria-hidden="true">⌄</span>
+    </div>
+  </div>
+
+  <div class="featured-strip-wrap">
+    <div class="featured-strip" role="toolbar" aria-label="Quick destination selector">
+      {destinations.map((destination) => (
+        <button
+          type="button"
+          class:list={['featured-chip', { active: destination.id === selectedId }]}
+          data-destination-id={destination.id}
+          data-chip-item
+          data-region={destination.regionId}
+          data-category={destination.categoryId}
+          data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
+          aria-pressed={destination.id === selectedId}
+        >
+          <span class="chip-num">{destination.number}</span>
+          <span class="chip-name">{destination.shortName}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="empty-filter-state" data-empty hidden>
+    <p>No featured hubs match that filter combination.</p>
+    <button class="reset-btn" type="button" data-reset>Reset search & filters</button>
   </div>
 </section>
 
@@ -52,86 +127,396 @@ const { destinations, regions, selectedId } = Astro.props;
   const directories = document.querySelectorAll<HTMLElement>('[data-destination-directory]');
   directories.forEach((directory) => {
     const search = directory.querySelector<HTMLInputElement>('[data-search]')!;
-    const filters = [...directory.querySelectorAll<HTMLButtonElement>('[data-region-filter]')];
-    const items = [...directory.querySelectorAll<HTMLOptionElement>('[data-destination-item]')];
+    const regionSelect = directory.querySelector<HTMLSelectElement>('[data-region-select]')!;
+    const categorySelect = directory.querySelector<HTMLSelectElement>('[data-category-select]')!;
     const choice = directory.querySelector<HTMLSelectElement>('[data-destination-choice]')!;
+    const options = [...directory.querySelectorAll<HTMLOptionElement>('[data-destination-item]')];
+    const optgroups = [...directory.querySelectorAll<HTMLOptGroupElement>('[data-option-region]')];
+    const chips = [...directory.querySelectorAll<HTMLButtonElement>('[data-chip-item]')];
     const empty = directory.querySelector<HTMLElement>('[data-empty]')!;
     const count = directory.querySelector<HTMLElement>('[data-result-count]')!;
-    let region = 'all';
 
     const applyFilters = () => {
+      const region = regionSelect.value;
+      const category = categorySelect.value;
+      const query = search.value.trim().toLowerCase();
       let visibleCount = 0;
-      items.forEach((item) => {
-        const visible = (region === 'all' || item.dataset.region === region)
-          && (item.dataset.name ?? '').includes(search.value.trim().toLocaleLowerCase());
+
+      options.forEach((item) => {
+        const matchesRegion = region === 'all' || item.dataset.region === region;
+        const matchesCategory = category === 'all' || item.dataset.category === category;
+        const matchesSearch = !query || (item.dataset.searchText ?? '').includes(query);
+        const visible = matchesRegion && matchesCategory && matchesSearch;
         item.hidden = !visible;
         item.disabled = !visible;
         if (visible) visibleCount += 1;
       });
+
+      optgroups.forEach((group) => {
+        const groupOptions = [...group.querySelectorAll<HTMLOptionElement>('option')];
+        const hasVisible = groupOptions.some((opt) => !opt.disabled);
+        group.hidden = !hasVisible;
+        group.disabled = !hasVisible;
+      });
+
+      chips.forEach((chip) => {
+        const matchesRegion = region === 'all' || chip.dataset.region === region;
+        const matchesCategory = category === 'all' || chip.dataset.category === category;
+        const matchesSearch = !query || (chip.dataset.searchText ?? '').includes(query);
+        const visible = matchesRegion && matchesCategory && matchesSearch;
+        chip.hidden = !visible;
+      });
+
       empty.hidden = visibleCount > 0;
-      count.textContent = `${visibleCount} ${visibleCount === 1 ? 'place' : 'places'}`;
+      count.textContent = `${visibleCount} ${visibleCount === 1 ? 'featured place' : 'featured places'}`;
+
+      directory.dispatchEvent(
+        new CustomEvent('explorer-filters-change', {
+          bubbles: true,
+          detail: { region, category, query },
+        }),
+      );
+
       if (visibleCount > 0 && (choice.selectedOptions[0]?.hidden || choice.selectedOptions[0]?.disabled)) {
-        const next = items.find((item) => !item.hidden && !item.disabled);
+        const next = options.find((item) => !item.hidden && !item.disabled);
         if (next) {
           choice.value = next.value;
-          choice.dispatchEvent(new Event('change', { bubbles: true }));
+          choice.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id: next.value } }));
         }
       }
     };
 
-    filters.forEach((button) => button.addEventListener('click', () => {
-      region = button.dataset.regionFilter ?? 'all';
-      filters.forEach((filter) => {
-        const active = filter === button;
-        filter.classList.toggle('active', active);
-        filter.setAttribute('aria-pressed', String(active));
-      });
-      applyFilters();
-    }));
+    regionSelect.addEventListener('change', applyFilters);
+    categorySelect.addEventListener('change', applyFilters);
     search.addEventListener('input', applyFilters);
+
     choice.addEventListener('change', () => {
       choice.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id: choice.value } }));
     });
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const id = chip.dataset.destinationId;
+        if (id) {
+          chip.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id } }));
+        }
+      });
+    });
+
     directory.querySelector('[data-reset]')?.addEventListener('click', () => {
       search.value = '';
-      region = 'all';
-      filters.forEach((filter) => {
-        const active = filter.dataset.regionFilter === 'all';
-        filter.classList.toggle('active', active);
-        filter.setAttribute('aria-pressed', String(active));
-      });
+      regionSelect.value = 'all';
+      categorySelect.value = 'all';
       applyFilters();
       search.focus();
     });
-    document.addEventListener('destination-select', (event) => {
-      const id = (event as CustomEvent<{ id: string }>).detail?.id;
-      if (id && items.some((item) => item.value === id)) choice.value = id;
+
+    document.addEventListener('map-category-filter', (event) => {
+      const cat = (event as CustomEvent<{ category?: string }>).detail?.category ?? 'all';
+      if (categorySelect.value !== cat) {
+        categorySelect.value = cat;
+        applyFilters();
+      }
+    });
+
+    document.addEventListener('map-reset', () => {
+      search.value = '';
+      regionSelect.value = 'all';
+      categorySelect.value = 'all';
+      applyFilters();
     });
   });
 </script>
 
 <style>
-  .directory { color: var(--color-forest-deep); }
-  .directory-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; }
-  .directory-heading h2 { margin: 0; color: var(--color-forest-deep); font-size: var(--text-2xl); }
-  .eyebrow { margin: 0 0 .2rem; color: var(--color-teal); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-  .count { margin: 0; color: var(--color-charcoal-muted); font-size: .8rem; white-space: nowrap; }
-  .search-label { display: block; margin-bottom: .35rem; color: var(--color-charcoal); font-size: .78rem; font-weight: 650; }
-  .search { width: 100%; min-height: 2.9rem; padding: .65rem .85rem; border: 1px solid var(--color-border-green); border-radius: var(--radius-sm); background: var(--color-ivory-elevated); color: var(--color-forest-deep); font: inherit; }
-  .search:focus-visible, .filter:focus-visible, .destination-select:focus-visible, .reset:focus-visible { outline: 2px solid var(--color-teal); outline-offset: 2px; }
-  .filters { display: flex; gap: .45rem; margin: .8rem 0 1.25rem; padding: .1rem .1rem .35rem; overflow-x: auto; scrollbar-width: thin; }
-  .filter { flex: 0 0 auto; min-height: 2.3rem; padding: .45rem .72rem; border: 1px solid var(--color-border-green); border-radius: 999px; background: rgba(255, 252, 245, .74); color: var(--color-forest-deep); font: 600 .72rem/1.2 var(--font-sans); cursor: pointer; }
-  .filter:hover { background: var(--color-sage-surface); }
-  .filter.active { border-color: var(--color-teal); background: var(--color-teal); color: var(--color-ivory); box-shadow: 0 3px 10px rgba(7, 48, 46, .13); }
-  .destination-label { display: block; margin-bottom: .4rem; color: var(--color-charcoal); font-size: .78rem; font-weight: 650; }
-  .select-wrap { position: relative; }
-  .destination-select { width: 100%; min-height: 3.1rem; appearance: none; padding: .7rem 2.6rem .7rem .85rem; border: 1px solid var(--color-border-green); border-radius: var(--radius-md); background: var(--color-ivory-elevated); color: var(--color-forest-deep); font: 650 .88rem/1.3 var(--font-sans); cursor: pointer; box-shadow: 0 8px 20px -16px rgba(7, 48, 46, .6); }
-  .destination-select:hover { border-color: var(--color-teal); }
-  .destination-select option, .destination-select optgroup { color: var(--color-forest-deep); background: var(--color-ivory-elevated); }
-  .select-chevron { position: absolute; top: 50%; right: .9rem; color: var(--color-teal); font-size: 1.15rem; pointer-events: none; transform: translateY(-58%); }
-  .selection-hint { margin: .75rem 0 0; color: var(--color-charcoal-muted); font-size: .76rem; line-height: 1.55; }
-  .empty { padding: 1.5rem 1rem; border: 1px dashed var(--color-border-green); border-radius: var(--radius-md); background: rgba(255, 252, 245, .58); text-align: center; }
-  .empty p { margin: 0 0 .5rem; color: var(--color-charcoal-muted); }
-  .reset { min-height: 2.5rem; border: 0; background: none; color: var(--color-teal); font: 700 .8rem var(--font-sans); text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
-  [hidden] { display: none !important; }
+  .directory-controls {
+    display: grid;
+    gap: 0.7rem;
+    color: var(--color-forest-deep);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .controls-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .eyebrow-tag {
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--color-teal);
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .controls-header h2 {
+    margin: 0;
+    color: var(--color-forest-deep);
+    font: 600 clamp(1.3rem, 2vw, 1.65rem)/1.08 var(--font-serif);
+  }
+
+  .result-badge {
+    margin: 0;
+    padding: 0.28rem 0.65rem;
+    border: 1px solid rgba(20, 91, 89, 0.2);
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.08);
+    color: var(--color-teal);
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.9rem;
+    color: var(--color-teal);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.9rem 0.55rem 2.45rem;
+    border: 1px solid rgba(20, 91, 89, 0.24);
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.9);
+    box-shadow: inset 0 1px 2px rgba(10, 48, 46, 0.05);
+    color: var(--color-forest-deep);
+    font: 500 0.84rem/1.3 var(--font-sans);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .search-input::placeholder {
+    color: #6b7c79;
+  }
+
+  .search-input:focus-visible,
+  .glass-select:focus-visible,
+  .featured-chip:focus-visible,
+  .reset-btn:focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 2px;
+  }
+
+  .filter-dropdowns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .select-field {
+    position: relative;
+    min-width: 0;
+  }
+
+  .glass-select {
+    width: 100%;
+    min-height: 2.55rem;
+    appearance: none;
+    padding: 0.48rem 2rem 0.48rem 0.8rem;
+    border: 1px solid rgba(20, 91, 89, 0.24);
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.88);
+    color: var(--color-forest-deep);
+    font: 600 0.76rem/1.2 var(--font-sans);
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+
+  .glass-select:hover {
+    border-color: var(--color-teal);
+    background: #ffffff;
+  }
+
+  .glass-select-accent {
+    border-color: rgba(217, 154, 69, 0.55);
+    background: linear-gradient(135deg, rgba(255, 250, 238, 0.95), rgba(246, 241, 231, 0.92));
+    color: var(--color-forest-deep);
+    font-weight: 700;
+  }
+
+  .select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    color: var(--color-teal);
+    font-size: 0.95rem;
+    pointer-events: none;
+    transform: translateY(-58%);
+  }
+
+  .featured-strip-wrap {
+    min-width: 0;
+  }
+
+  .featured-strip {
+    display: flex;
+    gap: 0.38rem;
+    overflow-x: auto;
+    padding: 0.15rem 0.05rem 0.35rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(20, 91, 89, 0.3) transparent;
+  }
+
+  .featured-chip {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2rem;
+    padding: 0.28rem 0.65rem 0.28rem 0.36rem;
+    border: 1px solid rgba(20, 91, 89, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.76);
+    color: var(--color-forest-deep);
+    font: 600 0.72rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .featured-chip:hover {
+    border-color: var(--color-teal);
+    background: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .featured-chip.active {
+    border-color: var(--color-teal);
+    background: var(--color-teal);
+    color: var(--color-ivory);
+    box-shadow: 0 4px 12px rgba(10, 48, 46, 0.2);
+  }
+
+  .chip-num {
+    display: inline-grid;
+    width: 1.3rem;
+    height: 1.3rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(20, 91, 89, 0.12);
+    color: var(--color-teal);
+    font-family: var(--font-serif);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .featured-chip.active .chip-num {
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .empty-filter-state {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px dashed rgba(20, 91, 89, 0.35);
+    border-radius: 0.75rem;
+    background: rgba(255, 252, 245, 0.72);
+    font-size: 0.78rem;
+  }
+
+  .empty-filter-state p {
+    margin: 0;
+    color: var(--color-charcoal-muted);
+  }
+
+  .reset-btn {
+    border: 0;
+    background: none;
+    color: var(--color-teal);
+    font: 700 0.76rem var(--font-sans);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Dark liquid-glass theme */
+  .directory-controls { color: var(--color-ivory); }
+  .eyebrow-tag { color: var(--color-gold-light); }
+  .controls-header h2 { color: #fbf8f0; }
+  .result-badge {
+    border-color: rgba(233, 199, 121, 0.3);
+    background: rgba(217, 154, 69, 0.14);
+    color: var(--color-gold-light);
+  }
+  .search-icon { color: var(--color-gold-light); }
+  .search-input,
+  .glass-select {
+    border-color: rgba(246, 241, 231, 0.16);
+    background: rgba(2, 20, 19, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    color: var(--color-ivory);
+    backdrop-filter: blur(10px);
+  }
+  .search-input::placeholder { color: rgba(246, 241, 231, 0.5); }
+  .glass-select option,
+  .glass-select optgroup { background: #06201f; color: #f6f1e7; }
+  .glass-select:hover { border-color: rgba(233, 199, 121, 0.55); background: rgba(8, 56, 52, 0.6); }
+  .glass-select-accent { border-color: rgba(233, 199, 121, 0.5); background: rgba(217, 154, 69, 0.14); color: #fbe9c3; }
+  .select-arrow { color: var(--color-gold-light); }
+  .search-input:focus-visible,
+  .glass-select:focus-visible,
+  .featured-chip:focus-visible,
+  .reset-btn:focus-visible { outline-color: var(--color-gold-light); }
+  .featured-strip { scrollbar-color: rgba(233, 199, 121, 0.4) transparent; }
+  .featured-chip {
+    border-color: rgba(246, 241, 231, 0.16);
+    background: rgba(246, 241, 231, 0.06);
+    color: var(--color-ivory);
+    backdrop-filter: blur(8px);
+  }
+  .featured-chip:hover { border-color: rgba(233, 199, 121, 0.6); background: rgba(246, 241, 231, 0.12); }
+  .featured-chip.active {
+    border-color: rgba(233, 199, 121, 0.8);
+    background: rgba(217, 154, 69, 0.22);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  .chip-num { background: rgba(246, 241, 231, 0.12); color: var(--color-gold-light); }
+  .featured-chip.active .chip-num { background: var(--color-amber); color: #1b1b1b; }
+  .empty-filter-state { border-color: rgba(233, 199, 121, 0.35); background: rgba(2, 20, 19, 0.5); color: var(--color-ivory); }
+  .empty-filter-state p { color: rgba(246, 241, 231, 0.75); }
+  .reset-btn { color: var(--color-gold-light); }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 38rem) {
+    .filter-dropdowns {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .select-field-place {
+      grid-column: 1 / -1;
+    }
+  }
 </style>

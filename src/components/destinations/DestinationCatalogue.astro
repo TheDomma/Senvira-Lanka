@@ -1,0 +1,1322 @@
+---
+import { Image } from 'astro:assets';
+import {
+  catalogueEntries,
+  destinationCategories,
+  destinationRegions,
+  destinations,
+} from '../../data/destinations';
+
+const featuredByRegion = new Map(
+  destinationRegions.map((region) => [
+    region.id,
+    destinations.filter((d) => d.regionId === region.id),
+  ]),
+);
+
+const coreCount = catalogueEntries.filter((e) => e.tier === 'core').length;
+const extendedCount = catalogueEntries.filter((e) => e.tier === 'extended').length;
+const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').length;
+---
+
+<section class="featured-showcase-section" id="featured-hubs" aria-labelledby="featured-showcase-title">
+  <div class="catalogue-container">
+    <div class="showcase-header">
+      <div>
+        <span class="section-kicker-light">15 Signature Starting Points</span>
+        <h2 id="featured-showcase-title">Featured destinations across the island.</h2>
+        <p class="showcase-lead">
+          Each of these fifteen hubs anchors a wider travel region. Select any card to highlight its location and full regional notes in the interactive map above.
+        </p>
+      </div>
+      <div class="showcase-stat-pills">
+        <span>15 Featured Hubs</span>
+        <span>7 Distinct Regions</span>
+        <span>Real Sourced Photography</span>
+      </div>
+    </div>
+
+    <div class="featured-cards-grid">
+      {
+        destinations.map((place) => {
+          const firstPhoto = place.images[0];
+          return (
+            <article class="reise-featured-card" data-featured-card={place.id}>
+              <div class="reise-card-media">
+                {firstPhoto ? (
+                  <Image
+                    src={firstPhoto.src}
+                    alt={firstPhoto.alt}
+                    widths={[360, 560, 760]}
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                    loading="lazy"
+                    decoding="async"
+                    class="reise-card-img"
+                  />
+                ) : (
+                  <div class="reise-card-fallback" aria-hidden="true">
+                    <span>{place.shortName}</span>
+                  </div>
+                )}
+                <div class="reise-card-shade" aria-hidden="true"></div>
+                <span class="reise-card-number">{place.number}</span>
+                <span class="reise-card-badge">{place.badge}</span>
+                <div class="reise-card-media-title">
+                  <small>{place.provinceArea}</small>
+                  <h3>{place.name}</h3>
+                </div>
+              </div>
+
+              <div class="reise-card-body">
+                <p class="reise-card-why">{place.whyFeatureIt}</p>
+                <div class="reise-card-chips">
+                  {place.highlights.slice(0, 3).map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+                <div class="reise-card-footer">
+                  <button
+                    type="button"
+                    class="inspect-map-btn"
+                    data-inspect-destination={place.id}
+                  >
+                    <span>Show on Map & Details</span>
+                    <span aria-hidden="true">↑</span>
+                  </button>
+                  <a href="/journeys/" class="plan-mini-link">
+                    Plan route <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<section class="catalogue-section" id="island-catalogue" aria-labelledby="catalogue-heading" data-island-catalogue>
+  <div class="catalogue-container">
+    <div class="catalogue-intro">
+      <div>
+        <span class="section-kicker-dark">Islandwide Destination Directory · 158 Entries</span>
+        <h2 id="catalogue-heading">Explore every corner of Sri Lanka.</h2>
+        <p class="catalogue-lead">
+          Beyond the fifteen flagship hubs, our directory spans {coreCount} core regional destinations, {extendedCount} specialist hidden gems, and {attractionCount} cultural and natural landmarks grouped by practical travel region.
+        </p>
+      </div>
+      <div class="catalogue-counter-box">
+        <strong data-catalogue-count>{catalogueEntries.length}</strong>
+        <span>places matching filters</span>
+      </div>
+    </div>
+
+    <div class="catalogue-filter-panel" aria-label="Filter the islandwide destination directory">
+      <div class="tier-tabs" role="group" aria-label="Filter by catalogue tier">
+        <button type="button" class="tier-tab active" data-tier-filter="all" aria-pressed="true">
+          <span>All Directory</span>
+          <small>{catalogueEntries.length}</small>
+        </button>
+        <button type="button" class="tier-tab" data-tier-filter="core" aria-pressed="false">
+          <span>Main Directory</span>
+          <small>{coreCount}</small>
+        </button>
+        <button type="button" class="tier-tab" data-tier-filter="extended" aria-pressed="false">
+          <span>Hidden Gems</span>
+          <small>{extendedCount}</small>
+        </button>
+        <button type="button" class="tier-tab" data-tier-filter="attraction" aria-pressed="false">
+          <span>Regional Attractions</span>
+          <small>{attractionCount}</small>
+        </button>
+      </div>
+
+      <div class="catalogue-controls-row">
+        <div class="catalogue-search-wrap">
+          <label class="sr-only" for="catalogue-search-input">Search all destinations and attractions</label>
+          <svg class="cat-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+            <path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input
+            id="catalogue-search-input"
+            type="search"
+            class="catalogue-search"
+            placeholder="Search waterfalls, national parks, temples, beaches, towns..."
+            autocomplete="off"
+            data-catalogue-search
+          />
+        </div>
+
+        <div class="catalogue-category-pills" role="group" aria-label="Filter directory by theme">
+          <button type="button" class="cat-theme-pill active" data-cat-theme="all" aria-pressed="true">
+            All Themes
+          </button>
+          {
+            destinationCategories.map((cat) => (
+              <button type="button" class="cat-theme-pill" data-cat-theme={cat.id} aria-pressed="false">
+                {cat.shortLabel}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="catalogue-region-pills" role="group" aria-label="Filter directory by region">
+        <button type="button" class="cat-region-pill active" data-cat-region="all" aria-pressed="true">
+          All 7 Regions
+        </button>
+        {
+          destinationRegions.map((region) => (
+            <button type="button" class="cat-region-pill" data-cat-region={region.id} aria-pressed="false">
+              {region.shortName}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="catalogue-empty" data-catalogue-empty hidden>
+      <p>No destinations or attractions match your current filter selection.</p>
+      <button type="button" class="catalogue-reset-btn" data-catalogue-reset>
+        Reset all directory filters
+      </button>
+    </div>
+
+    <div class="regional-sections">
+      {
+        destinationRegions.map((region) => {
+          const regionEntries = catalogueEntries.filter((entry) => entry.regionId === region.id);
+          const regionHubs = featuredByRegion.get(region.id) ?? [];
+          const anchorPhoto = regionHubs.find((h) => h.images.length > 0)?.images[0];
+
+          return (
+            <section
+              class="region-cluster-section"
+              data-region-section={region.id}
+              aria-labelledby={`region-heading-${region.id}`}
+            >
+              <div class="region-banner">
+                {anchorPhoto && (
+                  <Image
+                    src={anchorPhoto.src}
+                    alt={anchorPhoto.alt}
+                    widths={[640, 1024]}
+                    sizes="(max-width: 900px) 94vw, 86rem"
+                    loading="lazy"
+                    decoding="async"
+                    class="region-banner-img"
+                  />
+                )}
+                <div class="region-banner-shade" aria-hidden="true"></div>
+                <div class="region-banner-content">
+                  <div class="region-banner-copy">
+                    <span class="region-kicker">Regional Travel Cluster</span>
+                    <h3 id={`region-heading-${region.id}`}>{region.name}</h3>
+                    <p>{region.description}</p>
+                  </div>
+                  <div class="region-hub-pills">
+                    <span class="hub-pills-label">Featured Map Hubs:</span>
+                    <div class="hub-pills-row">
+                      {regionHubs.map((hub) => (
+                        <button
+                          type="button"
+                          class="region-hub-btn"
+                          data-inspect-destination={hub.id}
+                        >
+                          <span>{hub.number} · {hub.shortName}</span>
+                          <span aria-hidden="true">↑</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="catalogue-cards-grid">
+                {regionEntries.map((entry) => (
+                  <article
+                    class:list={['catalogue-card', `tier-${entry.tier}`, `cat-${entry.categoryId}`]}
+                    data-catalogue-item
+                    data-item-tier={entry.tier}
+                    data-item-region={entry.regionId}
+                    data-item-category={entry.categoryId}
+                    data-item-search={`${entry.name} ${entry.provinceArea} ${entry.categoryLabel} ${entry.description} ${entry.tags.join(' ')} ${entry.hubName}`.toLowerCase()}
+                  >
+                    <div class="card-top-meta">
+                      <span class={`tier-pill tier-pill-${entry.tier}`}>{entry.tierLabel}</span>
+                      <span class="cat-pill">{entry.categoryLabel}</span>
+                    </div>
+
+                    <p class="card-province">{entry.provinceArea}</p>
+                    <h4 class="card-title">{entry.name}</h4>
+                    <p class="card-description">{entry.description}</p>
+
+                    <div class="card-tags">
+                      {entry.tags.map((tag) => (
+                        <span class="card-tag">{tag}</span>
+                      ))}
+                    </div>
+
+                    <div class="card-bottom-bar">
+                      <button
+                        type="button"
+                        class="hub-jump-btn"
+                        data-inspect-destination={entry.hubId}
+                        title={`Highlight ${entry.hubName} on the interactive island map`}
+                      >
+                        <span>Hub: <strong>{entry.hubName}</strong></span>
+                        <span aria-hidden="true">↑ Map</span>
+                      </button>
+                      <a href="/journeys/" class="card-plan-link">
+                        Add to trip <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const inspectButtons = document.querySelectorAll<HTMLButtonElement>('[data-inspect-destination]');
+  inspectButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.inspectDestination;
+      if (!id) return;
+      btn.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id } }));
+      const explorer = document.getElementById('interactive-explorer');
+      explorer?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-island-catalogue]').forEach((catalogue) => {
+    const tierButtons = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-tier-filter]')];
+    const themeButtons = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-cat-theme]')];
+    const regionButtons = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-cat-region]')];
+    const searchInput = catalogue.querySelector<HTMLInputElement>('[data-catalogue-search]')!;
+    const cards = [...catalogue.querySelectorAll<HTMLElement>('[data-catalogue-item]')];
+    const sections = [...catalogue.querySelectorAll<HTMLElement>('[data-region-section]')];
+    const countEl = catalogue.querySelector<HTMLElement>('[data-catalogue-count]')!;
+    const emptyEl = catalogue.querySelector<HTMLElement>('[data-catalogue-empty]')!;
+    const resetBtn = catalogue.querySelector<HTMLButtonElement>('[data-catalogue-reset]');
+
+    let activeTier = 'all';
+    let activeTheme = 'all';
+    let activeRegion = 'all';
+
+    const updateCatalogue = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleTotal = 0;
+
+      cards.forEach((card) => {
+        const matchTier = activeTier === 'all' || card.dataset.itemTier === activeTier;
+        const matchTheme = activeTheme === 'all' || card.dataset.itemCategory === activeTheme;
+        const matchRegion = activeRegion === 'all' || card.dataset.itemRegion === activeRegion;
+        const matchQuery = !query || (card.dataset.itemSearch ?? '').includes(query);
+        const visible = matchTier && matchTheme && matchRegion && matchQuery;
+        card.hidden = !visible;
+        if (visible) visibleTotal += 1;
+      });
+
+      sections.forEach((section) => {
+        const sectionCards = [...section.querySelectorAll<HTMLElement>('[data-catalogue-item]')];
+        const hasVisibleCard = sectionCards.some((c) => !c.hidden);
+        section.hidden = !hasVisibleCard;
+      });
+
+      countEl.textContent = String(visibleTotal);
+      emptyEl.hidden = visibleTotal > 0;
+    };
+
+    tierButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeTier = btn.dataset.tierFilter ?? 'all';
+        tierButtons.forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.setAttribute('aria-pressed', String(isSelected));
+        });
+        updateCatalogue();
+      });
+    });
+
+    themeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeTheme = btn.dataset.catTheme ?? 'all';
+        themeButtons.forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.setAttribute('aria-pressed', String(isSelected));
+        });
+        updateCatalogue();
+      });
+    });
+
+    regionButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeRegion = btn.dataset.catRegion ?? 'all';
+        regionButtons.forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.setAttribute('aria-pressed', String(isSelected));
+        });
+        updateCatalogue();
+      });
+    });
+
+    searchInput.addEventListener('input', updateCatalogue);
+
+    resetBtn?.addEventListener('click', () => {
+      activeTier = 'all';
+      activeTheme = 'all';
+      activeRegion = 'all';
+      searchInput.value = '';
+      tierButtons.forEach((b) => {
+        const isAll = b.dataset.tierFilter === 'all';
+        b.classList.toggle('active', isAll);
+        b.setAttribute('aria-pressed', String(isAll));
+      });
+      themeButtons.forEach((b) => {
+        const isAll = b.dataset.catTheme === 'all';
+        b.classList.toggle('active', isAll);
+        b.setAttribute('aria-pressed', String(isAll));
+      });
+      regionButtons.forEach((b) => {
+        const isAll = b.dataset.catRegion === 'all';
+        b.classList.toggle('active', isAll);
+        b.setAttribute('aria-pressed', String(isAll));
+      });
+      updateCatalogue();
+    });
+
+    document.querySelectorAll<HTMLAnchorElement>('[data-jump-region]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const targetRegion = link.dataset.jumpRegion;
+        if (!targetRegion) return;
+        const matchingBtn = regionButtons.find((b) => b.dataset.catRegion === targetRegion);
+        if (matchingBtn) matchingBtn.click();
+      });
+    });
+  });
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .catalogue-container {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3rem);
+  }
+
+  /* ==========================================================================
+     PART 1: FEATURED DESTINATIONS SHOWCASE (REISE CEYLON PHOTO CARDS)
+     ========================================================================== */
+  .featured-showcase-section {
+    scroll-margin-top: 5.5rem;
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(217, 154, 69, 0.16), transparent 36rem),
+      radial-gradient(ellipse at 85% 90%, rgba(20, 91, 89, 0.45), transparent 40rem),
+      linear-gradient(180deg, #0c3835 0%, #114744 50%, #0d3634 100%);
+    color: var(--color-ivory);
+    border-top: 1px solid rgba(246, 241, 231, 0.14);
+    border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+  }
+
+  .showcase-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .section-kicker-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-gold-light);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .section-kicker-light::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--color-amber);
+    content: '';
+  }
+
+  .showcase-header h2 {
+    margin: 0;
+    color: var(--color-ivory);
+    font: 500 clamp(2.1rem, 4vw, 3.4rem)/1.02 var(--font-serif);
+    letter-spacing: -0.03em;
+  }
+
+  .showcase-lead {
+    max-width: 56ch;
+    margin: 0.65rem 0 0;
+    color: rgba(246, 241, 231, 0.8);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .showcase-stat-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .showcase-stat-pills span {
+    padding: 0.4rem 0.78rem;
+    border: 1px solid rgba(246, 241, 231, 0.24);
+    border-radius: 999px;
+    background: rgba(246, 241, 231, 0.08);
+    color: var(--color-gold-light);
+    font-size: 0.7rem;
+    font-weight: 650;
+    backdrop-filter: blur(10px);
+  }
+
+  .featured-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .reise-featured-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(246, 241, 231, 0.22);
+    border-radius: 1.2rem;
+    background: rgba(255, 252, 245, 0.09);
+    box-shadow:
+      0 18px 38px rgba(4, 22, 20, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(16px) saturate(125%);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .reise-featured-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(233, 199, 121, 0.65);
+    box-shadow:
+      0 24px 46px rgba(4, 22, 20, 0.46),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  }
+
+  .reise-card-media {
+    position: relative;
+    height: 13.5rem;
+    overflow: hidden;
+    background: #0a302e;
+    isolation: isolate;
+  }
+
+  .reise-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.9) brightness(0.92);
+    transition: transform 600ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .reise-featured-card:hover .reise-card-img {
+    transform: scale(1.045);
+  }
+
+  .reise-card-fallback {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    background:
+      radial-gradient(circle at 75% 25%, rgba(217, 154, 69, 0.32), transparent 55%),
+      linear-gradient(135deg, #104542, #1b5e55);
+    color: var(--color-gold-light);
+    font: 600 1.6rem var(--font-serif);
+  }
+
+  .reise-card-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(6, 26, 24, 0.35) 0%, transparent 38%, rgba(6, 26, 24, 0.9) 100%);
+  }
+
+  .reise-card-number {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    display: grid;
+    min-width: 2rem;
+    min-height: 2rem;
+    place-items: center;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid rgba(246, 241, 231, 0.36);
+    border-radius: 999px;
+    background: rgba(7, 36, 33, 0.65);
+    color: var(--color-gold-light);
+    font: 600 0.85rem var(--font-serif);
+    backdrop-filter: blur(10px);
+  }
+
+  .reise-card-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    padding: 0.28rem 0.62rem;
+    border: 1px solid rgba(246, 241, 231, 0.34);
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.72);
+    color: var(--color-ivory);
+    font: 650 0.62rem/1.1 var(--font-sans);
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(10px);
+  }
+
+  .reise-card-media-title {
+    position: absolute;
+    right: 0.95rem;
+    bottom: 0.85rem;
+    left: 0.95rem;
+    z-index: 2;
+  }
+
+  .reise-card-media-title small {
+    display: block;
+    margin-bottom: 0.18rem;
+    color: var(--color-gold-light);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .reise-card-media-title h3 {
+    margin: 0;
+    color: #ffffff;
+    font: 600 clamp(1.35rem, 1.9vw, 1.65rem)/1.05 var(--font-serif);
+  }
+
+  .reise-card-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 1rem 1rem 1.05rem;
+  }
+
+  .reise-card-why {
+    margin: 0;
+    color: rgba(246, 241, 231, 0.88);
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+
+  .reise-card-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .reise-card-chips span {
+    padding: 0.24rem 0.55rem;
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    border-radius: 999px;
+    background: rgba(246, 241, 231, 0.08);
+    color: rgba(246, 241, 231, 0.92);
+    font-size: 0.66rem;
+    font-weight: 500;
+  }
+
+  .reise-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(246, 241, 231, 0.14);
+  }
+
+  .inspect-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.15rem;
+    padding: 0.35rem 0.72rem;
+    border: 1px solid rgba(233, 199, 121, 0.55);
+    border-radius: 999px;
+    background: rgba(217, 154, 69, 0.2);
+    color: var(--color-gold-light);
+    font: 700 0.7rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  .inspect-map-btn:hover {
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .plan-mini-link {
+    color: var(--color-ivory);
+    font: 650 0.72rem var(--font-sans);
+    text-decoration: none;
+  }
+
+  .plan-mini-link:hover {
+    color: var(--color-gold-light);
+  }
+
+  /* ==========================================================================
+     PART 2: COMPLETE 143-ENTRY REGIONAL DIRECTORY & ATTRACTIONS
+     ========================================================================== */
+  .catalogue-section {
+    scroll-margin-top: 5.5rem;
+    padding-block: clamp(3.5rem, 6vw, 6rem);
+    background:
+      radial-gradient(circle at 0% 15%, rgba(20, 91, 89, 0.1), transparent 34rem),
+      radial-gradient(circle at 100% 55%, rgba(217, 154, 69, 0.12), transparent 36rem),
+      linear-gradient(180deg, #ece6d8 0%, #f4efe3 45%, #e8efeb 100%);
+    color: var(--color-charcoal);
+  }
+
+  .catalogue-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .section-kicker-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.45rem;
+    color: var(--color-teal);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .section-kicker-dark::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--color-amber);
+    content: '';
+  }
+
+  .catalogue-intro h2 {
+    margin: 0;
+    color: var(--color-forest-deep);
+    font: 600 clamp(2.1rem, 4vw, 3.35rem)/1.02 var(--font-serif);
+    letter-spacing: -0.03em;
+  }
+
+  .catalogue-lead {
+    max-width: 60ch;
+    margin: 0.65rem 0 0;
+    color: var(--color-charcoal-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .catalogue-counter-box {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid rgba(20, 91, 89, 0.24);
+    border-radius: 1rem;
+    background: rgba(255, 252, 245, 0.82);
+    box-shadow: 0 10px 26px -16px rgba(10, 48, 46, 0.25);
+    backdrop-filter: blur(12px);
+  }
+
+  .catalogue-counter-box strong {
+    color: var(--color-teal);
+    font: 700 1.85rem/1 var(--font-serif);
+  }
+
+  .catalogue-counter-box span {
+    color: var(--color-charcoal-muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+
+  .catalogue-filter-panel {
+    display: grid;
+    gap: 0.85rem;
+    margin-bottom: 2.25rem;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid rgba(20, 91, 89, 0.22);
+    border-radius: 1.25rem;
+    background: rgba(255, 252, 245, 0.78);
+    box-shadow:
+      0 18px 40px -24px rgba(10, 48, 46, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px) saturate(125%);
+  }
+
+  .tier-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .tier-tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(20, 91, 89, 0.2);
+    border-radius: 0.8rem;
+    background: rgba(255, 252, 245, 0.85);
+    color: var(--color-forest-deep);
+    font: 650 0.78rem/1.2 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .tier-tab:hover {
+    border-color: var(--color-teal);
+    background: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .tier-tab.active {
+    border-color: var(--color-teal);
+    background: var(--color-teal);
+    color: var(--color-ivory);
+    box-shadow: 0 8px 20px -10px rgba(10, 48, 46, 0.45);
+  }
+
+  .tier-tab small {
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.12);
+    color: var(--color-teal);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .tier-tab.active small {
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .catalogue-controls-row {
+    display: grid;
+    grid-template-columns: minmax(16rem, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .catalogue-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .cat-search-icon {
+    position: absolute;
+    left: 0.9rem;
+    color: var(--color-teal);
+    pointer-events: none;
+  }
+
+  .catalogue-search {
+    width: 100%;
+    min-height: 2.65rem;
+    padding: 0.5rem 0.9rem 0.5rem 2.45rem;
+    border: 1px solid rgba(20, 91, 89, 0.24);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-forest-deep);
+    font: 500 0.82rem/1.3 var(--font-sans);
+  }
+
+  .catalogue-category-pills,
+  .catalogue-region-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cat-theme-pill,
+  .cat-region-pill {
+    min-height: 2.15rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(20, 91, 89, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.85);
+    color: var(--color-forest-deep);
+    font: 600 0.72rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .cat-theme-pill:hover,
+  .cat-region-pill:hover {
+    border-color: var(--color-teal);
+    background: #ffffff;
+  }
+
+  .cat-theme-pill.active {
+    border-color: var(--color-amber);
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .cat-region-pill.active {
+    border-color: var(--color-forest-deep);
+    background: var(--color-forest-deep);
+    color: var(--color-ivory);
+  }
+
+  .catalogue-empty {
+    padding: 2.5rem 1.5rem;
+    border: 1px dashed rgba(20, 91, 89, 0.35);
+    border-radius: 1.15rem;
+    background: rgba(255, 252, 245, 0.75);
+    text-align: center;
+  }
+
+  .catalogue-empty p {
+    margin: 0 auto 0.75rem;
+    color: var(--color-charcoal-muted);
+  }
+
+  .catalogue-reset-btn {
+    min-height: 2.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-teal);
+    border-radius: 999px;
+    background: var(--color-teal);
+    color: var(--color-ivory);
+    font: 650 0.78rem var(--font-sans);
+    cursor: pointer;
+  }
+
+  .regional-sections {
+    display: grid;
+    gap: 2.75rem;
+  }
+
+  .region-cluster-section {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .region-banner {
+    position: relative;
+    min-height: 11.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(20, 91, 89, 0.28);
+    border-radius: 1.25rem;
+    background: var(--color-forest-deep);
+    color: var(--color-ivory);
+    box-shadow: 0 18px 38px -22px rgba(7, 48, 46, 0.38);
+    isolation: isolate;
+  }
+
+  .region-banner-img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    filter: saturate(0.85) brightness(0.82);
+  }
+
+  .region-banner-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(7, 36, 33, 0.92) 0%, rgba(7, 36, 33, 0.72) 55%, rgba(7, 36, 33, 0.48) 100%);
+  }
+
+  .region-banner-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .region-kicker {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--color-gold-light);
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .region-banner-copy h3 {
+    margin: 0;
+    color: #fffdf7;
+    font: 600 clamp(1.65rem, 2.8vw, 2.35rem)/1.05 var(--font-serif);
+  }
+
+  .region-banner-copy p {
+    max-width: 52ch;
+    margin: 0.4rem 0 0;
+    color: rgba(246, 241, 231, 0.86);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .region-hub-pills {
+    display: grid;
+    gap: 0.38rem;
+  }
+
+  .hub-pills-label {
+    color: var(--color-gold-light);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hub-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .region-hub-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 2rem;
+    padding: 0.32rem 0.72rem;
+    border: 1px solid rgba(246, 241, 231, 0.38);
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.68);
+    color: #fffdf7;
+    font: 650 0.72rem/1 var(--font-sans);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .region-hub-btn:hover {
+    border-color: var(--color-gold-light);
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+    transform: translateY(-1px);
+  }
+
+  .catalogue-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .catalogue-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.1rem 1.15rem 1rem;
+    border: 1px solid rgba(20, 91, 89, 0.18);
+    border-top: 3px solid var(--color-teal);
+    border-radius: 1.05rem;
+    background: rgba(255, 252, 245, 0.82);
+    box-shadow:
+      0 12px 28px -18px rgba(10, 48, 46, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px) saturate(118%);
+    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .catalogue-card.tier-extended {
+    border-top-color: var(--color-amber);
+  }
+
+  .catalogue-card.tier-attraction {
+    border-top-color: #3b7c6e;
+  }
+
+  .catalogue-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(20, 91, 89, 0.38);
+    box-shadow:
+      0 18px 36px -16px rgba(10, 48, 46, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  }
+
+  .card-top-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .tier-pill {
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    font: 700 0.61rem/1.1 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tier-pill-core {
+    background: rgba(20, 91, 89, 0.12);
+    color: var(--color-teal);
+  }
+
+  .tier-pill-extended {
+    background: rgba(217, 154, 69, 0.2);
+    color: #8c5612;
+  }
+
+  .tier-pill-attraction {
+    background: rgba(15, 76, 73, 0.1);
+    color: var(--color-forest-deep);
+  }
+
+  .cat-pill {
+    color: var(--color-charcoal-muted);
+    font: 650 0.64rem/1.1 var(--font-sans);
+  }
+
+  .card-province {
+    margin: 0 0 0.2rem;
+    color: var(--color-teal);
+    font: 700 0.64rem/1.3 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    margin: 0 0 0.45rem;
+    color: var(--color-forest-deep);
+    font: 600 clamp(1.25rem, 1.7vw, 1.48rem)/1.12 var(--font-serif);
+  }
+
+  .card-description {
+    margin: 0 0 0.75rem;
+    color: var(--color-charcoal);
+    font-size: 0.79rem;
+    line-height: 1.58;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.32rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .card-tag {
+    padding: 0.22rem 0.52rem;
+    border: 1px solid rgba(20, 91, 89, 0.15);
+    border-radius: 0.42rem;
+    background: rgba(232, 239, 235, 0.62);
+    color: var(--color-forest-deep);
+    font: 600 0.65rem/1.15 var(--font-sans);
+  }
+
+  .card-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(20, 91, 89, 0.12);
+  }
+
+  .hub-jump-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.6rem;
+    border: 1px solid rgba(20, 91, 89, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.9);
+    color: var(--color-teal);
+    font: 600 0.67rem/1.1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+
+  .hub-jump-btn:hover {
+    border-color: var(--color-teal);
+    background: var(--color-teal);
+    color: var(--color-ivory);
+  }
+
+  .card-plan-link {
+    color: var(--color-forest-deep);
+    font: 700 0.7rem var(--font-sans);
+    text-decoration: none;
+  }
+
+  .card-plan-link:hover {
+    color: var(--color-teal);
+  }
+
+  /* Dark liquid-glass theme */
+  .featured-showcase-section {
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(217, 154, 69, 0.08), transparent 36rem),
+      radial-gradient(ellipse at 85% 90%, rgba(11, 79, 75, 0.5), transparent 40rem),
+      linear-gradient(180deg, #031514 0%, #052321 50%, #031514 100%);
+    border-color: rgba(233, 199, 121, 0.12);
+  }
+  .catalogue-section {
+    background:
+      radial-gradient(circle at 0% 15%, rgba(11, 79, 75, 0.38), transparent 34rem),
+      radial-gradient(circle at 100% 55%, rgba(217, 154, 69, 0.06), transparent 36rem),
+      linear-gradient(180deg, #031514 0%, #041b19 50%, #020f0e 100%);
+    color: var(--color-ivory);
+  }
+  .section-kicker-dark { color: var(--color-gold-light); }
+  .catalogue-intro h2 { color: #fbf8f0; }
+  .catalogue-lead { color: rgba(246, 241, 231, 0.74); }
+  .catalogue-counter-box,
+  .catalogue-filter-panel,
+  .catalogue-empty {
+    border-color: rgba(233, 199, 121, 0.2);
+    background: linear-gradient(160deg, rgba(14, 76, 72, 0.36), rgba(4, 28, 26, 0.58));
+    box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px) saturate(135%);
+  }
+  .catalogue-counter-box strong { color: var(--color-gold-light); }
+  .catalogue-counter-box span,
+  .catalogue-empty p { color: rgba(246, 241, 231, 0.74); }
+  .tier-tab,
+  .cat-theme-pill,
+  .cat-region-pill {
+    border-color: rgba(246, 241, 231, 0.16);
+    background: rgba(246, 241, 231, 0.06);
+    color: var(--color-ivory);
+  }
+  .tier-tab:hover,
+  .cat-theme-pill:hover,
+  .cat-region-pill:hover { border-color: rgba(233, 199, 121, 0.6); background: rgba(246, 241, 231, 0.12); }
+  .tier-tab.active { border-color: rgba(233, 199, 121, 0.8); background: rgba(217, 154, 69, 0.22); color: #fff; }
+  .tier-tab small { background: rgba(246, 241, 231, 0.12); color: var(--color-gold-light); }
+  .tier-tab.active small { background: var(--color-amber); color: #1b1b1b; }
+  .cat-search-icon { color: var(--color-gold-light); }
+  .catalogue-search {
+    border-color: rgba(246, 241, 231, 0.16);
+    background: rgba(2, 20, 19, 0.5);
+    color: var(--color-ivory);
+  }
+  .catalogue-search::placeholder { color: rgba(246, 241, 231, 0.5); }
+  .cat-theme-pill.active { border-color: var(--color-amber); background: var(--color-amber); color: #1b1b1b; }
+  .cat-region-pill.active { border-color: rgba(233, 199, 121, 0.8); background: rgba(11, 79, 75, 0.9); color: #fff; }
+  .catalogue-reset-btn { border-color: rgba(233, 199, 121, 0.6); background: rgba(217, 154, 69, 0.2); color: var(--color-gold-light); }
+
+  /* Fixed landscape photos, aligned text */
+  .reise-featured-card,
+  .catalogue-card {
+    border: 1px solid rgba(233, 199, 121, 0.16);
+    background: linear-gradient(165deg, rgba(14, 76, 72, 0.34), rgba(3, 24, 22, 0.62));
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px) saturate(130%);
+  }
+  .reise-card-media { height: auto; aspect-ratio: 3 / 2; flex: 0 0 auto; }
+  .reise-card-img { object-position: center 45%; filter: saturate(1) brightness(0.95); }
+  .reise-card-why {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(3 * 1.55em);
+  }
+  .reise-card-body { justify-content: flex-start; }
+  .reise-card-footer { margin-top: auto; }
+  .reise-card-chips { min-height: 3.1rem; align-content: flex-start; }
+  .catalogue-card { border-top: 3px solid var(--color-teal); }
+  .catalogue-card.tier-extended { border-top-color: var(--color-amber); }
+  .catalogue-card.tier-attraction { border-top-color: #3b8f80; }
+  .catalogue-card:hover { border-color: rgba(233, 199, 121, 0.5); box-shadow: 0 22px 44px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+  .tier-pill-core { background: rgba(11, 79, 75, 0.7); color: #bfe9e3; }
+  .tier-pill-extended { background: rgba(217, 154, 69, 0.2); color: var(--color-gold-light); }
+  .tier-pill-attraction { background: rgba(246, 241, 231, 0.1); color: var(--color-ivory); }
+  .cat-pill { color: rgba(246, 241, 231, 0.6); }
+  .card-province { color: var(--color-gold-light); }
+  .card-title { color: #fbf8f0; }
+  .card-description { color: rgba(246, 241, 231, 0.82); }
+  .card-tag { border-color: rgba(246, 241, 231, 0.14); background: rgba(246, 241, 231, 0.07); color: rgba(246, 241, 231, 0.9); }
+  .card-bottom-bar { border-top-color: rgba(246, 241, 231, 0.12); }
+  .hub-jump-btn { border-color: rgba(233, 199, 121, 0.4); background: rgba(217, 154, 69, 0.12); color: var(--color-gold-light); }
+  .hub-jump-btn:hover { border-color: var(--color-amber); background: var(--color-amber); color: #1b1b1b; }
+  .card-plan-link { color: var(--color-ivory); }
+  .card-plan-link:hover { color: var(--color-gold-light); }
+  .region-banner { border-color: rgba(233, 199, 121, 0.2); }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 64rem) {
+    .featured-cards-grid,
+    .catalogue-cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tier-tabs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalogue-controls-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .featured-cards-grid,
+    .catalogue-cards-grid,
+    .tier-tabs {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
