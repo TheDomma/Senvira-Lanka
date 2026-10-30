@@ -1,5 +1,5 @@
 ---
-import type { Destination, DestinationRegion } from '../../data/destinations';
+import { destinationCategories, type Destination, type DestinationRegion } from '../../data/destinations';
 
 interface Props {
   destinations: Destination[];
@@ -8,115 +8,557 @@ interface Props {
 }
 
 const { destinations, regions, selectedId } = Astro.props;
-const regionNames = new Map(regions.map((region) => [region.id, region.name]));
+const regionNames = new Map(regions.map((region) => [region.id, region.shortName || region.name]));
+
+const leftLabelIds = new Set(['anuradhapura', 'dambulla', 'colombo', 'bentota', 'galle', 'nuwara-eliya']);
+const aboveLabelIds = new Set(['sigiriya', 'kandy', 'mirissa']);
 ---
 
-<section class="destination-map" aria-label="Illustrated map of Sri Lanka">
-  <div class="map-canvas">
-    <svg class="island-art" viewBox="0 0 100 110" role="img" aria-labelledby="map-title map-description" preserveAspectRatio="none">
-      <title id="map-title">Sri Lanka destination map</title>
-      <desc id="map-description">A stylized island illustration with softly shaded destination regions. Locations are approximate and for browsing only.</desc>
-      <defs>
-        <clipPath id="sri-lanka-island-clip">
-          <path d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" />
-        </clipPath>
-      </defs>
-      <path class="island-shadow" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" transform="translate(1.5 1.5)" />
-      <g clip-path="url(#sri-lanka-island-clip)" class="region-washes" aria-hidden="true">
-        <path class="wash north" d="M30 0h45v25H30z" />
-        <path class="wash cultural" d="M25 20h55v25H25z" />
-        <path class="wash east" d="M70 20h25v40H70z" />
-        <path class="wash hills" d="M35 42h38v40H35z" />
-        <path class="wash west" d="M10 52h27v36H10z" />
-        <path class="wash south" d="M18 82h60v30H18z" />
-        <path class="wash southeast" d="M65 69h35v35H65z" />
-      </g>
-      <path class="island-outline" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" />
-      <path class="terrain-line" d="M37 48c8-5 16-4 23 1s10 11 17 10M35 61c9-4 15-2 20 3s10 10 18 7M38 77c7-3 13-2 18 3s10 6 16 2" />
-    </svg>
+<section class="destination-map" aria-label="Illustrated map of Sri Lanka" data-sri-lanka-map>
+  <div class="map-header-bar">
+    <div class="map-title-group">
+      <span class="map-eyebrow">Interactive Island Guide</span>
+      <h2 id="map-heading">Sri Lanka, at a glance</h2>
+    </div>
+    <button type="button" class="map-reset-btn" data-map-reset aria-label="Reset map filters and selection">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Reset Island</span>
+    </button>
+  </div>
 
-    <div class="map-markers" aria-label="Destinations">
-      {destinations.map((destination, index) => (
-        <button
-          class:list={['map-marker', `label-${destination.id}`, { active: destination.id === selectedId, 'label-left': index % 3 === 1, 'label-above': index % 3 === 2 }]}
-          type="button"
-          style={`--x:${destination.coordinates.x}%;--y:${destination.coordinates.y}%;--marker-order:${index}`}
-          data-destination-id={destination.id}
-          aria-label={`Select ${destination.name}, ${regionNames.get(destination.regionId) ?? 'Sri Lanka'}`}
-          aria-pressed={destination.id === selectedId}
-          title={`${destination.name} — ${regionNames.get(destination.regionId) ?? 'Sri Lanka'}`}
-        >
-          <span class="marker-dot" aria-hidden="true"></span>
-          <span class="marker-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-          <span class="marker-label">{destination.name}</span>
-        </button>
-      ))}
+  <div class="map-stage">
+    <div class="map-canvas">
+      <svg class="island-art" viewBox="0 0 100 110" role="img" aria-labelledby="map-title map-description" preserveAspectRatio="xMidYMid meet">
+        <title id="map-title">Sri Lanka destination map</title>
+        <desc id="map-description">A stylized island illustration with softly shaded destination regions. Locations are approximate and for browsing only.</desc>
+        <defs>
+          <radialGradient id="ocean-glow" cx="50%" cy="48%" r="58%">
+            <stop offset="0%" stop-color="#1d6b67" stop-opacity="0.22" />
+            <stop offset="65%" stop-color="#0f4c49" stop-opacity="0.08" />
+            <stop offset="100%" stop-color="#0a302e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="island-base-grad" x1="20%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stop-color="#1e6a64" />
+            <stop offset="52%" stop-color="#164e49" />
+            <stop offset="100%" stop-color="#103c38" />
+          </linearGradient>
+          <clipPath id="sri-lanka-island-clip">
+            <path d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" />
+          </clipPath>
+        </defs>
+
+        <ellipse cx="53" cy="54" rx="44" ry="50" fill="url(#ocean-glow)" aria-hidden="true" />
+        <path class="coast-ring" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" transform="translate(0.5 0.5) scale(1.03)" aria-hidden="true" />
+        <path class="island-shadow" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" transform="translate(1.6 1.8)" />
+        <path class="island-base" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" />
+
+        <g clip-path="url(#sri-lanka-island-clip)" class="region-washes" aria-hidden="true">
+          <path class="wash north" d="M30 0h45v23H30z" />
+          <path class="wash cultural" d="M25 19h52v25H25z" />
+          <path class="wash east" d="M68 20h26v42H68z" />
+          <path class="wash hills" d="M36 42h35v38H36z" />
+          <path class="wash west" d="M10 50h28v36H10z" />
+          <path class="wash south" d="M18 82h56v28H18z" />
+          <path class="wash southeast" d="M64 68h34v36H64z" />
+        </g>
+
+        <path class="island-outline" d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z" />
+        <path class="terrain-line" d="M37 48c8-5 16-4 23 1s10 11 17 10M35 61c9-4 15-2 20 3s10 10 18 7M38 77c7-3 13-2 18 3s10 6 16 2" />
+      </svg>
+
+      <div class="map-markers" aria-label="Featured destinations on the map">
+        {destinations.map((destination, index) => (
+          <button
+            class:list={[
+              'map-marker',
+              `label-${destination.id}`,
+              `cat-${destination.categoryId}`,
+              {
+                active: destination.id === selectedId,
+                'label-left': leftLabelIds.has(destination.id),
+                'label-above': aboveLabelIds.has(destination.id),
+              },
+            ]}
+            type="button"
+            style={`--x:${destination.coordinates.x}%;--y:${destination.coordinates.y}%;--marker-order:${index}`}
+            data-destination-id={destination.id}
+            data-marker-region={destination.regionId}
+            data-marker-category={destination.categoryId}
+            aria-label={`Select ${destination.shortName}, ${regionNames.get(destination.regionId) ?? 'Sri Lanka'}`}
+            aria-pressed={destination.id === selectedId}
+            title={`${destination.name} · ${regionNames.get(destination.regionId) ?? 'Sri Lanka'}`}
+          >
+            <span class="marker-dot" aria-hidden="true"></span>
+            <span class="marker-number" aria-hidden="true">{destination.number}</span>
+            <span class="marker-label">{destination.shortName}</span>
+          </button>
+        ))}
+      </div>
     </div>
   </div>
-  <p class="map-caption">A little guide to the island <span>·</span> locations are illustrative</p>
+
+  <div class="map-legend-bar" role="group" aria-label="Filter map markers by category">
+    <button type="button" class="legend-pill active" data-map-category="all" aria-pressed="true">
+      <span class="legend-dot dot-all" aria-hidden="true"></span>
+      <span>All 15</span>
+    </button>
+    {destinationCategories.map((cat) => (
+      <button type="button" class="legend-pill" data-map-category={cat.id} aria-pressed="false">
+        <span class={`legend-dot dot-${cat.id}`} aria-hidden="true"></span>
+        <span>{cat.shortLabel}</span>
+      </button>
+    ))}
+  </div>
+
+  <p class="map-caption">15 featured island hubs <span>·</span> locations are illustrative</p>
 </section>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.destination-map .map-marker').forEach((marker) => {
-    marker.addEventListener('click', () => {
-      const id = marker.dataset.destinationId;
-      if (id) marker.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id } }));
+  document.querySelectorAll<HTMLElement>('[data-sri-lanka-map]').forEach((mapSection) => {
+    const markers = [...mapSection.querySelectorAll<HTMLButtonElement>('.map-marker')];
+    const legendButtons = [...mapSection.querySelectorAll<HTMLButtonElement>('[data-map-category]')];
+    const resetBtn = mapSection.querySelector<HTMLButtonElement>('[data-map-reset]');
+
+    markers.forEach((marker) => {
+      marker.addEventListener('click', () => {
+        const id = marker.dataset.destinationId;
+        if (id) {
+          marker.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id } }));
+        }
+      });
+    });
+
+    legendButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.mapCategory ?? 'all';
+        legendButtons.forEach((btn) => {
+          const isSelected = btn === button;
+          btn.classList.toggle('active', isSelected);
+          btn.setAttribute('aria-pressed', String(isSelected));
+        });
+        mapSection.dispatchEvent(
+          new CustomEvent('map-category-filter', { bubbles: true, detail: { category } }),
+        );
+      });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      legendButtons.forEach((btn) => {
+        const isAll = btn.dataset.mapCategory === 'all';
+        btn.classList.toggle('active', isAll);
+        btn.setAttribute('aria-pressed', String(isAll));
+      });
+      mapSection.dispatchEvent(new CustomEvent('map-reset', { bubbles: true }));
     });
   });
 </script>
 
 <style>
-  .destination-map { width: 100%; max-width: 30rem; margin-inline: auto; color: var(--color-forest-deep, #183d36); }
-  .map-canvas { position: relative; width: 100%; aspect-ratio: 0.78; isolation: isolate; }
-  .island-art, .map-markers { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .island-art { overflow: visible; }
-  .island-shadow { fill: rgba(45, 73, 55, .09); }
-  .island-outline { fill: #e9eddf; stroke: #496c52; stroke-width: 1.15; stroke-linejoin: round; }
-  .region-washes { opacity: .65; }
-  .wash { opacity: .55; }
-  .wash.north { fill: #d8c89d; }
-  .wash.cultural { fill: #c8d6a9; }
-  .wash.east { fill: #d9e5d0; }
-  .wash.hills { fill: #9eb78c; }
-  .wash.west { fill: #d5e5dc; }
-  .wash.south { fill: #d9c9a5; }
-  .wash.southeast { fill: #c3d0a0; }
-  .terrain-line { fill: none; stroke: #79906c; stroke-width: .65; stroke-linecap: round; opacity: .45; }
-  .map-markers { pointer-events: none; }
-  .map-marker { position: absolute; top: var(--y); left: var(--x); z-index: calc(1 + var(--marker-order)); display: inline-flex; align-items: center; gap: .38rem; min-height: 2rem; padding: .2rem .46rem .2rem .28rem; border: 1px solid transparent; border-radius: 999px; color: #213d34; background: rgba(250, 249, 241, .92); box-shadow: 0 2px 8px rgba(22, 49, 38, .12); font: 600 clamp(.62rem, 1.3vw, .76rem)/1.1 var(--font-sans, system-ui, sans-serif); white-space: nowrap; cursor: pointer; pointer-events: auto; transform: translate(-50%, -50%); transition: background-color .18s ease, color .18s ease, box-shadow .18s ease, border-color .18s ease; }
-  .map-marker.label-left { flex-direction: row-reverse; transform: translate(calc(-100% + .18rem), -50%); }
-  .map-marker.label-above { transform: translate(-50%, calc(-100% + .14rem)); }
-  .marker-number { display: none; }
-  .marker-dot { width: .55rem; height: .55rem; flex: 0 0 .55rem; border: 2px solid #f8f7ef; border-radius: 50%; background: #66875d; box-shadow: 0 0 0 1px #66875d; }
-  .map-marker:hover, .map-marker:focus-visible { z-index: 40; border-color: #67845a; background: #fffdf4; box-shadow: 0 4px 12px rgba(22, 49, 38, .2); outline: none; }
-  .map-marker:focus-visible { outline: 2px solid #254c3d; outline-offset: 2px; }
-  .map-marker.active { color: #fffdf4; background: #284f41; border-color: #284f41; box-shadow: 0 4px 12px rgba(22, 49, 38, .24); }
-  .map-marker.active .marker-dot { background: #e1c78c; box-shadow: 0 0 0 1px #e1c78c; }
-  .map-caption { margin: .15rem 0 0; text-align: center; color: #65766a; font: 500 .72rem/1.4 var(--font-sans, system-ui, sans-serif); letter-spacing: .02em; }
-  .map-caption span { padding-inline: .2rem; color: #b39454; }
-  @media (max-width: 40rem) {
-    .destination-map { max-width: 25rem; }
-    .map-marker { width: 2.75rem; height: 2.75rem; min-height: 2.75rem; justify-content: center; gap: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; box-shadow: none; font-size: .75rem; transform: translate(-50%, -50%); }
-    .map-marker.label-left, .map-marker.label-above { flex-direction: row; transform: translate(-50%, -50%) translate(var(--fan-x, 0px), var(--fan-y, 0px)); }
-    .map-marker:hover, .map-marker:focus-visible { border-color: transparent; background: rgba(250, 249, 241, .55); box-shadow: none; }
-    .map-marker.active { border-color: transparent; background: transparent; box-shadow: none; }
-    /* On phones, numbered pins keep all visible content inside the 44px button. */
-    .marker-dot { position: absolute; inset: 50% auto auto 50%; z-index: 1; width: 1.45rem; height: 1.45rem; flex: none; border: 2px solid #f8f7ef; border-radius: 50%; background: #66875d; box-shadow: 0 0 0 2px rgba(102, 135, 93, .32), 0 1px 4px rgba(22, 49, 38, .3); transform: translate(-50%, -50%); }
-    .marker-number { position: relative; z-index: 2; display: inline; color: white; font-size: .62rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
-    .marker-label { display: none; }
-    .map-marker.active .marker-dot { background: #284f41; box-shadow: 0 0 0 3px #e1c78c, 0 1px 5px rgba(22, 49, 38, .35); }
-    .map-marker::before { content: ''; position: absolute; top: 50%; left: 50%; z-index: 0; width: var(--leader-length, 0px); height: 1px; background: rgba(61, 91, 66, .72); transform: rotate(var(--leader-angle, 0deg)); transform-origin: left center; pointer-events: none; }
-    /* Fan crowded clusters into distinct 44px targets; leader lines point back to normalized locations. */
-    .label-anuradhapura { --fan-x: -14px; --fan-y: -7px; --leader-length: 16px; --leader-angle: 27deg; }
-    .label-sigiriya { --fan-x: -4px; --fan-y: -40px; --leader-length: 40px; --leader-angle: 84deg; }
-    .label-polonnaruwa { --fan-x: 20px; --fan-y: 6px; --leader-length: 21px; --leader-angle: 197deg; }
-    .label-trincomalee { --fan-x: 35px; --fan-y: -2px; --leader-length: 35px; --leader-angle: 177deg; }
-    .label-nuwara-eliya { --fan-x: -21px; --leader-length: 21px; --leader-angle: 0deg; }
-    .label-ella { --fan-x: 10px; --leader-length: 10px; --leader-angle: 180deg; }
-    .label-galle { --fan-y: 8px; --leader-length: 8px; --leader-angle: -90deg; }
-    .label-mirissa { --fan-x: 5px; --leader-length: 5px; --leader-angle: 180deg; }
-    .label-tangalle { --fan-x: 12px; --leader-length: 12px; --leader-angle: 180deg; }
-    .label-yala { --fan-x: 8px; --leader-length: 8px; --leader-angle: 180deg; }
+  .destination-map {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    color: var(--color-ivory);
   }
-  @media (prefers-reduced-motion: reduce) { .map-marker { transition: none; } }
+
+  .map-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .map-eyebrow {
+    display: block;
+    margin: 0 0 0.1rem;
+    color: var(--color-gold-light);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .map-title-group h2 {
+    margin: 0;
+    color: var(--color-ivory);
+    font: 500 clamp(1.35rem, 2vw, 1.75rem)/1.05 var(--font-serif);
+    letter-spacing: -0.02em;
+  }
+
+  .map-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 2.15rem;
+    padding: 0.35rem 0.72rem;
+    border: 1px solid rgba(246, 241, 231, 0.24);
+    border-radius: 999px;
+    background: rgba(246, 241, 231, 0.1);
+    color: var(--color-ivory);
+    font: 600 0.7rem/1 var(--font-sans);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .map-reset-btn:hover {
+    background: rgba(217, 154, 69, 0.24);
+    border-color: var(--color-gold-light);
+    transform: translateY(-1px);
+  }
+
+  .map-stage {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border: 1px solid rgba(233, 199, 121, 0.14);
+    border-radius: 1.05rem;
+    background:
+      radial-gradient(circle at 50% 44%, rgba(14, 82, 78, 0.55), rgba(3, 22, 21, 0.92) 80%),
+      linear-gradient(165deg, rgba(8, 52, 49, 0.8), rgba(2, 16, 15, 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  .map-canvas {
+    position: relative;
+    width: 100%;
+    max-width: 27rem;
+    aspect-ratio: 0.82;
+    margin-inline: auto;
+    isolation: isolate;
+  }
+
+  .island-art,
+  .map-markers {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .island-art {
+    overflow: visible;
+  }
+
+  .coast-ring {
+    fill: none;
+    stroke: rgba(233, 199, 121, 0.2);
+    stroke-width: 0.55;
+    stroke-dasharray: 2 2;
+  }
+
+  .island-shadow {
+    fill: rgba(4, 20, 18, 0.38);
+  }
+
+  .island-base {
+    fill: url(#island-base-grad);
+  }
+
+  .island-outline {
+    fill: none;
+    stroke: #e9c779;
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+  }
+
+  .region-washes {
+    opacity: 0.78;
+  }
+
+  .wash {
+    opacity: 0.65;
+  }
+
+  .wash.north { fill: #8a6a35; }
+  .wash.cultural { fill: #3f7a4f; }
+  .wash.east { fill: #1f7c7a; }
+  .wash.hills { fill: #2f8a63; }
+  .wash.west { fill: #1c6f73; }
+  .wash.south { fill: #9a7a3d; }
+  .wash.southeast { fill: #5a8a45; }
+
+  .terrain-line {
+    fill: none;
+    stroke: #e9c779;
+    stroke-width: 0.65;
+    stroke-linecap: round;
+    opacity: 0.28;
+  }
+
+  .map-markers {
+    pointer-events: none;
+  }
+
+  .map-marker {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    z-index: calc(2 + var(--marker-order));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    min-height: 1.75rem;
+    padding: 0.16rem 0.48rem 0.16rem 0.24rem;
+    border: 1px solid rgba(233, 199, 121, 0.32);
+    border-radius: 999px;
+    color: #f6f1e7;
+    background: rgba(4, 30, 28, 0.78);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(5, 24, 22, 0.24);
+    font: 650 clamp(0.6rem, 0.95vw, 0.7rem)/1.1 var(--font-sans);
+    white-space: nowrap;
+    cursor: pointer;
+    pointer-events: auto;
+    transform: translate(-12%, -50%);
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      box-shadow 0.18s ease,
+      border-color 0.18s ease,
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .map-marker.label-left {
+    flex-direction: row-reverse;
+    padding: 0.16rem 0.24rem 0.16rem 0.48rem;
+    transform: translate(-88%, -50%);
+  }
+
+  .map-marker.label-above {
+    transform: translate(-50%, -92%);
+  }
+
+  .map-marker.is-filtered-out {
+    opacity: 0.26;
+    filter: grayscale(0.5);
+  }
+
+  .marker-number {
+    display: none;
+  }
+
+  .marker-dot {
+    width: 0.56rem;
+    height: 0.56rem;
+    flex: 0 0 0.56rem;
+    border: 1.5px solid #fffdf7;
+    border-radius: 50%;
+    background: #d99a45;
+    box-shadow: 0 0 0 1px rgba(20, 91, 89, 0.35);
+  }
+
+  .cat-heritage .marker-dot,
+  .dot-heritage { background: #d98238; }
+  .cat-highlands .marker-dot,
+  .dot-highlands { background: #2d8a61; }
+  .cat-beaches .marker-dot,
+  .dot-beaches { background: #1f889f; }
+  .cat-wildlife .marker-dot,
+  .dot-wildlife { background: #5a8f3d; }
+  .cat-cities .marker-dot,
+  .dot-cities { background: #7c58b3; }
+  .dot-all { background: linear-gradient(135deg, #d99a45, #2d8a61); }
+
+  .map-marker:hover,
+  .map-marker:focus-visible {
+    z-index: 45;
+    border-color: var(--color-amber);
+    background: rgba(8, 56, 52, 0.95);
+    box-shadow: 0 6px 16px rgba(5, 24, 22, 0.32);
+    outline: none;
+  }
+
+  .map-marker:focus-visible {
+    outline: 2px solid var(--color-gold-light);
+    outline-offset: 2px;
+  }
+
+  .map-marker.active {
+    z-index: 50;
+    color: #fffdf7;
+    background: linear-gradient(135deg, #d99a45, #b87726);
+    border-color: #fbe3b5;
+    box-shadow: 0 0 0 3px rgba(217, 154, 69, 0.32), 0 8px 20px rgba(6, 26, 24, 0.42);
+  }
+
+  .map-marker.active .marker-dot {
+    background: #0a302e;
+    border-color: #fffdf7;
+    box-shadow: 0 0 0 1px #0a302e;
+  }
+
+  .map-legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    padding: 0.42rem 0.5rem;
+    border: 1px solid rgba(246, 241, 231, 0.16);
+    border-radius: 0.85rem;
+    background: rgba(246, 241, 231, 0.08);
+    backdrop-filter: blur(12px);
+  }
+
+  .legend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    min-height: 1.85rem;
+    padding: 0.25rem 0.58rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: rgba(255, 252, 245, 0.08);
+    color: rgba(246, 241, 231, 0.86);
+    font: 600 0.66rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .legend-pill:hover {
+    background: rgba(255, 252, 245, 0.16);
+    color: #ffffff;
+  }
+
+  .legend-pill.active {
+    border-color: rgba(233, 199, 121, 0.75);
+    background: rgba(217, 154, 69, 0.25);
+    color: #fffdf6;
+  }
+
+  .legend-dot {
+    width: 0.48rem;
+    height: 0.48rem;
+    border-radius: 50%;
+    flex: 0 0 0.48rem;
+  }
+
+  .map-caption {
+    margin: 0.45rem 0 0;
+    text-align: center;
+    color: rgba(246, 241, 231, 0.66);
+    font: 500 0.68rem/1.35 var(--font-sans);
+    letter-spacing: 0.02em;
+  }
+
+  .map-caption span {
+    padding-inline: 0.2rem;
+    color: var(--color-gold-light);
+  }
+
+  @media (max-width: 40rem) {
+    .map-canvas {
+      max-width: 19rem;
+    }
+
+    .map-marker {
+      width: 2.5rem;
+      height: 2.5rem;
+      min-height: 2.5rem;
+      justify-content: center;
+      gap: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: none;
+      font-size: 0.72rem;
+      transform: translate(-50%, -50%) translate(var(--fan-x, 0px), var(--fan-y, 0px));
+    }
+
+    .map-marker.label-left,
+    .map-marker.label-above {
+      flex-direction: row;
+      padding: 0;
+      transform: translate(-50%, -50%) translate(var(--fan-x, 0px), var(--fan-y, 0px));
+    }
+
+    .map-marker:hover,
+    .map-marker:focus-visible,
+    .map-marker.active {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .marker-dot {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      z-index: 1;
+      width: 1.45rem;
+      height: 1.45rem;
+      flex: none;
+      border: 2px solid #fffdf7;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(4, 20, 18, 0.45);
+      transform: translate(-50%, -50%);
+    }
+
+    .marker-number {
+      position: relative;
+      z-index: 2;
+      display: inline;
+      color: #ffffff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    }
+
+    .marker-label {
+      display: none;
+    }
+
+    .map-marker.active .marker-dot {
+      background: #d99a45;
+      box-shadow: 0 0 0 3px rgba(233, 199, 121, 0.7), 0 2px 8px rgba(4, 20, 18, 0.5);
+    }
+
+    .map-marker::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 0;
+      width: var(--leader-length, 0px);
+      height: 1px;
+      background: rgba(233, 199, 121, 0.7);
+      transform: rotate(var(--leader-angle, 0deg));
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .label-anuradhapura { --fan-x: -14px; --fan-y: -8px; --leader-length: 16px; --leader-angle: 30deg; }
+    .label-sigiriya { --fan-x: 4px; --fan-y: -26px; --leader-length: 26px; --leader-angle: 98deg; }
+    .label-polonnaruwa { --fan-x: 20px; --fan-y: 4px; --leader-length: 20px; --leader-angle: 191deg; }
+    .label-dambulla { --fan-x: -18px; --fan-y: 6px; --leader-length: 19px; --leader-angle: -18deg; }
+    .label-trincomalee { --fan-x: 26px; --fan-y: -4px; --leader-length: 26px; --leader-angle: 171deg; }
+    .label-nuwara-eliya { --fan-x: -18px; --leader-length: 18px; --leader-angle: 0deg; }
+    .label-ella { --fan-x: 12px; --leader-length: 12px; --leader-angle: 180deg; }
+    .label-galle { --fan-x: -10px; --fan-y: 8px; --leader-length: 13px; --leader-angle: -38deg; }
+    .label-mirissa { --fan-y: 12px; --leader-length: 12px; --leader-angle: -90deg; }
+    .label-tangalle { --fan-x: 14px; --fan-y: 6px; --leader-length: 15px; --leader-angle: 203deg; }
+    .label-yala { --fan-x: 10px; --leader-length: 10px; --leader-angle: 180deg; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .map-marker,
+    .map-reset-btn,
+    .legend-pill {
+      transition: none;
+    }
+  }
 </style>

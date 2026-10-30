@@ -20,3 +20,14 @@ Each record has one locally stored real photograph. The images below are distinc
 | Yala | `destinations/directory-yala.avif` | Iakub Arifulin, [Pexels photo 11718270](https://www.pexels.com/photo/an-elephant-following-the-vehicle-11718270/) | Page identifies Yala National Park and marks photo free. [Pexels License](https://www.pexels.com/license/) permits free use on websites; credit not required. |
 
 Pexels allows free website use, including commercial websites, and does not require attribution. Its license prohibits implying endorsement and redistribution as a stock-photo service. The Wikimedia Commons file is licensed CC BY 3.0, requiring attribution, a license link, and an indication of modifications. These notes record the platform copyright license, not any separate property, trademark, privacy, or publicity clearances that could apply to depicted subjects.
+
+## Added photos (Wikimedia Commons)
+
+| Destination | Local asset | Photographer | Source page | License |
+| --- | --- | --- | --- | --- |
+| Polonnaruwa | `destinations/new-polonnaruwa.jpg` | Philip Nalangan | [Commons](https://commons.wikimedia.org/wiki/File:Gal_Vihara_Polonnaruwa_1.jpg) | CC BY 4.0 |
+| Dambulla | `destinations/new-dambulla.jpg` | Philip Nalangan | [Commons](https://commons.wikimedia.org/wiki/File:Buddha_Dambulla_3.jpg) | CC BY 4.0 |
+| Kandy | `destinations/new-kandy.jpg` | A.Savin | [Commons](https://commons.wikimedia.org/wiki/File:SL_Kandy_asv2020-01_img34_Sacred_Tooth_Temple.jpg) | Free Art License |
+| Ella | `destinations/new-ella.jpg` | Knthabrew | [Commons](https://commons.wikimedia.org/wiki/File:Nine_Arches_Bridge_in_Ella.jpg) | CC BY-SA 4.0 |
+| Galle | `destinations/new-galle.jpg` | Samal Nadeeshan | [Commons](https://commons.wikimedia.org/wiki/File:Lighthouse_Galle,_Sri_Lanka.jpg) | CC BY-SA 4.0 |
+| Jaffna | `destinations/new-jaffna.jpg` | Yercaud-elango | [Commons](https://commons.wikimedia.org/wiki/File:Kandaswamy_koil-2-nallur-jaffna-Sri_Lanka.jpg) | CC BY-SA 4.0 |
