@@ -76,10 +76,10 @@ For each destination, find a real, location-authentic photograph and record its 
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://images.pexels.com/photos/28838276/pexels-photo-28838276.jpeg
+- **Photographer / creator credit:** Aravindhan Sathiyanathan
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Pidurangala Rock
 
 ### 006. Dambadeniya
 
