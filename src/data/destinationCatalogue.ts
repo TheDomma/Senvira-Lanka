@@ -1,11 +1,19 @@
-export type CatalogueTier = 'core' | 'extended' | 'attraction';
-export type DestinationCategoryId = 'heritage' | 'highlands' | 'beaches' | 'wildlife' | 'cities';
+export type CatalogueTier = 'featured' | 'core' | 'extended' | 'attraction';
+export type DestinationCategoryId =
+  | 'heritage'
+  | 'highlands'
+  | 'beaches'
+  | 'wildlife'
+  | 'cities'
+  | 'waterfalls';
 
 export interface CatalogueEntry {
   id: string;
   name: string;
   tier: CatalogueTier;
-  tierLabel: 'Core Destination' | 'Hidden Gem' | 'Regional Attraction';
+  tierLabel: 'Featured Hub' | 'Core Destination' | 'Hidden Gem' | 'Regional Attraction';
+  /** Additional themes this entry should also appear under (e.g. a district capital that is also a beach town). */
+  alsoCategoryIds?: DestinationCategoryId[];
   regionId:
     | 'cultural-triangle'
     | 'hill-country'

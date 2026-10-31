@@ -15,13 +15,18 @@ import ellaNew from '../assets/images/destinations/new-ella.jpg';
 import galleNew from '../assets/images/destinations/new-galle.jpg';
 import jaffnaNew from '../assets/images/destinations/new-jaffna.jpg';
 import {
-  catalogueEntries,
+  catalogueEntries as baseCatalogueEntries,
   type CatalogueEntry,
   type CatalogueTier,
   type DestinationCategoryId,
 } from './destinationCatalogue';
+import {
+  alsoCityEntryIds,
+  extraCatalogueEntries,
+  waterfallEntryIds,
+} from './destinationCatalogueExtras';
 
-export { catalogueEntries, type CatalogueEntry, type CatalogueTier, type DestinationCategoryId };
+export { type CatalogueEntry, type CatalogueTier, type DestinationCategoryId };
 
 const pexelsLicense = 'Pexels License; this specific source page marks the photograph free to use.';
 
@@ -79,6 +84,11 @@ export const destinationCategories: DestinationCategory[] = [
   { id: 'beaches', label: 'Beaches & Coast', shortLabel: 'Beaches' },
   { id: 'wildlife', label: 'Wildlife & Nature', shortLabel: 'Wildlife' },
   { id: 'cities', label: 'Cities & Culture', shortLabel: 'Cities' },
+];
+
+export const catalogueThemes: DestinationCategory[] = [
+  ...destinationCategories,
+  { id: 'waterfalls', label: 'Waterfalls & Cascades', shortLabel: 'Waterfalls' },
 ];
 
 export const destinationRegions: DestinationRegion[] = [
@@ -552,4 +562,79 @@ export const destinations: Destination[] = [
       },
     ],
   },
+];
+
+const featuredHubAlsoCategories: Partial<Record<string, DestinationCategoryId[]>> = {
+  anuradhapura: ['cities'],
+  polonnaruwa: ['cities'],
+  dambulla: ['cities'],
+  kandy: ['cities', 'highlands'],
+  'nuwara-eliya': ['cities'],
+  ella: ['cities'],
+  colombo: ['beaches', 'heritage'],
+  galle: ['cities', 'beaches'],
+  tangalle: ['cities'],
+  trincomalee: ['cities', 'heritage'],
+  jaffna: ['cities'],
+};
+
+const regionClusterNameById: Record<string, string> = Object.fromEntries(
+  destinationRegions.map((r) => [r.id, r.name]),
+);
+
+const featuredCatalogueEntries: CatalogueEntry[] = destinations.map((d) => ({
+  id: d.id,
+  name: d.name,
+  tier: 'featured',
+  tierLabel: 'Featured Hub',
+  regionId: d.regionId as CatalogueEntry['regionId'],
+  regionCluster: regionClusterNameById[d.regionId] ?? d.regionId,
+  provinceArea: d.provinceArea,
+  categoryId: d.categoryId,
+  categoryLabel: d.badge,
+  alsoCategoryIds: featuredHubAlsoCategories[d.id],
+  description: d.whyFeatureIt,
+  tags: d.highlights.slice(0, 3),
+  hubId: d.id,
+  hubName: d.shortName,
+}));
+
+const normalizedBaseCatalogueEntries: CatalogueEntry[] = baseCatalogueEntries.map((entry) => {
+  if (waterfallEntryIds.has(entry.id)) {
+    const extraCats = new Set<DestinationCategoryId>([
+      ...(entry.alsoCategoryIds ?? []),
+      entry.categoryId,
+    ]);
+    extraCats.delete('waterfalls');
+    return {
+      ...entry,
+      categoryId: 'waterfalls',
+      categoryLabel: entry.categoryLabel.includes('Waterfall')
+        ? entry.categoryLabel
+        : 'Waterfall & Cascade',
+      alsoCategoryIds: [...extraCats],
+    };
+  }
+  if (alsoCityEntryIds.has(entry.id) && entry.categoryId !== 'cities') {
+    const extraCats = new Set<DestinationCategoryId>([
+      ...(entry.alsoCategoryIds ?? []),
+      'cities',
+    ]);
+    return {
+      ...entry,
+      alsoCategoryIds: [...extraCats],
+    };
+  }
+  return entry;
+});
+
+const existingIds = new Set([
+  ...featuredCatalogueEntries.map((e) => e.id),
+  ...normalizedBaseCatalogueEntries.map((e) => e.id),
+]);
+
+export const catalogueEntries: CatalogueEntry[] = [
+  ...featuredCatalogueEntries,
+  ...normalizedBaseCatalogueEntries,
+  ...extraCatalogueEntries.filter((e) => !existingIds.has(e.id)),
 ];
