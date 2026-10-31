@@ -36,7 +36,7 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Steep, mist-cooled mountain sanctuary preserving stone bridges, baths, and meditation pathways of an ancient forest monastery.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
+- **Image file/path:** `src\assets\images\destinations\ritigala.jpg`
 - **Image source page URL:** https://images.unsplash.com/photo-1665908384161-1c7898e7a024?q=80&w=1062&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** Gurth Bramall
 - **License / permission:** 
@@ -49,7 +49,7 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Ancient reservoir park famous for seasonal dry-season elephant congregations grazing on the receding tank grasslands.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
+- **Image file/path:** `src\assets\images\destinations\minneriya.jpg`
 - **Image source page URL:** https://images.pexels.com/photos/7015754/pexels-photo-7015754.jpeg
 - **Photographer / creator credit:** Inguaribile Viaggiatore
 - **License / permission:** 
@@ -62,7 +62,7 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Neighbouring elephant corridor and historic reservoir offering quieter dry-zone safaris and rich waterbird habitats.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
+- **Image file/path:** `src\assets\images\destinations\kaudulla.jpg`
 - **Image source page URL:** https://images.unsplash.com/photo-1584791097907-9b56344fa632?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** Taif Rahaman
 - **License / permission:** 
@@ -75,7 +75,7 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Ancient cave monastery and boulder scramble rewarded with an unobstructed panoramic view directly facing Sigiriya Lion Rock.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
+- **Image file/path:** `src\assets\images\destinations\pidurangala-rock.jpg`
 - **Image source page URL:** https://images.pexels.com/photos/28838276/pexels-photo-28838276.jpeg
 - **Photographer / creator credit:** Aravindhan Sathiyanathan
 - **License / permission:** 
@@ -88,11 +88,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Thirteenth-century royal citadel rock and two-storey Temple of the Tooth Relic complex in a peaceful rural landscape.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\dambadeniya.jpg\`
+- **Image source page URL:** https://images.unsplash.com/photo-1562386776-a3d099f2e824?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** K. P. D. Madhuka
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Dambadeniya
 
 ### 007. Yapahuwa Rock Fortress
 
@@ -101,11 +101,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Dramatic granite outcrop capital famous for its intricately carved monumental ornamental stone stairway and lion sculptures.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Yapahuwa.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/32548024/pexels-photo-32548024.jpeg
+- **Photographer / creator credit:** Samiru Sandeepa
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Yapahuwa Rock Fortress
 
 ### 008. Avukana Buddha Statue
 
@@ -114,11 +114,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Fifth-century 12-meter standing Buddha statue carved almost entirely free from a single granite cliff face with finely pleated robes.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\avukana.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/37278570/pexels-photo-37278570.jpeg
+- **Photographer / creator credit:** Thilina Alagiyawanna
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Avukana Buddha Statue
 
 ### 009. Kala Wewa
 
@@ -127,11 +127,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Monumental 5th-century twin reservoir built by King Dhatusena, showcasing ancient hydraulic engineering and sunset elephant sightings.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\kala-wewa.jpg`
+- **Image source page URL:** https://srilankamirror.com/news/spill-gates-of-kala-wewa-opened/
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Kala Wewa
 
 ### 010. Somawathiya National Park
 
@@ -140,11 +140,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Remote Mahaweli River delta floodplain combining marshland elephant habitats with the ancient sacred Somawathiya Chaitya.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Somawathiya National Park.jpg`
+- **Image source page URL:** https://national-parks.org/sri-lanka/somawathiya-national-park/
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Somawathiya National Park
 
 ### 011. Maduru Oya National Park
 
@@ -153,11 +153,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Off-the-beaten-path reservoir wilderness protecting dry-zone forests, ancient earthen sluices, and quiet wildlife tracks.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Maduru Oya National Park.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/38147406/pexels-photo-38147406.jpeg
+- **Photographer / creator credit:** Samiru Sandeepa
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Maduru Oya National Park
 
 ### 012. Royal Rock Temple, Kurunegala
 
@@ -166,11 +166,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Historic rock temple and summit viewpoint atop Ethagala (Elephant Rock) overlooking the former royal city of Kurunegala.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\ethagala.webp`
+- **Image source page URL:** https://cdn.lakpura.com/v/1600/c/c/d/2/a/ethagala-cd2a80d59d7d167eb00942dee72ffdb7.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Royal Rock Temple, Kurunegala
 
 ### 013. Jaya Sri Maha Bodhi
 
@@ -179,11 +179,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Planted in 288 BCE from a southern branch of the original Bodhi tree in India, making it the oldest historically documented tree on earth.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\jaya Sri Maha Bodhi.webp`
+- **Image source page URL:** https://lakpura.com/pages/jaya-sri-maha-bodhi?srsltid=AYCX9vInm7mg9GmWSQhsaxJkXb2wCSBJx5WiKPNcS1UsQ75I4V_u0io3
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Jaya Sri Maha Bodhi
 
 ### 014. Ruwanwelisaya
 
@@ -192,11 +192,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Iconic bubble-domed white stupa built by King Dutugemunu in 140 BCE, encircled by a frieze of hundreds of sculpted stone elephants.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
+- **Image file/path:** `src\assets\images\destinations\anuradhapura.jpg`
 - **Image source page URL:** 
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Ruwanwelisaya
 
 ### 015. Jetavanaramaya
 
@@ -205,11 +205,12 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Once one of the tallest structures of the ancient world, built of roughly 93 million baked bricks in the third century CE.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Jetavanaramaya.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/39207884/pexels-photo-39207884.jpeg
+- **Photographer / creator credit:** Madew Rajawasan
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Jetavanaramaya
+
 
 ### 016. Abhayagiri Monastery Complex
 
@@ -219,10 +220,10 @@ For each destination, find a real, location-authentic photograph and record its 
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://images.pexels.com/photos/6840389/pexels-photo-6840389.jpeg
+- **Photographer / creator credit:** Kalpa Chathuranga
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Abhayagiri Monastery Complex
 
 ### 017. Isurumuniya Temple
 
@@ -231,11 +232,12 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Lotus-pool rock temple beside Tissa Wewa celebrated for its Gupta-style stone bas-reliefs, including the famous “Isurumuniya Lovers”.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Isurumuniya.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1638418794985-5327428ab807?q=80&w=388&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** 
+Yashi EL
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Isurumuniya
 
 ### 018. Samadhi Buddha Statue
 
@@ -244,11 +246,12 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Serene fourth-century dolomite marble statue depicting the Buddha in deep Dhyana Mudra meditation beneath parkland trees.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Samadhi Buddha Statue.jpg`
+- **Image source page URL:** https://www.reddit.com/r/Buddhism/comments/igdtx4/samadhi_statue_is_considered_one_of_the_best/
 - **Photographer / creator credit:** 
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Samadhi Buddha Statue
+
 
 ### 019. Gal Vihara
 
@@ -257,11 +260,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Four monumental 12th-century Buddha images carved into a single striated granite face by King Parakramabahu I.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Gal Vihara.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/1259789/pexels-photo-1259789.jpeg
+- **Photographer / creator credit:** Rajitha Fernando
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Gal Vihara
 
 ### 020. Vatadage, Polonnaruwa
 
@@ -270,11 +273,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Jewel of the Sacred Quadrangle: a concentric circular stone shrine guarded by Polonnaruwa’s finest moonstones and guardstones.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Vatadage.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1721992499083-637b6ee0c7ba?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Datingjungle
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Vatadage
 
 ### 021. Rankoth Vehera
 
@@ -283,11 +286,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Polonnaruwa’s largest stupa (54m high), built in warm red brick by King Nissanka Malla in the classic Anuradhapura style.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Rathna Deepaya.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1654529652598-0c4f1c053711?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Rathna Deepaya
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Rankoth Vehera
 
 ### 022. Medirigiriya Vatadage
 
@@ -296,11 +299,11 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Quiet, atmospheric 7th-century circular relic house ringed by 68 slender octagonal stone pillars atop a low rock outcrop.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Medirigiriya Vatadage.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/11398966/pexels-photo-11398966.jpeg
+- **Photographer / creator credit:** Ravi Rajapaksha
 - **License / permission:** 
-- **Alt text:** 
+- **Alt text:** Medirigiriya Vatadage
 
 ### 023. Pabalu Vehera
 
