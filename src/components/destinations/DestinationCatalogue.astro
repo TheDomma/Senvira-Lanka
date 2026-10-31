@@ -6,11 +6,26 @@ import {
   destinationRegions,
   destinations,
 } from '../../data/destinations';
+import { catalogueCardImages } from '../../data/catalogueCardImages';
 
 const featuredByRegion = new Map(
   destinationRegions.map((region) => [
     region.id,
     destinations.filter((d) => d.regionId === region.id),
+  ]),
+);
+
+const hubImageById = new Map(
+  destinations.map((d) => [
+    d.id,
+    d.images[0]
+      ? {
+          src: d.images[0].src,
+          alt: d.images[0].alt,
+          credit: d.images[0].credit,
+          objectPosition: 'center 45%',
+        }
+      : null,
   ]),
 );
 
@@ -242,9 +257,15 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
               <div class="catalogue-cards-grid">
                 {regionEntries.map((entry) => {
                   const allCategories = [entry.categoryId, ...(entry.alsoCategoryIds ?? [])].join(' ');
+                  const cardPhoto = catalogueCardImages[entry.id] ?? (entry.tier === 'featured' ? hubImageById.get(entry.id) : null);
                   return (
                     <article
-                      class:list={['catalogue-card', `tier-${entry.tier}`, `cat-${entry.categoryId}`]}
+                      class:list={[
+                        'catalogue-card',
+                        `tier-${entry.tier}`,
+                        `cat-${entry.categoryId}`,
+                        cardPhoto ? 'has-card-photo' : 'no-card-photo',
+                      ]}
                       data-catalogue-item
                       data-item-tier={entry.tier}
                       data-item-region={entry.regionId}
@@ -252,34 +273,57 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                       data-item-categories={allCategories}
                       data-item-search={`${entry.name} ${entry.provinceArea} ${entry.categoryLabel} ${entry.description} ${entry.tags.join(' ')} ${entry.hubName}`.toLowerCase()}
                     >
-                      <div class="card-top-meta">
-                        <span class={`tier-pill tier-pill-${entry.tier}`}>{entry.tierLabel}</span>
-                        <span class="cat-pill">{entry.categoryLabel}</span>
-                      </div>
+                      {cardPhoto && (
+                        <div class="catalogue-card-media">
+                          <Image
+                            src={cardPhoto.src}
+                            alt={cardPhoto.alt}
+                            widths={[360, 540, 720]}
+                            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                            loading="lazy"
+                            decoding="async"
+                            class="catalogue-card-img"
+                            style={`object-position: ${cardPhoto.objectPosition || 'center 45%'};`}
+                          />
+                          <div class="catalogue-card-shade" aria-hidden="true" />
+                          {cardPhoto.credit && (
+                            <span class="catalogue-card-credit" title={`Photo: ${cardPhoto.credit}`}>
+                              {cardPhoto.credit}
+                            </span>
+                          )}
+                        </div>
+                      )}
 
-                      <p class="card-province">{entry.provinceArea}</p>
-                      <h4 class="card-title">{entry.name}</h4>
-                      <p class="card-description">{entry.description}</p>
+                      <div class="catalogue-card-content">
+                        <div class="card-top-meta">
+                          <span class={`tier-pill tier-pill-${entry.tier}`}>{entry.tierLabel}</span>
+                          <span class="cat-pill">{entry.categoryLabel}</span>
+                        </div>
 
-                      <div class="card-tags">
-                        {entry.tags.map((tag) => (
-                          <span class="card-tag">{tag}</span>
-                        ))}
-                      </div>
+                        <p class="card-province">{entry.provinceArea}</p>
+                        <h4 class="card-title">{entry.name}</h4>
+                        <p class="card-description">{entry.description}</p>
 
-                      <div class="card-bottom-bar">
-                        <button
-                          type="button"
-                          class="hub-jump-btn"
-                          data-inspect-destination={entry.hubId}
-                          title={`Highlight ${entry.hubName} on the interactive island map`}
-                        >
-                          <span>{entry.tier === 'featured' ? 'Show on Map:' : 'Hub:'} <strong>{entry.hubName}</strong></span>
-                          <span aria-hidden="true">↑ Map</span>
-                        </button>
-                        <a href="/journeys/" class="card-plan-link">
-                          Add to trip <span aria-hidden="true">→</span>
-                        </a>
+                        <div class="card-tags">
+                          {entry.tags.map((tag) => (
+                            <span class="card-tag">{tag}</span>
+                          ))}
+                        </div>
+
+                        <div class="card-bottom-bar">
+                          <button
+                            type="button"
+                            class="hub-jump-btn"
+                            data-inspect-destination={entry.hubId}
+                            title={`Highlight ${entry.hubName} on the interactive island map`}
+                          >
+                            <span>{entry.tier === 'featured' ? 'Show on Map:' : 'Hub:'} <strong>{entry.hubName}</strong></span>
+                            <span aria-hidden="true">↑ Map</span>
+                          </button>
+                          <a href="/journeys/" class="card-plan-link">
+                            Add to trip <span aria-hidden="true">→</span>
+                          </a>
+                        </div>
                       </div>
                     </article>
                   );
@@ -1211,96 +1255,373 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     color: var(--color-teal);
   }
 
-  /* Clean, editorial warm ivory & white aesthetic */
+  /* ==========================================================================
+     DARK DEEP TEAL LIQUID-GLASS THEME (MATCHING PEXELS FROSTED GLASS REFERENCE)
+     ========================================================================== */
   .featured-showcase-section {
+    scroll-margin-top: 5.5rem;
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
     background:
-      radial-gradient(ellipse at 12% 8%, rgba(217, 154, 69, 0.14), transparent 36rem),
-      radial-gradient(ellipse at 88% 85%, rgba(20, 91, 89, 0.1), transparent 40rem),
-      linear-gradient(180deg, #f6f1e7 0%, #fcfaf4 55%, #f2ece0 100%);
-    color: var(--color-charcoal);
-    border-top: 1px solid rgba(20, 91, 89, 0.16);
-    border-bottom: 1px solid rgba(20, 91, 89, 0.14);
-  }
-  .section-kicker-light { color: var(--color-teal); }
-  .showcase-header h2 { color: var(--color-forest-deep); }
-  .showcase-lead { color: var(--color-charcoal-muted); }
-  .showcase-stat-pills span {
-    border-color: rgba(20, 91, 89, 0.22);
-    background: rgba(255, 255, 255, 0.86);
-    color: var(--color-teal);
-    box-shadow: 0 6px 16px -10px rgba(10, 48, 46, 0.16);
+      radial-gradient(ellipse at 15% 10%, rgba(217, 154, 69, 0.08), transparent 36rem),
+      radial-gradient(ellipse at 85% 90%, rgba(11, 79, 75, 0.45), transparent 40rem),
+      linear-gradient(180deg, #031413 0%, #052220 50%, #031413 100%);
+    color: var(--dp-text, #f6f1e7);
+    border-top: 1px solid rgba(233, 199, 121, 0.12);
+    border-bottom: 1px solid rgba(233, 199, 121, 0.12);
   }
 
-  .reise-featured-card {
-    border: 1px solid rgba(20, 91, 89, 0.16);
-    background: #ffffff;
-    box-shadow:
-      0 16px 36px -18px rgba(10, 48, 46, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  .section-kicker-light { color: var(--color-gold-light); }
+  .showcase-header h2 { color: #fbf8f0; }
+  .showcase-lead { color: rgba(246, 241, 231, 0.78); }
+
+  .showcase-stat-pills span {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    color: var(--color-gold-light);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
+
+  .catalogue-section {
+    scroll-margin-top: 5.5rem;
+    padding-block: clamp(3.5rem, 6vw, 6rem);
+    background:
+      radial-gradient(circle at 0% 15%, rgba(11, 79, 75, 0.38), transparent 34rem),
+      radial-gradient(circle at 100% 55%, rgba(217, 154, 69, 0.06), transparent 36rem),
+      linear-gradient(180deg, #031413 0%, #041b19 45%, #020f0e 100%);
+    color: var(--dp-text, #f6f1e7);
+  }
+
+  .section-kicker-dark { color: var(--color-gold-light); }
+  .catalogue-intro h2 { color: #fbf8f0; }
+  .catalogue-lead { color: rgba(246, 241, 231, 0.76); }
+
+  .catalogue-counter-box,
+  .catalogue-filter-panel,
+  .catalogue-empty {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1.25rem;
+    background: linear-gradient(160deg, rgba(14, 55, 52, 0.42), rgba(4, 25, 23, 0.68));
+    box-shadow:
+      0 20px 45px -18px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.26),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+  }
+
+  .catalogue-counter-box strong { color: var(--color-gold-light); }
+  .catalogue-counter-box span,
+  .catalogue-empty p { color: rgba(246, 241, 231, 0.74); }
+
+  .tier-tab,
+  .cat-theme-pill,
+  .cat-region-pill {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    color: var(--color-ivory);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .tier-tab:hover,
+  .cat-theme-pill:hover,
+  .cat-region-pill:hover {
+    border-color: rgba(233, 199, 121, 0.65);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .tier-tab.active {
+    border-color: rgba(233, 199, 121, 0.85);
+    background: rgba(217, 154, 69, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+  }
+
+  .tier-tab small {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-gold-light);
+  }
+
+  .tier-tab.active small {
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .cat-search-icon { color: var(--color-gold-light); }
+  .catalogue-search {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(2, 20, 19, 0.55);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+    color: var(--color-ivory);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .catalogue-search::placeholder { color: rgba(246, 241, 231, 0.5); }
+
+  .cat-theme-pill.active {
+    border-color: var(--color-amber);
+    background: var(--color-amber);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    color: var(--color-charcoal);
+  }
+
+  .cat-region-pill.active {
+    border-color: rgba(233, 199, 121, 0.85);
+    background: rgba(14, 68, 64, 0.88);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+  }
+
+  .catalogue-reset-btn {
+    border: 1px solid rgba(233, 199, 121, 0.6);
+    background: rgba(217, 154, 69, 0.2);
+    color: var(--color-gold-light);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Liquid Glass Cards */
+  .reise-featured-card,
+  .catalogue-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.25rem;
+    background: linear-gradient(165deg, rgba(14, 58, 55, 0.44), rgba(4, 25, 23, 0.68));
+    box-shadow:
+      0 20px 45px -14px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.26),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1), border-color 220ms ease, box-shadow 220ms ease;
+  }
+
   .reise-featured-card:hover,
-  .reise-featured-card.is-selected-hub {
-    border-color: rgba(217, 154, 69, 0.72);
+  .reise-featured-card.is-selected-hub,
+  .catalogue-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(233, 199, 121, 0.65);
     box-shadow:
-      0 22px 44px -18px rgba(10, 48, 46, 0.26),
-      inset 0 1px 0 #ffffff;
+      0 26px 52px -12px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.42),
+      inset 0 0 24px rgba(233, 199, 121, 0.08);
   }
-  .reise-card-media { height: auto; aspect-ratio: 3 / 2; flex: 0 0 auto; }
-  .reise-card-img { object-position: center 45%; filter: saturate(1) brightness(0.96); }
+
+  .reise-card-media {
+    position: relative;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #06201e;
+    flex: 0 0 auto;
+    isolation: isolate;
+  }
+
+  .reise-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    filter: saturate(1.02) brightness(0.96);
+    transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .reise-featured-card:hover .reise-card-img {
+    transform: scale(1.045);
+  }
+
+  .reise-card-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    padding: 1.05rem 1.15rem 1.15rem;
+    background: transparent;
+  }
+
   .reise-card-why {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: calc(3 * 1.55em);
-    color: var(--color-charcoal);
+    margin: 0;
+    color: rgba(246, 241, 231, 0.88);
+    font-size: 0.8rem;
+    line-height: 1.55;
   }
-  .reise-card-body { justify-content: flex-start; background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%); }
-  .reise-card-footer { margin-top: auto; border-top-color: rgba(20, 91, 89, 0.12); }
-  .reise-card-chips { min-height: 3.1rem; align-content: flex-start; }
+
+  .reise-card-chips {
+    min-height: 3.1rem;
+    align-content: flex-start;
+  }
+
   .reise-card-chips span {
-    border-color: rgba(20, 91, 89, 0.16);
-    background: #f5f2e9;
-    color: var(--color-forest-deep);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(246, 241, 231, 0.92);
+    font-size: 0.66rem;
+    font-weight: 500;
   }
+
+  .reise-card-footer {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   .inspect-map-btn {
-    border-color: var(--color-teal);
-    background: var(--color-teal);
-    color: var(--color-ivory);
+    border: 1px solid rgba(233, 199, 121, 0.55);
+    background: rgba(217, 154, 69, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    color: var(--color-gold-light);
+    backdrop-filter: blur(10px);
   }
+
   .inspect-map-btn:hover {
     border-color: var(--color-amber);
     background: var(--color-amber);
     color: var(--color-charcoal);
   }
-  .plan-mini-link { color: var(--color-forest-deep); }
-  .plan-mini-link:hover { color: var(--color-teal); }
 
-  .catalogue-section {
-    background:
-      radial-gradient(circle at 0% 15%, rgba(20, 91, 89, 0.08), transparent 34rem),
-      radial-gradient(circle at 100% 55%, rgba(217, 154, 69, 0.1), transparent 36rem),
-      linear-gradient(180deg, #efe9dc 0%, #f8f4ec 38%, #f3eee2 100%);
-    color: var(--color-charcoal);
-  }
+  .plan-mini-link { color: var(--color-ivory); }
+  .plan-mini-link:hover { color: var(--color-gold-light); }
+
+  /* Catalogue Cards Media & Content */
   .catalogue-card {
-    border: 1px solid rgba(20, 91, 89, 0.16);
     border-top: 3px solid var(--color-teal);
-    background: rgba(255, 253, 249, 0.94);
-    box-shadow:
-      0 12px 28px -18px rgba(10, 48, 46, 0.16),
-      inset 0 1px 0 #ffffff;
+    padding: 0;
   }
-  .catalogue-card.tier-featured {
-    border-top-color: #c88428;
-    background: linear-gradient(180deg, #fffdf7 0%, #fcf8ee 100%);
+
+  .catalogue-card.tier-featured { border-top-color: #d99a45; }
+  .catalogue-card.tier-core { border-top-color: #145b59; }
+  .catalogue-card.tier-extended { border-top-color: #c48b36; }
+  .catalogue-card.tier-attraction { border-top-color: #2b7d72; }
+
+  .catalogue-card-media {
+    position: relative;
+    width: 100%;
+    height: 10.75rem;
+    overflow: hidden;
+    background: #041c1a;
+    flex: 0 0 auto;
+    isolation: isolate;
   }
-  .catalogue-card.tier-extended { border-top-color: var(--color-amber); }
-  .catalogue-card.tier-attraction { border-top-color: #3b7c6e; }
+
+  .catalogue-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.02) brightness(0.96);
+    transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .catalogue-card:hover .catalogue-card-img {
+    transform: scale(1.05);
+  }
+
+  .catalogue-card-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(3, 20, 19, 0.1) 0%, transparent 45%, rgba(3, 20, 19, 0.82) 100%);
+  }
+
+  .catalogue-card-credit {
+    position: absolute;
+    right: 0.65rem;
+    bottom: 0.55rem;
+    z-index: 2;
+    padding: 0.18rem 0.52rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(3, 20, 19, 0.72);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    color: rgba(246, 241, 231, 0.82);
+    font: 500 0.58rem/1 var(--font-sans);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 82%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .catalogue-card-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.05rem 1.15rem 1.1rem;
+    background: transparent;
+  }
+
   .tier-pill-featured {
     background: rgba(217, 154, 69, 0.24);
-    color: #7c4a0d;
+    border: 1px solid rgba(233, 199, 121, 0.35);
+    color: var(--color-gold-light);
   }
+  .tier-pill-core {
+    background: rgba(20, 91, 89, 0.5);
+    border: 1px solid rgba(20, 91, 89, 0.6);
+    color: #bfe9e3;
+  }
+  .tier-pill-extended {
+    background: rgba(217, 154, 69, 0.2);
+    border: 1px solid rgba(217, 154, 69, 0.35);
+    color: var(--color-gold-light);
+  }
+  .tier-pill-attraction {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--color-ivory);
+  }
+
+  .cat-pill { color: rgba(246, 241, 231, 0.65); }
+  .card-province { color: var(--color-gold-light); }
+  .card-title { color: #fbf8f0; }
+  .card-description { color: rgba(246, 241, 231, 0.82); }
+
+  .card-tag {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.42rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(246, 241, 231, 0.88);
+  }
+
+  .card-bottom-bar { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+  .hub-jump-btn {
+    border: 1px solid rgba(233, 199, 121, 0.42);
+    border-radius: 999px;
+    background: rgba(217, 154, 69, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    color: var(--color-gold-light);
+    backdrop-filter: blur(10px);
+  }
+
+  .hub-jump-btn:hover {
+    border-color: var(--color-amber);
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+
+  .card-plan-link { color: var(--color-ivory); }
+  .card-plan-link:hover { color: var(--color-gold-light); }
+  .region-banner { border-color: rgba(233, 199, 121, 0.2); }
 
   [hidden] {
     display: none !important;

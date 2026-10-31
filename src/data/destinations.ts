@@ -1,7 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import anuradhapuraPhoto from '../assets/images/destinations/directory-anuradhapura.avif';
 import bentotaPhoto from '../assets/images/destinations/directory-bentota.avif';
-import colomboPhoto from '../assets/images/destinations/directory-colombo.avif';
+import colomboPhoto from '../assets/images/destinations/directory-colombo.jpg';
 import mirissaPhoto from '../assets/images/destinations/directory-mirissa.avif';
 import nuwaraEliyaPhoto from '../assets/images/destinations/directory-nuwara-eliya.avif';
 import sigiriyaPhoto from '../assets/images/destinations/directory-sigiriya.avif';
@@ -359,9 +359,9 @@ export const destinations: Destination[] = [
     images: [
       {
         src: colomboPhoto,
-        alt: 'Modern Colombo buildings and the Sri Lankan flag beneath a bright sky.',
-        sourceUrl: 'https://www.pexels.com/photo/colombo-skyline-with-sri-lankan-flag-31399466/',
-        credit: 'Sofiia Asmi / Pexels',
+        alt: 'Modern Colombo buildingsbeneath sky.',
+        sourceUrl: 'https://images.pexels.com/photos/36703580/pexels-photo-36703580.jpeg',
+        credit: 'Thilina Alagiyawanna/ Pexels',
         license: pexelsLicense,
       },
     ],
