@@ -23,7 +23,7 @@ import rankothVeheraImg from '../assets/images/destinations/Rathna Deepaya.jpg';
 import medirigiriyaVatadageImg from '../assets/images/destinations/Medirigiriya Vatadage.jpg';
 import pabaluVeheraImg from '../assets/images/destinations/Pabalu Vehera.webp';
 import nalandaGedigeImg from '../assets/images/destinations/Nalanda Gedige.webp';
-import aluvihareRockTempleImg from '../assets/images/destinations/aluvihare.jpg';
+import aluvihareRockTempleImg from '../assets/images/destinations/Aluvihare.jpg';
 import sasseruwaBuddhaStatueImg from '../assets/images/destinations/Sasseruwa Buddha Statue.webp';
 import yapahuwaMuseumImg from '../assets/images/destinations/Yapahuwa Museum.webp';
 import maduruOyaAncientSluiceImg from '../assets/images/destinations/Maduru Oya.webp';
@@ -87,7 +87,12 @@ import ussangodaNationalParkImg from '../assets/images/destinations/Ussangoda Na
 import dondraHeadLighthouseImg from '../assets/images/destinations/Dondra Head Lighthouse.jpg';
 import koggalaLakeImg from '../assets/images/destinations/Koggala Lake.jpg';
 import martinWickramasingheMuseumImg from '../assets/images/destinations/Martin Wickramasinghe Folk Museum Complex.jpg';
+import japanesePeacePagodaRumassalaImg from '../assets/images/destinations/Japanese Peace Pagoda, Rumassala.jpg';
+import ahangamaKabalanaImg from '../assets/images/destinations/kabalana.jpg';
+import dikwellaWewurukannalaImg from '../assets/images/destinations/Wewurukannala.jpg';
+import ahangamaImg from '../assets/images/destinations/ahangama.jpg';
 import koggalaImg from '../assets/images/destinations/Koggala Lake.jpg';
+import kabalanaBeachImg from '../assets/images/destinations/kabalana.jpg';
 import negomboImg from '../assets/images/destinations/negombo.jpg';
 import udawalaweNationalParkImg from '../assets/images/destinations/udawalawe.jpg';
 
@@ -592,9 +597,36 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     alt: 'Thoughtfully curated museum and ancestral home of author Martin Wickramasinghe celebrating southern Sri Lankan folk craft and rural life.',
     objectPosition: 'center 45%',
   },
+  'japanese-peace-pagoda-rumassala': {
+    src: japanesePeacePagodaRumassalaImg,
+    alt: 'Gleaming white stupa on the forested Rumassala headland offering views across Galle Bay toward the fort ramparts.',
+    credit: 'Ruwan Lakmal',
+    objectPosition: 'center 45%',
+  },
+  'ahangama-kabalana': {
+    src: ahangamaKabalanaImg,
+    alt: 'Laid-back south-coast surf corridor anchored by the consistent A-frame wave at “The Rock” in Kabalana and palm-shaded courtyard cafés.',
+    objectPosition: 'center 45%',
+  },
+  'dikwella-wewurukannala': {
+    src: dikwellaWewurukannalaImg,
+    alt: 'Inland coastal temple stop known for its towering seated Buddha image and vivid narrative murals of traditional Buddhist cosmology.',
+    credit: 'Boris Lvrg',
+    objectPosition: 'center 45%',
+  },
+  'ahangama': {
+    src: ahangamaImg,
+    alt: 'Relaxed surf village with stilt-fisherman views, boutique stays, and cafés strung along the coast road.',
+    objectPosition: 'center 45%',
+  },
   'koggala': {
     src: koggalaImg,
     alt: 'Lake, beach, and stilt-fishing coast with Martin Wickramasinghe’s museum and island temples on the lagoon.',
+    objectPosition: 'center 45%',
+  },
+  'kabalana-beach': {
+    src: kabalanaBeachImg,
+    alt: 'Signature southern reef and beach-break bay famous for "The Rock" surf wave and golden sand.',
     objectPosition: 'center 45%',
   },
   'negombo': {
