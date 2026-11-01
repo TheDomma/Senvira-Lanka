@@ -90,7 +90,8 @@ import martinWickramasingheMuseumImg from '../assets/images/destinations/Martin 
 import japanesePeacePagodaRumassalaImg from '../assets/images/destinations/Japanese Peace Pagoda, Rumassala.jpg';
 import ahangamaKabalanaImg from '../assets/images/destinations/kabalana.jpg';
 import dikwellaWewurukannalaImg from '../assets/images/destinations/Wewurukannala.jpg';
-import ahangamaImg from '../assets/images/destinations/ahangama.jpg';
+import mulkirigalaRajaMahaViharaImg from '../assets/images/destinations/Mulkirigala Raja Maha Vihara.jpg';
+import ahangamaImg from '../assets/images/destinations/Ahangama.jpg';
 import koggalaImg from '../assets/images/destinations/Koggala Lake.jpg';
 import kabalanaBeachImg from '../assets/images/destinations/kabalana.jpg';
 import negomboImg from '../assets/images/destinations/negombo.jpg';
@@ -614,9 +615,15 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     credit: 'Boris Lvrg',
     objectPosition: 'center 45%',
   },
+  'mulkirigala-raja-maha-vihara': {
+    src: mulkirigalaRajaMahaViharaImg,
+    alt: 'Ancient seven-terraced cave monastery rising on a sheer 205-meter boulder inland from Tangalle, filled with Kandyan-era murals.',
+    objectPosition: 'center 45%',
+  },
   'ahangama': {
     src: ahangamaImg,
     alt: 'Relaxed surf village with stilt-fisherman views, boutique stays, and cafés strung along the coast road.',
+    credit: 'Atlantic Ambience',
     objectPosition: 'center 45%',
   },
   'koggala': {
