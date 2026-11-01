@@ -338,7 +338,7 @@ Yashi EL
 **Why it is listed:** Historic boulder-cleft monastery near Matale where the Tripitaka (Pali Canon) was first committed to ola-leaf manuscripts in the 1st century BCE.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\aluvihare.jpg`
+- **Image file/path:** `src\assets\images\destinations\Aluvihare.jpg`
 - **Image source page URL:** https://images.unsplash.com/photo-1731210521648-ef2dba3f86ee?q=80&w=436&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** Ajai S
 - **License / permission:** 
@@ -1170,9 +1170,9 @@ Yashi EL
 **Why it is listed:** Gleaming white stupa on the forested Rumassala headland offering views across Galle Bay toward the fort ramparts.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Japanese Peace Pagoda, Rumassala.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/33404744/pexels-photo-33404744.jpeg
+- **Photographer / creator credit:**Ruwan Lakmal  
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1183,9 +1183,9 @@ Yashi EL
 **Why it is listed:** Laid-back south-coast surf corridor anchored by the consistent A-frame wave at “The Rock” in Kabalana and palm-shaded courtyard cafés.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\kabalana.jpg`
+- **Image source page URL:** https://cdn.sanity.io/images/we0tdimr/production/ea7fd3584b02951e19fb65198f73b5305e2ffb70-3840x2581.jpg?w=1920&h=1080&fm=jpg&q=65
+- **Photographer / creator credit:**
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1196,9 +1196,9 @@ Yashi EL
 **Why it is listed:** Inland coastal temple stop known for its towering seated Buddha image and vivid narrative murals of traditional Buddhist cosmology.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Wewurukannala.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/11865846/pexels-photo-11865846.jpeg
+- **Photographer / creator credit:**  Boris Lvrg 
 - **License / permission:** 
 - **Alt text:** 
 
