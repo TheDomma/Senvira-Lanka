@@ -1209,8 +1209,8 @@ Yashi EL
 **Why it is listed:** Ancient seven-terraced cave monastery rising on a sheer 205-meter boulder inland from Tangalle, filled with Kandyan-era murals.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mulkirigala Raja Maha Vihara.jpg`
+- **Image source page URL:** https://i0.wp.com/amazinglanka.com/wp/wp-content/uploads/2013/12/mulkirigala.jpg?ssl=1
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1235,9 +1235,9 @@ Yashi EL
 **Why it is listed:** Relaxed surf village with stilt-fisherman views, boutique stays, and cafés strung along the coast road.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Ahangama.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/11617733/pexels-photo-11617733.jpeg
+- **Photographer / creator credit:** Atlantic Ambience
 - **License / permission:** 
 - **Alt text:** 
 
