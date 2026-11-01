@@ -92,6 +92,11 @@ import ahangamaKabalanaImg from '../assets/images/destinations/kabalana.jpg';
 import dikwellaWewurukannalaImg from '../assets/images/destinations/Wewurukannala.jpg';
 import mulkirigalaRajaMahaViharaImg from '../assets/images/destinations/Mulkirigala Raja Maha Vihara.jpg';
 import ahangamaImg from '../assets/images/destinations/Ahangama.jpg';
+import jungleBeachImg from '../assets/images/destinations/Jungle Beach.jpg';
+import hiriketiyaImg from '../assets/images/destinations/Hiriketiya.jpg';
+import dickwellaImg from '../assets/images/destinations/Dickwella.jpg';
+import midigamaImg from '../assets/images/destinations/Midigama.jpg';
+import talallaImg from '../assets/images/destinations/Talalla.jpg';
 import koggalaImg from '../assets/images/destinations/Koggala Lake.jpg';
 import kabalanaBeachImg from '../assets/images/destinations/kabalana.jpg';
 import negomboImg from '../assets/images/destinations/negombo.jpg';
@@ -624,6 +629,34 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     src: ahangamaImg,
     alt: 'Relaxed surf village with stilt-fisherman views, boutique stays, and cafés strung along the coast road.',
     credit: 'Atlantic Ambience',
+    objectPosition: 'center 45%',
+  },
+  'jungle-beach': {
+    src: jungleBeachImg,
+    alt: 'Sheltered cove below Rumassala hill, reached on a short forest path, good for calm swimming and snorkelling.',
+    objectPosition: 'center 45%',
+  },
+  'hiriketiya': {
+    src: hiriketiyaImg,
+    alt: 'Horseshoe bay with a friendly surf break, beginner waves, and a relaxed beach-café scene.',
+    credit: 'Zoshua Colah',
+    objectPosition: 'center 45%',
+  },
+  'dickwella': {
+    src: dickwellaImg,
+    alt: 'Quiet beach town beside Hiriketiya, with a giant seated Buddha at Wewurukannala Vihara nearby.',
+    credit: 'Malik Cil',
+    objectPosition: 'center 45%',
+  },
+  'midigama': {
+    src: midigamaImg,
+    alt: 'Reef breaks for all levels and a laid-back surf-and-yoga stretch between Ahangama and Weligama.',
+    credit: 'oleks film',
+    objectPosition: 'center 45%',
+  },
+  'talalla': {
+    src: talallaImg,
+    alt: 'Wide, uncrowded sweep of golden sand with gentle waves and a quieter feel than Mirissa.',
     objectPosition: 'center 45%',
   },
   'koggala': {
