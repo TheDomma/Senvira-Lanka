@@ -1248,8 +1248,8 @@ Yashi EL
 **Why it is listed:** Sheltered cove below Rumassala hill, reached on a short forest path, good for calm swimming and snorkelling.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Jungle Beach.jpg`
+- **Image source page URL:** https://www.tripsavvy.com/thmb/vRMjMHk_Qc7fWtx6EnslIs4rxyw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/jungle-beach-sri-lanka-5c8537ba46e0fb00014319b6.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1261,9 +1261,9 @@ Yashi EL
 **Why it is listed:** Horseshoe bay with a friendly surf break, beginner waves, and a relaxed beach-café scene.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Hiriketiya.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1752498227945-a6fc6e6e1aa6?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Zoshua Colah
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1274,9 +1274,9 @@ Yashi EL
 **Why it is listed:** Quiet beach town beside Hiriketiya, with a giant seated Buddha at Wewurukannala Vihara nearby.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Dickwella.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/34218744/pexels-photo-34218744.jpeg
+- **Photographer / creator credit:**  Malik Cil
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1287,9 +1287,9 @@ Yashi EL
 **Why it is listed:** Reef breaks for all levels and a laid-back surf-and-yoga stretch between Ahangama and Weligama.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Midigama.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1517054481977-dc95e5521008?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** oleks film
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1300,8 +1300,8 @@ Yashi EL
 **Why it is listed:** Wide, uncrowded sweep of golden sand with gentle waves and a quieter feel than Mirissa.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Talalla.jpg`
+- **Image source page URL:** https://thesurfatlas.com/wp-content/uploads/2024/08/Talalla-Beach-1.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
