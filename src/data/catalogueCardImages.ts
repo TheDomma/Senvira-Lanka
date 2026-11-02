@@ -137,7 +137,7 @@ import ambalangodaImg from '../assets/images/destinations/Ambalangoda.jpg';
 import barReefImg from '../assets/images/destinations/Bar Reef.jpg';
 import nilaveliImg from '../assets/images/destinations/Nilaveli.jpg';
 import pigeonIslandNationalParkImg from '../assets/images/destinations/Pigeon Island National Park.jpg';
-import pasikudaImg from '../assets/images/destinations/pasikuda.jpg';
+import pasikudaImg from '../assets/images/destinations/Pasikuda.jpg';
 import batticaloaImg from '../assets/images/destinations/Batticaloa.jpg';
 import arugamBayImg from '../assets/images/destinations/Arugam Bay.jpg';
 import kumanaNationalParkImg from '../assets/images/destinations/Kumana National Park.jpg';

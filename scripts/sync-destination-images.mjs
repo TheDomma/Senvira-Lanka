@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Buffer } from 'node:buffer';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 // Import catalogue metadata
 import { catalogueEntries as baseEntries } from '../src/data/destinationCatalogue.ts';
@@ -175,6 +176,21 @@ async function downloadImageIfMissing(targetPath, sourceUrl) {
   }
 }
 
+function getGitTrackedFiles() {
+  const map = new Map();
+  try {
+    const output = execSync('git ls-files -z src/assets/images/destinations', { encoding: 'utf-8' });
+    const files = output.split('\0').filter(Boolean);
+    for (const f of files) {
+      const name = path.basename(f);
+      map.set(name.toLowerCase(), name);
+    }
+  } catch {
+    // git not available, safely ignore
+  }
+  return map;
+}
+
 export async function syncChecklist() {
   if (!fs.existsSync(checklistPath)) {
     console.error('Checklist not found at', checklistPath);
@@ -184,6 +200,7 @@ export async function syncChecklist() {
   const content = fs.readFileSync(checklistPath, 'utf-8');
   const sections = content.split(/^###\s+/m).slice(1);
   let availableFiles = fs.readdirSync(imagesDir);
+  const gitTrackedMap = getGitTrackedFiles();
 
   // Pre-pass: check if any files on disk are missing extension and rename them
   for (const f of availableFiles) {
@@ -235,19 +252,23 @@ export async function syncChecklist() {
     }
 
     let resolvedFileName = null;
-    const localFullPath = path.join(imagesDir, targetFileName);
+    const targetLower = targetFileName.toLowerCase();
 
-    if (fs.existsSync(localFullPath)) {
-      resolvedFileName = targetFileName;
+    // 1. Check Git index for exact casing (critical for Linux / Cloudflare build environments)
+    if (gitTrackedMap.has(targetLower)) {
+      resolvedFileName = gitTrackedMap.get(targetLower);
     } else {
-      // Check case-insensitive / extension variations
-      const targetBase = path.parse(targetFileName).name.toLowerCase();
-      const match = availableFiles.find((f) => {
-        const fBase = path.parse(f).name.toLowerCase();
-        return fBase === targetBase || f.toLowerCase() === targetFileName.toLowerCase();
-      });
-      if (match) {
-        resolvedFileName = match;
+      // 2. Check local disk files with exact casing from directory
+      const directMatch = availableFiles.find((f) => f.toLowerCase() === targetLower);
+      if (directMatch) {
+        resolvedFileName = directMatch;
+      } else {
+        // Check base name without extension
+        const targetBase = path.parse(targetFileName).name.toLowerCase();
+        const baseMatch = availableFiles.find((f) => path.parse(f).name.toLowerCase() === targetBase);
+        if (baseMatch) {
+          resolvedFileName = baseMatch;
+        }
       }
     }
 
