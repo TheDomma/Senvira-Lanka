@@ -138,24 +138,48 @@ import barReefImg from '../assets/images/destinations/Bar Reef.jpg';
 import nilaveliImg from '../assets/images/destinations/Nilaveli.jpg';
 import pigeonIslandNationalParkImg from '../assets/images/destinations/Pigeon Island National Park.jpg';
 import pasikudaImg from '../assets/images/destinations/pasikuda.jpg';
-import batticaloaImg from '../assets/images/destinations/batticaloa.jpg';
+import batticaloaImg from '../assets/images/destinations/Batticaloa.jpg';
 import arugamBayImg from '../assets/images/destinations/Arugam Bay.jpg';
 import kumanaNationalParkImg from '../assets/images/destinations/Kumana National Park.jpg';
-import kalkudahImg from '../assets/images/destinations/kalkudah.jpg';
-import kuchchaveliImg from '../assets/images/destinations/kuchchaveli.jpg';
+import kalkudahImg from '../assets/images/destinations/Kalkudah.jpg';
+import kuchchaveliImg from '../assets/images/destinations/Kuchchaveli.jpg';
 import batticaloaLagoonImg from '../assets/images/destinations/Batticaloa Lagoon.jpg';
 import lahugalaKitulanaNationalParkImg from '../assets/images/destinations/Lahugala Kitulana National Park.jpg';
 import koneswaramTempleImg from '../assets/images/destinations/Koneswaram Temple & Swami Rock.jpg';
 import fortFrederickImg from '../assets/images/destinations/Fort Frederick.jpg';
 import marbleBeachImg from '../assets/images/destinations/Marble Beach.jpg';
 import seruwilaMangalaViharaImg from '../assets/images/destinations/Seruwila Mangala Raja Maha Vihara.jpg';
-import valaichchenaiImg from '../assets/images/destinations/valaichchenai.jpg';
+import valaichchenaiImg from '../assets/images/destinations/Valaichchenai.jpg';
 import kattankudyHeritageMuseumImg from '../assets/images/destinations/Kattankudy Heritage Museum.webp';
 import okandaDevalayaImg from '../assets/images/destinations/Okanda Devalaya.jpg';
 import panamaCoastalVillageImg from '../assets/images/destinations/Panama.jpg';
-import amparaImg from '../assets/images/destinations/ampara.jpg';
-import uppuveliImg from '../assets/images/destinations/uppuveli.jpg';
+import amparaImg from '../assets/images/destinations/Ampara.jpg';
+import uppuveliImg from '../assets/images/destinations/Uppuveli.jpg';
+import pottuvilPointImg from '../assets/images/destinations/Pottuvil Point.jpg';
+import delftIslandImg from '../assets/images/destinations/Delft Island.jpg';
+import mannarIslandImg from '../assets/images/destinations/Mannar Island.jpg';
+import pointPedroImg from '../assets/images/destinations/Point Pedro.jpg';
+import madhuChurchImg from '../assets/images/destinations/Madhu Church & Shrine.jpg';
+import casuarinaBeachImg from '../assets/images/destinations/Casuarina Beach.jpg';
+import nallurKandaswamyKovilImg from '../assets/images/destinations/Nallur Kandaswamy Kovil.jpg';
+import keerimalaiSpringsImg from '../assets/images/destinations/Keerimalai Springs.jpg';
+import mannarCausewayVankalaiImg from '../assets/images/destinations/Mannar Causeway & Vankalai Sanctuary.jpg';
+import jaffnaFortImg from '../assets/images/destinations/Jaffna Fort.jpg';
+import jaffnaPublicLibraryImg from '../assets/images/destinations/Jaffna Public Library.jpg';
+import nainativuNagadeepaImg from '../assets/images/destinations/Nainativu (Nagadeepa).jpg';
+import nallurFestivalPrecinctImg from '../assets/images/destinations/Nallur Festival & Temple Precinct.jpeg';
+import delftQueensTowerBaobabImg from '../assets/images/destinations/Delft Island Queen’s Tower & Baobab.jpg';
+import karainagarIslandRouteImg from '../assets/images/destinations/Karainagar Island.jpg';
+import chundikkulamNationalParkImg from '../assets/images/destinations/Chundikkulam National Park.jpg';
+import mullaitivuCoastImg from '../assets/images/destinations/Mullaitivu.jpg';
+import vavuniyaMadhuRoadImg from '../assets/images/destinations/Madhu Road.jpg';
+import thiruketheeswaramTempleImg from '../assets/images/destinations/Thiruketheeswaram.jpg';
+import vavuniyaImg from '../assets/images/destinations/Vavuniya.jpg';
+import kilinochchiImg from '../assets/images/destinations/kilinochchi.jpg';
+import mannarTownImg from '../assets/images/destinations/Mannar Town.jpg';
+import mullaitivuTownImg from '../assets/images/destinations/Mullaitivu Town.jpg';
 import udawalaweNationalParkImg from '../assets/images/destinations/udawalawe.jpg';
+import bundalaNationalParkImg from '../assets/images/destinations/Bundala National Park.jpg';
 
 export interface CatalogueCardImageData {
   src: ImageMetadata;
@@ -827,7 +851,6 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'munneswaram-temple': {
     src: munneswaramTempleImg,
     alt: 'Ancient multi-shrine Hindu temple complex in Chilaw with deep mythological roots and vibrant annual festival traditions.',
-    credit: 'Photogitthi',
     objectPosition: 'center 45%',
   },
   'lunuwila-coconut-estates': {
@@ -948,71 +971,85 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'pigeon-island-national-park': {
     src: pigeonIslandNationalParkImg,
     alt: 'Offshore marine park protecting coral gardens, reef fish, and blacktip reef sharks; visits require mindful, reef-safe snorkelling.',
+    credit: 'AntanO',
     objectPosition: 'center 45%',
   },
   'pasikuda': {
     src: pasikudaImg,
     alt: 'Reef-protected horseshoe bay renowned for exceptionally shallow, calm turquoise water during the east-coast sunshine months.',
+    credit: 'Charuka Herath',
     objectPosition: 'center 45%',
   },
   'batticaloa': {
     src: batticaloaImg,
     alt: 'Historic eastern city shaped by expansive waterways, a water-surrounded Dutch fort, Kallady Bridge, and vibrant local culture.',
+    credit: 'Thilina Alagiyawanna',
     objectPosition: 'center 45%',
   },
   'arugam-bay': {
     src: arugamBayImg,
     alt: 'World-renowned point-break surf crescent on the southeast coast, surrounded by wildlife lagoons and ancient forest shrines.',
+    credit: 'Tomáš Malík',
     objectPosition: 'center 45%',
   },
   'kumana-national-park': {
     src: kumanaNationalParkImg,
     alt: 'Remote southeastern sanctuary centered on the Kumana Villu mangrove swamp, a premier nesting ground for wading birds and leopards.',
+    credit: 'Nadarajah Mauran',
     objectPosition: 'center 45%',
   },
   'kalkudah': {
     src: kalkudahImg,
     alt: 'Peaceful two-kilometer curve of soft sand immediately south of Pasikuda, offering a quieter, uncrowded coastal rhythm.',
+    credit: 'Serafina Jacobson-Walsh',
     objectPosition: 'center 45%',
   },
   'kuchchaveli': {
     src: kuchchaveliImg,
     alt: 'Serene northern stretch of the Trincomalee coast where coastal scrub, estuaries, and ancient rock inscriptions meet empty beaches.',
+    credit: 'Charith Kodagoda',
     objectPosition: 'center 45%',
   },
   'batticaloa-lagoon': {
     src: batticaloaLagoonImg,
     alt: 'Fifty-six-kilometer estuarine lagoon system famed for mangrove islands, traditional cast-net fishing, and lore of “singing fish”.',
+    credit: 'Astronomyinertia',
     objectPosition: 'center 45%',
   },
   'lahugala-kitulana-national-park': {
     src: lahugalaKitulanaNationalParkImg,
     alt: 'One of Sri Lanka’s smallest national parks, centered on tanks carpeted in tall beru grass that attract seasonal elephant herds.',
+    credit: 'Annika K',
     objectPosition: 'center 45%',
   },
   'koneswaram-temple': {
     src: koneswaramTempleImg,
     alt: 'Revered Pancha Ishwaram Shiva temple perched high above the turquoise Bay of Bengal atop Swami Rock.',
+    credit: 'Shamli071',
     objectPosition: 'center 45%',
   },
   'fort-frederick': {
     src: fortFrederickImg,
     alt: 'Seventeenth-century gateway ramparts leading onto the Swami Rock peninsula, where spotted deer roam under ancient banyan trees.',
+    credit: 'AntanO',
     objectPosition: 'center 45%',
   },
   'marble-beach': {
     src: marbleBeachImg,
     alt: 'Protected bay inside Koddiyar Bay south of Trincomalee town, known for mirror-still, marble-like water clarity on calm days.',
+    credit: 'H.M.R.B.H.S.Bandara',
     objectPosition: 'center 45%',
   },
   'seruwila-mangala-vihara': {
     src: seruwilaMangalaViharaImg,
     alt: 'Second-century BCE stupa built by King Kavan Tissa on the southern shore of Koddiyar Bay, revered among the sixteen sacred Buddhist sites.',
+    credit: 'Nishan',
     objectPosition: 'center 45%',
   },
   'valaichchenai': {
     src: valaichchenaiImg,
     alt: 'Colorful multi-day fishing harbour and estuarine town immediately inland from Pasikuda and Kalkudah.',
+    credit: 'Anton Croos',
     objectPosition: 'center 45%',
   },
   'kattankudy-heritage-museum': {
@@ -1023,6 +1060,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'okanda-devalaya': {
     src: okandaDevalayaImg,
     alt: 'Coastal Hindu shrine nestled among granite boulders between Arugam Bay and the entrance to Kumana National Park, a key stop on the Pada Yatra.',
+    credit: '5anan27',
     objectPosition: 'center 45%',
   },
   'panama-coastal-village': {
@@ -1033,16 +1071,154 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'ampara': {
     src: amparaImg,
     alt: 'Inland district capital and base for Gal Oya, Senanayake Samudraya boat trips, and the Okanda route.',
+    credit: 'Tomáš Malík',
     objectPosition: 'center 45%',
   },
   'uppuveli': {
     src: uppuveliImg,
     alt: 'Relaxed sandy beach just north of Trincomalee town, good for swimming and diving trips.',
+    credit: 'Sachith Ravishka Kodikara',
+    objectPosition: 'center 45%',
+  },
+  'pottuvil-point': {
+    src: pottuvilPointImg,
+    alt: 'Long right-hand point break and lagoon sunsets a short ride from Arugam Bay.',
+    credit: 'Malpala lk',
+    objectPosition: 'center 45%',
+  },
+  'delft-island': {
+    src: delftIslandImg,
+    alt: 'Wind-swept Palk Strait island of stacked coral-stone walls, wild ponies, giant baobab trees, and Portuguese/Dutch ruins.',
+    credit: 'AntanO',
+    objectPosition: 'center 45%',
+  },
+  'mannar-island': {
+    src: mannarIslandImg,
+    alt: 'Arid coastal island of ancient baobab trees, Adam’s Bridge sandbanks, and winter flocks of greater flamingos.',
+    credit: 'Adam Jones',
+    objectPosition: 'center 45%',
+  },
+  'point-pedro': {
+    src: pointPedroImg,
+    alt: 'Sri Lanka’s northernmost harbour town, offering lighthouse views, palmyra groves, and authentic peninsula town life.',
+    credit: 'Walkalia',
+    objectPosition: 'center 45%',
+  },
+  'madhu-church': {
+    src: madhuChurchImg,
+    alt: 'Four-centuries-old Roman Catholic shrine set deep within quiet dry-zone forest, cherished as a place of peace and pilgrimage.',
+    credit: 'lakpuratravels',
+    objectPosition: 'center 45%',
+  },
+  'casuarina-beach': {
+    src: casuarinaBeachImg,
+    alt: 'Shallow, whisper-calm Palk Bay shoreline on Karainagar Island, shaded by casuarina trees and reached via causeway.',
+    credit: 'Indi Samarajiva',
+    objectPosition: 'center 45%',
+  },
+  'nallur-kandaswamy-kovil': {
+    src: nallurKandaswamyKovilImg,
+    alt: 'Soaring golden-ochre gopuram towers and striped courtyard walls anchor the spiritual heart of Jaffna’s Tamil heritage.',
+    credit: 'Gane Kumaraswamy',
+    objectPosition: 'center 45%',
+  },
+  'keerimalai-springs': {
+    src: keerimalaiSpringsImg,
+    alt: 'Natural freshwater mineral bathing tanks carved right beside the northern sea wall, adjacent to Naguleswaram Kovil.',
+    credit: 'dulaj cooray',
+    objectPosition: 'center 45%',
+  },
+  'mannar-causeway-vankalai': {
+    src: mannarCausewayVankalaiImg,
+    alt: 'Shallow tidal flats and thorn-scrub wetlands along the Mannar bridge where thousands of Palearctic waders and ducks winter.',
+    objectPosition: 'center 45%',
+  },
+  'jaffna-fort': {
+    src: jaffnaFortImg,
+    alt: 'Vast pentagonal coral-stone Dutch fortification overlooking Jaffna Lagoon, offering breezy rampart walks and peninsula history.',
+    credit: 'Rehman Abubakr',
+    objectPosition: 'center 45%',
+  },
+  'jaffna-public-library': {
+    src: jaffnaPublicLibraryImg,
+    alt: 'Graceful Indo-Saracenic white-domed library set in formal gardens, an enduring symbol of northern scholarship and resilience.',
+    credit: 'Anton Croos',
+    objectPosition: 'center 45%',
+  },
+  'nainativu-nagadeepa': {
+    src: nainativuNagadeepaImg,
+    alt: 'Small Palk Strait island reached by passenger launch from Kurikadduwan, home to both Nagadeepa Purana Vihara and Nagapooshani Amman Kovil.',
+    credit: 'Wikinamaste',
+    objectPosition: 'center 45%',
+  },
+  'nallur-festival-precinct': {
+    src: nallurFestivalPrecinctImg,
+    alt: 'Historic royal quarter of the Jaffna Kingdom surrounding Nallur Kovil, including Mantri Manai, Sangili Thoppu arch, and chariot avenues.',
+    objectPosition: 'center 45%',
+  },
+  'delft-queens-tower-baobab': {
+    src: delftQueensTowerBaobabImg,
+    alt: 'Dutch navigation beacon tower, giant hollow baobab tree planted by Arab traders, and coral-built pigeon house on Delft Island.',
+    objectPosition: 'center 45%',
+  },
+  'karainagar-island-route': {
+    src: karainagarIslandRouteImg,
+    alt: 'Scenic Ponnalai causeway drive across turquoise lagoon flats linking mainland Jaffna to Karainagar’s fishing villages and lighthouse.',
+    credit: 'KingAlawaka',
+    objectPosition: 'center 45%',
+  },
+  'chundikkulam-national-park': {
+    src: chundikkulamNationalParkImg,
+    alt: 'Narrow sandbar and brackish lagoon sanctuary at the base of the Jaffna Peninsula attracting flamingos, pelicans, and coastal waders.',
+    credit: 'Suyothami',
+    objectPosition: 'center 45%',
+  },
+  'mullaitivu-coast': {
+    src: mullaitivuCoastImg,
+    alt: 'Quiet, lagoon-threaded northeastern shoreline between Jaffna and Trincomalee with fishing communities and poignant contemporary history.',
+    objectPosition: 'center 45%',
+  },
+  'vavuniya-madhu-road': {
+    src: vavuniyaMadhuRoadImg,
+    alt: 'Historical borderland town between the Cultural Triangle and the Northern Province, with an archaeological museum and tank-side promenade.',
+    objectPosition: 'center 45%',
+  },
+  'thiruketheeswaram-temple': {
+    src: thiruketheeswaramTempleImg,
+    alt: 'One of the five ancient Shiva temples of Sri Lanka, overlooking the historic port site of Mantai near Mannar.',
+    objectPosition: 'center 45%',
+  },
+  'vavuniya': {
+    src: vavuniyaImg,
+    alt: 'Principal northern gateway city where the Cultural Triangle meets the Jaffna peninsula, with historic tanks and kovils.',
+    credit: 'Rehman Abubakr',
+    objectPosition: 'center 45%',
+  },
+  'kilinochchi': {
+    src: kilinochchiImg,
+    alt: 'Gateway town to the Jaffna peninsula via the A9, set among paddy fields and lagoon country.',
+    credit: 'Rehman Abubakr',
+    objectPosition: 'center 45%',
+  },
+  'mannar-town': {
+    src: mannarTownImg,
+    alt: 'Island town linked by causeway, known for its Dutch fort, baobab trees, and bird-rich shallows.',
+    objectPosition: 'center 45%',
+  },
+  'mullaitivu-town': {
+    src: mullaitivuTownImg,
+    alt: 'Quiet north-eastern coastal district capital with long empty beaches and lagoon fishing communities.',
     objectPosition: 'center 45%',
   },
   'udawalawe-national-park': {
     src: udawalaweNationalParkImg,
     alt: 'Open grassland and reservoir landscape renowned for wild Asian elephant herds and accessible safari tracks.',
+    credit: 'PIERRE ANDRE LECLERCQ',
+    objectPosition: 'center 45%',
+  },
+  'bundala-national-park': {
+    src: bundalaNationalParkImg,
+    alt: 'UNESCO Biosphere and Ramsar wetland sanctuary where coastal lagoons, dunes, and salt pans host migratory birdlife.',
     objectPosition: 'center 45%',
   },
 };
