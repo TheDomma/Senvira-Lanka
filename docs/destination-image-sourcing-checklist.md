@@ -2366,8 +2366,8 @@ Yashi EL
 **Why it is listed:** Deeply revered multi-faith pilgrimage town along the Menik Ganga, bridging Buddhist, Hindu, Muslim, and Vedda traditions.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Kataragama.jpg`
+- **Image source page URL:** https://rmkd.lk/wp-content/uploads/2024/02/Kiri-Vehera-4.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2379,9 +2379,9 @@ Yashi EL
 **Why it is listed:** Managed drive-through zoological park in Hambantota designed for family-friendly viewing; distinct from wild national park ecosystems.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Ridiyagama Safari Park.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1720779363674-5dda547d9613?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Shyaman Prasad
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2392,9 +2392,9 @@ Yashi EL
 **Why it is listed:** Dramatic boulder-strewn coastal headland shrine commemorating Queen Viharamahadevi, standing at the edge of Yala’s southern dunes.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kirinda.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1683647986987-bcd7c320f3a1?q=80&w=787&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Evgeny Matveev
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2405,9 +2405,9 @@ Yashi EL
 **Why it is listed:** Historic capital of the ancient Ruhuna Kingdom where the gleaming white Tissamaharama Raja Maha Vihara reflects beside tree-lined Tissa Wewa.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Tissamaharama & Tissa Wewa.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Thissa_Lake_%E0%B6%AD%E0%B7%92%E0%B7%83%E0%B7%8F_%E0%B7%80%E0%B7%90%E0%B7%80,_Thissamaharama,_Southern_Province,_Sri_Lanka.jpg#/media/File:Thissa_Lake_%E0%B6%AD%E0%B7%92%E0%B7%83%E0%B7%8F_%E0%B7%80%E0%B7%90%E0%B7%80,_Thissamaharama,_Southern_Province,_Sri_Lanka.jpg
+- **Photographer / creator credit:** Yashaswin Dineth
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2418,9 +2418,9 @@ Yashi EL
 **Why it is listed:** Unique inland national park where guided boat safaris glide across island-dotted waters, sometimes spotting elephants swimming between islets.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Gal Oya National Park.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Senanayake_Samudraya_(Gal_Oya).jpg#/media/File:Senanayake_Samudraya_(Gal_Oya).jpg
+- **Photographer / creator credit:** AntanO
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2431,9 +2431,9 @@ Yashi EL
 **Why it is listed:** Sri Lanka’s largest inland body of water, ringed by the Gal Oya hills and home to Bird Island rookeries and tranquil dawn boat trips.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Senanayake Samudraya.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Gal_Oya_Dam.JPG#/media/File:Gal_Oya_Dam.JPG
+- **Photographer / creator credit:** AntanO
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2444,9 +2444,9 @@ Yashi EL
 **Why it is listed:** Seven 10th-century Mahayana Buddhist figures carved into a forest cliff near Wellawaya, led by a 16-meter central standing Buddha.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Buduruwagala.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Buduruwagala-site.jpg#/media/File:Buduruwagala-site.jpg
+- **Photographer / creator credit:** Pasan
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2457,9 +2457,9 @@ Yashi EL
 **Why it is listed:** Colossal 7th-century free-standing crystalline limestone Buddha statue and nearby Avalokiteshvara Bodhisattva image in a quiet forest glade.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Maligawila Buddha Statue.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Standing_Buddha_Statue_Maligawila.jpg#/media/File:Standing_Buddha_Statue_Maligawila.jpg
+- **Photographer / creator credit:** S.G.Seyone
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2470,8 +2470,8 @@ Yashi EL
 **Why it is listed:** Dry-zone hill town below rock domes, linking Arugam Bay, Kataragama, and Buduruwagala.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Monaragala.jpg`
+- **Image source page URL:** https://www.facebook.com/share/1EKkzMQx7w/
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
