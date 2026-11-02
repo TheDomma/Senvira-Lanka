@@ -178,8 +178,17 @@ import vavuniyaImg from '../assets/images/destinations/Vavuniya.jpg';
 import kilinochchiImg from '../assets/images/destinations/kilinochchi.jpg';
 import mannarTownImg from '../assets/images/destinations/Mannar Town.jpg';
 import mullaitivuTownImg from '../assets/images/destinations/Mullaitivu Town.jpg';
-import udawalaweNationalParkImg from '../assets/images/destinations/udawalawe.jpg';
+import udawalaweNationalParkImg from '../assets/images/destinations/Udawalawe National Park.jpg';
 import bundalaNationalParkImg from '../assets/images/destinations/Bundala National Park.jpg';
+import kataragamaImg from '../assets/images/destinations/Kataragama.jpg';
+import ridiyagamaSafariParkImg from '../assets/images/destinations/Ridiyagama Safari Park.jpg';
+import kirindaImg from '../assets/images/destinations/Kirinda.jpg';
+import tissamaharamaTissaWewaImg from '../assets/images/destinations/Tissamaharama & Tissa Wewa.jpg';
+import galOyaNationalParkImg from '../assets/images/destinations/Gal Oya National Park.jpg';
+import senanayakeSamudrayaImg from '../assets/images/destinations/Senanayake Samudraya.jpg';
+import buduruwagalaImg from '../assets/images/destinations/Buduruwagala.jpg';
+import maligawilaBuddhaStatueImg from '../assets/images/destinations/Maligawila Buddha Statue.jpg';
+import monaragalaImg from '../assets/images/destinations/Monaragala.jpg';
 
 export interface CatalogueCardImageData {
   src: ImageMetadata;
@@ -1219,6 +1228,58 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'bundala-national-park': {
     src: bundalaNationalParkImg,
     alt: 'UNESCO Biosphere and Ramsar wetland sanctuary where coastal lagoons, dunes, and salt pans host migratory birdlife.',
+    objectPosition: 'center 45%',
+  },
+  'kataragama': {
+    src: kataragamaImg,
+    alt: 'Deeply revered multi-faith pilgrimage town along the Menik Ganga, bridging Buddhist, Hindu, Muslim, and Vedda traditions.',
+    objectPosition: 'center 45%',
+  },
+  'ridiyagama-safari-park': {
+    src: ridiyagamaSafariParkImg,
+    alt: 'Managed drive-through zoological park in Hambantota designed for family-friendly viewing; distinct from wild national park ecosystems.',
+    credit: 'Shyaman Prasad',
+    objectPosition: 'center 45%',
+  },
+  'kirinda': {
+    src: kirindaImg,
+    alt: 'Dramatic boulder-strewn coastal headland shrine commemorating Queen Viharamahadevi, standing at the edge of Yala’s southern dunes.',
+    credit: 'Evgeny Matveev',
+    objectPosition: 'center 45%',
+  },
+  'tissamaharama-tissa-wewa': {
+    src: tissamaharamaTissaWewaImg,
+    alt: 'Historic capital of the ancient Ruhuna Kingdom where the gleaming white Tissamaharama Raja Maha Vihara reflects beside tree-lined Tissa Wewa.',
+    credit: 'Yashaswin Dineth',
+    objectPosition: 'center 45%',
+  },
+  'gal-oya-national-park': {
+    src: galOyaNationalParkImg,
+    alt: 'Unique inland national park where guided boat safaris glide across island-dotted waters, sometimes spotting elephants swimming between islets.',
+    credit: 'AntanO',
+    objectPosition: 'center 45%',
+  },
+  'senanayake-samudraya': {
+    src: senanayakeSamudrayaImg,
+    alt: 'Sri Lanka’s largest inland body of water, ringed by the Gal Oya hills and home to Bird Island rookeries and tranquil dawn boat trips.',
+    credit: 'AntanO',
+    objectPosition: 'center 45%',
+  },
+  'buduruwagala': {
+    src: buduruwagalaImg,
+    alt: 'Seven 10th-century Mahayana Buddhist figures carved into a forest cliff near Wellawaya, led by a 16-meter central standing Buddha.',
+    credit: 'Pasan',
+    objectPosition: 'center 45%',
+  },
+  'maligawila-buddha-statue': {
+    src: maligawilaBuddhaStatueImg,
+    alt: 'Colossal 7th-century free-standing crystalline limestone Buddha statue and nearby Avalokiteshvara Bodhisattva image in a quiet forest glade.',
+    credit: 'S.G.Seyone',
+    objectPosition: 'center 45%',
+  },
+  'monaragala': {
+    src: monaragalaImg,
+    alt: '## Notes',
     objectPosition: 'center 45%',
   },
 };
