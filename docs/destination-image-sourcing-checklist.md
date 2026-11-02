@@ -1807,7 +1807,7 @@ Yashi EL
 **Why it is listed:** Reef-protected horseshoe bay renowned for exceptionally shallow, calm turquoise water during the east-coast sunshine months.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\pasikuda.jpg`
+- **Image file/path:** `src\assets\images\destinations\Pasikuda.jpg`
 - **Image source page URL:** https://images.unsplash.com/photo-1596967829313-0fe1918d3358?q=80&w=993&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** Charuka Herath
 - **License / permission:** 
