@@ -11,7 +11,8 @@ import avukanaBuddhaStatueImg from '../assets/images/destinations/avukana.jpg';
 import kalaWewaImg from '../assets/images/destinations/kala-wewa.jpg';
 import somawathiyaNationalParkImg from '../assets/images/destinations/Somawathiya National Park.jpg';
 import maduruOyaNationalParkImg from '../assets/images/destinations/Maduru Oya National Park.jpg';
-import royalRockTempleKurunegalaImg from '../assets/images/destinations/ethagala.webp';
+import royalRockTempleKurunegalaImg from '../assets/images/destinations/ethagala.jpg';
+import jayaSriMahaBodhiImg from '../assets/images/destinations/jaya Sri Maha Bodhi.jpg';
 import ruwanwelisayaImg from '../assets/images/destinations/anuradhapura.jpg';
 import jetavanaramayaImg from '../assets/images/destinations/Jetavanaramaya.jpg';
 import abhayagiriMonasteryImg from '../assets/images/destinations/Abhayagiri.jpg';
@@ -21,18 +22,18 @@ import galViharaImg from '../assets/images/destinations/Gal Vihara.jpg';
 import polonnaruwaVatadageImg from '../assets/images/destinations/Vatadage.jpg';
 import rankothVeheraImg from '../assets/images/destinations/Rathna Deepaya.jpg';
 import medirigiriyaVatadageImg from '../assets/images/destinations/Medirigiriya Vatadage.jpg';
-import pabaluVeheraImg from '../assets/images/destinations/Pabalu Vehera.webp';
+import pabaluVeheraImg from '../assets/images/destinations/Pabalu Vehera.jpg';
 import nalandaGedigeImg from '../assets/images/destinations/Nalanda Gedige.webp';
 import aluvihareRockTempleImg from '../assets/images/destinations/Aluvihare.jpg';
 import sasseruwaBuddhaStatueImg from '../assets/images/destinations/Sasseruwa Buddha Statue.webp';
 import yapahuwaMuseumImg from '../assets/images/destinations/Yapahuwa Museum.webp';
 import maduruOyaAncientSluiceImg from '../assets/images/destinations/Maduru Oya.webp';
 import tantirimaleRajaMahaViharaImg from '../assets/images/destinations/Tantirimale.webp';
-import thanthirimaleReservoirImg from '../assets/images/destinations/Tantirimale.webp';
+import thanthirimaleReservoirImg from '../assets/images/destinations/Thanthirimale2.jpg';
 import yapahuwaPanduwasnuwaraRouteImg from '../assets/images/destinations/Panduwasnuwara.webp';
-import ridiViharaImg from '../assets/images/destinations/Ridi Vihara.webp';
+import ridiViharaImg from '../assets/images/destinations/Ridi Vihara.jpg';
 import mataleImg from '../assets/images/destinations/Matale.jpg';
-import kurunegalaImg from '../assets/images/destinations/Kurunegala.webp';
+import kurunegalaImg from '../assets/images/destinations/Kurunegala.jpg';
 import adamsPeakImg from '../assets/images/destinations/Adam’s Peak.jpg';
 import hortonPlainsImg from '../assets/images/destinations/Horton Plains1.webp';
 import haputaleImg from '../assets/images/destinations/Haputale.jpg';
@@ -63,7 +64,7 @@ import belilenaCaveImg from '../assets/images/destinations/Belilena Cave.jpg';
 import ratnapuraGemHeritageImg from '../assets/images/destinations/Ratnapura Gem Heritage.jpg';
 import dambanaIndigenousHeritageImg from '../assets/images/destinations/Dambana Vedda Heritage.webp';
 import badullaImg from '../assets/images/destinations/Badulla.jpg';
-import ratnapuraImg from '../assets/images/destinations/Ratnapura.webp';
+import ratnapuraImg from '../assets/images/destinations/Ratnapura.jpg';
 import kegalleImg from '../assets/images/destinations/Kegalle.jpg';
 import dunhindaFallsImg from '../assets/images/destinations/Dunhinda Falls.jpg';
 import laxapanaFallsImg from '../assets/images/destinations/Laxapana.jpg';
@@ -91,15 +92,69 @@ import japanesePeacePagodaRumassalaImg from '../assets/images/destinations/Japan
 import ahangamaKabalanaImg from '../assets/images/destinations/kabalana.jpg';
 import dikwellaWewurukannalaImg from '../assets/images/destinations/Wewurukannala.jpg';
 import mulkirigalaRajaMahaViharaImg from '../assets/images/destinations/Mulkirigala Raja Maha Vihara.jpg';
+import hambantotaImg from '../assets/images/destinations/Hambantota.jpg';
 import ahangamaImg from '../assets/images/destinations/Ahangama.jpg';
 import jungleBeachImg from '../assets/images/destinations/Jungle Beach.jpg';
 import hiriketiyaImg from '../assets/images/destinations/Hiriketiya.jpg';
 import dickwellaImg from '../assets/images/destinations/Dickwella.jpg';
 import midigamaImg from '../assets/images/destinations/Midigama.jpg';
 import talallaImg from '../assets/images/destinations/Talalla.jpg';
-import koggalaImg from '../assets/images/destinations/Koggala Lake.jpg';
-import kabalanaBeachImg from '../assets/images/destinations/kabalana.jpg';
+import polhenaBeachImg from '../assets/images/destinations/Polhena Beach.jpg';
+import koggalaImg from '../assets/images/destinations/Koggala.jpg';
+import thalpeImg from '../assets/images/destinations/Thalpe.jpg';
+import mawellaBeachImg from '../assets/images/destinations/Mawella Beach.jpg';
+import goyambokkaBeachImg from '../assets/images/destinations/Goyambokka Beach.jpg';
+import kabalanaBeachImg from '../assets/images/destinations/Kabalana Beach.jpg';
+import silentBeachImg from '../assets/images/destinations/Silent Beach.jpg';
 import negomboImg from '../assets/images/destinations/negombo.jpg';
+import kalpitiyaImg from '../assets/images/destinations/Kalpitiya.jpg';
+import wilpattuNationalParkImg from '../assets/images/destinations/Wilpattu.jpg';
+import kalutaraImg from '../assets/images/destinations/Kalutara.jpg';
+import hikkaduwaImg from '../assets/images/destinations/Hikkaduwa.jpg';
+import kosgodaImg from '../assets/images/destinations/Kosgoda.jpg';
+import maduGangaImg from '../assets/images/destinations/Madu Ganga.jpg';
+import kalpitiyaDutchFortImg from '../assets/images/destinations/Kalpitiya Dutch Fort.jpg';
+import anawilundawaWetlandSanctuaryImg from '../assets/images/destinations/Anawilundawa Wetland Sanctuary.jpg';
+import munneswaramTempleImg from '../assets/images/destinations/Munneswaram.jpg';
+import lunuwilaCoconutEstatesImg from '../assets/images/destinations/Lunuwila Coconut Estates.jpg';
+import gangaramayaTempleImg from '../assets/images/destinations/Gangaramaya Temple.avif';
+import independenceMemorialHallImg from '../assets/images/destinations/Independence Memorial Hall.jpg';
+import nationalMuseumOfColomboImg from '../assets/images/destinations/National Museum of Colombo.jpg';
+import mountLaviniaImg from '../assets/images/destinations/Mount Lavinia.jpg';
+import kelaniyaRajaMahaViharaImg from '../assets/images/destinations/Kelaniya Raja Maha Vihara.jpg';
+import muthurajawelaWetlandsImg from '../assets/images/destinations/Muthurajawela Wetlands.jpg';
+import seethawakaBotanicGardensImg from '../assets/images/destinations/Seethawaka Wet Zone Botanic Gardens.jpg';
+import briefGardenImg from '../assets/images/destinations/Brief Garden.webp';
+import richmondCastleImg from '../assets/images/destinations/Richmond Castle.jpg';
+import wilpattuVillusImg from '../assets/images/destinations/Wilpattu Villus.jpg';
+import deduruOyaReservoirImg from '../assets/images/destinations/Deduru Oya Reservoir.jpg';
+import gampahaImg from '../assets/images/destinations/Gampaha.jpg';
+import puttalamImg from '../assets/images/destinations/Puttalam.jpg';
+import beruwalaImg from '../assets/images/destinations/Beruwala.jpg';
+import wadduwaImg from '../assets/images/destinations/Wadduwa.jpg';
+import induruwaImg from '../assets/images/destinations/Induruwa.jpg';
+import ambalangodaImg from '../assets/images/destinations/Ambalangoda.jpg';
+import barReefImg from '../assets/images/destinations/Bar Reef.jpg';
+import nilaveliImg from '../assets/images/destinations/Nilaveli.jpg';
+import pigeonIslandNationalParkImg from '../assets/images/destinations/Pigeon Island National Park.jpg';
+import pasikudaImg from '../assets/images/destinations/pasikuda.jpg';
+import batticaloaImg from '../assets/images/destinations/batticaloa.jpg';
+import arugamBayImg from '../assets/images/destinations/Arugam Bay.jpg';
+import kumanaNationalParkImg from '../assets/images/destinations/Kumana National Park.jpg';
+import kalkudahImg from '../assets/images/destinations/kalkudah.jpg';
+import kuchchaveliImg from '../assets/images/destinations/kuchchaveli.jpg';
+import batticaloaLagoonImg from '../assets/images/destinations/Batticaloa Lagoon.jpg';
+import lahugalaKitulanaNationalParkImg from '../assets/images/destinations/Lahugala Kitulana National Park.jpg';
+import koneswaramTempleImg from '../assets/images/destinations/Koneswaram Temple & Swami Rock.jpg';
+import fortFrederickImg from '../assets/images/destinations/Fort Frederick.jpg';
+import marbleBeachImg from '../assets/images/destinations/Marble Beach.jpg';
+import seruwilaMangalaViharaImg from '../assets/images/destinations/Seruwila Mangala Raja Maha Vihara.jpg';
+import valaichchenaiImg from '../assets/images/destinations/valaichchenai.jpg';
+import kattankudyHeritageMuseumImg from '../assets/images/destinations/Kattankudy Heritage Museum.webp';
+import okandaDevalayaImg from '../assets/images/destinations/Okanda Devalaya.jpg';
+import panamaCoastalVillageImg from '../assets/images/destinations/Panama.jpg';
+import amparaImg from '../assets/images/destinations/ampara.jpg';
+import uppuveliImg from '../assets/images/destinations/uppuveli.jpg';
 import udawalaweNationalParkImg from '../assets/images/destinations/udawalawe.jpg';
 
 export interface CatalogueCardImageData {
@@ -186,9 +241,16 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     alt: 'Royal Rock Temple, Kurunegala',
     objectPosition: 'center 45%',
   },
+  'jaya-sri-maha-bodhi': {
+    src: jayaSriMahaBodhiImg,
+    alt: 'Jaya Sri Maha Bodhi',
+    credit: 'Muditha Dodamwala',
+    objectPosition: 'center 45%',
+  },
   'ruwanwelisaya': {
     src: ruwanwelisayaImg,
     alt: 'Ruwanwelisaya',
+    credit: 'Muditha Dodamwala',
     objectPosition: 'center 35%',
   },
   'jetavanaramaya': {
@@ -241,7 +303,6 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'pabalu-vehera': {
     src: pabaluVeheraImg,
     alt: 'Pabalu Vehera',
-    credit: 'Vladwitty',
     objectPosition: 'center 45%',
   },
   'nalanda-gedige': {
@@ -273,16 +334,19 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'tantirimale-raja-maha-vihara': {
     src: tantirimaleRajaMahaViharaImg,
     alt: 'Expansive sheet-rock monastic complex northwest of Anuradhapura featuring rock-cut Buddha statues, lotus ponds, and prehistoric cave paintings.',
+    credit: 'Anjitha Senarath',
     objectPosition: 'center 45%',
   },
   'thanthirimale-reservoir': {
     src: thanthirimaleReservoirImg,
     alt: 'Peaceful dry-zone village and tank landscape surrounding Tantirimale on the eastern border of Wilpattu.',
+    credit: 'Anjitha Senarath',
     objectPosition: 'center 45%',
   },
   'yapahuwa-panduwasnuwara-route': {
     src: yapahuwaPanduwasnuwaraRouteImg,
     alt: 'Paired countryside itinerary linking Yapahuwa’s granite citadel with Panduwasnuwara’s moated 12th-century palace ruins and circular Chakrawala Kotte.',
+    credit: 'L Manju',
     objectPosition: 'center 45%',
   },
   'ridi-vihara': {
@@ -299,6 +363,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'kurunegala': {
     src: kurunegalaImg,
     alt: 'Former royal capital beneath huge granite outcrops, with a hilltop Buddha statue and a lively market centre.',
+    credit: 'Zhx14414',
     objectPosition: 'center 45%',
   },
   'adams-peak': {
@@ -345,6 +410,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'sinharaja-forest-reserve': {
     src: sinharajaForestReserveImg,
     alt: 'UNESCO World Heritage primary lowland rainforest celebrated for mixed-species endemic bird flocks and guided naturalist walks.',
+    credit: 'Dan Lundberg',
     objectPosition: 'center 45%',
   },
   'pinnawala': {
@@ -402,6 +468,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'embekka-devalaya': {
     src: embekkaDevalayaImg,
     alt: 'Fourteenth-century Gampola-era shrine renowned for its pillared drummer’s hall featuring over 500 distinct intricate woodcarvings.',
+    credit: 'Dhammika98',
     objectPosition: 'center 45%',
   },
   'lankatilaka-vihara': {
@@ -424,6 +491,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'bambarakanda-falls': {
     src: bambarakandaFallsImg,
     alt: 'Sri Lanka’s highest waterfall (263m), plunging in a slender silver thread through a quiet pine-ringed amphitheatre in Kalupahana.',
+    credit: 'Kiriwattuduwa',
     objectPosition: 'center 45%',
   },
   'ravana-falls': {
@@ -435,6 +503,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'st-clairs-falls': {
     src: stClairsFallsImg,
     alt: 'Known as the “Little Niagara of Sri Lanka”, this wide double cascade flows across rock terraces amid the Talawakele tea estates.',
+    credit: 'Rehman Abubakr',
     objectPosition: 'center 45%',
   },
   'devon-falls': {
@@ -474,7 +543,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'ratnapura': {
     src: ratnapuraImg,
     alt: 'City of Gems with working mines, a gem market, and the traditional starting point for Adam’s Peak and Sinharaja.',
-    credit: 'Nuwan Liyanage',
+    credit: 'L Manju',
     objectPosition: 'center 45%',
   },
   'kegalle': {
@@ -535,6 +604,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'sera-ella': {
     src: seraEllaImg,
     alt: 'Curtain-like waterfall in the eastern Knuckles foothills with a natural rock cave tucked behind the falling water.',
+    credit: 'Varuna Harshana',
     objectPosition: 'center 45%',
   },
   'gartmore-falls': {
@@ -586,6 +656,7 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
   'ussangoda-national-park': {
     src: ussangodaNationalParkImg,
     alt: 'Striking iron-rich crimson coastal plateau overlooking the Indian Ocean, steeped in folklore and unusual serpentine soil ecology.',
+    credit: 'A.Savin',
     objectPosition: 'center 45%',
   },
   'dondra-head-lighthouse': {
@@ -625,6 +696,12 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     alt: 'Ancient seven-terraced cave monastery rising on a sheer 205-meter boulder inland from Tangalle, filled with Kandyan-era murals.',
     objectPosition: 'center 45%',
   },
+  'hambantota': {
+    src: hambantotaImg,
+    alt: 'Southern district capital with a working harbour, salt pans, coastal dunes, and quick access to Bundala and Yala.',
+    credit: 'Deneth17',
+    objectPosition: 'center 45%',
+  },
   'ahangama': {
     src: ahangamaImg,
     alt: 'Relaxed surf village with stilt-fisherman views, boutique stays, and cafés strung along the coast road.',
@@ -659,9 +736,30 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     alt: 'Wide, uncrowded sweep of golden sand with gentle waves and a quieter feel than Mirissa.',
     objectPosition: 'center 45%',
   },
+  'polhena-beach': {
+    src: polhenaBeachImg,
+    alt: 'Reef-protected bay beside Matara where turtles graze and calm water suits families.',
+    objectPosition: 'center 45%',
+  },
   'koggala': {
     src: koggalaImg,
     alt: 'Lake, beach, and stilt-fishing coast with Martin Wickramasinghe’s museum and island temples on the lagoon.',
+    credit: 'Rajbavananthan Balasubramaniam',
+    objectPosition: 'center 45%',
+  },
+  'thalpe': {
+    src: thalpeImg,
+    alt: 'Palm-edged coast between Galle and Unawatuna with calm coves and small seaside stays.',
+    objectPosition: 'center 45%',
+  },
+  'mawella-beach': {
+    src: mawellaBeachImg,
+    alt: 'Quiet crescent near Tangalle with calm shallows and a natural rock pool at one end.',
+    objectPosition: 'center 45%',
+  },
+  'goyambokka-beach': {
+    src: goyambokkaBeachImg,
+    alt: 'Small, secluded bay near Tangalle ringed by rocks, with soft sand and gentle swimming.',
     objectPosition: 'center 45%',
   },
   'kabalana-beach': {
@@ -669,11 +767,278 @@ export const catalogueCardImages: Record<string, CatalogueCardImageData> = {
     alt: 'Signature southern reef and beach-break bay famous for "The Rock" surf wave and golden sand.',
     objectPosition: 'center 45%',
   },
+  'silent-beach': {
+    src: silentBeachImg,
+    alt: 'Postcard-pretty crescent of pale sand and swaying palms tucked below a quiet headland near Tangalle.',
+    objectPosition: 'center 45%',
+  },
   'negombo': {
     src: negomboImg,
     alt: 'Negombo',
     credit: 'Amod S Pallemulla',
     objectPosition: 'center 50%',
+  },
+  'kalpitiya': {
+    src: kalpitiyaImg,
+    alt: 'Kite-surfing lagoons, seasonal dolphin watching, sandbars, and a quieter peninsula setting.',
+    credit: 'Charith Kodagoda',
+    objectPosition: 'center 45%',
+  },
+  'wilpattu-national-park': {
+    src: wilpattuNationalParkImg,
+    alt: 'Large, forested national park known for its distinctive natural rimmed lakes (villus) and unhurried safari routes.',
+    credit: 'Udara Karunarathna',
+    objectPosition: 'center 45%',
+  },
+  'kalutara': {
+    src: kalutaraImg,
+    alt: 'Riverside stupa landmark, basket-weaving craft traditions, and an easy coastal stop south of Colombo.',
+    credit: 'Dilani Wickramanayake',
+    objectPosition: 'center 45%',
+  },
+  'hikkaduwa': {
+    src: hikkaduwaImg,
+    alt: 'Lively southwest beach town with seasonal surf breaks, diving, and a protected nearshore coral sanctuary.',
+    credit: 'Aditya Siva',
+    objectPosition: 'center 45%',
+  },
+  'kosgoda': {
+    src: kosgodaImg,
+    alt: 'Quiet shoreline and coastal wetlands known for sea-turtle conservation work with ethical, conservation-led operators.',
+    objectPosition: 'center 45%',
+  },
+  'madu-ganga': {
+    src: maduGangaImg,
+    alt: 'Mangrove-lined estuary and cinnamon-island boat routes ideal for calm, nature-focused coastal itineraries.',
+    objectPosition: 'center 45%',
+  },
+  'kalpitiya-dutch-fort': {
+    src: kalpitiyaDutchFortImg,
+    alt: 'Compact 17th-century coral-and-limestone rampart fort guarding the mouth of Puttalam Lagoon.',
+    credit: 'A.Savin',
+    objectPosition: 'center 45%',
+  },
+  'anawilundawa-wetland-sanctuary': {
+    src: anawilundawaWetlandSanctuaryImg,
+    alt: 'Interconnected cascade of ancient irrigation tanks where coastal mangroves, forest, and freshwater wetlands meet.',
+    credit: 'Dhammika Heenpella',
+    objectPosition: 'center 45%',
+  },
+  'munneswaram-temple': {
+    src: munneswaramTempleImg,
+    alt: 'Ancient multi-shrine Hindu temple complex in Chilaw with deep mythological roots and vibrant annual festival traditions.',
+    credit: 'Photogitthi',
+    objectPosition: 'center 45%',
+  },
+  'lunuwila-coconut-estates': {
+    src: lunuwilaCoconutEstatesImg,
+    alt: 'Heart of Sri Lanka’s Coconut Triangle, offering estate walks and insight into traditional toddy, oil, and agro-forestry.',
+    objectPosition: 'center 45%',
+  },
+  'gangaramaya-temple': {
+    src: gangaramayaTempleImg,
+    alt: 'Landmark Buddhist temple and eclectic museum complex near Beira Lake, including the waterside Seema Malaka pavilion.',
+    credit: 'Kalpa Chathuranga',
+    objectPosition: 'center 45%',
+  },
+  'independence-memorial-hall': {
+    src: independenceMemorialHallImg,
+    alt: 'Open-sided stone pavilion inspired by the Kandyan Magul Maduwa, set amid leafy gardens in Cinnamon Gardens.',
+    credit: 'Zoshua Colah',
+    objectPosition: 'center 45%',
+  },
+  'national-museum-of-colombo': {
+    src: nationalMuseumOfColomboImg,
+    alt: 'Sri Lanka’s premier cultural museum, housed in an 1877 Italianate white building holding bronzes, sculptures, and the Kandyan royal throne.',
+    credit: 'A.Savin',
+    objectPosition: 'center 45%',
+  },
+  'mount-lavinia': {
+    src: mountLaviniaImg,
+    alt: 'Historic seaside headland south of Colombo known for its colonial governor’s mansion hotel, railway coast, and sunset beach walks.',
+    credit: 'Thilina Alagiyawanna',
+    objectPosition: 'center 45%',
+  },
+  'kelaniya-raja-maha-vihara': {
+    src: kelaniyaRajaMahaViharaImg,
+    alt: 'Revered riverside Buddhist temple northeast of Colombo celebrated for Solias Mendis’s masterpiece twentieth-century murals.',
+    credit: 'Ceylon Frames',
+    objectPosition: 'center 45%',
+  },
+  'muthurajawela-wetlands': {
+    src: muthurajawelaWetlandsImg,
+    alt: 'Expansive biodiversity-rich peat marsh between Colombo and Negombo explored by quiet morning boat trips along Hamilton Canal.',
+    objectPosition: 'center 45%',
+  },
+  'seethawaka-botanic-gardens': {
+    src: seethawakaBotanicGardensImg,
+    alt: 'Peaceful landscaped garden in the wet-zone foothills showcasing endemic lowland rainforest flora, fern valleys, and stream walks.',
+    credit: 'Varuna Harshana',
+    objectPosition: 'center 45%',
+  },
+  'brief-garden': {
+    src: briefGardenImg,
+    alt: 'Intimate, sculpture-filled tropical garden estate created by artist and landscape designer Bevis Bawa inland from Bentota.',
+    objectPosition: 'center 45%',
+  },
+  'richmond-castle': {
+    src: richmondCastleImg,
+    alt: 'Early twentieth-century hilltop estate mansion near Kalutara blending Indian palace motifs, Burmese teak, and Scottish stained glass.',
+    credit: 'Lyn Hoare',
+    objectPosition: 'center 45%',
+  },
+  'wilpattu-villus': {
+    src: wilpattuVillusImg,
+    alt: 'Over fifty natural sand-rimmed rainwater basins scattered through Wilpattu’s forest canopy, acting as magnets for leopards, sloth bears, and deer.',
+    credit: 'Senux',
+    objectPosition: 'center 45%',
+  },
+  'deduru-oya-reservoir': {
+    src: deduruOyaReservoirImg,
+    alt: 'Broad inland reservoir near Wariyapola offering quiet evening reflections, waterbird habitats, and rural North Western Province scenery.',
+    credit: 'Thilina Alagiyawanna',
+    objectPosition: 'center 45%',
+  },
+  'gampaha': {
+    src: gampahaImg,
+    alt: 'District capital in the green belt north of Colombo, close to Henarathgoda Botanical Garden and the airport corridor.',
+    credit: 'Chadpics',
+    objectPosition: 'center 45%',
+  },
+  'puttalam': {
+    src: puttalamImg,
+    alt: 'Lagoon-side district capital and gateway to Kalpitiya, Wilpattu, and the salt-making coast.',
+    credit: 'Arqm Ahmd',
+    objectPosition: 'center 45%',
+  },
+  'beruwala': {
+    src: beruwalaImg,
+    alt: 'Resort coast with a historic harbour, an old lighthouse island, and long sandy beaches.',
+    credit: 'Embassy of Sri Lanka in Sweden',
+    objectPosition: 'center 45%',
+  },
+  'wadduwa': {
+    src: wadduwaImg,
+    alt: 'Easy west-coast beach stop close to Colombo, with calm months from November to April.',
+    credit: 'Chathura Anuradha',
+    objectPosition: 'center 45%',
+  },
+  'induruwa': {
+    src: induruwaImg,
+    alt: 'Quieter stretch of west-coast sand near Kosgoda, popular with turtle-conservation visitors.',
+    objectPosition: 'center 45%',
+  },
+  'ambalangoda': {
+    src: ambalangodaImg,
+    alt: 'Coastal town famed for traditional masks, a mask museum, and beaches south of Hikkaduwa.',
+    objectPosition: 'center 45%',
+  },
+  'bar-reef': {
+    src: barReefImg,
+    alt: 'Sri Lanka’s largest coral reef system, best for snorkelling and diving between November and April.',
+    credit: 'wewe yang',
+    objectPosition: 'center 45%',
+  },
+  'nilaveli': {
+    src: nilaveliImg,
+    alt: 'Wide, pale-sand eastern beach ideal for calm-season swimming (May to September) and boat departures to Pigeon Island.',
+    credit: 'Sajeevan Balachandran',
+    objectPosition: 'center 45%',
+  },
+  'pigeon-island-national-park': {
+    src: pigeonIslandNationalParkImg,
+    alt: 'Offshore marine park protecting coral gardens, reef fish, and blacktip reef sharks; visits require mindful, reef-safe snorkelling.',
+    objectPosition: 'center 45%',
+  },
+  'pasikuda': {
+    src: pasikudaImg,
+    alt: 'Reef-protected horseshoe bay renowned for exceptionally shallow, calm turquoise water during the east-coast sunshine months.',
+    objectPosition: 'center 45%',
+  },
+  'batticaloa': {
+    src: batticaloaImg,
+    alt: 'Historic eastern city shaped by expansive waterways, a water-surrounded Dutch fort, Kallady Bridge, and vibrant local culture.',
+    objectPosition: 'center 45%',
+  },
+  'arugam-bay': {
+    src: arugamBayImg,
+    alt: 'World-renowned point-break surf crescent on the southeast coast, surrounded by wildlife lagoons and ancient forest shrines.',
+    objectPosition: 'center 45%',
+  },
+  'kumana-national-park': {
+    src: kumanaNationalParkImg,
+    alt: 'Remote southeastern sanctuary centered on the Kumana Villu mangrove swamp, a premier nesting ground for wading birds and leopards.',
+    objectPosition: 'center 45%',
+  },
+  'kalkudah': {
+    src: kalkudahImg,
+    alt: 'Peaceful two-kilometer curve of soft sand immediately south of Pasikuda, offering a quieter, uncrowded coastal rhythm.',
+    objectPosition: 'center 45%',
+  },
+  'kuchchaveli': {
+    src: kuchchaveliImg,
+    alt: 'Serene northern stretch of the Trincomalee coast where coastal scrub, estuaries, and ancient rock inscriptions meet empty beaches.',
+    objectPosition: 'center 45%',
+  },
+  'batticaloa-lagoon': {
+    src: batticaloaLagoonImg,
+    alt: 'Fifty-six-kilometer estuarine lagoon system famed for mangrove islands, traditional cast-net fishing, and lore of “singing fish”.',
+    objectPosition: 'center 45%',
+  },
+  'lahugala-kitulana-national-park': {
+    src: lahugalaKitulanaNationalParkImg,
+    alt: 'One of Sri Lanka’s smallest national parks, centered on tanks carpeted in tall beru grass that attract seasonal elephant herds.',
+    objectPosition: 'center 45%',
+  },
+  'koneswaram-temple': {
+    src: koneswaramTempleImg,
+    alt: 'Revered Pancha Ishwaram Shiva temple perched high above the turquoise Bay of Bengal atop Swami Rock.',
+    objectPosition: 'center 45%',
+  },
+  'fort-frederick': {
+    src: fortFrederickImg,
+    alt: 'Seventeenth-century gateway ramparts leading onto the Swami Rock peninsula, where spotted deer roam under ancient banyan trees.',
+    objectPosition: 'center 45%',
+  },
+  'marble-beach': {
+    src: marbleBeachImg,
+    alt: 'Protected bay inside Koddiyar Bay south of Trincomalee town, known for mirror-still, marble-like water clarity on calm days.',
+    objectPosition: 'center 45%',
+  },
+  'seruwila-mangala-vihara': {
+    src: seruwilaMangalaViharaImg,
+    alt: 'Second-century BCE stupa built by King Kavan Tissa on the southern shore of Koddiyar Bay, revered among the sixteen sacred Buddhist sites.',
+    objectPosition: 'center 45%',
+  },
+  'valaichchenai': {
+    src: valaichchenaiImg,
+    alt: 'Colorful multi-day fishing harbour and estuarine town immediately inland from Pasikuda and Kalkudah.',
+    objectPosition: 'center 45%',
+  },
+  'kattankudy-heritage-museum': {
+    src: kattankudyHeritageMuseumImg,
+    alt: 'Multi-storey museum south of Batticaloa chronicling centuries of Arab maritime trade, Islamic scholarship, and eastern Moorish daily life.',
+    objectPosition: 'center 45%',
+  },
+  'okanda-devalaya': {
+    src: okandaDevalayaImg,
+    alt: 'Coastal Hindu shrine nestled among granite boulders between Arugam Bay and the entrance to Kumana National Park, a key stop on the Pada Yatra.',
+    objectPosition: 'center 45%',
+  },
+  'panama-coastal-village': {
+    src: panamaCoastalVillageImg,
+    alt: 'Last coastal village before Kumana wilderness, surrounded by crocodile-inhabited lagoons, towering sand dunes, and peanut-farming plains.',
+    objectPosition: 'center 45%',
+  },
+  'ampara': {
+    src: amparaImg,
+    alt: 'Inland district capital and base for Gal Oya, Senanayake Samudraya boat trips, and the Okanda route.',
+    objectPosition: 'center 45%',
+  },
+  'uppuveli': {
+    src: uppuveliImg,
+    alt: 'Relaxed sandy beach just north of Trincomalee town, good for swimming and diving trips.',
+    objectPosition: 'center 45%',
   },
   'udawalawe-national-park': {
     src: udawalaweNationalParkImg,

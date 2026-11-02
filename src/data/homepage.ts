@@ -1,7 +1,7 @@
 import type { ImageMetadata } from 'astro';
 import heroImage from '../assets/images/gallery/ceylon-sunrise-entrance-bg.jpg';
 import sigiriyaImage from '../assets/images/destinations/sigiriya-panorama.jpg';
-import anuradhapuraImage from '../assets/images/destinations/anuradhapura-panorama.jpg';
+import anuradhapuraImage from '../assets/images/destinations/anuradhapura.jpg';
 import kandyImage from '../assets/images/destinations/kandy-panorama.jpg';
 import ellaImage from '../assets/images/destinations/ella-panorama.jpg';
 import elephantImage from '../assets/images/destinations/elephants-bathing.jpg';
