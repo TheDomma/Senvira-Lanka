@@ -1807,7 +1807,7 @@ Yashi EL
 **Why it is listed:** Reef-protected horseshoe bay renowned for exceptionally shallow, calm turquoise water during the east-coast sunshine months.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\Pasikuda.jpg`
+- **Image file/path:** `src\assets\images\destinations\pasikuda.jpg`
 - **Image source page URL:** https://images.unsplash.com/photo-1596967829313-0fe1918d3358?q=80&w=993&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 - **Photographer / creator credit:** Charuka Herath
 - **License / permission:** 
@@ -2041,9 +2041,9 @@ Yashi EL
 **Why it is listed:** Long right-hand point break and lagoon sunsets a short ride from Arugam Bay.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Pottuvil Point.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/34493678/pexels-photo-34493678.jpeg
+- **Photographer / creator credit:** Malpala lk
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2054,9 +2054,9 @@ Yashi EL
 **Why it is listed:** Wind-swept Palk Strait island of stacked coral-stone walls, wild ponies, giant baobab trees, and Portuguese/Dutch ruins.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Delft Island.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Delft_Island_fort.JPG#/media/File:Delft_Island_fort.JPG
+- **Photographer / creator credit:** AntanO
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2067,9 +2067,9 @@ Yashi EL
 **Why it is listed:** Arid coastal island of ancient baobab trees, Adam’s Bridge sandbanks, and winter flocks of greater flamingos.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Mannar Island.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Lighthouse,_Talaimannar.jpg#/media/File:Lighthouse,_Talaimannar.jpg
+- **Photographer / creator credit:** Adam Jones 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2080,9 +2080,9 @@ Yashi EL
 **Why it is listed:** Sri Lanka’s northernmost harbour town, offering lighthouse views, palmyra groves, and authentic peninsula town life.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Point Pedro.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Point_pedro_land%27s_end.jpg#/media/File:Point_pedro_land's_end.jpg
+- **Photographer / creator credit:**Walkalia 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2093,9 +2093,9 @@ Yashi EL
 **Why it is listed:** Four-centuries-old Roman Catholic shrine set deep within quiet dry-zone forest, cherished as a place of peace and pilgrimage.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Madhu Church & Shrine.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Madhu_Church_(Madu_Church)10.jpg#/media/File:Madhu_Church_(Madu_Church)10.jpg
+- **Photographer / creator credit:** lakpuratravels 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2106,9 +2106,9 @@ Yashi EL
 **Why it is listed:** Shallow, whisper-calm Palk Bay shoreline on Karainagar Island, shaded by casuarina trees and reached via causeway.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Casuarina Beach.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Casuarina_Beach.jpg#/media/File:Casuarina_Beach.jpg
+- **Photographer / creator credit:** Indi Samarajiva
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2119,9 +2119,9 @@ Yashi EL
 **Why it is listed:** Soaring golden-ochre gopuram towers and striped courtyard walls anchor the spiritual heart of Jaffna’s Tamil heritage.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Nallur Kandaswamy Kovil.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Nallur_Kandasamy_front_entrance.jpg#/media/File:Nallur_Kandasamy_front_entrance.jpg
+- **Photographer / creator credit:** Gane Kumaraswamy
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2132,9 +2132,9 @@ Yashi EL
 **Why it is listed:** Natural freshwater mineral bathing tanks carved right beside the northern sea wall, adjacent to Naguleswaram Kovil.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Keerimalai Springs.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1786539206691-08b5d8614f80?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** dulaj cooray
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2145,8 +2145,8 @@ Yashi EL
 **Why it is listed:** Shallow tidal flats and thorn-scrub wetlands along the Mannar bridge where thousands of Palearctic waders and ducks winter.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mannar Causeway & Vankalai Sanctuary.jpg`
+- **Image source page URL:** https://www.lovesrilanka.org/wp-content/uploads/2020/06/LSL_B2_Mannar-Bird-Sanctuary_1920x700.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2158,9 +2158,9 @@ Yashi EL
 **Why it is listed:** Vast pentagonal coral-stone Dutch fortification overlooking Jaffna Lagoon, offering breezy rampart walks and peninsula history.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Jaffna Fort.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Jaffna_Fort_(1).jpg#/media/File:Jaffna_Fort_(1).jpg
+- **Photographer / creator credit:** Rehman Abubakr
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2171,9 +2171,9 @@ Yashi EL
 **Why it is listed:** Graceful Indo-Saracenic white-domed library set in formal gardens, an enduring symbol of northern scholarship and resilience.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Jaffna Public Library.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Public_Library,_Jaffna.JPG#/media/File:Public_Library,_Jaffna.JPG
+- **Photographer / creator credit:** Anton Croos
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2184,9 +2184,9 @@ Yashi EL
 **Why it is listed:** Small Palk Strait island reached by passenger launch from Kurikadduwan, home to both Nagadeepa Purana Vihara and Nagapooshani Amman Kovil.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\ Nainativu (Nagadeepa).jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Nainativu_Gopuram.jpg#/media/File:Nainativu_Gopuram.jpg
+- **Photographer / creator credit:** Wikinamaste
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2197,8 +2197,8 @@ Yashi EL
 **Why it is listed:** Historic royal quarter of the Jaffna Kingdom surrounding Nallur Kovil, including Mantri Manai, Sangili Thoppu arch, and chariot avenues.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\ Nallur Festival & Temple Precinct.jpeg`
+- **Image source page URL:** https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1024/https://exploresrilanka.lk/wp-content/uploads/2025/06/DSC_8024-1024x683.jpeg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2210,8 +2210,8 @@ Yashi EL
 **Why it is listed:** Dutch navigation beacon tower, giant hollow baobab tree planted by Arab traders, and coral-built pigeon house on Delft Island.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Delft Island Queen’s Tower & Baobab.jpg`
+- **Image source page URL:** https://lakpura.com/v/400/c/c/7/1/5/queens-tower-c7152c0c41d7e6cf76fc0b696104e683.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2223,10 +2223,10 @@ Yashi EL
 **Why it is listed:** Scenic Ponnalai causeway drive across turquoise lagoon flats linking mainland Jaffna to Karainagar’s fishing villages and lighthouse.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
-- **License / permission:** 
+- **Image file/path:** `src\assets\images\destinations\Karainagar Island.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Fort_Hammenhiel_Island_near_Jaffna.jpg
+- **Photographer / creator credit:** KingAlawaka
+- **License / permission:** CC BY-SA 4.0
 - **Alt text:** 
 
 ### 171. Chundikkulam National Park
@@ -2236,9 +2236,9 @@ Yashi EL
 **Why it is listed:** Narrow sandbar and brackish lagoon sanctuary at the base of the Jaffna Peninsula attracting flamingos, pelicans, and coastal waders.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Chundikkulam National Park.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Spot_them.jpg#/media/File:Spot_them.jpg
+- **Photographer / creator credit:** Suyothami
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2249,8 +2249,8 @@ Yashi EL
 **Why it is listed:** Quiet, lagoon-threaded northeastern shoreline between Jaffna and Trincomalee with fishing communities and poignant contemporary history.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mullaitivu.jpg`
+- **Image source page URL:** https://lakpura.com/v/1600/c/2/d/8/6/mullaitivu-city-2d8674d59a23cc8c5ef0d6e68f36f784.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2262,8 +2262,8 @@ Yashi EL
 **Why it is listed:** Historical borderland town between the Cultural Triangle and the Northern Province, with an archaeological museum and tank-side promenade.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Madhu Road.jpg`
+- **Image source page URL:** https://www.ceylonexpeditions.com/storage/844/0003-copy.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2275,8 +2275,8 @@ Yashi EL
 **Why it is listed:** One of the five ancient Shiva temples of Sri Lanka, overlooking the historic port site of Mantai near Mannar.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Thiruketheeswaram.jpg`
+- **Image source page URL:** https://www.lovesrilanka.org/wp-content/uploads/2020/06/LSL_B2_Thiruketheeswaram-Kovil_1920x700.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2288,9 +2288,9 @@ Yashi EL
 **Why it is listed:** Principal northern gateway city where the Cultural Triangle meets the Jaffna peninsula, with historic tanks and kovils.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Vavuniya.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Vavuniya_Railway_Station_-_Sri_Lanka.jpg#/media/File:Vavuniya_Railway_Station_-_Sri_Lanka.jpg
+- **Photographer / creator credit:** Rehman Abubakr
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2301,9 +2301,9 @@ Yashi EL
 **Why it is listed:** Gateway town to the Jaffna peninsula via the A9, set among paddy fields and lagoon country.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\kilinochchi.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Kilinochchi_Railway_Station_-_Sri_Lanka.jpg#/media/File:Kilinochchi_Railway_Station_-_Sri_Lanka.jpg
+- **Photographer / creator credit:** Rehman Abubakr
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2314,8 +2314,8 @@ Yashi EL
 **Why it is listed:** Island town linked by causeway, known for its Dutch fort, baobab trees, and bird-rich shallows.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mannar Town.jpg`
+- **Image source page URL:** https://lakpura.com/v/1600/c/b/1/7/3/mannar-city-b1739e97e0027506be6f9aa3be3d6297.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2327,8 +2327,8 @@ Yashi EL
 **Why it is listed:** Quiet north-eastern coastal district capital with long empty beaches and lagoon fishing communities.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mullaitivu Town.jpg`
+- **Image source page URL:** https://cdn.lakpura.com/v/400/c/c/b/6/7/mullaitivu-city-cb6732e47f8b4ad782cfd6f55ecf3ac4.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2340,9 +2340,9 @@ Yashi EL
 **Why it is listed:** Open grassland and reservoir landscape renowned for wild Asian elephant herds and accessible safari tracks.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Udawalawe National Park.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Parc_national_de_Uda_Walawa_Sri-Lanka_(4).jpg#/media/File:Parc_national_de_Uda_Walawa_Sri-Lanka_(4).jpg
+- **Photographer / creator credit:** PIERRE ANDRE LECLERCQ
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2353,8 +2353,8 @@ Yashi EL
 **Why it is listed:** UNESCO Biosphere and Ramsar wetland sanctuary where coastal lagoons, dunes, and salt pans host migratory birdlife.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Bundala National Park.jpg`
+- **Image source page URL:** https://www.pelago.com/img/products/LK-Sri%20Lanka/bundala-national-park-safari-from-koggala/99c45c6e-db42-4e62-b802-bccdd33c801c_bundala-national-park-safari-from-koggala-large.webp
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
