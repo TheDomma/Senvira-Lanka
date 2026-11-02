@@ -166,7 +166,7 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Historic rock temple and summit viewpoint atop Ethagala (Elephant Rock) overlooking the former royal city of Kurunegala.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\ethagala.webp`
+- **Image file/path:** `src\assets\images\destinations\ethagala.jpg`
 - **Image source page URL:** https://cdn.lakpura.com/v/1600/c/c/d/2/a/ethagala-cd2a80d59d7d167eb00942dee72ffdb7.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
@@ -179,9 +179,9 @@ For each destination, find a real, location-authentic photograph and record its 
 **Why it is listed:** Planted in 288 BCE from a southern branch of the original Bodhi tree in India, making it the oldest historically documented tree on earth.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\jaya Sri Maha Bodhi.webp`
-- **Image source page URL:** https://lakpura.com/pages/jaya-sri-maha-bodhi?srsltid=AYCX9vInm7mg9GmWSQhsaxJkXb2wCSBJx5WiKPNcS1UsQ75I4V_u0io3
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\jaya Sri Maha Bodhi.jpg`
+- **Image source page URL:** Senvira Lanka
+- **Photographer / creator credit:** Muditha Dodamwala
 - **License / permission:** 
 - **Alt text:** Jaya Sri Maha Bodhi
 
@@ -193,8 +193,8 @@ For each destination, find a real, location-authentic photograph and record its 
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\anuradhapura.jpg`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image source page URL:** Senvira Lanka
+- **Photographer / creator credit:** Muditha Dodamwala
 - **License / permission:** 
 - **Alt text:** Ruwanwelisaya
 
@@ -312,9 +312,9 @@ Yashi EL
 **Why it is listed:** Distinctive 12th-century brick stupa built by Queen Rupavati, surrounded by nine small image shrines along the cycling route.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\Pabalu Vehera.webp`
-- **Image source page URL:** https://thumbs.dreamstime.com/b/pabalu-vehera-ruins-polonnaruwa-city-temple-sri-lanka-pabalu-vehera-ruins-polonnaruwa-city-temple-sri-lanka-world-heritage-103034977.jpg?w=992
-- **Photographer / creator credit:** Vladwitty
+- **Image file/path:** `src\assets\images\destinations\Pabalu Vehera.jpg`
+- **Image source page URL:**https://www.polonnaruwa.org/en/activity/museum/pabalu-vehera/
+- **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** Pabalu Vehera
 
@@ -378,7 +378,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Maduru Oya`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQYtfbi2npCfNb_2Ee9bsiciVxoWf7SUaK3tCVZ4JaQj_rh0d_mKLrf4Q&s=10
+- **Image source page URL:** https://www.researchgate.net/profile/Nalaka-Geekiyanage/publication/259191963/figure/fig5/AS:267544812584964@1440799062052/Ruins-of-a-tower-sluice-near-Maduru-Oya-reservoir-600s-BC-The-sluice-made-up-of-stone.png
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -391,8 +391,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Tantirimale.webp`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTae5nQdvDLl0tC-l4kmspdqnN5K3TQC1RN7W5q0lSyFA&s=10
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Thanthirimale_Samadhi_Statue.JPG#/media/File:Thanthirimale_Samadhi_Statue.JPG
+- **Photographer / creator credit:** Anjitha Senarath
 - **License / permission:** 
 - **Alt text:** 
 
@@ -403,9 +403,9 @@ Yashi EL
 **Why it is listed:** Peaceful dry-zone village and tank landscape surrounding Tantirimale on the eastern border of Wilpattu.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\Tantirimale.webp`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTae5nQdvDLl0tC-l4kmspdqnN5K3TQC1RN7W5q0lSyFA&s=10
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Thanthirimale2.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Thanthirimale2.JPG#/media/File:Thanthirimale2.JPG
+- **Photographer / creator credit:** Anjitha Senarath
 - **License / permission:** 
 - **Alt text:** 
 
@@ -417,8 +417,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Panduwasnuwara.webp`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7C-63lc7rp0kt1PEjm0Hp0tR_CCd7LaeFiXoYIn_oPQ&s=10
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Panduwasnuwara_archaeological_site_3.jpg#/media/File:Panduwasnuwara_archaeological_site_3.jpg
+- **Photographer / creator credit:** L Manju
 - **License / permission:** 
 - **Alt text:** 
 
@@ -429,8 +429,8 @@ Yashi EL
 **Why it is listed:** Second-century BCE cave temple where silver ore was discovered to fund Ruwanwelisaya, featuring Dutch Delft tiles and Kandyan murals.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\Ridi Vihara.webp`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwxIUQPDISLYkTcjjyYQ-7y50DiVjxXdRGB95lqlEDVg-59sFbHtzqBYM&s=10
+- **Image file/path:** `src\assets\images\destinations\Ridi Vihara.jpg`
+- **Image source page URL:** https://www.lanka-excursions-holidays.com/uploads/4/0/2/1/40216937/ridigama-dscf0815-900_orig.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -455,9 +455,9 @@ Yashi EL
 **Why it is listed:** Former royal capital beneath huge granite outcrops, with a hilltop Buddha statue and a lively market centre.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\Kurunegala.webp`
-- **Image source page URL:** https://i0.wp.com/blog.worldholidayvibes.com/wp-content/uploads/2024/07/Kurunegala-tourist-places-World-Holiday-Vibes-Blog.jpg?fit=1200%2C680&ssl=1
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kurunegala.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Kurunegala_Lake_Round.jpg#/media/File:Kurunegala_Lake_Round.jpg
+- **Photographer / creator credit:** Zhx14414
 - **License / permission:** 
 - **Alt text:** 
 
@@ -560,8 +560,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Sinharaja Forest.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA-ilqWPWJnUymqq6NQvQlEZmtb4wTIOI8vb77laDBCVpmCQ0Q-nnnSbeM&s=10
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:20160128_Sri_Lanka_4132_Sinharaja_Forest_Preserve_sRGB_(25674474901).jpg#/media/File:20160128_Sri_Lanka_4132_Sinharaja_Forest_Preserve_sRGB_(25674474901).jpg
+- **Photographer / creator credit:** Dan Lundberg
 - **License / permission:** 
 - **Alt text:** 
 
@@ -690,8 +690,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Embekka Devalaya.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVMW8_d9ttEEI-lSmfTMnZndJHt-85yiRL7hPwPscJtxkhnmqBspgslkY&s=10
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Embekka_Devalaya_Pillar_Tops.JPG#/media/File:Embekka_Devalaya_Pillar_Tops.JPG
+- **Photographer / creator credit:** Dhammika98
 - **License / permission:** 
 - **Alt text:** 
 
@@ -742,8 +742,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Bambarakanda.jpg`
-- **Image source page URL:** https://upload.wikimedia.org/wikipedia/commons/c/cb/Bambarakanda_Waterfall.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Bambarakanda_Waterfall.jpg#/media/File:Bambarakanda_Waterfall.jpg
+- **Photographer / creator credit:** Kiriwattuduwa
 - **License / permission:** 
 - **Alt text:** 
 
@@ -768,8 +768,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\St Clair’s.jpg`
-- **Image source page URL:** https://upload.wikimedia.org/wikipedia/commons/7/7b/UG-LK_Photowalk_-_2018-03-25_-_St_Clairs_Falls_%281%29.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:UG-LK_Photowalk_-_2018-03-25_-_St_Clairs_Falls_(1).jpg#/media/File:UG-LK_Photowalk_-_2018-03-25_-_St_Clairs_Falls_(1).jpg
+- **Photographer / creator credit:** Rehman Abubakr
 - **License / permission:** 
 - **Alt text:** 
 
@@ -859,8 +859,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Ratnapura.jpg`
-- **Image source page URL:** https://i0.wp.com/blog.worldholidayvibes.com/wp-content/uploads/2024/08/Beautiful-Places-in-Ratnapura-World-Holiday-Vibes-Blog.jpg?resize=860%2C487&ssl=1
-- **Photographer / creator credit:**  Nuwan Liyanage
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Maha_Saman_Devalaya.jpg#/media/File:Maha_Saman_Devalaya.jpgresize=860%2C487&ssl=1
+- **Photographer / creator credit:** L Manju
 - **License / permission:** 
 - **Alt text:** 
 
@@ -963,7 +963,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Hunas Falls.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcg-D6EFlxSgFfNAv4Bq1bccmJk8u6_FDmOI5M_otvWxQhsDl9
+- **Image source page URL:** https://dynamic-media-cdn.tripadvisor.com/media/photo-o/19/57/ff/ea/hunnasgiriya-waterfall.jpg?w=1000&h=-1&s=1
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -976,7 +976,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Gerandi Ella.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqLoUqqW04Qoe4KpdMVTP9MqcOWzLEDxPKzQiciktWo2qvao6ibwVhwJRF&s=10
+- **Image source page URL:** https://files.srilankatravelguide.lk/media/1771607314945-939588082.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1002,8 +1002,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Sera Ella.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWxbvBbMdUv97GvpB9ifgKjdG-gKv6pcDn4ux6PwjShS4tIVXamy6Mmo9b&s=10
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Sera_Ella_Falls.jpg#/media/File:Sera_Ella_Falls.jpg
+- **Photographer / creator credit:** Varuna Harshana
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1028,7 +1028,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Bambarakiri.jpg`
-- **Image source page URL:** https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKIE972DUL2U1LxM84pm2WojBja9IXxbFslDn3ruM50csUUJ_FtzuKJQVy&s=10
+- **Image source page URL:** https://www.facebook.com/share/p/1K2PmrYeHc/
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1119,8 +1119,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Ussangoda National Park.jpg`
-- **Image source page URL:** https://upload.wikimedia.org/wikipedia/commons/9/9d/SL_Ussangoda_NP_asv2020-01_img06.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:SL_Ussangoda_NP_asv2020-01_img06.jpg#/media/File:SL_Ussangoda_NP_asv2020-01_img06.jpg
+- **Photographer / creator credit:** A.Savin
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1145,7 +1145,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\Koggala Lake.jpg`
-- **Image source page URL:** https://share.google/Ou3rcByAFQ5hxhxzk
+- **Image source page URL:** https://cdn.lakpura.com/w/2000/p/f/4/5/f/bird-watching-from-koggala-lake-f45f72afb756cb8b91fd41720613b49a.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1184,7 +1184,7 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\kabalana.jpg`
-- **Image source page URL:** https://cdn.sanity.io/images/we0tdimr/production/ea7fd3584b02951e19fb65198f73b5305e2ffb70-3840x2581.jpg?w=1920&h=1080&fm=jpg&q=65
+- **Image source page URL:** https://www.stormrider.surf/break/the-rock-kabalana
 - **Photographer / creator credit:**
 - **License / permission:** 
 - **Alt text:** 
@@ -1222,9 +1222,9 @@ Yashi EL
 **Why it is listed:** Southern district capital with a working harbour, salt pans, coastal dunes, and quick access to Bundala and Yala.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Hambantota.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Hambantota_Port.jpg#/media/File:Hambantota_Port.jpg
+- **Photographer / creator credit:** Deneth17
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1313,8 +1313,8 @@ Yashi EL
 **Why it is listed:** Reef-protected bay beside Matara where turtles graze and calm water suits families.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Polhena Beach.jpg`
+- **Image source page URL:** https://thesurfatlas.com/wp-content/uploads/2024/07/Polhena-Beach.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1326,9 +1326,9 @@ Yashi EL
 **Why it is listed:** Lake, beach, and stilt-fishing coast with Martin Wickramasinghe’s museum and island temples on the lagoon.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Koggala.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1739705120861-6669d3f15203?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Rajbavananthan Balasubramaniam
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1339,8 +1339,8 @@ Yashi EL
 **Why it is listed:** Palm-edged coast between Galle and Unawatuna with calm coves and small seaside stays.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Thalpe.jpg`
+- **Image source page URL:** https://www.360view.lk/wp-content/uploads/2020/03/Thalpe_Beach_Photos_By_360viewlk-3-of-11-1024x683.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1352,8 +1352,8 @@ Yashi EL
 **Why it is listed:** Quiet crescent near Tangalle with calm shallows and a natural rock pool at one end.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Mawella Beach.jpg`
+- **Image source page URL:** https://thesurfatlas.com/wp-content/uploads/2024/09/Chilling-on-the-Tangalle-Beaches.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1365,8 +1365,8 @@ Yashi EL
 **Why it is listed:** Small, secluded bay near Tangalle ringed by rocks, with soft sand and gentle swimming.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Goyambokka Beach.jpg`
+- **Image source page URL:** https://thesurfatlas.com/wp-content/uploads/2024/08/Goyambokka-Beach-1.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1378,8 +1378,8 @@ Yashi EL
 **Why it is listed:** Signature southern reef and beach-break bay famous for "The Rock" surf wave and golden sand.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Kabalana Beach.jpg`
+- **Image source page URL:** https://thesurfatlas.com/wp-content/uploads/2024/04/Kabalana-Beach.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1391,8 +1391,8 @@ Yashi EL
 **Why it is listed:** Postcard-pretty crescent of pale sand and swaying palms tucked below a quiet headland near Tangalle.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Silent Beach.jpg`
+- **Image source page URL:** https://postcardsbyhannah.com/wp-content/uploads/2026/01/golden-hour-on-silent-beach.jpg?resize=1024%2C576&ssl=1
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1417,9 +1417,9 @@ Yashi EL
 **Why it is listed:** Kite-surfing lagoons, seasonal dolphin watching, sandbars, and a quieter peninsula setting.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kalpitiya.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/18780363/pexels-photo-18780363.jpeg
+- **Photographer / creator credit:** Charith Kodagoda
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1430,9 +1430,9 @@ Yashi EL
 **Why it is listed:** Large, forested national park known for its distinctive natural rimmed lakes (villus) and unhurried safari routes.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Wilpattu.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1621847473222-d85c022cbf07?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Udara Karunarathna
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1443,9 +1443,9 @@ Yashi EL
 **Why it is listed:** Riverside stupa landmark, basket-weaving craft traditions, and an easy coastal stop south of Colombo.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kalutara.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1707318322158-03295396a0e5?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Dilani Wickramanayake
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1456,9 +1456,9 @@ Yashi EL
 **Why it is listed:** Lively southwest beach town with seasonal surf breaks, diving, and a protected nearshore coral sanctuary.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Hikkaduwa.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1465924655546-6c184df810a9?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Aditya Siva
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1469,8 +1469,8 @@ Yashi EL
 **Why it is listed:** Quiet shoreline and coastal wetlands known for sea-turtle conservation work with ethical, conservation-led operators.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Kosgoda.jpg`
+- **Image source page URL:** https://cdn.getyourguide.com/image/format=auto%2Cfit=contain%2Cgravity=auto%2Cquality=60%2Cwidth=1440%2Cheight=650%2Cdpr=1/tour_img/daf55b4c792d807a973e0f65db22a277e686f15b073740a99f9203c2398dd97b.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1482,8 +1482,8 @@ Yashi EL
 **Why it is listed:** Mangrove-lined estuary and cinnamon-island boat routes ideal for calm, nature-focused coastal itineraries.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Madu Ganga.jpg`
+- **Image source page URL:** https://www.walklankatours.com/wp-content/uploads/2026/05/maadu.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1495,9 +1495,9 @@ Yashi EL
 **Why it is listed:** Compact 17th-century coral-and-limestone rampart fort guarding the mouth of Puttalam Lagoon.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kalpitiya Dutch Fort.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:SL_Kalpitiya_asv2020-01_img6_Dutch_fort.jpg#/media/File:SL_Kalpitiya_asv2020-01_img6_Dutch_fort.jpg
+- **Photographer / creator credit:** A.Savin
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1509,8 +1509,8 @@ Yashi EL
 
 - [ ] Image found
 - **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image source page URL:** https://i0.wp.com/amazinglanka.com/wp/wp-content/uploads/2014/02/4129736077_34cf7229ea_o.jpg?w=700&ssl=1
+- **Photographer / creator credit:**  Dhammika Heenpella 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1521,8 +1521,8 @@ Yashi EL
 **Why it is listed:** Ancient multi-shrine Hindu temple complex in Chilaw with deep mythological roots and vibrant annual festival traditions.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Munneswaram.jpg`
+- **Image source page URL:** https://www.lovesrilanka.org/wp-content/uploads/2020/05/LS_B2_Sri-Munneswaram-Devasthanam_1920x700.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1534,8 +1534,8 @@ Yashi EL
 **Why it is listed:** Heart of Sri Lanka’s Coconut Triangle, offering estate walks and insight into traditional toddy, oil, and agro-forestry.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Lunuwila Coconut Estates.jpg`
+- **Image source page URL:** https://cri.gov.lk/wp-content/uploads/2021/09/Technology-Transfer.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1547,9 +1547,9 @@ Yashi EL
 **Why it is listed:** Landmark Buddhist temple and eclectic museum complex near Beira Lake, including the waterside Seema Malaka pavilion.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Gangaramaya Temple.avif`
+- **Image source page URL:** https://images.pexels.com/photos/6845299/pexels-photo-6845299.jpeg
+- **Photographer / creator credit:** Kalpa Chathuranga
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1560,9 +1560,9 @@ Yashi EL
 **Why it is listed:** Open-sided stone pavilion inspired by the Kandyan Magul Maduwa, set amid leafy gardens in Cinnamon Gardens.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Independence Memorial Hall.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1740815321189-4383ffc1b5f2?q=80&w=1014&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Zoshua Colah
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1573,9 +1573,9 @@ Yashi EL
 **Why it is listed:** Sri Lanka’s premier cultural museum, housed in an 1877 Italianate white building holding bronzes, sculptures, and the Kandyan royal throne.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\National Museum of Colombo.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:SL_Colombo_asv2020-01_img10_National_Museum.jpg#/media/File:SL_Colombo_asv2020-01_img10_National_Museum.jpg
+- **Photographer / creator credit:** A.Savin 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1586,9 +1586,9 @@ Yashi EL
 **Why it is listed:** Historic seaside headland south of Colombo known for its colonial governor’s mansion hotel, railway coast, and sunset beach walks.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\ Mount Lavinia.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/36477911/pexels-photo-36477911.jpeg
+- **Photographer / creator credit:** Thilina Alagiyawanna
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1599,9 +1599,9 @@ Yashi EL
 **Why it is listed:** Revered riverside Buddhist temple northeast of Colombo celebrated for Solias Mendis’s masterpiece twentieth-century murals.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kelaniya Raja Maha Vihara.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/38194825/pexels-photo-38194825.jpeg
+- **Photographer / creator credit:** Ceylon Frames
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1612,8 +1612,8 @@ Yashi EL
 **Why it is listed:** Expansive biodiversity-rich peat marsh between Colombo and Negombo explored by quiet morning boat trips along Hamilton Canal.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Muthurajawela Wetlands.jpg`
+- **Image source page URL:** https://www.researchgate.net/profile/Hiruni-Dayananda/publication/393843759/figure/fig1/AS:11431281565384495@1753870844785/Muthurajawela-wetland-in-Sri-Lanka-Sri-Lanka-with-its-rich-biodiversity-and-unique.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1625,9 +1625,9 @@ Yashi EL
 **Why it is listed:** Peaceful landscaped garden in the wet-zone foothills showcasing endemic lowland rainforest flora, fern valleys, and stream walks.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Seethawaka Wet Zone Botanic Gardens.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Seethawaka_Botanical_Garden,_July_2016.jpg#/media/File:Seethawaka_Botanical_Garden,_July_2016.jpg
+- **Photographer / creator credit:** Varuna Harshana
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1638,8 +1638,8 @@ Yashi EL
 **Why it is listed:** Intimate, sculpture-filled tropical garden estate created by artist and landscape designer Bevis Bawa inland from Bentota.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Brief Garden.webp`
+- **Image source page URL:** https://briefgarden.com/static/media/hero.ea1a55eea9ce16bcd46f.webp
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1651,9 +1651,9 @@ Yashi EL
 **Why it is listed:** Early twentieth-century hilltop estate mansion near Kalutara blending Indian palace motifs, Burmese teak, and Scottish stained glass.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Richmond Castle.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/5033268/pexels-photo-5033268.jpeg
+- **Photographer / creator credit:** Lyn Hoare
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1664,9 +1664,9 @@ Yashi EL
 **Why it is listed:** Over fifty natural sand-rimmed rainwater basins scattered through Wilpattu’s forest canopy, acting as magnets for leopards, sloth bears, and deer.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Wilpattu Villus.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1670046368526-3b041bb63b03?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Senux
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1677,9 +1677,9 @@ Yashi EL
 **Why it is listed:** Broad inland reservoir near Wariyapola offering quiet evening reflections, waterbird habitats, and rural North Western Province scenery.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Deduru Oya Reservoir.jpg`
+- **Image source page URL:** https://www.pexels.com/photo/scenic-view-of-a-dam-in-sri-lanka-s-north-western-province-37278395/
+- **Photographer / creator credit:** Thilina Alagiyawanna
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1690,9 +1690,9 @@ Yashi EL
 **Why it is listed:** District capital in the green belt north of Colombo, close to Henarathgoda Botanical Garden and the airport corridor.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Gampaha.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:PSX_20190611_112013.jpg#/media/File:PSX_20190611_112013.jpg
+- **Photographer / creator credit:** Chadpics
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1703,9 +1703,9 @@ Yashi EL
 **Why it is listed:** Lagoon-side district capital and gateway to Kalpitiya, Wilpattu, and the salt-making coast.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Puttalam.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1563297919-2997f933609c?q=80&w=930&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Arqm Ahmd
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1716,9 +1716,9 @@ Yashi EL
 **Why it is listed:** Resort coast with a historic harbour, an old lighthouse island, and long sandy beaches.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Beruwala.com`
+- **Image source page URL:** https://www.facebook.com/share/p/1DQ8r37LrP/
+- **Photographer / creator credit:** Embassy of Sri Lanka in Sweden
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1729,9 +1729,9 @@ Yashi EL
 **Why it is listed:** Easy west-coast beach stop close to Colombo, with calm months from November to April.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Wadduwa.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1668529732755-ca259b5dbae9?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Chathura Anuradha
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1742,8 +1742,8 @@ Yashi EL
 **Why it is listed:** Quieter stretch of west-coast sand near Kosgoda, popular with turtle-conservation visitors.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Induruwa.jpg`
+- **Image source page URL:** https://www.jetwinghotels.com/wp-content/uploads/2025/12/Jetwing-Saman-Villas-1920x900-1.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1755,8 +1755,8 @@ Yashi EL
 **Why it is listed:** Coastal town famed for traditional masks, a mask museum, and beaches south of Hikkaduwa.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Ambalangoda.jpg`
+- **Image source page URL:** https://getyourguide.com/image/format=auto%2Cfit=contain%2Cgravity=auto%2Cquality=60%2Cwidth=1440%2Cheight=650%2Cdpr=1/tour_img/9177f4f4fd8b368c3ea3adf789da6f4914f9c1facbade7cd3ebe81f4705e2cd2.jpg
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1768,9 +1768,9 @@ Yashi EL
 **Why it is listed:** Sri Lanka’s largest coral reef system, best for snorkelling and diving between November and April.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Bar Reef.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/4795197/pexels-photo-4795197.jpeg
+- **Photographer / creator credit:** wewe yang
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1781,9 +1781,9 @@ Yashi EL
 **Why it is listed:** Wide, pale-sand eastern beach ideal for calm-season swimming (May to September) and boat departures to Pigeon Island.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Nilaveli.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1695090177375-0351b2314e3a?q=80&w=851&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Sajeevan Balachandran
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1794,9 +1794,9 @@ Yashi EL
 **Why it is listed:** Offshore marine park protecting coral gardens, reef fish, and blacktip reef sharks; visits require mindful, reef-safe snorkelling.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Pigeon Island National Park.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Pigeon_Island_National_Park,_Trincomalee.jpg#/media/File:Pigeon_Island_National_Park,_Trincomalee.jpg
+- **Photographer / creator credit:** AntanO
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1807,9 +1807,9 @@ Yashi EL
 **Why it is listed:** Reef-protected horseshoe bay renowned for exceptionally shallow, calm turquoise water during the east-coast sunshine months.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Pasikuda.jpg`
+- **Image source page URL:** https://images.unsplash.com/photo-1596967829313-0fe1918d3358?q=80&w=993&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
+- **Photographer / creator credit:** Charuka Herath
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1820,9 +1820,9 @@ Yashi EL
 **Why it is listed:** Historic eastern city shaped by expansive waterways, a water-surrounded Dutch fort, Kallady Bridge, and vibrant local culture.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Batticaloa.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/37411703/pexels-photo-37411703.jpeg
+- **Photographer / creator credit:** Thilina Alagiyawanna
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1833,9 +1833,9 @@ Yashi EL
 **Why it is listed:** World-renowned point-break surf crescent on the southeast coast, surrounded by wildlife lagoons and ancient forest shrines.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Arugam Bay.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/1998439/pexels-photo-1998439.jpeg
+- **Photographer / creator credit:** Tomáš Malík
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1846,9 +1846,9 @@ Yashi EL
 **Why it is listed:** Remote southeastern sanctuary centered on the Kumana Villu mangrove swamp, a premier nesting ground for wading birds and leopards.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kumana National Park.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Mauran_5.jpg#/media/File:Mauran_5.jpg
+- **Photographer / creator credit:** Nadarajah Mauran
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1859,9 +1859,9 @@ Yashi EL
 **Why it is listed:** Peaceful two-kilometer curve of soft sand immediately south of Pasikuda, offering a quieter, uncrowded coastal rhythm.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kalkudah.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/4630730/pexels-photo-4630730.jpeg
+- **Photographer / creator credit:** Serafina Jacobson-Walsh
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1872,9 +1872,9 @@ Yashi EL
 **Why it is listed:** Serene northern stretch of the Trincomalee coast where coastal scrub, estuaries, and ancient rock inscriptions meet empty beaches.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Kuchchaveli.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/5787501/pexels-photo-5787501.jpeg
+- **Photographer / creator credit:** Charith Kodagoda
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1885,9 +1885,9 @@ Yashi EL
 **Why it is listed:** Fifty-six-kilometer estuarine lagoon system famed for mangrove islands, traditional cast-net fishing, and lore of “singing fish”.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Batticaloa Lagoon.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Batticaloa_Lagoon_Opening_at_Palameenmadu.JPG#/media/File:Batticaloa_Lagoon_Opening_at_Palameenmadu.JPG
+- **Photographer / creator credit:** Astronomyinertia
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1898,9 +1898,9 @@ Yashi EL
 **Why it is listed:** One of Sri Lanka’s smallest national parks, centered on tanks carpeted in tall beru grass that attract seasonal elephant herds.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Lahugala Kitulana National Park.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/38593603/pexels-photo-38593603.jpeg
+- **Photographer / creator credit:** Annika K
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1911,9 +1911,9 @@ Yashi EL
 **Why it is listed:** Revered Pancha Ishwaram Shiva temple perched high above the turquoise Bay of Bengal atop Swami Rock.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Koneswaram Temple & Swami Rock.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Spiritual_16.jpg#/media/File:Spiritual_16.jpg
+- **Photographer / creator credit:** Shamli071
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1924,9 +1924,9 @@ Yashi EL
 **Why it is listed:** Seventeenth-century gateway ramparts leading onto the Swami Rock peninsula, where spotted deer roam under ancient banyan trees.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Fort Frederick.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Fort_Fredrick,_entrance.JPG#/media/File:Fort_Fredrick,_entrance.JPG
+- **Photographer / creator credit:** AntanO
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1937,9 +1937,9 @@ Yashi EL
 **Why it is listed:** Protected bay inside Koddiyar Bay south of Trincomalee town, known for mirror-still, marble-like water clarity on calm days.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Marble Beach.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/5106967/pexels-photo-5106967.jpeg
+- **Photographer / creator credit:** H.M.R.B.H.S.Bandara
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1950,9 +1950,9 @@ Yashi EL
 **Why it is listed:** Second-century BCE stupa built by King Kavan Tissa on the southern shore of Koddiyar Bay, revered among the sixteen sacred Buddhist sites.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Seruwila Mangala Raja Maha Vihara.jpg`
+- **Image source page URL:** https://i0.wp.com/amazinglanka.com/wp/wp-content/uploads/2014/01/DSC_3045-1024x546.jpg?strip=info&w=1024&ssl=1
+- **Photographer / creator credit:** Nishan
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1963,9 +1963,9 @@ Yashi EL
 **Why it is listed:** Colorful multi-day fishing harbour and estuarine town immediately inland from Pasikuda and Kalkudah.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Valaichchenai.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:Valaichchenai_Lagoon.jpg#/media/File:Valaichchenai_Lagoon.jpg
+- **Photographer / creator credit:** Anton Croos
 - **License / permission:** 
 - **Alt text:** 
 
@@ -1976,8 +1976,8 @@ Yashi EL
 **Why it is listed:** Multi-storey museum south of Batticaloa chronicling centuries of Arab maritime trade, Islamic scholarship, and eastern Moorish daily life.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Kattankudy Heritage Museum.webp`
+- **Image source page URL:** https://amazinglanka.com/wp/wp-content/uploads/2017/01/capture-20170101-152551.jpg?resize=768%2C370&ssl=1
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -1989,9 +1989,9 @@ Yashi EL
 **Why it is listed:** Coastal Hindu shrine nestled among granite boulders between Arugam Bay and the entrance to Kumana National Park, a key stop on the Pada Yatra.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Okanda Devalaya.jpg`
+- **Image source page URL:** https://commons.wikimedia.org/wiki/File:View_of_Valli_Amman_Kovil_in_Ukanthamalai.jpg#/media/File:View_of_Valli_Amman_Kovil_in_Ukanthamalai.jpg
+- **Photographer / creator credit:** 5anan27
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2002,8 +2002,8 @@ Yashi EL
 **Why it is listed:** Last coastal village before Kumana wilderness, surrounded by crocodile-inhabited lagoons, towering sand dunes, and peanut-farming plains.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
+- **Image file/path:** `src\assets\images\destinations\Panama`
+- **Image source page URL:** https://www.facebook.com/share/1EikU5iymu/
 - **Photographer / creator credit:** 
 - **License / permission:** 
 - **Alt text:** 
@@ -2015,9 +2015,9 @@ Yashi EL
 **Why it is listed:** Inland district capital and base for Gal Oya, Senanayake Samudraya boat trips, and the Okanda route.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Ampara.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/1998438/pexels-photo-1998438.jpeg
+- **Photographer / creator credit:** Tomáš Malík 
 - **License / permission:** 
 - **Alt text:** 
 
@@ -2028,9 +2028,9 @@ Yashi EL
 **Why it is listed:** Relaxed sandy beach just north of Trincomalee town, good for swimming and diving trips.
 
 - [ ] Image found
-- **Image file/path:** `src\assets\images\destinations\`
-- **Image source page URL:** 
-- **Photographer / creator credit:** 
+- **Image file/path:** `src\assets\images\destinations\Uppuveli.jpg`
+- **Image source page URL:** https://images.pexels.com/photos/10850861/pexels-photo-10850861.jpeg
+- **Photographer / creator credit:** Sachith Ravishka Kodikara
 - **License / permission:** 
 - **Alt text:** 
 
