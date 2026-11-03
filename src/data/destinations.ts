@@ -361,7 +361,7 @@ export const destinations: Destination[] = [
         src: colomboPhoto,
         alt: 'Modern Colombo buildingsbeneath sky.',
         sourceUrl: 'https://images.pexels.com/photos/36703580/pexels-photo-36703580.jpeg',
-        credit: 'Thilina Alagiyawanna/ Pexels',
+        credit: 'Thilina Alagiyawanna / Pexels',
         license: pexelsLicense,
       },
     ],
