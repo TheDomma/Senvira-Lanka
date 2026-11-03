@@ -7,11 +7,13 @@ import { siteConfig } from '../config/site';
 interface Props {
   title?: string;
   description?: string;
+  transparentHeader?: boolean;
 }
 
 const {
   title = `${siteConfig.brandName} · ${siteConfig.tagline}`,
   description = siteConfig.description,
+  transparentHeader = true,
 } = Astro.props;
 
 const canonicalURL = siteConfig.siteUrl
@@ -39,7 +41,7 @@ const canonicalURL = siteConfig.siteUrl
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <Header />
+    <Header transparentAtTop={transparentHeader} />
     <main id="main-content">
       <slot />
     </main>
