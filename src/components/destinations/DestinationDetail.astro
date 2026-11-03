@@ -16,17 +16,29 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
   <div class="detail-media">
     {
       photos.length > 0 ? (
-        photos.map((image, index) => (
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={image.src.width}
-            height={image.src.height}
-            loading={index === 0 ? 'eager' : 'lazy'}
-            decoding="async"
-            class="detail-photo"
-          />
-        ))
+        photos.map((image, index) =>
+          destination.isHub !== false ? (
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={image.src.width}
+              height={image.src.height}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              class="detail-photo"
+            />
+          ) : (
+            <img
+              src={image.src.src}
+              alt={image.alt}
+              width={image.src.width}
+              height={image.src.height}
+              loading="lazy"
+              decoding="async"
+              class="detail-photo"
+            />
+          ),
+        )
       ) : (
         <div
           class="detail-photo-fallback"
@@ -44,7 +56,10 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     <div class="media-top-badges">
       <span class="pill-badge pill-badge-light">{destination.badge}</span>
       <span class="pill-badge pill-badge-amber">{destination.categoryLabel}</span>
-      <span class="pill-index">{destination.number} / 15</span>
+      {destination.isHub === false && destination.hubName && destination.hubId !== destination.id && (
+        <span class="pill-badge pill-badge-light">Nearby base: {destination.hubName}</span>
+      )}
+      <span class="pill-index">{destination.isHub === false ? 'Mapped Pin' : `${destination.number} / 15`}</span>
     </div>
 
     <div class="media-bottom-title">
@@ -106,10 +121,15 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
         <div class="credits" aria-label="Photo credits">
           {photos.map((image) => (
             <p class="credit">
-              Photo: {image.credit} ·{' '}
-              <a href={image.sourceUrl} target="_blank" rel="noreferrer">
-                Source
-              </a>
+              Photo: {image.credit}
+              {image.sourceUrl && (
+                <>
+                  {' '}·{' '}
+                  <a href={image.sourceUrl} target="_blank" rel="noreferrer">
+                    Source
+                  </a>
+                </>
+              )}
               {image.license.includes('CC BY 3.0') && (
                 <>
                   {' '}

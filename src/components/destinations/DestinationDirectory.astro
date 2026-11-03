@@ -12,19 +12,21 @@ interface Props {
 }
 
 const { destinations, regions, selectedId } = Astro.props;
+const featuredHubs = destinations.filter((d) => d.isHub !== false);
+const otherDestinations = destinations.filter((d) => d.isHub === false);
 ---
 
 <section class="directory-controls" aria-labelledby="directory-title" data-destination-directory>
   <div class="controls-header">
     <div>
-      <span class="eyebrow-tag">Featured Island Hubs</span>
+      <span class="eyebrow-tag">Island Destinations</span>
       <h2 id="directory-title">Select a destination</h2>
     </div>
-    <p class="result-badge" data-result-count aria-live="polite">{destinations.length} featured places</p>
+    <p class="result-badge" data-result-count aria-live="polite">15 featured hubs</p>
   </div>
 
   <div class="search-box">
-    <label class="sr-only" for="destination-search">Search featured destinations</label>
+    <label class="sr-only" for="destination-search">Search destinations</label>
     <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
       <path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -63,31 +65,59 @@ const { destinations, regions, selectedId } = Astro.props;
     </div>
 
     <div class="select-field select-field-place">
-      <label class="sr-only" for="destination-choice">Choose a featured destination</label>
+      <label class="sr-only" for="destination-choice">Choose a destination</label>
       <select
         id="destination-choice"
         class="glass-select glass-select-accent"
         data-destination-choice
         data-select
-        aria-label="Choose a featured destination"
+        aria-label="Choose a destination"
       >
+        <optgroup label="Featured Hubs (15)" data-option-group-hubs>
+          {featuredHubs.map((destination) => {
+            const allCats = destination.categories?.length
+              ? destination.categories
+              : [destination.categoryId, ...(destination.alsoCategoryIds ?? [])];
+            return (
+              <option
+                value={destination.id}
+                data-destination-item
+                data-region={destination.regionId}
+                data-category={destination.categoryId}
+                data-categories={allCats.join(' ')}
+                data-is-hub="true"
+                data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
+                selected={destination.id === selectedId}
+              >
+                {destination.number} · {destination.shortName} (Featured Hub)
+              </option>
+            );
+          })}
+        </optgroup>
         {regions.map((region) => {
-          const places = destinations.filter((destination) => destination.regionId === region.id);
+          const places = otherDestinations.filter((d) => d.regionId === region.id);
           return (
             places.length > 0 && (
-              <optgroup label={region.name} data-option-region={region.id}>
-                {places.map((destination) => (
-                  <option
-                    value={destination.id}
-                    data-destination-item
-                    data-region={destination.regionId}
-                    data-category={destination.categoryId}
-                    data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
-                    selected={destination.id === selectedId}
-                  >
-                    {destination.number} · {destination.shortName}
-                  </option>
-                ))}
+              <optgroup label={`${region.name} (${places.length})`} data-option-region={region.id}>
+                {places.map((destination) => {
+                  const allCats = destination.categories?.length
+                    ? destination.categories
+                    : [destination.categoryId, ...(destination.alsoCategoryIds ?? [])];
+                  return (
+                    <option
+                      value={destination.id}
+                      data-destination-item
+                      data-region={destination.regionId}
+                      data-category={destination.categoryId}
+                      data-categories={allCats.join(' ')}
+                      data-is-hub="false"
+                      data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
+                      selected={destination.id === selectedId}
+                    >
+                      {destination.name}
+                    </option>
+                  );
+                })}
               </optgroup>
             )
           );
@@ -98,27 +128,45 @@ const { destinations, regions, selectedId } = Astro.props;
   </div>
 
   <div class="featured-strip-wrap">
-    <div class="featured-strip" role="toolbar" aria-label="Quick destination selector">
-      {destinations.map((destination) => (
-        <button
-          type="button"
-          class:list={['featured-chip', { active: destination.id === selectedId }]}
-          data-destination-id={destination.id}
-          data-chip-item
-          data-region={destination.regionId}
-          data-category={destination.categoryId}
-          data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
-          aria-pressed={destination.id === selectedId}
-        >
-          <span class="chip-num">{destination.number}</span>
-          <span class="chip-name">{destination.shortName}</span>
-        </button>
-      ))}
+    <div class="featured-strip" role="toolbar" aria-label="Destination browser" data-slider-strip>
+      {destinations.map((destination) => {
+        const isHub = destination.isHub !== false;
+        const allCats = destination.categories?.length
+          ? destination.categories
+          : [destination.categoryId, ...(destination.alsoCategoryIds ?? [])];
+        return (
+          <button
+            type="button"
+            class:list={[
+              'featured-chip',
+              isHub ? 'is-hub-chip' : 'is-catalogue-chip',
+              { active: destination.id === selectedId }
+            ]}
+            data-destination-id={destination.id}
+            data-chip-item
+            data-region={destination.regionId}
+            data-category={destination.categoryId}
+            data-categories={allCats.join(' ')}
+            data-is-hub={String(isHub)}
+            data-search-text={`${destination.name} ${destination.shortName} ${destination.badge} ${destination.provinceArea} ${destination.highlights.join(' ')}`.toLowerCase()}
+            aria-pressed={destination.id === selectedId}
+            title={destination.name}
+            hidden={!isHub}
+          >
+            {isHub ? (
+              <span class="chip-num">{destination.number}</span>
+            ) : (
+              <span class="chip-dot" aria-hidden="true"></span>
+            )}
+            <span class="chip-name">{destination.shortName}</span>
+          </button>
+        );
+      })}
     </div>
   </div>
 
   <div class="empty-filter-state" data-empty hidden>
-    <p>No featured hubs match that filter combination.</p>
+    <p>No destinations match that filter combination.</p>
     <button class="reset-btn" type="button" data-reset>Reset search & filters</button>
   </div>
 </section>
@@ -131,25 +179,102 @@ const { destinations, regions, selectedId } = Astro.props;
     const categorySelect = directory.querySelector<HTMLSelectElement>('[data-category-select]')!;
     const choice = directory.querySelector<HTMLSelectElement>('[data-destination-choice]')!;
     const options = [...directory.querySelectorAll<HTMLOptionElement>('[data-destination-item]')];
-    const optgroups = [...directory.querySelectorAll<HTMLOptGroupElement>('[data-option-region]')];
+    const optgroups = [...directory.querySelectorAll<HTMLOptGroupElement>('optgroup')];
     const chips = [...directory.querySelectorAll<HTMLButtonElement>('[data-chip-item]')];
     const empty = directory.querySelector<HTMLElement>('[data-empty]')!;
     const count = directory.querySelector<HTMLElement>('[data-result-count]')!;
+    const strip = directory.querySelector<HTMLElement>('[data-slider-strip]');
+
+    // Slow edge scrolling for mouse pointer inside narrow zones on left/right edges
+    if (strip) {
+      let scrollAnimFrame: number | null = null;
+      let scrollSpeed = 0; // px per frame
+      const EDGE_ZONE_WIDTH = 48; // px threshold from left or right edge
+      const MAX_SPEED = 3.5; // Controlled slow scrolling speed (px per frame)
+
+      const stopEdgeScrolling = () => {
+        if (scrollAnimFrame !== null) {
+          cancelAnimationFrame(scrollAnimFrame);
+          scrollAnimFrame = null;
+        }
+        scrollSpeed = 0;
+      };
+
+      const stepEdgeScroll = () => {
+        if (scrollSpeed !== 0 && strip) {
+          strip.scrollLeft += scrollSpeed;
+          scrollAnimFrame = requestAnimationFrame(stepEdgeScroll);
+        } else {
+          stopEdgeScrolling();
+        }
+      };
+
+      strip.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'mouse') return;
+      });
+
+      strip.addEventListener('pointermove', (event) => {
+        // Only trigger for mouse pointer
+        if (event.pointerType !== 'mouse') {
+          stopEdgeScrolling();
+          return;
+        }
+
+        const rect = strip.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+
+        if (mouseX >= 0 && mouseX <= EDGE_ZONE_WIDTH) {
+          // Inside left edge zone: scroll left
+          const factor = Math.max(0.2, (EDGE_ZONE_WIDTH - mouseX) / EDGE_ZONE_WIDTH);
+          scrollSpeed = -MAX_SPEED * factor;
+          if (scrollAnimFrame === null) {
+            scrollAnimFrame = requestAnimationFrame(stepEdgeScroll);
+          }
+        } else if (mouseX >= rect.width - EDGE_ZONE_WIDTH && mouseX <= rect.width) {
+          // Inside right edge zone: scroll right
+          const distFromRight = rect.width - mouseX;
+          const factor = Math.max(0.2, (EDGE_ZONE_WIDTH - distFromRight) / EDGE_ZONE_WIDTH);
+          scrollSpeed = MAX_SPEED * factor;
+          if (scrollAnimFrame === null) {
+            scrollAnimFrame = requestAnimationFrame(stepEdgeScroll);
+          }
+        } else {
+          // Center deadzone: do NOT scroll
+          stopEdgeScrolling();
+        }
+      });
+
+      strip.addEventListener('pointerleave', stopEdgeScrolling);
+      strip.addEventListener('pointerdown', stopEdgeScrolling);
+      window.addEventListener('pointerup', stopEdgeScrolling);
+
+      // Preserve native horizontal trackpad and mouse-wheel scrolling
+      strip.addEventListener('wheel', (event) => {
+        if (Math.abs(event.deltaY) > Math.abs(event.deltaX) && strip.scrollWidth > strip.clientWidth) {
+          strip.scrollLeft += event.deltaY * 0.85;
+          event.preventDefault();
+        }
+      }, { passive: false });
+    }
 
     const applyFilters = () => {
       const region = regionSelect.value;
       const category = categorySelect.value;
       const query = search.value.trim().toLowerCase();
-      let visibleCount = 0;
+      const hasActiveFilters = region !== 'all' || category !== 'all' || Boolean(query);
+      let visibleOptionsCount = 0;
+      let visibleChipsCount = 0;
 
+      // 1. Dropdown options always filter matching entries across the full 204 catalogue
       options.forEach((item) => {
+        const itemCategories = (item.dataset.categories ?? item.dataset.category ?? '').split(' ');
         const matchesRegion = region === 'all' || item.dataset.region === region;
-        const matchesCategory = category === 'all' || item.dataset.category === category;
+        const matchesCategory = category === 'all' || itemCategories.includes(category);
         const matchesSearch = !query || (item.dataset.searchText ?? '').includes(query);
         const visible = matchesRegion && matchesCategory && matchesSearch;
         item.hidden = !visible;
         item.disabled = !visible;
-        if (visible) visibleCount += 1;
+        if (visible) visibleOptionsCount += 1;
       });
 
       optgroups.forEach((group) => {
@@ -159,25 +284,41 @@ const { destinations, regions, selectedId } = Astro.props;
         group.disabled = !hasVisible;
       });
 
+      // 2. Slider chips:
+      // When NO filters/search are active: show ONLY the 15 featured hubs
+      // When filters/search ARE active: show all matching catalogue entries
       chips.forEach((chip) => {
-        const matchesRegion = region === 'all' || chip.dataset.region === region;
-        const matchesCategory = category === 'all' || chip.dataset.category === category;
-        const matchesSearch = !query || (chip.dataset.searchText ?? '').includes(query);
-        const visible = matchesRegion && matchesCategory && matchesSearch;
-        chip.hidden = !visible;
+        const isHub = chip.dataset.isHub === 'true';
+        if (!hasActiveFilters) {
+          chip.hidden = !isHub;
+          if (isHub) visibleChipsCount += 1;
+        } else {
+          const chipCategories = (chip.dataset.categories ?? chip.dataset.category ?? '').split(' ');
+          const matchesRegion = region === 'all' || chip.dataset.region === region;
+          const matchesCategory = category === 'all' || chipCategories.includes(category);
+          const matchesSearch = !query || (chip.dataset.searchText ?? '').includes(query);
+          const visible = matchesRegion && matchesCategory && matchesSearch;
+          chip.hidden = !visible;
+          if (visible) visibleChipsCount += 1;
+        }
       });
 
-      empty.hidden = visibleCount > 0;
-      count.textContent = `${visibleCount} ${visibleCount === 1 ? 'featured place' : 'featured places'}`;
+      if (!hasActiveFilters) {
+        empty.hidden = true;
+        count.textContent = '15 featured hubs';
+      } else {
+        empty.hidden = visibleOptionsCount > 0;
+        count.textContent = `${visibleOptionsCount} ${visibleOptionsCount === 1 ? 'matching place' : 'matching places'}`;
+      }
 
       directory.dispatchEvent(
         new CustomEvent('explorer-filters-change', {
           bubbles: true,
-          detail: { region, category, query },
+          detail: { region, category, query, hasActiveFilters },
         }),
       );
 
-      if (visibleCount > 0 && (choice.selectedOptions[0]?.hidden || choice.selectedOptions[0]?.disabled)) {
+      if (hasActiveFilters && visibleOptionsCount > 0 && (choice.selectedOptions[0]?.hidden || choice.selectedOptions[0]?.disabled)) {
         const next = options.find((item) => !item.hidden && !item.disabled);
         if (next) {
           choice.value = next.value;
@@ -399,6 +540,10 @@ const { destinations, regions, selectedId } = Astro.props;
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
   }
 
+  .featured-chip.is-catalogue-chip {
+    padding-left: 0.55rem;
+  }
+
   .featured-chip:hover {
     border-color: var(--color-teal);
     background: #ffffff;
@@ -425,9 +570,22 @@ const { destinations, regions, selectedId } = Astro.props;
     font-weight: 700;
   }
 
+  .chip-dot {
+    width: 0.44rem;
+    height: 0.44rem;
+    border-radius: 50%;
+    background: rgba(233, 199, 121, 0.7);
+    flex: 0 0 0.44rem;
+  }
+
   .featured-chip.active .chip-num {
     background: var(--color-amber);
     color: var(--color-charcoal);
+  }
+
+  .featured-chip.active .chip-dot {
+    background: #fffdf7;
+    box-shadow: 0 0 0 2px rgba(14, 58, 55, 0.4);
   }
 
   .empty-filter-state {
@@ -493,10 +651,14 @@ const { destinations, regions, selectedId } = Astro.props;
     color: var(--color-ivory);
     backdrop-filter: blur(8px);
   }
+  .featured-chip.is-hub-chip {
+    border-color: rgba(233, 199, 121, 0.32);
+    background: rgba(246, 241, 231, 0.09);
+  }
   .featured-chip:hover { border-color: rgba(233, 199, 121, 0.6); background: rgba(246, 241, 231, 0.12); }
   .featured-chip.active {
     border-color: rgba(233, 199, 121, 0.8);
-    background: rgba(217, 154, 69, 0.22);
+    background: rgba(217, 154, 69, 0.28);
     color: #fff;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   }

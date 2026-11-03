@@ -23,10 +23,22 @@ import {
 import {
   alsoCityEntryIds,
   extraCatalogueEntries,
+  supplementalCategoryMap,
   waterfallEntryIds,
 } from './destinationCatalogueExtras';
+import { catalogueCardImages } from './catalogueCardImages';
+import {
+  VERIFIED_DESTINATION_COORDINATES,
+  type DestinationCoordinateRecord,
+} from './destinationCoordinates';
 
-export { type CatalogueEntry, type CatalogueTier, type DestinationCategoryId };
+export {
+  VERIFIED_DESTINATION_COORDINATES,
+  type CatalogueEntry,
+  type CatalogueTier,
+  type DestinationCategoryId,
+  type DestinationCoordinateRecord,
+};
 
 const pexelsLicense = 'Pexels License; this specific source page marks the photograph free to use.';
 
@@ -66,8 +78,18 @@ export interface Destination {
   badge: string;
   categoryId: DestinationCategoryId;
   categoryLabel: string;
+  alsoCategoryIds?: DestinationCategoryId[];
+  categories?: DestinationCategoryId[];
   regionId: string;
   provinceArea: string;
+  lat?: number;
+  lng?: number;
+  isHub?: boolean;
+  hubId?: string;
+  hubName?: string;
+  representativePoint?: string;
+  coordinateSource?: string;
+  svgCoordinates?: { svgX: number; svgY: number };
   coordinates: DestinationCoordinates;
   summary: string;
   whyFeatureIt: string;
@@ -112,9 +134,9 @@ export const destinationRegions: DestinationRegion[] = [
   },
   {
     id: 'west-coast',
-    name: 'The Western Coast',
-    shortName: 'West Coast & Colombo',
-    description: 'Colombo’s layered urban life, river estuaries, tropical gardens, and golden southwest beaches.',
+    name: 'The West Coast & North-West',
+    shortName: 'West & North-West',
+    description: 'Colombo’s layered urban life, southwest beaches and river estuaries, Kalpitiya’s lagoons, and the rock-citadel capitals of the North Western Province.',
   },
   {
     id: 'east-coast',
@@ -141,7 +163,115 @@ export const destinationRegions: DestinationRegion[] = [
  * The x/y values are normalized positions within the illustrative island outline,
  * based on each place's approximate real-world position. They are not navigation data.
  */
-export const destinations: Destination[] = [
+
+/**
+ * Exact west and east coastline vertices from the SVG island-outline path in SriLankaMap.astro
+ * (viewBox="0 0 100 110", preserveAspectRatio="xMidYMid meet" inside .map-canvas with aspect-ratio 0.82).
+ */
+const SVG_WEST_COAST: ReadonlyArray<readonly [number, number]> = [
+  [2, 48], [5, 44], [10, 43], [14, 44], [18, 40], [24, 38], [28, 35],
+  [34, 37], [39, 33], [46, 31], [52, 28], [59, 25], [66, 22], [72, 20],
+  [78, 22], [83, 25], [88, 28], [92, 33], [97, 38], [101, 44], [104, 50],
+];
+
+const SVG_EAST_COAST: ReadonlyArray<readonly [number, number]> = [
+  [2, 53], [4, 57], [7, 61], [10, 66], [14, 67], [18, 71], [23, 73],
+  [28, 77], [33, 78], [37, 81], [43, 83], [49, 85], [55, 88], [61, 88],
+  [68, 86], [75, 83], [81, 81], [87, 77], [91, 72], [97, 68], [100, 62],
+  [103, 57], [104, 50],
+];
+
+const LAT_TO_SVG_Y: ReadonlyArray<readonly [number, number]> = [
+  [9.8350, 3.0],   // Point Pedro (northernmost cape)
+  [9.6615, 7.6],   // Jaffna
+  [8.9810, 22.0],  // Mannar
+  [8.5874, 31.2],  // Trincomalee
+  [8.3114, 35.5],  // Anuradhapura
+  [7.9570, 42.0],  // Sigiriya / Polonnaruwa
+  [7.2906, 57.5],  // Kandy
+  [6.9271, 66.0],  // Colombo / Nuwara Eliya
+  [6.4213, 79.0],  // Bentota
+  [6.0269, 95.2],  // Galle / Tangalle coast
+  [5.9483, 100.2], // Mirissa
+  [5.9180, 102.5], // Dondra Head (southernmost cape)
+];
+
+const REAL_COAST_LNG_SPAN: ReadonlyArray<readonly [number, number, number]> = [
+  [9.8350, 79.95, 80.28],
+  [9.6615, 79.68, 80.35],
+  [9.5000, 79.65, 80.58],
+  [9.2671, 79.95, 80.83],
+  [8.9810, 79.68, 80.98],
+  [8.5874, 79.88, 81.26],
+  [8.3114, 79.70, 81.42],
+  [7.9570, 79.78, 81.58],
+  [7.7102, 79.79, 81.74],
+  [7.2906, 79.83, 81.86],
+  [6.9271, 79.84, 81.85],
+  [6.8404, 79.86, 81.85],
+  [6.4213, 79.98, 81.72],
+  [6.1246, 80.08, 81.36],
+  [6.0269, 80.17, 81.05],
+  [5.9483, 80.32, 80.82],
+  [5.9180, 80.45, 80.68],
+];
+
+function interpolateLinear(points: ReadonlyArray<readonly [number, number]>, x: number): number {
+  const sorted = [...points].sort((a, b) => a[0] - b[0]);
+  if (x <= sorted[0][0]) return sorted[0][1];
+  if (x >= sorted[sorted.length - 1][0]) return sorted[sorted.length - 1][1];
+  for (let i = 0; i < sorted.length - 1; i++) {
+    if (x >= sorted[i][0] && x <= sorted[i + 1][0]) {
+      const t = (x - sorted[i][0]) / (sorted[i + 1][0] - sorted[i][0]);
+      return sorted[i][1] + t * (sorted[i + 1][1] - sorted[i][1]);
+    }
+  }
+  return sorted[0][1];
+}
+
+/**
+ * Projects verified WGS84 latitude/longitude into the SVG island illustration's
+ * viewBox coordinate space (0..100 x 0..110), calibrated against the island-outline path.
+ */
+export function projectLatLngToSvg(lat: number, lng: number): { svgX: number; svgY: number } {
+  let effectiveLat = lat;
+  // Account for the illustrated SVG's gently rounded far-southeastern coastline contour (Yala/Kumana east of 80.85°E)
+  if (lat < 6.65 && lng > 80.85) {
+    const eastFactor = Math.min(1, Math.max(0, (lng - 80.85) / 0.8));
+    const southFactor = Math.min(1, Math.max(0, (6.65 - lat) / 0.65));
+    effectiveLat = lat + eastFactor * southFactor * 0.12;
+  }
+
+  const svgY = Math.max(3.2, Math.min(102.8, interpolateLinear(LAT_TO_SVG_Y, effectiveLat)));
+  const lngW = interpolateLinear(REAL_COAST_LNG_SPAN.map((r) => [r[0], r[1]] as const), lat);
+  const lngE = interpolateLinear(REAL_COAST_LNG_SPAN.map((r) => [r[0], r[2]] as const), lat);
+  const frac = Math.max(0.04, Math.min(0.96, (lng - lngW) / (lngE - lngW)));
+
+  const svgW = interpolateLinear(SVG_WEST_COAST, svgY);
+  const svgE = interpolateLinear(SVG_EAST_COAST, svgY);
+  const pad = Math.min(2.2, (svgE - svgW) * 0.10);
+  const svgX = (svgW + pad) + frac * ((svgE - pad) - (svgW + pad));
+
+  return {
+    svgX: Number(svgX.toFixed(1)),
+    svgY: Number(svgY.toFixed(1)),
+  };
+}
+
+/**
+ * Converts verified WGS84 latitude/longitude into the illustrated Sri Lanka map's
+ * percentage coordinate space (.map-canvas), accounting for the SVG's coastline geometry
+ * and vertical letterboxing (y_pct = 4.9 + 0.82 * y_svg).
+ */
+export function projectLatLngToMap(lat: number, lng: number): DestinationCoordinates {
+  const { svgX, svgY } = projectLatLngToSvg(lat, lng);
+  return {
+    x: svgX,
+    y: Number((4.9 + 0.82 * svgY).toFixed(1)),
+  };
+}
+
+const rawDestinations: Destination[] = [
   {
     id: 'sigiriya',
     aliases: ['sigiriya-rock-fortress'],
@@ -572,38 +702,102 @@ const featuredHubAlsoCategories: Partial<Record<string, DestinationCategoryId[]>
   'nuwara-eliya': ['cities'],
   ella: ['cities'],
   colombo: ['beaches', 'heritage'],
+  bentota: ['cities'],
   galle: ['cities', 'beaches'],
+  mirissa: ['wildlife', 'cities'],
   tangalle: ['cities'],
   trincomalee: ['cities', 'heritage'],
-  jaffna: ['cities'],
+  jaffna: ['cities', 'heritage'],
 };
 
 const regionClusterNameById: Record<string, string> = Object.fromEntries(
   destinationRegions.map((r) => [r.id, r.name]),
 );
 
-const featuredCatalogueEntries: CatalogueEntry[] = destinations.map((d) => ({
-  id: d.id,
-  name: d.name,
-  tier: 'featured',
-  tierLabel: 'Featured Hub',
-  regionId: d.regionId as CatalogueEntry['regionId'],
-  regionCluster: regionClusterNameById[d.regionId] ?? d.regionId,
-  provinceArea: d.provinceArea,
-  categoryId: d.categoryId,
-  categoryLabel: d.badge,
-  alsoCategoryIds: featuredHubAlsoCategories[d.id],
-  description: d.whyFeatureIt,
-  tags: d.highlights.slice(0, 3),
-  hubId: d.id,
-  hubName: d.shortName,
-}));
+export const destinations: Destination[] = rawDestinations.map((d) => {
+  const verified = VERIFIED_DESTINATION_COORDINATES[d.id];
+  const extraCats = featuredHubAlsoCategories[d.id] ?? [];
+  const categories = Array.from(new Set<DestinationCategoryId>([d.categoryId, ...extraCats]));
+  return {
+    ...d,
+    alsoCategoryIds: extraCats.length ? extraCats : undefined,
+    categories,
+    isHub: true,
+    hubId: d.id,
+    hubName: d.shortName,
+    ...(verified
+      ? {
+          lat: verified.lat,
+          lng: verified.lng,
+          representativePoint: verified.representativePoint,
+          coordinateSource: verified.source,
+          svgCoordinates: projectLatLngToSvg(verified.lat, verified.lng),
+          coordinates: projectLatLngToMap(verified.lat, verified.lng),
+        }
+      : {}),
+  };
+});
 
-const normalizedBaseCatalogueEntries: CatalogueEntry[] = baseCatalogueEntries.map((entry) => {
+function attachVerifiedCoordinates(entry: CatalogueEntry): CatalogueEntry {
+  const verified = VERIFIED_DESTINATION_COORDINATES[entry.id];
+  const supplemental = supplementalCategoryMap[entry.id] ?? [];
+  const alsoSet = new Set<DestinationCategoryId>([
+    ...(entry.alsoCategoryIds ?? []),
+    ...supplemental,
+  ]);
+  if (alsoCityEntryIds.has(entry.id) && entry.categoryId !== 'cities') {
+    alsoSet.add('cities');
+  }
+  if (entry.categoryId === 'waterfalls') {
+    alsoSet.add('highlands');
+  }
+  alsoSet.delete(entry.categoryId);
+  const alsoCategoryIds = alsoSet.size ? [...alsoSet] : undefined;
+
+  if (!verified) {
+    return {
+      ...entry,
+      ...(alsoCategoryIds ? { alsoCategoryIds } : {}),
+    };
+  }
+  return {
+    ...entry,
+    ...(alsoCategoryIds ? { alsoCategoryIds } : {}),
+    lat: verified.lat,
+    lng: verified.lng,
+    representativePoint: verified.representativePoint,
+    coordinateSource: verified.source,
+    svgCoordinates: projectLatLngToSvg(verified.lat, verified.lng),
+    coordinates: projectLatLngToMap(verified.lat, verified.lng),
+  };
+}
+
+const featuredCatalogueEntries: CatalogueEntry[] = destinations.map((d) =>
+  attachVerifiedCoordinates({
+    id: d.id,
+    name: d.name,
+    tier: 'featured',
+    tierLabel: 'Featured Hub',
+    regionId: d.regionId as CatalogueEntry['regionId'],
+    regionCluster: regionClusterNameById[d.regionId] ?? d.regionId,
+    provinceArea: d.provinceArea,
+    categoryId: d.categoryId,
+    categoryLabel: d.badge,
+    alsoCategoryIds: featuredHubAlsoCategories[d.id],
+    description: d.whyFeatureIt,
+    tags: d.highlights.slice(0, 3),
+    hubId: d.id,
+    hubName: d.shortName,
+  }),
+);
+
+const normalizedBaseCatalogueEntries: CatalogueEntry[] = baseCatalogueEntries.map((rawEntry) => {
+  const entry = attachVerifiedCoordinates(rawEntry);
   if (waterfallEntryIds.has(entry.id)) {
     const extraCats = new Set<DestinationCategoryId>([
       ...(entry.alsoCategoryIds ?? []),
       entry.categoryId,
+      'highlands',
     ]);
     extraCats.delete('waterfalls');
     return {
@@ -612,16 +806,6 @@ const normalizedBaseCatalogueEntries: CatalogueEntry[] = baseCatalogueEntries.ma
       categoryLabel: entry.categoryLabel.includes('Waterfall')
         ? entry.categoryLabel
         : 'Waterfall & Cascade',
-      alsoCategoryIds: [...extraCats],
-    };
-  }
-  if (alsoCityEntryIds.has(entry.id) && entry.categoryId !== 'cities') {
-    const extraCats = new Set<DestinationCategoryId>([
-      ...(entry.alsoCategoryIds ?? []),
-      'cities',
-    ]);
-    return {
-      ...entry,
       alsoCategoryIds: [...extraCats],
     };
   }
@@ -636,5 +820,97 @@ const existingIds = new Set([
 export const catalogueEntries: CatalogueEntry[] = [
   ...featuredCatalogueEntries,
   ...normalizedBaseCatalogueEntries,
-  ...extraCatalogueEntries.filter((e) => !existingIds.has(e.id)),
+  ...extraCatalogueEntries
+    .filter((e) => !existingIds.has(e.id))
+    .map((e) => attachVerifiedCoordinates(e)),
+];
+
+const hubById = new Map(destinations.map((d) => [d.id, d]));
+
+/**
+ * Full list of all 204 mapped destinations (the 15 Featured Hubs plus all 189 additional
+ * catalogue entries), each with its own verified WGS84 coordinates, projected map coordinates,
+ * coordinate provenance, and detail view data.
+ */
+export const mappedDestinations: Destination[] = [
+  ...destinations,
+  ...catalogueEntries
+    .filter((entry) => entry.tier !== 'featured' && Boolean(entry.coordinates))
+    .map((entry, idx): Destination => {
+      const parentHub = hubById.get(entry.hubId);
+      const cardImg = catalogueCardImages[entry.id];
+      const mapCategoryId: DestinationCategoryId =
+        entry.categoryId === 'waterfalls' ? 'highlands' : entry.categoryId;
+      const allCategories = Array.from(
+        new Set<DestinationCategoryId>([
+          mapCategoryId,
+          entry.categoryId,
+          ...(entry.alsoCategoryIds ?? []),
+        ]),
+      );
+      const shortName = entry.name
+        .replace(/\s*\([^)]*\)/g, '')
+        .replace(/\s+National Park$/i, ' NP')
+        .replace(/\s+Strict Nature Reserve$/i, '')
+        .replace(/\s+Forest Reserve$/i, '')
+        .replace(/\s+Vedda Heritage$/i, ' (Dambana)')
+        .replace(/\s+&\s+Tissa Wewa$/i, '')
+        .replace(/\s+&\s+Ancient Sluice$/i, '')
+        .replace(/\s+Buddha Statue$/i, '')
+        .replace(/\s+Rock Fortress$/i, '')
+        .replace(/\s+Lighthouse$/i, '')
+        .replace(/\s+Church & Shrine$/i, ' Shrine')
+        .replace(/\s+Elephant Orphanage$/i, '');
+
+      return {
+        id: entry.id,
+        number: String(destinations.length + idx + 1).padStart(2, '0'),
+        name: entry.name,
+        shortName,
+        badge: entry.categoryLabel,
+        categoryId: mapCategoryId,
+        categoryLabel: entry.categoryLabel,
+        alsoCategoryIds: entry.alsoCategoryIds,
+        categories: allCategories,
+        regionId: entry.regionId,
+        provinceArea: entry.provinceArea,
+        lat: entry.lat,
+        lng: entry.lng,
+        representativePoint: entry.representativePoint,
+        coordinateSource: entry.coordinateSource,
+        svgCoordinates: entry.svgCoordinates,
+        isHub: false,
+        hubId: entry.hubId,
+        hubName: entry.hubName,
+        coordinates: entry.coordinates!,
+        summary: entry.description,
+        whyFeatureIt: entry.description,
+        highlights: entry.tags,
+        activities: [
+          `Explore ${entry.name} (${entry.representativePoint ?? entry.provinceArea})`,
+          `Pair with nearby itineraries around ${entry.hubName} (${entry.regionCluster})`,
+          ...(parentHub ? [parentHub.activities[0]] : []),
+        ],
+        nearbyAttractions: [
+          `Nearby base: ${entry.hubName}`,
+          ...(parentHub
+            ? parentHub.nearbyAttractions.filter((n) => n !== entry.name).slice(0, 3)
+            : []),
+        ],
+        seasonNote:
+          parentHub?.seasonNote ??
+          'Check regional monsoon patterns and local visiting hours when planning your stop.',
+        images: cardImg
+          ? [
+              {
+                src: cardImg.src,
+                alt: cardImg.alt,
+                sourceUrl: '',
+                credit: cardImg.credit ?? 'Senvira Lanka Archive',
+                license: pexelsLicense,
+              },
+            ]
+          : parentHub?.images ?? [],
+      };
+    }),
 ];
