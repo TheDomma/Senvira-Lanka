@@ -5,11 +5,11 @@ import DestinationDirectory from '../components/destinations/DestinationDirector
 import DestinationDetail from '../components/destinations/DestinationDetail.astro';
 import SriLankaMap from '../components/destinations/SriLankaMap.astro';
 import DestinationCatalogue from '../components/destinations/DestinationCatalogue.astro';
-import { catalogueEntries, destinations, destinationRegions } from '../data/destinations';
+import { catalogueEntries, destinations, destinationRegions, mappedDestinations } from '../data/destinations';
 import heroBgImage from '../assets/images/gallery/pidurangala.jpg';
 
-const initialDestination = destinations[0];
-const aliasEntries = destinations.flatMap((d) => [
+const initialDestination = mappedDestinations[0];
+const aliasEntries = mappedDestinations.flatMap((d) => [
   [d.id, d.id],
   ...(d.aliases ?? []).map((alias) => [alias, d.id]),
 ]);
@@ -83,7 +83,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
         <div class="explorer-layout">
           <aside class="map-column" aria-labelledby="map-heading">
             <SriLankaMap
-              destinations={destinations}
+              destinations={mappedDestinations}
               regions={destinationRegions}
               selectedId={initialDestination.id}
             />
@@ -92,7 +92,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
           <div class="selector-detail-column">
             <div class="directory-controls-wrap">
               <DestinationDirectory
-                destinations={destinations}
+                destinations={mappedDestinations}
                 regions={destinationRegions}
                 selectedId={initialDestination.id}
               />
@@ -100,7 +100,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
 
             <div class="detail-panels" aria-live="polite" aria-atomic="true" data-detail-panels>
               {
-                destinations.map((destination, index) => (
+                mappedDestinations.map((destination, index) => (
                   <div data-detail-panel={destination.id} hidden={index !== 0}>
                     <DestinationDetail destination={destination} />
                   </div>
@@ -172,14 +172,35 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
       return undefined;
     };
 
-    const select = (rawId: string, updateFragment = true) => {
+    const mapSection = page.querySelector<HTMLElement>('[data-sri-lanka-map]');
+
+    const setMapActiveSelection = (activeId: string | null) => {
+      const hasPin = Boolean(activeId);
+      mapSection?.classList.toggle('has-active-selection', hasPin);
+      page.querySelectorAll<HTMLButtonElement>('.map-marker[data-destination-id]').forEach((marker) => {
+        const isSelected = Boolean(activeId && marker.dataset.destinationId === activeId);
+        marker.classList.toggle('active', isSelected);
+        marker.setAttribute('aria-pressed', String(isSelected));
+      });
+    };
+
+    const select = (rawId: string, updateFragment = true, revealOnMap = true) => {
       const id = resolveId(rawId);
       if (!id) return;
 
-      page.querySelectorAll<HTMLButtonElement>('[data-destination-id]').forEach((button) => {
+      if (revealOnMap) {
+        setMapActiveSelection(id);
+      } else {
+        setMapActiveSelection(null);
+      }
+
+      page.querySelectorAll<HTMLButtonElement>('[data-chip-item][data-destination-id]').forEach((button) => {
         const selected = button.dataset.destinationId === id;
         button.classList.toggle('active', selected);
         button.setAttribute('aria-pressed', String(selected));
+        if (selected) {
+          button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
       });
 
       const choice = page.querySelector<HTMLSelectElement>('[data-select]');
@@ -194,7 +215,11 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
       });
 
       page.querySelectorAll<HTMLElement>('[data-featured-card]').forEach((card) => {
-        card.classList.toggle('is-selected-hub', card.dataset.featuredCard === id);
+        card.classList.toggle('is-selected-hub', revealOnMap && card.dataset.featuredCard === id);
+      });
+
+      page.querySelectorAll<HTMLElement>('[data-mapped-card]').forEach((card) => {
+        card.classList.toggle('is-selected-card', revealOnMap && card.dataset.mappedCard === id);
       });
 
       if (updateFragment && window.location.hash !== `#${id}`) {
@@ -203,8 +228,12 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     };
 
     page.addEventListener('destination-select', (event) => {
-      const id = (event as CustomEvent<{ id?: string }>).detail?.id;
-      if (id) select(id);
+      const detail = (event as CustomEvent<{ id?: string; solo?: boolean }>).detail;
+      if (detail?.id) select(detail.id, true, true);
+    });
+
+    page.addEventListener('map-reset', () => {
+      select(firstId, true, true);
     });
 
     page.addEventListener('explorer-filters-change', (event) => {
@@ -212,11 +241,26 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
       if (!detail) return;
       const { region, category } = detail;
 
-      page.querySelectorAll<HTMLButtonElement>('.map-marker').forEach((marker) => {
-        const matchRegion = region === 'all' || marker.dataset.markerRegion === region;
-        const matchCategory = category === 'all' || marker.dataset.markerCategory === category;
-        marker.classList.toggle('is-filtered-out', !(matchRegion && matchCategory));
+      mapSection?.classList.toggle('has-category-filter', region !== 'all' || category !== 'all');
+      page.querySelectorAll<HTMLButtonElement>('.map-marker.is-hub').forEach((marker) => {
+        const markerRegion = marker.dataset.markerRegion ?? '';
+        const markerCats = (marker.dataset.markerCategories ?? marker.dataset.markerCategory ?? '').split(' ');
+        const matchRegion = region === 'all' || markerRegion === region;
+        const matchCategory = category === 'all' || markerCats.includes(category);
+        marker.classList.toggle('is-dimmed', !(matchRegion && matchCategory));
       });
+    });
+
+    window.addEventListener('hashchange', () => {
+      try {
+        const currentHash = decodeURIComponent(window.location.hash.slice(1));
+        const resolved = currentHash ? resolveId(currentHash) : undefined;
+        if (resolved) {
+          select(resolved, false, true);
+        }
+      } catch {
+        // Ignore malformed URI
+      }
     });
 
     let fragmentId = '';
@@ -225,8 +269,12 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     } catch {
       fragmentId = '';
     }
-    const initialResolved = resolveId(fragmentId) ?? firstId;
-    select(initialResolved, Boolean(fragmentId));
+    const resolvedFragment = fragmentId ? resolveId(fragmentId) : undefined;
+    if (resolvedFragment) {
+      select(resolvedFragment, true, true);
+    } else {
+      select(firstId, true, true);
+    }
   });
 </script>
 

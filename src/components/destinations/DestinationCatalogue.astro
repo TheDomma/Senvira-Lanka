@@ -258,6 +258,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                 {regionEntries.map((entry) => {
                   const allCategories = [entry.categoryId, ...(entry.alsoCategoryIds ?? [])].join(' ');
                   const cardPhoto = catalogueCardImages[entry.id] ?? (entry.tier === 'featured' ? hubImageById.get(entry.id) : null);
+                  const isMapped = Boolean(entry.coordinates);
                   return (
                     <article
                       class:list={[
@@ -265,8 +266,10 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                         `tier-${entry.tier}`,
                         `cat-${entry.categoryId}`,
                         cardPhoto ? 'has-card-photo' : 'no-card-photo',
+                        isMapped ? 'is-mapped-card' : 'is-unmapped-card',
                       ]}
                       data-catalogue-item
+                      data-mapped-card={isMapped ? entry.id : undefined}
                       data-item-tier={entry.tier}
                       data-item-region={entry.regionId}
                       data-item-category={entry.categoryId}
@@ -311,15 +314,38 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                         </div>
 
                         <div class="card-bottom-bar">
-                          <button
-                            type="button"
-                            class="hub-jump-btn"
-                            data-inspect-destination={entry.hubId}
-                            title={`Highlight ${entry.hubName} on the interactive island map`}
-                          >
-                            <span>{entry.tier === 'featured' ? 'Show on Map:' : 'Hub:'} <strong>{entry.hubName}</strong></span>
-                            <span aria-hidden="true">↑ Map</span>
-                          </button>
+                          <div class="card-location-actions">
+                            {isMapped ? (
+                              <>
+                                <button
+                                  type="button"
+                                  class="hub-jump-btn"
+                                  data-inspect-destination={entry.id}
+                                  title={`Highlight ${entry.name} on the interactive island map`}
+                                >
+                                  <span>Show on Map</span>
+                                  <span aria-hidden="true">↑</span>
+                                </button>
+                                {entry.hubId !== entry.id && (
+                                  <span class="nearby-base-note">
+                                    Nearby base: <strong>{entry.hubName}</strong>
+                                  </span>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                <span
+                                  class="unmapped-status-pill"
+                                  title={`${entry.name} is not mapped individually yet`}
+                                >
+                                  Not mapped yet
+                                </span>
+                                <span class="nearby-base-note">
+                                  Nearby base: <strong>{entry.hubName}</strong>
+                                </span>
+                              </>
+                            )}
+                          </div>
                           <a href="/journeys/" class="card-plan-link">
                             Add to trip <span aria-hidden="true">→</span>
                           </a>
@@ -338,14 +364,34 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
 </section>
 
 <script>
+  const triggerMapInspect = (el: HTMLElement, id: string) => {
+    el.dispatchEvent(
+      new CustomEvent('destination-select', {
+        bubbles: true,
+        detail: { id, solo: true, scrollToMap: true },
+      }),
+    );
+    const explorer = document.getElementById('interactive-explorer');
+    explorer?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const inspectButtons = document.querySelectorAll<HTMLButtonElement>('[data-inspect-destination]');
   inspectButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
       const id = btn.dataset.inspectDestination;
       if (!id) return;
-      btn.dispatchEvent(new CustomEvent('destination-select', { bubbles: true, detail: { id } }));
-      const explorer = document.getElementById('interactive-explorer');
-      explorer?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      triggerMapInspect(btn, id);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-featured-card], [data-mapped-card]').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest('a, button, input, select, textarea')) return;
+      const id = card.dataset.featuredCard || card.dataset.mappedCard;
+      if (!id) return;
+      triggerMapInspect(card, id);
     });
   });
 
@@ -1243,6 +1289,47 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     border-color: var(--color-teal);
     background: var(--color-teal);
     color: var(--color-ivory);
+  }
+
+  .card-location-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.55rem;
+    min-width: 0;
+  }
+
+  .nearby-base-note {
+    color: var(--color-charcoal-muted);
+    font: 500 0.65rem/1.2 var(--font-sans);
+  }
+
+  .nearby-base-note strong {
+    color: var(--color-forest-deep);
+    font-weight: 700;
+  }
+
+  .unmapped-status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.54rem;
+    border: 1px dashed rgba(20, 91, 89, 0.28);
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.05);
+    color: var(--color-charcoal-muted);
+    font: 600 0.63rem/1.1 var(--font-sans);
+  }
+
+  .catalogue-card.is-mapped-card,
+  .reise-featured-card {
+    cursor: pointer;
+  }
+
+  .catalogue-card.is-selected-card {
+    border-color: var(--color-amber);
+    box-shadow:
+      0 0 0 2px rgba(217, 154, 69, 0.32),
+      0 18px 36px -16px rgba(10, 48, 46, 0.28);
   }
 
   .card-plan-link {
