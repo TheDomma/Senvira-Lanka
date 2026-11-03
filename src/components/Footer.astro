@@ -2,7 +2,7 @@
 import { siteConfig } from '../config/site';
 
 const currentYear = new Date().getFullYear();
-const footerLogo = siteConfig.logos.footerWordmarkLight;
+const footerLogo = siteConfig.logos.footerPrimaryLight;
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
@@ -20,38 +20,116 @@ const packageLinks = [
 ];
 
 const socialChannels = [
-  { label: 'Instagram', short: 'IG' },
-  { label: 'Facebook', short: 'f' },
-  { label: 'Tripadvisor', short: 'TA' },
-  { label: 'LinkedIn', short: 'in' },
-  { label: 'TikTok', short: '♪' },
+  { id: 'instagram', label: 'Instagram', href: siteConfig.socials?.instagram },
+  { id: 'facebook', label: 'Facebook', href: siteConfig.socials?.facebook },
+  { id: 'tripadvisor', label: 'Tripadvisor', href: siteConfig.socials?.tripadvisor },
+  { id: 'tiktok', label: 'TikTok', href: siteConfig.socials?.tiktok },
+  { id: 'linkedin', label: 'LinkedIn', href: siteConfig.socials?.linkedin },
 ];
 ---
 
 <footer id="contact" class="site-footer">
   <div class="container footer-top">
     <div class="footer-identity">
-      <a href="/" class="footer-brand" aria-label={`${siteConfig.brandName} · Home`}>
-        <img
-          src={footerLogo.src}
-          alt="Senvira Lanka"
-          width={footerLogo.width}
-          height={footerLogo.height}
-          loading="lazy"
-          decoding="async"
-        />
-      </a>
-      <p>{siteConfig.description}</p>
-      <span class="footer-note">Thoughtfully planned in Sri Lanka.</span>
-      <div class="footer-socials" aria-label="Social media profiles coming soon">
-        {socialChannels.map((channel) => (
-          <button type="button" disabled aria-label={`${channel.label} profile coming soon`} title={`${channel.label} · Coming soon`}>
-            <span aria-hidden="true">{channel.short}</span>
-            <small>{channel.label}</small>
-          </button>
-        ))}
+      <div class="footer-brand-block">
+        <a href="/" class="footer-brand" aria-label={`${siteConfig.brandName} · Home`}>
+          <img
+            src={footerLogo.src}
+            alt="Senvira Lanka"
+            width={footerLogo.width}
+            height={footerLogo.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <p>{siteConfig.description}</p>
       </div>
-      <span class="footer-social-note">Follow along · social pages coming soon</span>
+      <span class="footer-note">Thoughtfully planned in Sri Lanka.</span>
+      <div class="footer-socials" aria-label="Social media profiles">
+        {socialChannels.map((channel) =>
+          channel.href ? (
+            <a
+              href={channel.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit Senvira Lanka on ${channel.label}`}
+              title={`${channel.label} · Senvira Lanka`}
+              class="social-pill is-active"
+            >
+              <span class="social-icon-wrapper" aria-hidden="true">
+                {channel.id === 'instagram' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                )}
+                {channel.id === 'facebook' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.03.18-1.5 1.5-1.5h2V2.14c-.6-.08-1.72-.14-2.8-.14-3 0-5 1.82-5 5v2.5H7v4h2.7V22h4.3v-8.5z"></path>
+                  </svg>
+                )}
+                {channel.id === 'tripadvisor' && (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.006 4.295c-2.67 0-5.338.784-7.645 2.353H0l1.963 2.135a5.997 5.997 0 0 0 4.04 10.43 5.976 5.976 0 0 0 4.075-1.6L12 19.705l1.922-2.09a5.972 5.972 0 0 0 4.072 1.598 6 6 0 0 0 6-5.998 5.982 5.982 0 0 0-1.957-4.432L24 6.648h-4.35a13.573 13.573 0 0 0-7.644-2.353zM12 6.255c1.531 0 3.063.303 4.504.903C13.943 8.138 12 10.43 12 13.1c0-2.671-1.942-4.962-4.504-5.942A11.72 11.72 0 0 1 12 6.256zM6.002 9.157a4.059 4.059 0 1 1 0 8.118 4.059 4.059 0 0 1 0-8.118zm11.992.002a4.057 4.057 0 1 1 .003 8.115 4.057 4.057 0 0 1-.003-8.115zm-11.992 1.93a2.128 2.128 0 0 0 0 4.256 2.128 2.128 0 0 0 0-4.256zm11.992 0a2.128 2.128 0 0 0 0 4.256 2.128 2.128 0 0 0 0-4.256z"></path>
+                  </svg>
+                )}
+                {channel.id === 'tiktok' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97c-.57-.26-1.1-.59-1.62-.93c-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72c.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61c.24 1.64 1.82 3.02 3.5 2.87c1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07"></path>
+                  </svg>
+                )}
+                {channel.id === 'linkedin' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path>
+                  </svg>
+                )}
+              </span>
+              <small>{channel.label}</small>
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              aria-label={`${channel.label} profile coming soon`}
+              title={`${channel.label} · Coming soon`}
+              class="social-pill is-disabled"
+            >
+              <span class="social-icon-wrapper" aria-hidden="true">
+                {channel.id === 'instagram' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                )}
+                {channel.id === 'facebook' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.03.18-1.5 1.5-1.5h2V2.14c-.6-.08-1.72-.14-2.8-.14-3 0-5 1.82-5 5v2.5H7v4h2.7V22h4.3v-8.5z"></path>
+                  </svg>
+                )}
+                {channel.id === 'tripadvisor' && (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.006 4.295c-2.67 0-5.338.784-7.645 2.353H0l1.963 2.135a5.997 5.997 0 0 0 4.04 10.43 5.976 5.976 0 0 0 4.075-1.6L12 19.705l1.922-2.09a5.972 5.972 0 0 0 4.072 1.598 6 6 0 0 0 6-5.998 5.982 5.982 0 0 0-1.957-4.432L24 6.648h-4.35a13.573 13.573 0 0 0-7.644-2.353zM12 6.255c1.531 0 3.063.303 4.504.903C13.943 8.138 12 10.43 12 13.1c0-2.671-1.942-4.962-4.504-5.942A11.72 11.72 0 0 1 12 6.256zM6.002 9.157a4.059 4.059 0 1 1 0 8.118 4.059 4.059 0 0 1 0-8.118zm11.992.002a4.057 4.057 0 1 1 .003 8.115 4.057 4.057 0 0 1-.003-8.115zm-11.992 1.93a2.128 2.128 0 0 0 0 4.256 2.128 2.128 0 0 0 0-4.256zm11.992 0a2.128 2.128 0 0 0 0 4.256 2.128 2.128 0 0 0 0-4.256z"></path>
+                  </svg>
+                )}
+                {channel.id === 'tiktok' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97c-.57-.26-1.1-.59-1.62-.93c-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72c.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61c.24 1.64 1.82 3.02 3.5 2.87c1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07"></path>
+                  </svg>
+                )}
+                {channel.id === 'linkedin' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path>
+                  </svg>
+                )}
+              </span>
+              <small>{channel.label}</small>
+            </button>
+          )
+        )}
+      </div>
+      <span class="footer-social-note">Follow along · stories & updates from Sri Lanka</span>
     </div>
 
     <nav class="footer-column" aria-label="Explore Senvira Lanka">
@@ -72,8 +150,18 @@ const socialChannels = [
       <span class="footer-label">Get in touch</span>
       <p>Have a place in mind? Tell us what you would love your Sri Lanka trip to feel like.</p>
       <div class="contact-detail">
-        <span class="contact-icon" aria-hidden="true">✉</span>
-        <span><strong>Email</strong><small>hello@example.com <em>Temporary placeholder</em></small></span>
+        <span class="contact-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+        </span>
+        <span>
+          <strong>Email</strong>
+          <a href={`mailto:${siteConfig.contact.email || 'senviralanka@gmail.com'}`} class="footer-email-link">
+            {siteConfig.contact.email || 'senviralanka@gmail.com'}
+          </a>
+        </span>
       </div>
       <div class="contact-detail">
         <span class="contact-icon" aria-hidden="true">◉</span>
@@ -93,27 +181,125 @@ const socialChannels = [
 <style>
   .site-footer { scroll-margin-top: 5rem; padding-block: 3.75rem 1.35rem; border-top: 1px solid rgba(246, 244, 235, 0.12); background: #071a15; color: var(--color-ivory); }
   .footer-top { display: grid; grid-template-columns: minmax(13rem, 1.5fr) repeat(2, minmax(9rem, 0.8fr)) minmax(14rem, 1fr); gap: clamp(1.6rem, 3.5vw, 3.6rem); padding-bottom: 2.8rem; }
-  .footer-brand { display: inline-flex; width: 10.5rem; align-items: center; }
-  .footer-brand img { display: block; width: 100%; height: auto; max-height: 5rem; object-fit: contain; object-position: left center; }
-  .footer-identity p, .footer-contact > p { max-width: 32ch; margin: 1.05rem 0 0; color: rgba(246, 244, 235, 0.68); font-size: 0.77rem; line-height: 1.75; }
+  .footer-identity { display: flex; flex-direction: column; align-items: flex-start; }
+  
+  /* Brand block: text is left-aligned, only the logo is centered to the text block */
+  .footer-brand-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 23.5rem;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.15rem;
+    transition: transform 180ms ease;
+  }
+  .footer-brand:hover {
+    transform: translateY(-2px);
+  }
+  .footer-brand img {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    max-width: clamp(10.5rem, 15vw, 13.5rem);
+    height: auto;
+    max-height: 6.8rem;
+    object-fit: contain;
+    aspect-ratio: 1024 / 768;
+    border-radius: 0.35rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+  .footer-brand-block p {
+    margin: 0;
+    color: rgba(246, 244, 235, 0.72);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    text-align: left;
+    width: 100%;
+  }
+
   .footer-note { display: block; margin-top: 0.95rem; color: rgba(246, 244, 235, 0.47); font-size: 0.65rem; }
-  .footer-socials { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-top: 1.1rem; }
-  .footer-socials button { display: inline-flex; align-items: center; gap: 0.36rem; min-height: 2.05rem; padding: 0.25rem 0.52rem 0.25rem 0.3rem; border: 1px solid rgba(246, 244, 235, 0.17); border-radius: 999px; background: rgba(246, 244, 235, 0.035); color: rgba(246, 244, 235, 0.72); font: inherit; }
-  .footer-socials button:disabled { cursor: default; opacity: 0.82; }
-  .footer-socials button > span { display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border-radius: 50%; background: rgba(233, 198, 111, 0.14); color: var(--color-gold-light); font-size: 0.58rem; font-weight: 700; }
-  .footer-socials button small { font-size: 0.57rem; white-space: nowrap; }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: 0.42rem; margin-top: 1.1rem; }
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 2.1rem;
+    padding: 0.25rem 0.62rem 0.25rem 0.3rem;
+    border: 1px solid rgba(246, 244, 235, 0.18);
+    border-radius: 999px;
+    background: rgba(246, 244, 235, 0.04);
+    color: rgba(246, 244, 235, 0.85);
+    font: inherit;
+    text-decoration: none;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+  .social-pill.is-active:hover,
+  .social-pill.is-active:focus-visible {
+    background: rgba(246, 244, 235, 0.12);
+    border-color: rgba(233, 198, 111, 0.45);
+    color: var(--color-gold-light);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .social-pill.is-active:hover .social-icon-wrapper,
+  .social-pill.is-active:focus-visible .social-icon-wrapper {
+    background: rgba(233, 198, 111, 0.28);
+    transform: scale(1.08);
+  }
+  .social-pill.is-disabled {
+    cursor: default;
+    opacity: 0.65;
+    color: rgba(246, 244, 235, 0.55);
+  }
+  .social-pill .social-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.45rem;
+    height: 1.45rem;
+    flex: 0 0 1.45rem;
+    border-radius: 50%;
+    background: rgba(233, 198, 111, 0.14);
+    color: var(--color-gold-light);
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+  .social-pill svg {
+    display: block;
+  }
+  .social-pill small {
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
   .footer-social-note { display: block; margin-top: 0.45rem; color: rgba(246, 244, 235, 0.42); font-size: 0.57rem; }
   .footer-label { display: block; margin: 0.2rem 0 1rem; color: var(--color-gold-light); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .footer-column ul { display: grid; gap: 0.68rem; margin: 0; padding: 0; list-style: none; }
   .footer-column a, .footer-bottom a { color: rgba(246, 244, 235, 0.8); font-size: 0.72rem; line-height: 1.45; text-decoration: none; text-underline-offset: 0.2rem; }
   .footer-column a:hover, .footer-bottom a:hover { color: white; text-decoration: underline; }
-  .footer-contact > p { margin: -0.1rem 0 1rem; }
+  .footer-contact > p { margin: -0.1rem 0 1rem; max-width: 32ch; color: rgba(246, 244, 235, 0.68); font-size: 0.77rem; line-height: 1.75; }
   .contact-detail { display: flex; align-items: flex-start; gap: 0.7rem; margin-top: 0.8rem; }
   .contact-icon { display: grid; width: 1.55rem; height: 1.55rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(246, 244, 235, 0.2); border-radius: 50%; color: var(--color-gold-light); font-size: 0.78rem; }
   .contact-detail > span:last-child { display: grid; gap: 0.18rem; }
   .contact-detail strong { color: rgba(246, 244, 235, 0.9); font-size: 0.7rem; font-weight: 600; }
   .contact-detail small { color: rgba(246, 244, 235, 0.63); font-size: 0.66rem; line-height: 1.5; }
   .contact-detail em { display: block; color: rgba(246, 244, 235, 0.4); font-size: 0.59rem; font-style: normal; }
+  .footer-email-link {
+    color: rgba(246, 244, 235, 0.82);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+  .footer-email-link:hover,
+  .footer-email-link:focus-visible {
+    color: var(--color-gold-light);
+    text-decoration: underline;
+  }
   .footer-contact-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.1rem; color: var(--color-ivory); font-size: 0.72rem; font-weight: 650; text-decoration: none; }
   .footer-contact-link span { color: var(--color-gold-light); font-size: 0.95rem; }
   .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid rgba(246, 244, 235, 0.12); color: rgba(246, 244, 235, 0.48); font-size: 0.66rem; }
@@ -131,6 +317,22 @@ const socialChannels = [
     .footer-identity, .footer-contact { grid-column: 1 / -1; }
     .footer-contact { display: block; }
     .footer-bottom { flex-wrap: wrap; }
+
+    /* Mobile phone view: just the icons are enough */
+    .footer-socials {
+      gap: 0.5rem;
+    }
+    .social-pill {
+      width: 2.35rem;
+      height: 2.35rem;
+      min-height: 2.35rem;
+      padding: 0;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .social-pill small {
+      display: none;
+    }
   }
 
   @media (max-width: 30rem) {
