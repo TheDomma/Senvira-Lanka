@@ -11,6 +11,9 @@ const { headerLogo } = siteConfig.logos;
 const whatsappHref = siteConfig.contact.whatsappNumber
   ? `https://wa.me/${siteConfig.contact.whatsappNumber}`
   : '#contact';
+
+const rawPath = Astro.url.pathname;
+const currentPath = (rawPath.replace(/\/+$/, '') || '/').toLowerCase();
 ---
 
 <header
@@ -45,9 +48,24 @@ const whatsappHref = siteConfig.contact.whatsappNumber
 
     <nav id="site-navigation" class="site-nav" aria-label="Primary">
       <ul class="nav-list">
-        {siteConfig.navigation.map((item) => (
-          <li><a href={item.href} class="nav-link">{item.label}</a></li>
-        ))}
+        {siteConfig.navigation.map((item) => {
+          const itemPath = (item.href.replace(/\/+$/, '') || '/').toLowerCase();
+          const isCurrent =
+            itemPath === '/'
+              ? currentPath === '/'
+              : currentPath === itemPath || currentPath.startsWith(itemPath + '/');
+          return (
+            <li>
+              <a
+                href={item.href}
+                class:list={['nav-link', { 'is-active': isCurrent }]}
+                aria-current={isCurrent ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
 
@@ -113,7 +131,7 @@ const whatsappHref = siteConfig.contact.whatsappNumber
     const hasHero = Boolean(
       window.location.pathname === '/' ||
       window.location.pathname === '' ||
-      document.querySelector('.hero, .destinations-hero, [data-hero-surface]')
+      document.querySelector('.hero, .destinations-hero, .experiences-hero, [data-hero-surface]')
     );
 
     const checkScroll = () => {
@@ -305,6 +323,29 @@ const whatsappHref = siteConfig.contact.whatsappNumber
   .nav-link:focus-visible {
     color: var(--color-gold-light);
     text-shadow: 0 0 12px rgba(233, 198, 111, 0.5);
+  }
+
+  .nav-link.is-active {
+    color: var(--color-gold-light);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(233, 198, 111, 0.45);
+    position: relative;
+  }
+
+  .nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-gold-light);
+    border-radius: 999px;
+  }
+
+  .site-header.is-scrolled .nav-link.is-active {
+    color: var(--color-gold-light);
+    text-shadow: none;
   }
 
   .site-header.is-scrolled .nav-link {
@@ -624,6 +665,16 @@ const whatsappHref = siteConfig.contact.whatsappNumber
       border-radius: 0.65rem;
       font-size: 0.85rem;
       text-shadow: none;
+    }
+
+    .nav-link.is-active {
+      background: rgba(233, 198, 111, 0.16);
+      color: var(--color-gold-light);
+      font-weight: 600;
+    }
+
+    .nav-link.is-active::after {
+      display: none;
     }
 
     .nav-link:hover {

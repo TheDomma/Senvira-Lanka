@@ -1,0 +1,1211 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThemeCard from '../components/experiences/ThemeCard.astro';
+import ExperienceCard from '../components/experiences/ExperienceCard.astro';
+import {
+  allExperiences,
+  allExperienceDestinations,
+  browsePaths,
+  experienceThemes,
+  getExperiencesByTheme,
+} from '../data/experiences';
+
+import heroTrainImage from '../assets/images/experiences/train-journey.jpg';
+
+const pageTitle = 'Experiences in Sri Lanka | Activity Themes & Places | Senvira Lanka';
+const pageDescription =
+  'Explore Sri Lanka by activity theme or destination. Compare wildlife safaris, marine life, surf breaks, highland trails, scenic trains, heritage sites, and local food with clear seasonal notes.';
+
+// Small curated set of 6 key destination hubs for quick selection
+const curatedDestinations = [
+  { id: 'sigiriya', name: 'Sigiriya' },
+  { id: 'ella', name: 'Ella' },
+  { id: 'kandy', name: 'Kandy' },
+  { id: 'galle', name: 'Galle Fort' },
+  { id: 'yala', name: 'Yala' },
+  { id: 'mirissa', name: 'Mirissa' },
+];
+
+const groupedThemeSections = experienceThemes.map((theme) => ({
+  theme,
+  experiences: getExperiencesByTheme(theme.id),
+}));
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="experiences-page">
+    <!-- 1. Concise Hero aligned with Homepage & Destinations -->
+    <header class="experiences-hero" data-hero-surface aria-labelledby="page-title">
+      <div class="experiences-hero-bg" aria-hidden="true">
+        <Image
+          src={heroTrainImage}
+          alt=""
+          class="experiences-hero-img"
+          widths={[960, 1440, 1920]}
+          sizes="100vw"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="experiences-hero-overlay"></div>
+      </div>
+
+      <div class="container experiences-hero-inner">
+        <div class="hero-intro">
+          <p class="hero-eyebrow">Senvira Lanka · Islandwide Activity Guide</p>
+          <h1 id="page-title">
+            Match what you love doing to the right <em>place and season.</em>
+          </h1>
+          <p class="hero-copy">
+            Choose an activity theme or filter by destination to see where each experience works best, which months suit the weather, and what practical preparation matters before you go.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#themes" class="hero-btn hero-btn-primary">
+              <span>Explore by experience</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#by-destination" class="hero-btn hero-btn-secondary">
+              <span>Explore by destination</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Explore by Experience: 17 Theme Cards -->
+    <section id="themes" class="themes-section" aria-labelledby="themes-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">01 · Explore by Experience</p>
+            <h2 id="themes-heading">Browse 17 activity themes</h2>
+          </div>
+          <p class="section-subcopy">
+            Each theme page compares specific national parks, coastlines, highland trails, or cultural settings side by side.
+          </p>
+        </div>
+
+        <div class="cluster-bar" role="group" aria-label="Filter theme cards by interest area">
+          <button
+            type="button"
+            class="cluster-pill is-active"
+            data-theme-group-btn="all"
+            aria-pressed="true"
+          >
+            All themes ({experienceThemes.length})
+          </button>
+          {browsePaths.map((group) => (
+            <button
+              type="button"
+              class="cluster-pill"
+              data-theme-group-btn={group.id}
+              aria-pressed="false"
+            >
+              {group.shortLabel} ({group.themeIds.length})
+            </button>
+          ))}
+        </div>
+
+        <div class="themes-grid" data-themes-grid>
+          {experienceThemes.map((theme) => (
+            <ThemeCard theme={theme} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Explore by Destination & Grouped Experience Catalogue -->
+    <section id="by-destination" class="finder-section" aria-labelledby="finder-heading">
+      <div class="container" id="catalogue">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">02 · Explore by Destination or Route</p>
+            <h2 id="finder-heading">Find experiences for your route</h2>
+          </div>
+          <p class="section-subcopy">
+            Filter the catalogue by theme, destination, or keyword. When browsing all experiences, activities are grouped under their theme headings below.
+          </p>
+        </div>
+
+        <!-- Simplified Filter Bar -->
+        <div class="finder-controls" role="region" aria-label="Filter experiences">
+          <div class="curated-dest-bar">
+            <span class="curated-dest-label">Quick destinations:</span>
+            <div class="curated-dest-pills" role="group" aria-label="Curated destination shortcuts">
+              <button
+                type="button"
+                class="dest-chip is-active"
+                data-quick-dest="all"
+                aria-pressed="true"
+              >
+                All places
+              </button>
+              {curatedDestinations.map((dest) => (
+                <button
+                  type="button"
+                  class="dest-chip"
+                  data-quick-dest={dest.id}
+                  aria-pressed="false"
+                >
+                  {dest.name}
+                </button>
+              ))}
+            </div>
+            <a href="/destinations/" class="browse-all-dest-link">
+              All destinations directory &rarr;
+            </a>
+          </div>
+
+          <div class="controls-grid">
+            <div class="control-group">
+              <label for="hub-theme-select">Theme</label>
+              <div class="select-shell">
+                <select id="hub-theme-select" data-hub-theme-select>
+                  <option value="all">All 17 themes ({allExperiences.length})</option>
+                  {experienceThemes.map((t) => (
+                    <option value={t.id}>{t.number}. {t.title}</option>
+                  ))}
+                </select>
+                <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="hub-dest-select">Destination</label>
+              <div class="select-shell">
+                <select id="hub-dest-select" data-hub-dest-select>
+                  <option value="all">All destinations ({allExperienceDestinations.length})</option>
+                  {allExperienceDestinations.map((dest) => (
+                    <option value={dest.id}>{dest.name} ({dest.count})</option>
+                  ))}
+                </select>
+                <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="hub-search-input">Keyword search</label>
+              <div class="search-shell">
+                <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                <input
+                  id="hub-search-input"
+                  type="search"
+                  placeholder="Search by activity, park, beach, or town..."
+                  autocomplete="off"
+                  data-hub-search-input
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="finder-status-bar">
+            <p class="status-summary" data-hub-status-text aria-live="polite">
+              Showing all <strong>{allExperiences.length}</strong> experiences grouped across <strong>{experienceThemes.length}</strong> themes
+            </p>
+
+            <button
+              type="button"
+              class="reset-filter-btn"
+              data-hub-reset-btn
+              hidden
+            >
+              Reset filters
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Experience Results Grouped by Theme -->
+        <div class="grouped-catalogue" data-hub-grouped-catalogue>
+          {groupedThemeSections.map(({ theme, experiences }) => (
+            <section
+              class="catalogue-theme-group"
+              id={`group-${theme.id}`}
+              data-catalogue-theme-group={theme.id}
+              data-browse-path={theme.browsePath}
+              aria-labelledby={`group-heading-${theme.id}`}
+            >
+              <div class="theme-group-header">
+                <div class="theme-group-title-wrap">
+                  <span class="theme-group-number">Theme {theme.number}</span>
+                  <h3 id={`group-heading-${theme.id}`}>
+                    <a href={`/experiences/${theme.id}/`}>{theme.title}</a>
+                  </h3>
+                  <p class="theme-group-promise">{theme.promise}</p>
+                </div>
+
+                <a href={`/experiences/${theme.id}/`} class="theme-group-link">
+                  <span>Open theme guide ({experiences.length})</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+
+              <div class="experiences-grid">
+                {experiences.map((experience) => (
+                  <ExperienceCard experience={experience} context="hub" />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <!-- Helpful Empty State -->
+        <div class="hub-empty-state" data-hub-empty-state hidden>
+          <h3>No experiences match that selection</h3>
+          <p>
+            Try resetting one of your filters, selecting a different activity theme, or browsing all {allExperiences.length} experiences across Sri Lanka.
+          </p>
+          <div class="empty-btn-row">
+            <button type="button" class="empty-primary-btn" data-hub-empty-reset>
+              Reset &amp; view all {allExperiences.length} experiences
+            </button>
+            <a href="/destinations/" class="empty-secondary-link">
+              Browse Destinations directory
+            </a>
+          </div>
+        </div>
+
+        <aside class="editorial-legend" aria-label="Editorial status note">
+          <strong>Editorial note:</strong> Activities marked <em>Proposed · Verify locally</em> or <em>Research needed</em> indicate documented Sri Lankan experiences where operator licensing, seasonal access, or safety parameters should be confirmed locally before booking.
+        </aside>
+      </div>
+    </section>
+
+    <!-- 5. Concise Seasonal, Safety & Responsible Travel Guidance -->
+    <section id="seasonal-guidance" class="planning-section" aria-labelledby="planning-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">03 · Seasonality &amp; Responsible Travel</p>
+            <h2 id="planning-heading">What to know before you plan</h2>
+          </div>
+          <p class="section-subcopy">
+            Two opposing monsoons mean Sri Lanka works year-round when you match coastal, marine, and wildlife plans to the right side of the island.
+          </p>
+        </div>
+
+        <div class="planning-grid">
+          <article class="planning-card">
+            <span class="planning-tag">December to April</span>
+            <h3>South Coast, West Coast &amp; High Peaks</h3>
+            <p>
+              Calmest seas for Mirissa and Kalpitiya marine life, Weligama and Kabalana surf, Hikkaduwa reefs, and Bentota or Tangalle coves. Crisp dawns favour Horton Plains, Ella hikes, and the Adam’s Peak pilgrimage season.
+            </p>
+          </article>
+
+          <article class="planning-card">
+            <span class="planning-tag">May to September</span>
+            <h3>East Coast, Northern Islands &amp; Dry-Zone Gatherings</h3>
+            <p>
+              Sunny, sheltered water returns to Trincomalee, Nilaveli, Pigeon Island, Pasikuda, and Arugam Bay’s point breaks. Dry-season water levels draw elephant herds to Minneriya and Kaudulla reservoirs.
+            </p>
+          </article>
+
+          <article class="planning-card">
+            <span class="planning-tag">Respectful Conduct</span>
+            <h3>Wildlife, Shrines &amp; Safety Standards</h3>
+            <p>
+              Wild sightings and clear mountain views are never guaranteed. Ask safari drivers and boats to keep respectful distance, cover shoulders and knees at active temples, and verify licensed water and adventure operators locally.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  function initExperiencesHub() {
+    // 1. Theme Cluster Pills (filters the 17 ThemeCards in Section 1)
+    const themeGroupBtns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-theme-group-btn]')
+    );
+    const themeCards = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-themes-grid] [data-theme-card]')
+    );
+
+    for (const btn of themeGroupBtns) {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.themeGroupBtn || 'all';
+        for (const b of themeGroupBtns) {
+          const isCurrent = b === btn;
+          b.classList.toggle('is-active', isCurrent);
+          b.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+        }
+        for (const card of themeCards) {
+          const cardGroup = card.dataset.browsePath || '';
+          card.hidden = group !== 'all' && cardGroup !== group;
+        }
+      });
+    }
+
+    // 2. Route Finder Controls (filters grouped ExperienceCards in Section 2)
+    const themeSelect = document.querySelector<HTMLSelectElement>('[data-hub-theme-select]');
+    const destSelect = document.querySelector<HTMLSelectElement>('[data-hub-dest-select]');
+    const searchInput = document.querySelector<HTMLInputElement>('[data-hub-search-input]');
+    const quickDestChips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-quick-dest]')
+    );
+    const statusText = document.querySelector<HTMLElement>('[data-hub-status-text]');
+    const resetBtn = document.querySelector<HTMLButtonElement>('[data-hub-reset-btn]');
+    const emptyResetBtn = document.querySelector<HTMLButtonElement>('[data-hub-empty-reset]');
+    const emptyState = document.querySelector<HTMLElement>('[data-hub-empty-state]');
+    const themeGroups = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-catalogue-theme-group]')
+    );
+    const allCards = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-hub-grouped-catalogue] [data-experience-card]')
+    );
+
+    if (!allCards.length) return;
+
+    let selectedTheme = 'all';
+    let selectedBrowseGroup = 'all';
+    let selectedDest = 'all';
+    let searchQuery = '';
+
+    function syncQuickDestChips() {
+      for (const chip of quickDestChips) {
+        const isMatch = (chip.dataset.quickDest || 'all') === selectedDest;
+        chip.classList.toggle('is-active', isMatch);
+        chip.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+      }
+    }
+
+    function applyHubFilters() {
+      const normalizedQuery = searchQuery.trim().toLowerCase();
+      const hasActiveFilter =
+        selectedTheme !== 'all' ||
+        selectedBrowseGroup !== 'all' ||
+        selectedDest !== 'all' ||
+        normalizedQuery.length > 0;
+
+      let totalVisibleCards = 0;
+      let visibleThemeGroupCount = 0;
+
+      for (const groupEl of themeGroups) {
+        const groupId = groupEl.dataset.catalogueThemeGroup || '';
+        const groupBrowsePath = groupEl.dataset.browsePath || '';
+        const groupCards = Array.from(
+          groupEl.querySelectorAll<HTMLElement>('[data-experience-card]')
+        );
+
+        let visibleInGroup = 0;
+
+        for (const card of groupCards) {
+          const cardDests = (card.dataset.allDestinations || '').split(',');
+          const cardSearch = card.dataset.searchText || '';
+
+          const matchesTheme = selectedTheme === 'all' || groupId === selectedTheme;
+          const matchesBrowseGroup =
+            selectedBrowseGroup === 'all' || groupBrowsePath === selectedBrowseGroup;
+          const matchesDest = selectedDest === 'all' || cardDests.includes(selectedDest);
+          const matchesSearch = !normalizedQuery || cardSearch.includes(normalizedQuery);
+
+          const isVisible =
+            matchesTheme && matchesBrowseGroup && matchesDest && matchesSearch;
+          card.hidden = !isVisible;
+          if (isVisible) {
+            visibleInGroup += 1;
+            totalVisibleCards += 1;
+          }
+        }
+
+        groupEl.hidden = visibleInGroup === 0;
+        if (visibleInGroup > 0) {
+          visibleThemeGroupCount += 1;
+        }
+      }
+
+      if (resetBtn) {
+        resetBtn.hidden = !hasActiveFilter;
+      }
+
+      if (emptyState) {
+        emptyState.hidden = totalVisibleCards > 0;
+      }
+
+      if (statusText) {
+        if (!hasActiveFilter) {
+          statusText.innerHTML = `Showing all <strong>${allCards.length}</strong> experiences grouped across <strong>${themeGroups.length}</strong> themes`;
+        } else {
+          const activeParts: string[] = [];
+          if (selectedTheme !== 'all' && themeSelect) {
+            const opt = themeSelect.selectedOptions[0];
+            if (opt) {
+              activeParts.push(opt.textContent?.replace(/^\d+\.\s*/, '').trim() || selectedTheme);
+            }
+          } else if (selectedBrowseGroup !== 'all') {
+            activeParts.push(selectedBrowseGroup.replace(/-/g, ' '));
+          }
+          if (selectedDest !== 'all' && destSelect) {
+            const opt = destSelect.selectedOptions[0];
+            if (opt) {
+              activeParts.push(opt.textContent?.replace(/\(\d+\)/, '').trim() || selectedDest);
+            }
+          }
+          if (normalizedQuery) {
+            activeParts.push(`"${searchQuery.trim()}"`);
+          }
+          const themeCountPhrase =
+            visibleThemeGroupCount > 1 ? ` across <strong>${visibleThemeGroupCount}</strong> themes` : '';
+          statusText.innerHTML = `Showing <strong>${totalVisibleCards}</strong> matching ${totalVisibleCards === 1 ? 'experience' : 'experiences'}${themeCountPhrase} for ${activeParts.join(' + ')}`;
+        }
+      }
+    }
+
+    themeSelect?.addEventListener('change', () => {
+      selectedTheme = themeSelect.value || 'all';
+      selectedBrowseGroup = 'all';
+      applyHubFilters();
+    });
+
+    destSelect?.addEventListener('change', () => {
+      selectedDest = destSelect.value || 'all';
+      syncQuickDestChips();
+      applyHubFilters();
+    });
+
+    for (const chip of quickDestChips) {
+      chip.addEventListener('click', () => {
+        selectedDest = chip.dataset.quickDest || 'all';
+        if (destSelect) destSelect.value = selectedDest;
+        syncQuickDestChips();
+        applyHubFilters();
+      });
+    }
+
+    searchInput?.addEventListener('input', () => {
+      searchQuery = searchInput.value || '';
+      applyHubFilters();
+    });
+
+    function resetAllFilters() {
+      selectedTheme = 'all';
+      selectedBrowseGroup = 'all';
+      selectedDest = 'all';
+      searchQuery = '';
+      if (themeSelect) themeSelect.value = 'all';
+      if (destSelect) destSelect.value = 'all';
+      if (searchInput) searchInput.value = '';
+      syncQuickDestChips();
+      applyHubFilters();
+    }
+
+    resetBtn?.addEventListener('click', resetAllFilters);
+    emptyResetBtn?.addEventListener('click', resetAllFilters);
+
+    // 3. Support URL query params (?destination=..., ?theme=...) and homepage hash links
+    function applyUrlState() {
+      const url = new URL(window.location.href);
+      const paramDest = url.searchParams.get('destination');
+      const paramTheme = url.searchParams.get('theme');
+      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+
+      const hashToThemeMap: Record<string, string> = {
+        'wildlife': 'wildlife-safaris',
+        'whale-watching': 'marine-wildlife',
+        'surfing': 'surfing-board-sports',
+        'cooking': 'food-markets-culinary',
+      };
+
+      const hashToGroupMap: Record<string, string> = {
+        'sea-surf': 'sea-surf',
+        'highlands': 'highlands',
+        'heritage': 'heritage',
+        'food-local-life': 'food-local-life',
+      };
+
+      let shouldScrollToCatalogue = false;
+
+      if (paramDest && destSelect) {
+        const hasOption = Array.from(destSelect.options).some((o) => o.value === paramDest);
+        if (hasOption) {
+          selectedDest = paramDest;
+          destSelect.value = paramDest;
+          syncQuickDestChips();
+          shouldScrollToCatalogue = true;
+        }
+      }
+
+      if (paramTheme && themeSelect) {
+        const hasOption = Array.from(themeSelect.options).some((o) => o.value === paramTheme);
+        if (hasOption) {
+          selectedTheme = paramTheme;
+          themeSelect.value = paramTheme;
+          shouldScrollToCatalogue = true;
+        }
+      }
+
+      if (hash && hashToThemeMap[hash] && themeSelect) {
+        selectedTheme = hashToThemeMap[hash];
+        selectedBrowseGroup = 'all';
+        themeSelect.value = selectedTheme;
+        shouldScrollToCatalogue = true;
+      } else if (hash && hashToGroupMap[hash]) {
+        selectedTheme = 'all';
+        selectedBrowseGroup = hashToGroupMap[hash];
+        if (themeSelect) themeSelect.value = 'all';
+        shouldScrollToCatalogue = true;
+      } else if (hash) {
+        const targetCard = allCards.find((c) => c.id.toLowerCase() === hash);
+        if (targetCard) {
+          resetAllFilters();
+          setTimeout(() => {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 80);
+          return;
+        }
+      }
+
+      applyHubFilters();
+
+      if (shouldScrollToCatalogue) {
+        const catalogueEl = document.getElementById('by-destination');
+        setTimeout(() => {
+          catalogueEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+      }
+    }
+
+    applyUrlState();
+    window.addEventListener('hashchange', applyUrlState);
+  }
+
+  initExperiencesHub();
+</script>
+
+<style>
+  .experiences-page {
+    background: #fbf8f0;
+    color: #14261c;
+    min-height: 100vh;
+  }
+
+  .container {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+  }
+
+  /* 1. Hero matched to Homepage & Destinations */
+  .experiences-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #031514;
+    color: var(--color-ivory);
+    padding: calc(5.2rem + clamp(2.5rem, 5vw, 4rem)) clamp(1.125rem, 4vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem);
+    border-bottom: 1px solid rgba(246, 241, 231, 0.12);
+  }
+
+  .experiences-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+  }
+
+  .experiences-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    filter: saturate(0.96) contrast(1.02) brightness(0.84);
+    transform: scale(1.02);
+    display: block;
+  }
+
+  .experiences-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 82% 18%, rgba(217, 154, 69, 0.14), transparent 34rem),
+      linear-gradient(96deg, rgba(2, 16, 15, 0.9) 0%, rgba(4, 28, 26, 0.76) 52%, rgba(3, 20, 19, 0.62) 100%),
+      linear-gradient(180deg, rgba(2, 14, 13, 0.6) 0%, transparent 38%, rgba(3, 20, 19, 0.92) 100%);
+  }
+
+  .experiences-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-intro {
+    max-width: 44rem;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 0.85rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f0d48d;
+  }
+
+  .hero-eyebrow::before {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: #e9c66f;
+    content: '';
+  }
+
+  .experiences-hero h1 {
+    margin: 0;
+    max-width: 19ch;
+    font: 500 clamp(2.35rem, 4.4vw, 3.75rem)/1.08 var(--font-serif);
+    letter-spacing: -0.03em;
+    color: #fbf8f0;
+  }
+
+  .experiences-hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: #f0d48d;
+  }
+
+  .hero-copy {
+    max-width: 52ch;
+    margin: 1rem 0 0;
+    color: rgba(250, 248, 240, 0.82);
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.65rem;
+    padding: 0.58rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .hero-btn-primary {
+    background: #f0d48d;
+    color: #10231b;
+  }
+
+  .hero-btn-primary:hover {
+    background: #f6dfa4;
+    transform: translateY(-1px);
+  }
+
+  .hero-btn-secondary {
+    background: rgba(7, 36, 32, 0.55);
+    color: var(--color-ivory);
+    border: 1px solid rgba(246, 241, 231, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .hero-btn-secondary:hover {
+    border-color: rgba(240, 212, 141, 0.5);
+    background: rgba(14, 58, 52, 0.72);
+  }
+
+  /* 2. Explore by Experience (Themes Section) */
+  .themes-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.35rem;
+  }
+
+  .section-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0f766e;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: #14261c;
+  }
+
+  .section-subcopy {
+    margin: 0;
+    max-width: 48ch;
+    font-size: 0.88rem;
+    line-height: 1.58;
+    color: #4a5a50;
+  }
+
+  .cluster-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cluster-pill {
+    appearance: none;
+    border: 1px solid rgba(20, 38, 28, 0.14);
+    background: #ffffff;
+    color: #26382e;
+    border-radius: 999px;
+    padding: 0.44rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+
+  .cluster-pill:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+  }
+
+  .cluster-pill.is-active {
+    background: #14261c;
+    border-color: #14261c;
+    color: #fbf8f0;
+  }
+
+  .themes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20.5rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  /* 3. Route Finder & Grouped Catalogue */
+  .finder-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+    background: #f4f0e4;
+    border-top: 1px solid rgba(20, 38, 28, 0.08);
+    border-bottom: 1px solid rgba(20, 38, 28, 0.08);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .finder-controls {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.1);
+    border-radius: 1rem;
+    padding: 1.15rem 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 6px 20px rgba(17, 29, 23, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .curated-dest-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(20, 38, 28, 0.07);
+  }
+
+  .curated-dest-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #4e5e54;
+    margin-right: 0.15rem;
+  }
+
+  .curated-dest-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .dest-chip {
+    appearance: none;
+    border: 1px solid rgba(20, 38, 28, 0.14);
+    background: #fbf8f0;
+    color: #24362c;
+    border-radius: 999px;
+    padding: 0.34rem 0.76rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+
+  .dest-chip:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+  }
+
+  .dest-chip.is-active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+  }
+
+  .browse-all-dest-link {
+    margin-left: auto;
+    font-size: 0.77rem;
+    font-weight: 700;
+    color: #0f766e;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .browse-all-dest-link:hover {
+    text-decoration: underline;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .control-group label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #4e5e54;
+  }
+
+  .select-shell,
+  .search-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .select-shell select,
+  .search-shell input {
+    width: 100%;
+    height: 2.65rem;
+    border-radius: 0.65rem;
+    border: 1px solid rgba(20, 38, 28, 0.16);
+    background: #fcfbf8;
+    color: #14261c;
+    font-size: 0.84rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .select-shell select {
+    appearance: none;
+    padding: 0 2.2rem 0 0.8rem;
+    cursor: pointer;
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 0.75rem;
+    pointer-events: none;
+    color: #4e5e54;
+  }
+
+  .search-shell input {
+    padding: 0 0.8rem 0 2.25rem;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    pointer-events: none;
+    color: #5c6c62;
+  }
+
+  .select-shell select:focus,
+  .search-shell input:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+    background: #ffffff;
+  }
+
+  .finder-status-bar {
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(20, 38, 28, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .status-summary {
+    margin: 0;
+    font-size: 0.83rem;
+    color: #3f4f45;
+  }
+
+  .reset-filter-btn {
+    appearance: none;
+    border-radius: 999px;
+    padding: 0.38rem 0.88rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: rgba(15, 118, 110, 0.08);
+    border: 1px solid rgba(15, 118, 110, 0.28);
+    color: #0f766e;
+    transition: background-color 150ms ease;
+  }
+
+  .reset-filter-btn:hover {
+    background: rgba(15, 118, 110, 0.15);
+  }
+
+  /* 4. Grouped Theme Results */
+  .grouped-catalogue {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .catalogue-theme-group {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(20, 38, 28, 0.1);
+  }
+
+  .catalogue-theme-group:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .catalogue-theme-group[hidden] {
+    display: none !important;
+  }
+
+  .theme-group-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .theme-group-title-wrap {
+    max-width: 46rem;
+  }
+
+  .theme-group-number {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #0f766e;
+    margin-bottom: 0.2rem;
+  }
+
+  .theme-group-title-wrap h3 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.38rem, 2vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.18;
+    color: #14261c;
+  }
+
+  .theme-group-title-wrap h3 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .theme-group-title-wrap h3 a:hover {
+    color: #0f766e;
+  }
+
+  .theme-group-promise {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.52;
+    color: #4c5c52;
+  }
+
+  .theme-group-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0f766e;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .theme-group-link:hover {
+    color: #0b5852;
+    text-decoration: underline;
+  }
+
+  .experiences-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20.5rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .hub-empty-state {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed rgba(20, 38, 28, 0.2);
+    border-radius: 1rem;
+  }
+
+  .hub-empty-state h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: #14261c;
+  }
+
+  .hub-empty-state p {
+    margin: 0 auto 1.25rem;
+    max-width: 46ch;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #4a5a50;
+  }
+
+  .empty-btn-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .empty-primary-btn {
+    appearance: none;
+    border: none;
+    background: #0f766e;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 0.58rem 1.15rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .empty-secondary-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0f766e;
+    text-decoration: underline;
+  }
+
+  .editorial-legend {
+    margin-top: 2rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.75rem;
+    background: #ebe6d8;
+    border-left: 3px solid #b45309;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: #3f4d44;
+  }
+
+  /* 5. Planning Section */
+  .planning-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  .planning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .planning-card {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.09);
+    border-radius: 1rem;
+    padding: 1.35rem 1.4rem;
+  }
+
+  .planning-tag {
+    display: inline-block;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0f766e;
+    margin-bottom: 0.45rem;
+  }
+
+  .planning-card h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #14261c;
+  }
+
+  .planning-card p {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #48584e;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 58rem) {
+    .controls-grid,
+    .planning-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .browse-all-dest-link {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 54rem) {
+    .experiences-hero {
+      padding-top: calc(4.35rem + 1.75rem);
+    }
+  }
+</style>
