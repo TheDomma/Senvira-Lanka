@@ -1,0 +1,937 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExperienceCard from '../../components/experiences/ExperienceCard.astro';
+import ThemeCard from '../../components/experiences/ThemeCard.astro';
+import {
+  experienceThemes,
+  getExperiencesByTheme,
+  getThemeById,
+  type ExperienceTheme,
+} from '../../data/experiences';
+
+export function getStaticPaths() {
+  return experienceThemes.map((theme) => ({
+    params: { theme: theme.id },
+    props: { theme },
+  }));
+}
+
+interface Props {
+  theme: ExperienceTheme;
+}
+
+const { theme } = Astro.props;
+const themeExperiences = getExperiencesByTheme(theme.id);
+const unverifiedItems = themeExperiences.filter((exp) => exp.editorialStatus !== 'reviewed');
+
+const relatedThemes = theme.relatedThemeIds
+  .map((id) => getThemeById(id))
+  .filter((t): t is ExperienceTheme => Boolean(t));
+
+// Collect unique destinations represented in this theme
+const destinationMap = new Map<string, string>();
+for (const exp of themeExperiences) {
+  destinationMap.set(exp.primaryDestinationId, exp.primaryDestinationName);
+  if (exp.relatedDestinations) {
+    for (const rel of exp.relatedDestinations) {
+      if (!destinationMap.has(rel.id)) {
+        destinationMap.set(rel.id, rel.name);
+      }
+    }
+  }
+}
+const themeDestinations = Array.from(destinationMap.entries())
+  .map(([id, name]) => ({ id, name }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const pageTitle = `${theme.title} in Sri Lanka | Experiences | Senvira Lanka`;
+const pageDescription = theme.promise;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="theme-page">
+    <!-- Hero matching Destinations & Homepage scale -->
+    <header class="theme-hero" data-hero-surface>
+      <div class="theme-hero-bg" aria-hidden="true">
+        <Image
+          src={theme.image}
+          alt={theme.imageAlt}
+          class="theme-hero-img"
+          widths={[768, 1280, 1680]}
+          sizes="100vw"
+          loading="eager"
+        />
+        <div class="theme-hero-overlay"></div>
+      </div>
+
+      <div class="container theme-hero-inner">
+        <nav class="theme-breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/experiences/">Experiences</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{theme.title}</li>
+          </ol>
+        </nav>
+
+        <p class="eyebrow">Theme {theme.number} · Sri Lanka Experiences</p>
+        <h1>{theme.title}</h1>
+        <p class="hero-copy">{theme.intro}</p>
+
+        <div class="hero-actions">
+          <a href="#theme-catalogue" class="hero-btn hero-btn-primary">
+            Browse {themeExperiences.length} {themeExperiences.length === 1 ? 'experience' : 'experiences'}
+          </a>
+          <a href="#theme-practical-notes" class="hero-btn hero-btn-secondary">
+            Season &amp; practical notes
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Subtypes + Filter Bar + Cards -->
+    <section id="theme-catalogue" class="theme-catalogue-section" aria-labelledby="catalogue-heading">
+      <div class="container">
+        <div class="catalogue-top">
+          <div>
+            <p class="section-eyebrow">Activity Subtypes &amp; Locations</p>
+            <h2 id="catalogue-heading">Explore {theme.title.toLowerCase()}</h2>
+          </div>
+          <p class="season-banner">
+            <strong>Key guidance:</strong> {theme.planYourVisit[0]}
+          </p>
+        </div>
+
+        <!-- Simplified Filter Controls -->
+        <div class="theme-filter-bar" role="region" aria-label={`Filter ${theme.title}`}>
+          {theme.subtypes.length > 1 && (
+            <div class="subtype-pills" role="group" aria-label="Filter by activity subtype">
+              <button
+                type="button"
+                class="subtype-pill is-active"
+                data-subtype-btn="all"
+                aria-pressed="true"
+              >
+                All subtypes ({themeExperiences.length})
+              </button>
+              {theme.subtypes.map((sub) => {
+                const count = themeExperiences.filter((e) => e.subtypeId === sub.id).length;
+                return (
+                  <button
+                    type="button"
+                    class="subtype-pill"
+                    data-subtype-btn={sub.id}
+                    aria-pressed="false"
+                  >
+                    {sub.label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <div class="filter-inputs-row">
+            <div class="control-field">
+              <label for="theme-destination-select">Location</label>
+              <div class="select-wrap">
+                <select id="theme-destination-select" data-theme-dest-select>
+                  <option value="all">All locations in this theme ({themeDestinations.length})</option>
+                  {themeDestinations.map((dest) => (
+                    <option value={dest.id}>{dest.name}</option>
+                  ))}
+                </select>
+                <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="control-field">
+              <label for="theme-search-input">Keyword search</label>
+              <div class="search-wrap">
+                <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                <input
+                  id="theme-search-input"
+                  type="search"
+                  placeholder="Filter by place, season, or keyword..."
+                   autocomplete="off"
+                  data-theme-search-input
+                />
+              </div>
+            </div>
+
+            <div class="filter-status-box">
+              <p class="filter-count-text" data-theme-result-status aria-live="polite">
+                Showing all <strong>{themeExperiences.length}</strong> experiences
+              </p>
+              <button
+                type="button"
+                class="reset-btn"
+                data-theme-reset-btn
+                hidden
+              >
+                Reset filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience Card Grid -->
+        <div class="exp-grid" data-theme-cards-grid>
+          {themeExperiences.map((experience) => (
+            <ExperienceCard experience={experience} context="theme" />
+          ))}
+        </div>
+
+        <!-- Helpful Empty State -->
+        <div class="empty-state" data-theme-empty-state hidden>
+          <h3>No matching experiences in {theme.title}</h3>
+          <p>
+            No activities matched that combination of subtype, location, and search term. Reset the filters to view all {themeExperiences.length} experiences in this theme, or browse all 17 themes on the hub.
+          </p>
+          <div class="empty-actions">
+            <button type="button" class="empty-reset-btn" data-theme-empty-reset>
+              Show all {themeExperiences.length} experiences
+            </button>
+            <a href="/experiences/" class="empty-hub-link">Back to Experiences hub</a>
+          </div>
+        </div>
+
+        {unverifiedItems.length > 0 && (
+          <aside class="editorial-status-note" aria-label="Editorial verification note">
+            <strong>Editorial verification note:</strong> Cards marked <em>Proposed · Verify locally</em> or <em>Research needed</em> represent documented Sri Lankan activity patterns from our discovery inventory where operator licensing, seasonal access, or safety parameters must be verified locally before booking.
+          </aside>
+        )}
+      </div>
+    </section>
+
+    <!-- Practical Guidance & Key Destinations -->
+    <section id="theme-practical-notes" class="theme-guidance-section" aria-labelledby="guidance-heading">
+      <div class="container guidance-grid">
+        <div class="guidance-card">
+          <p class="section-eyebrow">Practical Considerations</p>
+          <h2 id="guidance-heading">Planning {theme.title.toLowerCase()} thoughtfully</h2>
+          <ul class="guidance-list">
+            {theme.planYourVisit.map((note) => (
+              <li>{note}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="destinations-card">
+          <p class="section-eyebrow">Where to Go</p>
+          <h2>Key destinations for this theme</h2>
+          <p class="dest-card-copy">
+            Open a destination profile to see regional context, pairing ideas, and travel logistics.
+          </p>
+          <div class="dest-pill-list">
+            {theme.featuredDestinations.map((dest) => (
+              <a href={`/destinations/#${dest.id}`} class="dest-pill-link">
+                <span>{dest.name}</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+          <a href="/destinations/" class="all-destinations-link">
+            Explore the full Destinations directory
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Themes -->
+    {relatedThemes.length > 0 && (
+      <section class="related-themes-section" aria-labelledby="related-themes-heading">
+        <div class="container">
+          <div class="related-header">
+            <div>
+              <p class="section-eyebrow">Continue Exploring</p>
+              <h2 id="related-themes-heading">Related experience themes</h2>
+            </div>
+            <a href="/experiences/#themes" class="view-all-themes-link">
+              View all 17 themes
+            </a>
+          </div>
+
+          <div class="related-themes-grid">
+            {relatedThemes.map((relTheme) => (
+              <ThemeCard theme={relTheme} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  function initThemePageFilters() {
+    const subtypeButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-subtype-btn]')
+    );
+    const destSelect = document.querySelector<HTMLSelectElement>('[data-theme-dest-select]');
+    const searchInput = document.querySelector<HTMLInputElement>('[data-theme-search-input]');
+    const resetBtn = document.querySelector<HTMLButtonElement>('[data-theme-reset-btn]');
+    const emptyResetBtn = document.querySelector<HTMLButtonElement>('[data-theme-empty-reset]');
+    const statusText = document.querySelector<HTMLElement>('[data-theme-result-status]');
+    const emptyState = document.querySelector<HTMLElement>('[data-theme-empty-state]');
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-theme-cards-grid] [data-experience-card]')
+    );
+
+    if (!cards.length) return;
+
+    let activeSubtype = 'all';
+    let activeDest = 'all';
+    let searchQuery = '';
+
+    function applyFilters() {
+      const normalizedQuery = searchQuery.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const card of cards) {
+        const cardSubtype = card.dataset.subtype || '';
+        const cardAllDests = (card.dataset.allDestinations || '').split(',');
+        const cardSearch = card.dataset.searchText || '';
+
+        const matchesSubtype = activeSubtype === 'all' || cardSubtype === activeSubtype;
+        const matchesDest = activeDest === 'all' || cardAllDests.includes(activeDest);
+        const matchesSearch = !normalizedQuery || cardSearch.includes(normalizedQuery);
+
+        const isVisible = matchesSubtype && matchesDest && matchesSearch;
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      }
+
+      const isFiltered =
+        activeSubtype !== 'all' || activeDest !== 'all' || normalizedQuery.length > 0;
+
+      if (resetBtn) {
+        resetBtn.hidden = !isFiltered;
+      }
+
+      if (emptyState) {
+        emptyState.hidden = visibleCount > 0;
+      }
+
+      if (statusText) {
+        const parts: string[] = [];
+        if (activeSubtype !== 'all') {
+          const activeBtn = subtypeButtons.find((b) => b.dataset.subtypeBtn === activeSubtype);
+          if (activeBtn) {
+            parts.push(activeBtn.textContent?.replace(/\(\d+\)/, '').trim() || activeSubtype);
+          }
+        }
+        if (activeDest !== 'all' && destSelect) {
+          const opt = destSelect.selectedOptions[0];
+          if (opt) parts.push(opt.textContent?.trim() || activeDest);
+        }
+        if (normalizedQuery) {
+          parts.push(`"${searchQuery.trim()}"`);
+        }
+
+        const filterContext = parts.length > 0 ? ` for ${parts.join(' + ')}` : '';
+        statusText.innerHTML = isFiltered
+          ? `Showing <strong>${visibleCount}</strong> of ${cards.length} experiences${filterContext}`
+          : `Showing all <strong>${cards.length}</strong> experiences`;
+      }
+    }
+
+    for (const btn of subtypeButtons) {
+      btn.addEventListener('click', () => {
+        activeSubtype = btn.dataset.subtypeBtn || 'all';
+        for (const b of subtypeButtons) {
+          const isCurrent = b === btn;
+          b.classList.toggle('is-active', isCurrent);
+          b.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+        }
+        applyFilters();
+      });
+    }
+
+    destSelect?.addEventListener('change', () => {
+      activeDest = destSelect.value || 'all';
+      applyFilters();
+    });
+
+    searchInput?.addEventListener('input', () => {
+      searchQuery = searchInput.value || '';
+      applyFilters();
+    });
+
+    function resetAll() {
+      activeSubtype = 'all';
+      activeDest = 'all';
+      searchQuery = '';
+      if (destSelect) destSelect.value = 'all';
+      if (searchInput) searchInput.value = '';
+      for (const b of subtypeButtons) {
+        const isAll = b.dataset.subtypeBtn === 'all';
+        b.classList.toggle('is-active', isAll);
+        b.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+      }
+      applyFilters();
+    }
+
+    resetBtn?.addEventListener('click', resetAll);
+    emptyResetBtn?.addEventListener('click', resetAll);
+  }
+
+  initThemePageFilters();
+</script>
+
+<style>
+  .theme-page {
+    background: #fbf8f0;
+    color: #14261c;
+  }
+
+  .container {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+  }
+
+  /* Hero aligned with Destinations & Homepage */
+  .theme-hero {
+    position: relative;
+    overflow: hidden;
+    background: #0d1f18;
+    color: #fbf8f0;
+    padding: calc(5.2rem + clamp(2.25rem, 4.5vw, 3.5rem)) clamp(1.125rem, 4vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .theme-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .theme-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.95);
+  }
+
+  .theme-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(105deg, rgba(8, 22, 17, 0.9) 0%, rgba(10, 31, 24, 0.76) 52%, rgba(9, 24, 18, 0.62) 100%),
+      linear-gradient(180deg, rgba(6, 15, 11, 0.45) 0%, rgba(6, 15, 11, 0.25) 100%);
+  }
+
+  .theme-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme-breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    color: rgba(250, 248, 240, 0.72);
+  }
+
+  .theme-breadcrumbs a {
+    color: rgba(250, 248, 240, 0.84);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .theme-breadcrumbs a:hover {
+    color: #f0d48d;
+    text-decoration: underline;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.65rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f0d48d;
+  }
+
+  .theme-hero h1 {
+    margin: 0;
+    max-width: 20ch;
+    font: 500 clamp(2.25rem, 4.2vw, 3.6rem)/1.08 var(--font-serif);
+    letter-spacing: -0.03em;
+    color: #fbf8f0;
+  }
+
+  .hero-copy {
+    max-width: 56ch;
+    margin: 0.95rem 0 0;
+    color: rgba(250, 248, 240, 0.86);
+    font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+    line-height: 1.68;
+  }
+
+  .hero-actions {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    padding: 0.58rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .hero-btn-primary {
+    background: #f0d48d;
+    color: #10231b;
+  }
+
+  .hero-btn-primary:hover {
+    background: #f6dfa4;
+    transform: translateY(-1px);
+  }
+
+  .hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fbf8f0;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(8px);
+  }
+
+  .hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Catalogue section */
+  .theme-catalogue-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  .catalogue-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0f766e;
+  }
+
+  .catalogue-top h2,
+  .guidance-card h2,
+  .destinations-card h2,
+  .related-header h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.65rem, 2.6vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    color: #14261c;
+  }
+
+  .season-banner {
+    margin: 0;
+    max-width: 44ch;
+    padding: 0.7rem 0.95rem;
+    border-radius: 0.75rem;
+    background: #f1ede2;
+    border: 1px solid rgba(20, 38, 28, 0.08);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #2f4237;
+  }
+
+  .season-banner strong {
+    color: #14261c;
+  }
+
+  /* Filter Bar */
+  .theme-filter-bar {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.09);
+    border-radius: 1rem;
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 6px 20px rgba(17, 29, 23, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .subtype-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(20, 38, 28, 0.07);
+  }
+
+  .subtype-pill {
+    appearance: none;
+    border: 1px solid rgba(20, 38, 28, 0.14);
+    background: #fbf8f0;
+    color: #26382e;
+    border-radius: 999px;
+    padding: 0.42rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+
+  .subtype-pill:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+  }
+
+  .subtype-pill.is-active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+  }
+
+  .filter-inputs-row {
+    display: grid;
+    grid-template-columns: minmax(13rem, 1fr) minmax(14rem, 1.2fr) auto;
+    gap: 0.9rem;
+    align-items: end;
+  }
+
+  .control-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .control-field label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #4e5e54;
+  }
+
+  .select-wrap,
+  .search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .select-wrap select,
+  .search-wrap input {
+    width: 100%;
+    height: 2.6rem;
+    border-radius: 0.65rem;
+    border: 1px solid rgba(20, 38, 28, 0.16);
+    background: #fcfbf8;
+    color: #14261c;
+    font-size: 0.84rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .select-wrap select {
+    appearance: none;
+    padding: 0 2.2rem 0 0.8rem;
+    cursor: pointer;
+  }
+
+  .select-chevron {
+    position: absolute;
+    right: 0.75rem;
+    pointer-events: none;
+    color: #4e5e54;
+  }
+
+  .search-wrap input {
+    padding: 0 0.8rem 0 2.25rem;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    pointer-events: none;
+    color: #5c6c62;
+  }
+
+  .select-wrap select:focus,
+  .search-wrap input:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+    background: #ffffff;
+  }
+
+  .filter-status-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    min-height: 2.6rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-count-text {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #48584e;
+  }
+
+  .reset-btn {
+    appearance: none;
+    border: 1px solid rgba(15, 118, 110, 0.28);
+    background: rgba(15, 118, 110, 0.07);
+    color: #0f766e;
+    border-radius: 999px;
+    padding: 0.38rem 0.8rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .reset-btn:hover {
+    background: rgba(15, 118, 110, 0.14);
+  }
+
+  /* Grid */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    gap: 1.35rem;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed rgba(20, 38, 28, 0.2);
+    border-radius: 1rem;
+    margin-top: 1rem;
+  }
+
+  .empty-state h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: #14261c;
+  }
+
+  .empty-state p {
+    margin: 0 auto 1.25rem;
+    max-width: 48ch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4e5e54;
+  }
+
+  .empty-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .empty-reset-btn {
+    appearance: none;
+    border: none;
+    background: #0f766e;
+    color: #ffffff;
+    padding: 0.58rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .empty-hub-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0f766e;
+    text-decoration: underline;
+  }
+
+  .editorial-status-note {
+    margin-top: 1.5rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.75rem;
+    background: #f5f1e6;
+    border-left: 3px solid #b45309;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #3f4d44;
+  }
+
+  /* Guidance & Destinations */
+  .theme-guidance-section {
+    padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.125rem, 4vw, 2.5rem);
+    background: #f4f0e4;
+    border-top: 1px solid rgba(20, 38, 28, 0.07);
+    border-bottom: 1px solid rgba(20, 38, 28, 0.07);
+  }
+
+  .guidance-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .guidance-card,
+  .destinations-card {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.08);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .guidance-list {
+    margin: 1rem 0 0;
+    padding-left: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #2f4237;
+  }
+
+  .dest-card-copy {
+    margin: 0.5rem 0 1rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #4a5a50;
+  }
+
+  .dest-pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .dest-pill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.8rem;
+    border-radius: 999px;
+    background: #f6f3ea;
+    border: 1px solid rgba(20, 38, 28, 0.1);
+    color: #14261c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 150ms ease;
+  }
+
+  .dest-pill-link:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+    background: #ffffff;
+  }
+
+  .all-destinations-link {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0f766e;
+    text-decoration: none;
+  }
+
+  .all-destinations-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Related themes */
+  .related-themes-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  .related-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .view-all-themes-link {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #0f766e;
+    text-decoration: none;
+  }
+
+  .view-all-themes-link:hover {
+    text-decoration: underline;
+  }
+
+  .related-themes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 58rem) {
+    .filter-inputs-row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-status-box {
+      grid-column: 1 / -1;
+      justify-content: space-between;
+      min-height: auto;
+      padding-top: 0.25rem;
+    }
+
+    .guidance-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 54rem) {
+    .theme-hero {
+      padding-top: calc(4.35rem + 1.75rem);
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .filter-inputs-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

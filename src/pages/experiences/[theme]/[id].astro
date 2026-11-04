@@ -1,0 +1,624 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ExperienceCard from '../../../components/experiences/ExperienceCard.astro';
+import {
+  allExperiences,
+  getExperiencesByTheme,
+  getThemeById,
+  type ExperienceRecord,
+} from '../../../data/experiences';
+
+export function getStaticPaths() {
+  return allExperiences
+    .filter((exp) => exp.hasDetailGuide)
+    .map((experience) => ({
+      params: {
+        theme: experience.themeId,
+        id: experience.id,
+      },
+      props: { experience },
+    }));
+}
+
+interface Props {
+  experience: ExperienceRecord;
+}
+
+const { experience } = Astro.props;
+const parentTheme = getThemeById(experience.themeId);
+const siblingExperiences = getExperiencesByTheme(experience.themeId).filter(
+  (item) => item.id !== experience.id
+);
+
+const pageTitle = `${experience.title} | ${experience.themeLabel} | Senvira Lanka`;
+const pageDescription = experience.summary;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="guide-page">
+    <header class="guide-hero" data-hero-surface>
+      <div class="guide-hero-bg" aria-hidden="true">
+        <Image
+          src={experience.image}
+          alt={experience.imageAlt}
+          class="guide-hero-img"
+          widths={[768, 1280, 1680]}
+          sizes="100vw"
+          loading="eager"
+        />
+        <div class="guide-hero-overlay"></div>
+      </div>
+
+      <div class="container guide-hero-inner">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/experiences/">Experiences</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href={`/experiences/${experience.themeId}/`}>{experience.themeLabel}</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{experience.primaryDestinationName}</li>
+          </ol>
+        </nav>
+
+        <p class="eyebrow">{experience.themeLabel} · {experience.subtypeLabel}</p>
+        <h1>{experience.title}</h1>
+        <p class="hero-copy">{experience.summary}</p>
+      </div>
+    </header>
+
+    <!-- At-a-glance facts bar -->
+    <section class="guide-facts-bar" aria-label="Activity summary facts">
+      <div class="container facts-grid">
+        <div class="fact-item">
+          <span class="fact-label">Primary location</span>
+          <a href={`/destinations/#${experience.primaryDestinationId}`} class="fact-value fact-link">
+            {experience.primaryDestinationName} ({experience.primaryDestinationRegion})
+          </a>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Best season</span>
+          <span class="fact-value">{experience.seasonSummary}</span>
+        </div>
+        <div class="fact-item">
+          <span class="fact-label">Effort &amp; duration</span>
+          <span class="fact-value">{experience.effort} · {experience.duration}</span>
+        </div>
+        {experience.bestTimeOfDay && (
+          <div class="fact-item">
+            <span class="fact-label">Best time of day</span>
+            <span class="fact-value">{experience.bestTimeOfDay}</span>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Main Editorial Content -->
+    <section class="guide-body-section">
+      <div class="container guide-layout">
+        <div class="guide-main-col">
+          <article class="guide-prose-card">
+            <h2>What makes this experience distinctive</h2>
+            <p>{experience.whyDistinctive}</p>
+
+            <h2>Season, effort &amp; conditions</h2>
+            <p>{experience.seasonDetails}</p>
+            <p>
+              <strong>Physical pace ({experience.effort}):</strong> {experience.effortDetails}
+              {experience.skillLevel ? ` Recommended skill level: ${experience.skillLevel}.` : ''}
+            </p>
+
+            {experience.detailedGuidance && (
+              <>
+                <h2>How to approach it well</h2>
+                <p>{experience.detailedGuidance}</p>
+              </>
+            )}
+
+            <div class="caveat-callout" role="note" aria-label="Practical and responsible travel note">
+              <h3>Essential caveat &amp; responsible conduct</h3>
+              <p>{experience.essentialCaveat}</p>
+            </div>
+          </article>
+
+          {experience.sources.length > 0 && (
+            <aside class="sources-box" aria-label="Editorial sources and review status">
+              <div class="sources-header">
+                <span class="sources-badge">Editorial status: {experience.editorialStatus}</span>
+                <span class="sources-review-date">Next review by {experience.reviewBy}</span>
+              </div>
+              <h3>Verified references</h3>
+              <ul>
+                {experience.sources.map((src) => (
+                  <li>
+                    <a href={src.url} target="_blank" rel="noopener noreferrer">{src.label}</a>
+                    <span> (checked {src.checkedDate})</span>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )}
+        </div>
+
+        <aside class="guide-side-col" aria-label="Preparation and destination links">
+          <div class="side-card">
+            <h3>What to prepare</h3>
+            <ul class="prep-list">
+              {experience.keyPrep.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="side-card">
+            <h3>Where to base yourself</h3>
+            <div class="dest-links-stack">
+              <a href={`/destinations/#${experience.primaryDestinationId}`} class="dest-card-link is-primary">
+                <div>
+                  <span class="dest-role">Primary destination</span>
+                  <strong>{experience.primaryDestinationName}</strong>
+                </div>
+                <span class="dest-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+
+              {experience.relatedDestinations && experience.relatedDestinations.map((rel) => (
+                <a href={`/destinations/#${rel.id}`} class="dest-card-link">
+                  <div>
+                    <span class="dest-role">{rel.relationship}</span>
+                    <strong>{rel.name}</strong>
+                  </div>
+                  <span class="dest-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {parentTheme && (
+            <div class="side-card">
+              <h3>Part of {parentTheme.title}</h3>
+              <p class="side-theme-copy">{parentTheme.promise}</p>
+              <a href={`/experiences/${parentTheme.id}/`} class="back-to-theme-btn">
+                All {parentTheme.title} experiences
+              </a>
+            </div>
+          )}
+        </aside>
+      </div>
+    </section>
+
+    <!-- Sibling Experiences in the same theme -->
+    {siblingExperiences.length > 0 && (
+      <section class="sibling-section" aria-labelledby="sibling-heading">
+        <div class="container">
+          <div class="sibling-header">
+            <div>
+              <p class="section-eyebrow">Compare Within Theme</p>
+              <h2 id="sibling-heading">More in {experience.themeLabel}</h2>
+            </div>
+            <a href={`/experiences/${experience.themeId}/`} class="theme-back-link">
+              View full {experience.themeLabel} theme page
+            </a>
+          </div>
+
+          <div class="sibling-grid">
+            {siblingExperiences.slice(0, 3).map((sib) => (
+              <ExperienceCard experience={sib} context="theme" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-page {
+    background: #fbf8f0;
+    color: #14261c;
+  }
+
+  .container {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+  }
+
+  .guide-hero {
+    position: relative;
+    overflow: hidden;
+    background: #0d1f18;
+    color: #fbf8f0;
+    padding: calc(5.2rem + clamp(2.25rem, 4.5vw, 3.5rem)) clamp(1.125rem, 4vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem);
+  }
+
+  .guide-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .guide-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .guide-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(105deg, rgba(8, 22, 17, 0.92) 0%, rgba(10, 31, 24, 0.78) 55%, rgba(9, 24, 18, 0.65) 100%),
+      linear-gradient(180deg, rgba(6, 15, 11, 0.45) 0%, rgba(6, 15, 11, 0.25) 100%);
+  }
+
+  .guide-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .guide-breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    color: rgba(250, 248, 240, 0.72);
+  }
+
+  .guide-breadcrumbs a {
+    color: rgba(250, 248, 240, 0.85);
+    text-decoration: none;
+  }
+
+  .guide-breadcrumbs a:hover {
+    color: #f0d48d;
+    text-decoration: underline;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.65rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f0d48d;
+  }
+
+  .guide-hero h1 {
+    margin: 0;
+    max-width: 22ch;
+    font: 500 clamp(2.15rem, 4vw, 3.4rem)/1.1 var(--font-serif);
+    letter-spacing: -0.028em;
+    color: #fbf8f0;
+  }
+
+  .hero-copy {
+    max-width: 56ch;
+    margin: 0.95rem 0 0;
+    color: rgba(250, 248, 240, 0.86);
+    font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+    line-height: 1.68;
+  }
+
+  /* Facts bar */
+  .guide-facts-bar {
+    background: #13281f;
+    color: #fbf8f0;
+    padding: 1.1rem clamp(1.125rem, 4vw, 2.5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
+  }
+
+  .fact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .fact-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f0d48d;
+  }
+
+  .fact-value {
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: rgba(251, 248, 240, 0.92);
+  }
+
+  .fact-link {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Body layout */
+  .guide-body-section {
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  .guide-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  .guide-prose-card {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.09);
+    border-radius: 1rem;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+  }
+
+  .guide-prose-card h2 {
+    margin: 1.6rem 0 0.6rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    font-weight: 600;
+    color: #14261c;
+  }
+
+  .guide-prose-card h2:first-child {
+    margin-top: 0;
+  }
+
+  .guide-prose-card p {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #36473d;
+  }
+
+  .caveat-callout {
+    margin-top: 1.6rem;
+    padding: 1.15rem 1.25rem;
+    border-radius: 0.85rem;
+    background: #f5f1e5;
+    border-left: 4px solid #0f766e;
+  }
+
+  .caveat-callout h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0f766e;
+  }
+
+  .caveat-callout p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #26382e;
+  }
+
+  .sources-box {
+    margin-top: 1.25rem;
+    background: #f4f1e6;
+    border: 1px solid rgba(20, 38, 28, 0.08);
+    border-radius: 0.85rem;
+    padding: 1.1rem 1.35rem;
+    font-size: 0.8rem;
+    color: #48584e;
+  }
+
+  .sources-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sources-badge {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #0f766e;
+  }
+
+  .sources-review-date {
+    font-size: 0.74rem;
+    color: #5c6c62;
+  }
+
+  .sources-box h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.82rem;
+    color: #14261c;
+  }
+
+  .sources-box ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .sources-box a {
+    color: #0f766e;
+    text-decoration: underline;
+  }
+
+  /* Sidebar */
+  .guide-side-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .side-card {
+    background: #ffffff;
+    border: 1px solid rgba(20, 38, 28, 0.09);
+    border-radius: 1rem;
+    padding: 1.25rem 1.35rem;
+  }
+
+  .side-card h3 {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: #14261c;
+  }
+
+  .prep-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-size: 0.86rem;
+    color: #36473d;
+  }
+
+  .dest-links-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .dest-card-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.68rem 0.85rem;
+    border-radius: 0.75rem;
+    background: #f7f4ec;
+    border: 1px solid rgba(20, 38, 28, 0.08);
+    text-decoration: none;
+    color: #14261c;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .dest-card-link.is-primary {
+    background: #eef6f4;
+    border-color: rgba(15, 118, 110, 0.24);
+  }
+
+  .dest-card-link:hover {
+    border-color: #0f766e;
+    background: #ffffff;
+  }
+
+  .dest-role {
+    display: block;
+    font-size: 0.68rem;
+    color: #5c6c62;
+    margin-bottom: 0.1rem;
+  }
+
+  .dest-card-link strong {
+    font-size: 0.85rem;
+    color: #14261c;
+  }
+
+  .dest-arrow {
+    color: #0f766e;
+    font-weight: 700;
+  }
+
+  .side-theme-copy {
+    margin: 0 0 0.9rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #48584e;
+  }
+
+  .back-to-theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.58rem 0.95rem;
+    border-radius: 999px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  .back-to-theme-btn:hover {
+    background: #0b5852;
+  }
+
+  /* Sibling experiences */
+  .sibling-section {
+    padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.125rem, 4vw, 2.5rem) clamp(3rem, 5vw, 4.5rem);
+    border-top: 1px solid rgba(20, 38, 28, 0.08);
+  }
+
+  .sibling-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .section-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0f766e;
+  }
+
+  .sibling-header h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+    color: #14261c;
+  }
+
+  .theme-back-link {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #0f766e;
+    text-decoration: none;
+  }
+
+  .theme-back-link:hover {
+    text-decoration: underline;
+  }
+
+  .sibling-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    gap: 1.35rem;
+  }
+
+  @media (max-width: 58rem) {
+    .guide-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 54rem) {
+    .guide-hero {
+      padding-top: calc(4.35rem + 1.75rem);
+    }
+  }
+</style>
