@@ -221,7 +221,7 @@ const hubLeftLabels = new Set([
   .map-eyebrow {
     display: block;
     margin: 0 0 0.1rem;
-    color: var(--color-gold-light);
+    color: #f0d48d;
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -231,7 +231,7 @@ const hubLeftLabels = new Set([
   .map-title-group h2 {
     margin: 0;
     color: var(--color-ivory);
-    font: 500 clamp(1.35rem, 2vw, 1.75rem)/1.05 var(--font-serif);
+    font: 500 clamp(1.25rem, 1.8vw, 1.55rem)/1.12 var(--font-serif);
     letter-spacing: -0.02em;
   }
 
@@ -241,10 +241,10 @@ const hubLeftLabels = new Set([
     gap: 0.35rem;
     min-height: 2.05rem;
     padding: 0.32rem 0.68rem;
-    border: 1px solid rgba(246, 241, 231, 0.24);
+    border: 1px solid rgba(246, 241, 231, 0.16);
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.1);
-    color: var(--color-ivory);
+    background: rgba(246, 241, 231, 0.06);
+    color: rgba(250, 248, 240, 0.85);
     font: 600 0.68rem/1 var(--font-sans);
     cursor: pointer;
     backdrop-filter: blur(10px);
@@ -253,8 +253,9 @@ const hubLeftLabels = new Set([
 
   .map-reset-btn:hover,
   .map-reset-btn.active {
-    background: rgba(217, 154, 69, 0.24);
-    border-color: var(--color-gold-light);
+    background: rgba(246, 241, 231, 0.14);
+    border-color: rgba(240, 212, 141, 0.5);
+    color: #ffffff;
     transform: translateY(-1px);
   }
 
@@ -265,7 +266,7 @@ const hubLeftLabels = new Set([
     align-items: center;
     justify-content: center;
     padding: 0.25rem;
-    border: 1px solid rgba(233, 199, 121, 0.14);
+    border: 1px solid rgba(246, 241, 231, 0.1);
     border-radius: 1.05rem;
     background:
       radial-gradient(circle at 50% 44%, rgba(14, 82, 78, 0.55), rgba(3, 22, 21, 0.92) 80%),
@@ -559,9 +560,9 @@ const hubLeftLabels = new Set([
     gap: 0.35rem;
     margin-top: 0.55rem;
     padding: 0.42rem 0.5rem;
-    border: 1px solid rgba(246, 241, 231, 0.16);
+    border: 1px solid rgba(246, 241, 231, 0.12);
     border-radius: 0.85rem;
-    background: rgba(246, 241, 231, 0.08);
+    background: rgba(3, 20, 18, 0.55);
     backdrop-filter: blur(12px);
   }
 
@@ -571,24 +572,24 @@ const hubLeftLabels = new Set([
     gap: 0.32rem;
     min-height: 1.85rem;
     padding: 0.25rem 0.58rem;
-    border: 1px solid transparent;
+    border: 1px solid rgba(246, 241, 231, 0.1);
     border-radius: 999px;
-    background: rgba(255, 252, 245, 0.08);
-    color: rgba(246, 241, 231, 0.86);
+    background: rgba(246, 241, 231, 0.05);
+    color: rgba(250, 248, 240, 0.8);
     font: 600 0.66rem/1 var(--font-sans);
     cursor: pointer;
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
   }
 
   .legend-pill:hover {
-    background: rgba(255, 252, 245, 0.16);
+    background: rgba(246, 241, 231, 0.12);
     color: #ffffff;
   }
 
   .legend-pill.active {
-    border-color: rgba(233, 199, 121, 0.75);
-    background: rgba(217, 154, 69, 0.25);
-    color: #fffdf6;
+    border-color: #f0d48d;
+    background: rgba(14, 64, 58, 0.85);
+    color: #fffdf7;
   }
 
   .legend-dot {

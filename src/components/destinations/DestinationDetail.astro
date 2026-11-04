@@ -149,21 +149,25 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
 
 <style>
   .detail-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     overflow: hidden;
-    border: 1px solid rgba(20, 91, 89, 0.22);
+    border: 1px solid rgba(246, 241, 231, 0.12);
     border-radius: 1.15rem;
-    background: linear-gradient(180deg, rgba(255, 252, 245, 0.94), rgba(246, 241, 231, 0.92));
-    color: var(--color-forest-deep);
-    box-shadow:
-      0 18px 40px -22px rgba(7, 48, 46, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    background: linear-gradient(175deg, rgba(7, 38, 35, 0.6), rgba(3, 20, 18, 0.82));
+    color: var(--color-ivory);
+    box-shadow: 0 16px 36px -18px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
   .detail-media {
     position: relative;
-    height: 15.25rem;
+    flex: 0 0 auto;
+    height: 14.5rem;
     overflow: hidden;
-    background: var(--color-forest-deep);
+    background: #06201e;
     isolation: isolate;
   }
 
@@ -171,8 +175,8 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 42%;
-    filter: saturate(0.92) contrast(1.02);
+    object-position: center 45%;
+    filter: saturate(0.96) contrast(1.02);
   }
 
   .detail-photo-fallback {
@@ -183,15 +187,15 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     width: 100%;
     height: 100%;
     background:
-      radial-gradient(circle at 78% 22%, rgba(217, 154, 69, 0.34), transparent 52%),
-      linear-gradient(135deg, #0a302e 0%, #145b59 58%, #1e4d42 100%);
+      radial-gradient(circle at 78% 22%, rgba(217, 154, 69, 0.2), transparent 52%),
+      linear-gradient(135deg, #072624 0%, #0d423f 58%, #072624 100%);
   }
 
   .fallback-pattern {
     position: absolute;
     inset: 0;
-    opacity: 0.18;
-    background-image: radial-gradient(rgba(246, 241, 231, 0.7) 1px, transparent 1px);
+    opacity: 0.12;
+    background-image: radial-gradient(rgba(246, 241, 231, 0.6) 1px, transparent 1px);
     background-size: 18px 18px;
   }
 
@@ -199,9 +203,9 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     position: relative;
     z-index: 1;
     padding: 0.35rem 0.75rem;
-    border: 1px solid rgba(246, 241, 231, 0.25);
+    border: 1px solid rgba(246, 241, 231, 0.18);
     border-radius: 999px;
-    background: rgba(7, 36, 30, 0.55);
+    background: rgba(4, 22, 20, 0.65);
     color: rgba(246, 241, 231, 0.82);
     font-size: 0.68rem;
     backdrop-filter: blur(8px);
@@ -212,7 +216,7 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     inset: 0;
     z-index: 1;
     background:
-      linear-gradient(180deg, rgba(6, 26, 23, 0.46) 0%, rgba(6, 26, 23, 0.08) 42%, rgba(6, 26, 23, 0.88) 100%);
+      linear-gradient(180deg, rgba(3, 16, 14, 0.45) 0%, rgba(3, 16, 14, 0.05) 40%, rgba(3, 16, 14, 0.9) 100%);
   }
 
   .media-top-badges {
@@ -230,173 +234,168 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
   .pill-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.32rem 0.72rem;
+    padding: 0.28rem 0.68rem;
     border-radius: 999px;
-    font: 750 0.64rem/1.1 var(--font-sans);
-    letter-spacing: 0.06em;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    font: 650 0.62rem/1.1 var(--font-sans);
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 
   .pill-badge-light {
-    background: rgba(255, 252, 245, 0.95);
-    color: var(--color-forest-deep);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(6, 28, 26, 0.75);
+    color: #fbf8f0;
   }
 
   .pill-badge-amber {
-    background: linear-gradient(135deg, #d98238, #c76b24);
-    color: #fffdf8;
+    border: 1px solid rgba(240, 212, 141, 0.35);
+    background: rgba(217, 154, 69, 0.28);
+    color: #fdf2de;
     text-transform: uppercase;
   }
 
   .pill-index {
     margin-left: auto;
-    padding: 0.28rem 0.6rem;
-    border: 1px solid rgba(246, 241, 231, 0.34);
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 999px;
-    background: rgba(8, 36, 33, 0.62);
-    color: var(--color-gold-light);
-    font: 600 0.68rem/1 var(--font-serif);
+    background: rgba(4, 22, 20, 0.7);
+    color: #f0d48d;
+    font: 600 0.66rem/1 var(--font-serif);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .media-bottom-title {
     position: absolute;
-    right: 1.1rem;
+    right: 1.15rem;
     bottom: 0.95rem;
-    left: 1.1rem;
+    left: 1.15rem;
     z-index: 2;
   }
 
   .media-kicker {
-    margin: 0 0 0.22rem;
-    color: var(--color-gold-light);
-    font: 750 0.64rem/1.2 var(--font-sans);
+    margin: 0 0 0.2rem;
+    color: #f0d48d;
+    font: 700 0.62rem/1.2 var(--font-sans);
     letter-spacing: 0.13em;
     text-transform: uppercase;
   }
 
   .media-bottom-title h2 {
     margin: 0;
-    color: #fffdf7;
-    font: 600 clamp(1.65rem, 2.6vw, 2.3rem)/1.02 var(--font-serif);
+    color: #ffffff;
+    font: 500 clamp(1.55rem, 2.3vw, 2.1rem)/1.08 var(--font-serif);
     letter-spacing: -0.02em;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.38);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
   }
 
   .detail-body {
     display: grid;
-    gap: 0.95rem;
-    padding: 1.1rem 1.2rem 1.2rem;
+    gap: 1rem;
+    padding: 1.25rem 1.35rem 1.35rem;
   }
 
   .detail-summary {
-    max-width: 64ch;
+    max-width: 62ch;
     margin: 0;
-    color: var(--color-charcoal);
+    color: rgba(250, 248, 240, 0.86);
     font-size: 0.86rem;
-    line-height: 1.62;
+    line-height: 1.65;
   }
 
   .block-label {
     margin: 0 0 0.45rem;
-    color: var(--color-teal);
-    font: 750 0.65rem/1.2 var(--font-sans);
-    letter-spacing: 0.11em;
+    color: #f0d48d;
+    font: 700 0.63rem/1.2 var(--font-sans);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   .highlight-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.38rem;
   }
 
   .highlight-chip {
     display: inline-flex;
     align-items: center;
-    padding: 0.34rem 0.68rem;
-    border: 1px solid rgba(20, 91, 89, 0.22);
+    padding: 0.3rem 0.65rem;
+    border: 1px solid rgba(246, 241, 231, 0.12);
     border-radius: 0.5rem;
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow: 0 2px 6px rgba(10, 48, 46, 0.05);
-    color: var(--color-forest-deep);
-    font: 600 0.73rem/1.2 var(--font-sans);
+    background: rgba(246, 241, 231, 0.05);
+    color: rgba(250, 248, 240, 0.88);
+    font: 600 0.72rem/1.2 var(--font-sans);
   }
 
   .detail-columns {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0.85rem;
   }
 
   .info-box {
-    padding: 0.75rem 0.85rem;
-    border: 1px solid rgba(20, 91, 89, 0.15);
-    border-radius: 0.8rem;
-    background: rgba(232, 239, 235, 0.52);
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(246, 241, 231, 0.1);
+    border-radius: 0.75rem;
+    background: rgba(3, 22, 20, 0.45);
   }
 
-  .activity-list {
+  .activity-line {
     margin: 0;
-    padding-left: 1rem;
-    color: var(--color-charcoal);
+    color: rgba(250, 248, 240, 0.82);
     font-size: 0.75rem;
-    line-height: 1.5;
-  }
-
-  .activity-list li + li {
-    margin-top: 0.25rem;
-  }
-
-  .activity-list li::marker {
-    color: var(--color-amber);
+    line-height: 1.6;
   }
 
   .nearby-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.32rem;
+    gap: 0.35rem;
   }
 
   .nearby-chip {
     display: inline-flex;
-    padding: 0.24rem 0.52rem;
-    border: 1px solid rgba(217, 154, 69, 0.38);
+    padding: 0.24rem 0.55rem;
+    border: 1px solid rgba(246, 241, 231, 0.12);
     border-radius: 999px;
-    background: rgba(255, 252, 245, 0.86);
-    color: var(--color-forest-deep);
+    background: rgba(246, 241, 231, 0.05);
+    color: rgba(250, 248, 240, 0.85);
     font: 600 0.68rem/1.2 var(--font-sans);
   }
 
   .season-banner {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.55rem 0.78rem;
-    border: 1px solid rgba(217, 154, 69, 0.36);
-    border-radius: 0.7rem;
-    background: rgba(217, 154, 69, 0.11);
-    color: var(--color-forest-deep);
+    gap: 0.55rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid rgba(240, 212, 141, 0.22);
+    border-radius: 0.65rem;
+    background: rgba(217, 154, 69, 0.08);
+    color: rgba(250, 248, 240, 0.88);
   }
 
   .season-dot {
-    color: #b87726;
-    font-size: 0.78rem;
-    line-height: 1.3;
+    color: #f0d48d;
+    font-size: 0.75rem;
+    line-height: 1.35;
   }
 
   .season-banner p {
     margin: 0;
     font-size: 0.74rem;
-    line-height: 1.45;
+    line-height: 1.5;
   }
 
   .detail-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem;
-    padding-top: 0.15rem;
+    gap: 0.65rem;
+    padding-top: 0.2rem;
   }
 
   .cta-primary {
@@ -406,19 +405,19 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     justify-content: center;
     gap: 0.65rem;
     min-height: 2.75rem;
-    padding: 0.6rem 1.1rem;
-    border: 1px solid var(--color-teal);
-    border-radius: 0.65rem;
-    background: var(--color-teal);
-    box-shadow: 0 8px 20px -8px rgba(10, 48, 46, 0.45);
-    color: var(--color-ivory);
-    font: 700 0.8rem/1.1 var(--font-sans);
+    padding: 0.55rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 0.6rem;
+    background: var(--color-gold-light);
+    color: #15271f;
+    font: 700 0.78rem/1.1 var(--font-sans);
     text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     transition: background-color 180ms ease, transform 180ms ease;
   }
 
   .cta-primary:hover {
-    background: var(--color-forest-deep);
+    background: #f1d88f;
     transform: translateY(-1px);
   }
 
@@ -428,40 +427,42 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
     justify-content: center;
     gap: 0.45rem;
     min-height: 2.75rem;
-    padding: 0.6rem 0.95rem;
-    border: 1px solid rgba(20, 91, 89, 0.28);
-    border-radius: 0.65rem;
-    background: rgba(255, 252, 245, 0.85);
-    color: var(--color-teal);
-    font: 650 0.76rem/1.1 var(--font-sans);
+    padding: 0.55rem 1rem;
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    border-radius: 0.6rem;
+    background: rgba(246, 241, 231, 0.06);
+    color: var(--color-ivory);
+    font: 600 0.76rem/1.1 var(--font-sans);
     text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition: background-color 180ms ease, border-color 180ms ease;
   }
 
   .cta-secondary:hover {
-    border-color: var(--color-teal);
-    background: #ffffff;
+    border-color: rgba(246, 241, 231, 0.45);
+    background: rgba(246, 241, 231, 0.12);
   }
 
   .credits {
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(20, 91, 89, 0.12);
+    border-top: 1px solid rgba(246, 241, 231, 0.1);
   }
 
   .credit {
     margin: 0;
-    color: var(--color-charcoal-muted);
+    color: rgba(246, 241, 231, 0.5);
     font-size: 0.64rem;
     line-height: 1.4;
   }
 
   .credit a {
-    color: var(--color-teal);
+    color: #f0d48d;
   }
 
   @media (max-width: 40rem) {
     .detail-media {
-      height: 12rem;
+      height: 12.5rem;
     }
 
     .detail-columns {
@@ -473,40 +474,4 @@ const regionLabel = regionMap.get(destination.regionId) ?? 'Sri Lanka';
       align-items: stretch;
     }
   }
-
-  /* Dark liquid-glass theme */
-  .detail-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border: 1px solid rgba(233, 199, 121, 0.2);
-    background: linear-gradient(180deg, rgba(8, 52, 49, 0.5), rgba(3, 24, 22, 0.7));
-    color: var(--color-ivory);
-    box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(16px);
-  }
-  .detail-media { flex: 0 0 auto; height: 14rem; }
-  .detail-photo { filter: saturate(1) contrast(1.03); object-position: center 45%; }
-  .detail-body { flex: 1 1 auto; align-content: space-between; gap: 0.8rem; padding: 1rem 1.1rem 1.05rem; }
-  .detail-summary { color: rgba(246, 241, 231, 0.88); font-size: 0.84rem; line-height: 1.58; }
-  .block-label { color: var(--color-gold-light); margin-bottom: 0.4rem; }
-  .highlight-chip {
-    border-color: rgba(246, 241, 231, 0.18);
-    background: rgba(246, 241, 231, 0.08);
-    box-shadow: none;
-    color: var(--color-ivory);
-  }
-  .detail-columns { grid-template-columns: 1fr 1fr; }
-  .info-box { border-color: rgba(246, 241, 231, 0.12); background: rgba(2, 20, 19, 0.38); }
-  .activity-line { margin: 0; color: rgba(246, 241, 231, 0.84); font-size: 0.75rem; line-height: 1.55; }
-  .nearby-chip { border-color: rgba(233, 199, 121, 0.35); background: rgba(217, 154, 69, 0.1); color: #fbe9c3; }
-  .season-banner { border-color: rgba(233, 199, 121, 0.3); background: rgba(217, 154, 69, 0.1); color: var(--color-ivory); }
-  .season-dot { color: var(--color-gold-light); }
-  .cta-primary { border-color: rgba(233, 199, 121, 0.7); background: linear-gradient(135deg, #d99a45, #b87726); color: #1a1208; box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5); }
-  .cta-primary:hover { background: linear-gradient(135deg, #e9b565, #c9862f); }
-  .cta-secondary { border-color: rgba(246, 241, 231, 0.24); background: rgba(246, 241, 231, 0.07); color: var(--color-ivory); }
-  .cta-secondary:hover { border-color: var(--color-gold-light); background: rgba(246, 241, 231, 0.14); }
-  .credits { border-top-color: rgba(246, 241, 231, 0.12); padding-top: 0.4rem; }
-  .credit { color: rgba(246, 241, 231, 0.55); }
-  .credit a { color: var(--color-gold-light); }
 </style>
