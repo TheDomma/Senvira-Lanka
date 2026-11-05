@@ -2,7 +2,7 @@
 
 ## Product, content and implementation brief for Anti-Gravity and Codex
 
-**Status:** Expanded recommendation for review  
+**Status:** Theme audit and expansion recommendation for review
 **Prepared:** 5 November 2026  
 **Project:** Senvira Lanka
 
@@ -26,7 +26,7 @@ Examples:
 Do not put every experience on one crowded page. Create:
 
 1. An **Experiences discovery hub** that introduces the range of Sri Lanka and helps visitors choose a theme.
-2. A **dedicated landing page for each major experience theme**—for example, Wildlife Safaris, Marine Wildlife, Surfing, Hiking, Heritage and Food.
+2. A **dedicated landing page for each major experience theme** (for example, Wildlife Safaris, Marine Wildlife, Surfing, Hiking, Heritage and Food.
 3. Optional individual detail pages later for especially distinctive, complex or bookable experiences. A detail page is not necessary for every card at launch.
 
 Each theme page should still be curated and readable. More inventory can be available through search and filters, while the first screen highlights the most recognizable and distinctive experiences.
@@ -42,13 +42,23 @@ The original “Sri Lanka Experiences Research” conversation began with a requ
 - The user’s current direction is to give experience categories their own pages. The categories can hold more activities because visitors can browse one relevant subject at a time.
 - The larger inventory in that conversation also raised useful future subjects beyond the first shortlist: birding, rainforest walks, crafts, food regions, village life, festivals, spiritual journeys, wellness, photography, cycling, climbing, paddling, diving and scenic flights.
 
-This brief preserves the discovery-first intent and expands the taxonomy to **17 dedicated theme pages**. They are a proposed structure for the builder to compare with the existing Senvira design and navigation.
+This brief preserves the discovery-first intent and audits the **17 dedicated theme pages already present in the Senvira experiences catalogue**. They are the current working structure, not a proposal to create a new theme count. The audit below expands the activity inventory, identifies editorial risks and gaps, and maps each live theme to the additions or verification needed.
+
+### Audit scope and editorial method (5 November 2026)
+
+I reviewed `src/data/experiences.ts` (17 theme definitions and the current experience records) against the 17 theme inventories in this brief. The theme records contain useful guidance and cross-links, but the live catalogue is uneven: detailed records are concentrated in a few themes, while many categories have no comparable set of destination-linked entries. Several activities are named only as research candidates. Treat this brief as a backlog and validation plan, not as evidence that every listed activity or operator is currently available.
+
+Use these editorial states throughout:
+
+- **Established candidate:** supported by official tourism/regulatory material or a current location-specific offering; still verify access and conditions before publishing.
+- **Research before listing:** plausible or regulated activity, but current local service, permissions, provider credentials, or public access has not been established.
+- **Do not promise:** avoid guarantees about wildlife, weather, safety, availability, visibility, or operator quality.
+
+The current live dataset has 17 themes, but much less breadth of detailed experience records than this document’s working inventory. Do not turn the inventories into public claims wholesale. Each published card needs a distinct visitor activity, accurate place links, practical guidance, source and review date.
 
 ## 3. Existing project context and destination mapping
 
-The supplied project mirror contains [senvira-lanka-destination-catalogue.md](senvira-lanka-destination-catalogue.md), a 158-entry destination and attraction catalogue arranged into Featured, Main directory and Extended collection tiers. It covers the Cultural Triangle, central highlands, Colombo and the west, south, east, north, islands and inland areas. Its own guidance says to connect activities to places and group nearby attractions where appropriate.
-
-The supplied mirror has no separate page implementation and its `sources/` folder is empty. This brief maps experiences to named destinations in that catalogue where possible, and proposes additional places where the existing list is not enough. Anti-Gravity should inspect the actual working repository before building; labels, IDs and existing content may have changed since the mirror was created.
+The current repository contains a live implementation and catalogue. For this audit, `src/data/experiences.ts` is the source of truth for the 17 theme records and current experience cards. This brief maps candidates to named destinations and proposes additional places where coverage is thin. Cross-check all destination labels and IDs against the live destination data before implementation.
 
 **Destination does not have to mean an existing destination-page entry.** Use a precise place, park, coast, route, region or island for the experience location. If that place merits a full destination page later, add it to the destination catalogue through the site’s normal content process.
 
@@ -57,7 +67,7 @@ The supplied mirror has no separate page implementation and its `sources/` folde
 ### Goals
 
 1. Make discovery feel personal and inspiring, and specific to Sri Lanka.
-2. Let visitors browse by experience theme, place, season and—where useful—effort or trip style.
+2. Let visitors browse by experience theme, place, season and, where useful, effort or trip style.
 3. Give each theme its own page with clear subtypes, representative experiences, locations and practical guidance.
 4. Connect the experience catalogue to existing destination pages, while allowing additional valid locations.
 5. State uncertainty, seasonality, physical demands, safety and cultural etiquette clearly and briefly.
@@ -123,8 +133,12 @@ The lists below are a **working content universe** for the dedicated theme pages
 | Safari at Lunugamvehera | Lunugamvehera National Park (additional location) | Add only after current access, park status and operator availability are confirmed. |
 | Guided nature walk in a permitted protected area | Horton Plains National Park; Sinharaja Forest Reserve; other permitted reserves | Routes and guide requirements depend on site rules. Do not imply walking safaris are permitted in every park. |
 | Wildlife photography outing | Yala; Udawalawe; Wilpattu; Bundala | Responsible distance and no baiting/calling wildlife. Avoid promising a target animal. |
-| Night wildlife observation | Approved private/community conservation areas only (verify exact location) | Conditional; do not advertise night access to national parks unless explicitly authorized. No flash or disturbance. |
-| Conservation education visit | Elephant Transit Home, Udawalawe area (verify visitor format); recognized conservation projects | Educational visits only; explain the organization’s role and avoid presenting captive-animal contact as the attraction. |
+| Ethical wildlife observation by habitat | Kaudulla; Hurulu Eco Park; Wasgamuwa; Maduru Oya; Lunugamvehera (current access check) | Add named choices for wetland, reservoir-edge and forest habitats; verify current park access and do not promise sightings. |
+| Night wildlife observation | Approved private/community conservation areas only (verify exact location) | Research before listing; do not imply night drives in national parks unless specifically authorized. No flash or disturbance. |
+| Wildlife photography and naturalist interpretation | Yala; Wilpattu; Udawalawe; Wasgamuwa; Minneriya; Kaudulla | Add distinct guided observation/photography formats where providers and park rules allow; never imply guaranteed subjects or proximity. |
+| Conservation education visit | Elephant Transit Home, Udawalawe area (verify current visitor format); recognized conservation projects | Educational visit only; explain the organization’s role and avoid presenting captive-animal contact as the attraction. |
+
+**Audit gap:** Expand beyond familiar leopard/elephant framing. Add named park experiences for wetland wildlife, villus, reservoir edges, dry-zone forest, bird-rich coastal scrub and community-guided interpretation. Distinguish parks by habitat, route and visitor format; confirm current blocks, permits and access. Do not list walking safaris as a general park activity.
 
 **Editorial rule:** A safari page should help visitors choose between ecosystems and styles, not just rank parks by how likely they are to produce a leopard photo.
 
@@ -143,8 +157,10 @@ The lists below are a **working content universe** for the dedicated theme pages
 | Sea-turtle habitat observation | Kosgoda; Rekawa (additional location); selected south/east coast sites | Wildlife timing varies. Avoid hatchery contact/release claims and verify conservation practices. |
 | Mangrove and estuary wildlife by boat | Madu Ganga; Bentota River; Negombo Lagoon; Puttalam Lagoon (additional location) | Choose operators who keep distance from birds and mangrove roots and use safe vessels. |
 | Coastal bird and shore-life walk | Bundala; Mannar Island; Kalpitiya; Kumana | Best species and conditions are seasonal; use knowledgeable guides. |
+| Lagoon and mangrove wildlife interpretation | Madu Ganga; Bentota River; Negombo Lagoon; Puttalam Lagoon | Add a quiet, habitat-focused option distinct from a generic boat ride; verify route, operator, vessel and disturbance practices. |
+| Shoreline tide-pool and intertidal observation | Rocky shore sites with safe, permitted access (site-specific research) | Research before listing; tide, footing and habitat disturbance matter. Do not handle animals or remove shells/coral. |
 | Marine conservation learning visit | Location depends on a verified active project | Future/conditional. Do not frame volunteering as a guaranteed hands-on wildlife encounter. |
-| Snorkelling with a qualified guide | Pigeon Island; Nilaveli; Hikkaduwa; Unawatuna | No guarantee of turtles or other animals. Confirm swimming ability, current and sea condition. |
+| Snorkelling with a qualified guide | Pigeon Island; Nilaveli; Hikkaduwa; Unawatuna; Pasikuda (site verification) | No guarantee of turtles or other animals. Confirm swimming ability, current, permitted access and sea condition. |
 
 **Editorial rule:** Do not normalize swimming or diving with whales. Refer to SLTDA marine mammal guidance and current law; emphasize regulated boat-based observation.
 
@@ -162,8 +178,10 @@ The lists below are a **working content universe** for the dedicated theme pages
 | Northern wetland and coastal birding | Chundikkulam National Park; Mannar Island; Jaffna Peninsula | Access and season-specific sightings should be confirmed locally. |
 | Bird photography outing | Bundala; Kumana; Sinharaja; Horton Plains | No baiting, playback abuse, nest disturbance or habitat trampling. |
 | Butterfly and insect observation | Sinharaja; Knuckles; Horton Plains; selected gardens | Specialist guide improves the experience; avoid handling or collecting. |
-| Amphibian and rainforest night walk | Sinharaja area or other approved private/community site (verify) | Conditional, guide-led and low-light only; do not promise rare species. |
-| Naturalist-led biodiversity walk | Knuckles; Sinharaja; Horton Plains; Ritigala | Site permissions and guide requirements vary. |
+| Amphibian and rainforest night walk | Sinharaja area or other approved private/community site (verify) | Research before listing; guide-led and low-light only, with permissions confirmed. Do not promise rare species. |
+| Naturalist-led biodiversity walk | Knuckles; Sinharaja; Horton Plains; Ritigala; Kitulgala forest edge | Site permissions and guide requirements vary. Add focused butterfly, amphibian, reptile and plant interpretation only with qualified naturalists and conservation rules. |
+| Low-impact nature photography walk | Named reserve/forest edges and wetlands with guide access | Add species-aware photography guidance, seasonal light and ethical distance; do not bait, call or disturb wildlife. |
+| Wetland birding by boat or on foot | Anawilundawa; Bundala; Kumana; Mannar/Vankalai | Separate habitat and season options; use quiet routes, current access rules and qualified local guides. |
 
 ### 4. Surfing & Board Sports
 
@@ -181,6 +199,8 @@ The lists below are a **working content universe** for the dedicated theme pages
 | Kitesurfing | Kalpitiya; Mannar region (verify current operation) | Wind season and skill requirements; only list active, verified schools. |
 | Surf camp or multi-day coaching | Weligama; Arugam Bay; Ahangama | Verify included instruction, equipment, safety and season before presenting packages. |
 | Surf-and-yoga retreat | Weligama; Ahangama; Arugam Bay | Provider format varies; avoid health claims and check actual schedule. |
+| Windsurfing and water-skiing | Bentota; Kalpitiya; other currently registered water-sport centers | Official tourism material lists these sport types; confirm current center registration, conditions and instruction. |
+| Banana-boat, wakeboard or towable rides | Current registered water-sport centers only | Official tourism material lists motorized water sports; verify active center, vessel safety, flotation, weather limits and age/health restrictions before listing. |
 
 ### 5. Diving, Snorkelling & Underwater Exploration
 
@@ -196,6 +216,11 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Freediving introduction | Only verified, qualified operators and confirmed sites | Future/conditional; verify instructor qualifications and safety procedures. |
 | Underwater photography | Hikkaduwa; Trincomalee; Unawatuna | No animal baiting or reef contact; avoid claims about guaranteed subjects. |
 | Snorkel boat excursion | Nilaveli; Pigeon Island; selected south-coast sites | Use appropriate flotation and weather guidance. |
+| Seasonal reef and wreck site guide | Trincomalee; Colombo; Galle; Hikkaduwa | Explain coast-specific calm-water windows and site/certification differences. Never imply all wrecks are beginner accessible. |
+| Freediving course or introduction | Only current, qualified providers and confirmed sites | Research before listing; verify instructor credentials, rescue plan, depth limits and conditions. |
+| Kayak-and-snorkel or shore-entry combinations | Named, verified sites only | Publish only where operator, route, reef access and equipment are confirmed; do not bundle activities into vague promises. |
+
+**Audit gap:** Separate beginner try-dives, certified reef dives, wrecks, snorkelling, freediving and underwater photography. Add more named sites only after confirming active dive operations, permissions, season, depth/skill requirements and safe entry conditions. “Marine wildlife” should not become a claim that encounters are guaranteed underwater.
 
 ### 6. Hiking, Trekking & Mountain Trails
 
@@ -217,6 +242,12 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Hanthana ridge walk | Kandy; Hanthana Mountain Range (additional location) | Weather and route conditions vary; identify a verified route and guide need. |
 | Meemure village and surrounding trails | Meemure; Knuckles Mountain Range | Remote access, facilities and weather require planning; respect residents and private land. |
 | Mountain sunrise walk | Ella; Pidurangala; Adam’s Peak; Haputale viewpoints | Avoid promising sunrise visibility; early starts and darkness need practical guidance. |
+| Guided rock climbing or scrambling | Lakegala/Meemure; Ella-area routes; verified climbing sites | Research before listing; route grade, land permission, guide credentials, anchors and rescue arrangements must be confirmed. Keep distinct from ordinary hiking. |
+| Via ferrata or fixed-route climbing | Only a current, audited provider and named route | Research before listing; verify equipment, inspections, participant restrictions and rescue plan. |
+| Waterfall climbing or technical ascent | Only named routes with authorized technical operators | Research before listing; do not encourage climbing falls independently. Verify access, rainfall limits, ropes/anchors and emergency response. |
+| Caving and guided cave exploration | Named caves with confirmed access and qualified guides | Research before listing; do not publish undocumented caves or routes; verify conservation, lighting, air and rescue issues. |
+
+**Audit gap:** Distinguish easy viewpoint walks, full hikes, pilgrimage climbs, technical climbing, caving and waterfall approaches. Include route length/elevation only from dependable sources; clarify guide/permit requirements and whether a route is exposed, slippery or remote.
 
 ### 7. Cycling & Two-Wheel Exploration
 
@@ -230,6 +261,8 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Mountain biking | Knuckles; Ella; Haputale; Kitulgala | Only list verified routes/operators and describe technical difficulty honestly. |
 | Guided city cycling | Colombo; Kandy; Galle | Traffic, route safety and local guide quality matter. |
 | Multi-day supported cycling | Route-specific; possible coast-to-highlands routes | Future detail page; publish only when itinerary, support and safety are verified. |
+| Guided mountain biking and trail riding | Ella; Knuckles; Haputale; Kitulgala (specific route/provider verification) | Research route grade, bike type, land permission, traffic exposure, maintenance and support vehicle before listing. |
+| Electric bicycle or e-bike touring | Current providers and named routes | Research before listing; confirm vehicle legality, helmets, charging, route suitability and operator support. |
 
 ### 8. Rafting, Rivers & Inland Water
 
@@ -239,12 +272,19 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Kayaking on the Kelani River | Kitulgala | Use trained operators and safety briefing; currents and levels vary. |
 | Calm-water kayaking | Bentota River; Madu Ganga; Negombo Lagoon; Kalpitiya lagoon | Conditions, tides, wildlife and route differ by location. |
 | Canoeing or traditional boat outing | Madu Ganga; village reservoirs; selected lagoons | Confirm vessel, life jackets, permitted routes and guide. |
-| River tubing | Kitulgala (only verified operators) | Conditions and safety requirements vary; do not present as a casual unsupervised swim. |
+| Stream scrambling and supervised water slides/jumps | Kitulgala (specific named route and operator required) | Research before listing. No unsupervised jumps, depth claims or casual-safety language. |
 | Reservoir or lake boat trip | Gal Oya; Senanayake Samudraya; selected tanks | Access permits and seasonal water levels matter. |
 | Waterfall walk and viewpoint | Diyaluma; Bambarakanda; Aberdeen; St Clair’s; Devon | Access routes and safe swimming information need current verification. |
-| Canyoning or waterfall abseiling | Kitulgala or other verified operator location | Conditional adventure product. Verify SLTDA guidance, operator status, rescue capability and participant requirements. |
+| Canyoning or waterfall abseiling | Kitulgala; Laxapana/Hatton area (provider and route specific) | Current local operators advertise these formats; treat as technical activities, not ordinary waterfall swimming. Verify SLTDA registration, gear/anchor inspection, guide qualifications, rescue arrangements, weather cancellation rules and participant criteria before listing. |
 | Stand-up paddleboarding | Bentota; Kalpitiya lagoon; Madu Ganga | Calm water and supervision; use flotation equipment. |
 | Sailing or small-vessel outing | Trincomalee; Bentota; selected coastal harbours | Confirm licensed operation, weather limits and safety equipment. |
+| Waterfall slides, stream scrambling and confidence jumps | Kitulgala (specific named route and operator required) | Research before listing. Distinguish natural stream features from an operator-managed activity; no unsupervised jumps or depth claims. |
+| ATV / off-road vehicle rides | Kitulgala and other claimed locations (current operator/route verification required) | Research before listing; confirm legal route access, environmental impact, vehicle/helmet standards, guide, insurance and age/driver restrictions. Avoid implying access to protected habitat or private land. |
+| Zipline and high-rope courses | Ella / Little Adam’s Peak area; other current registered sites | Ella has a clearly marketed zipline; SLTDA has High Rope Activities guidance that includes ziplines. Verify current registration, inspection, harness/backup systems, operator status, access and restrictions before a public recommendation. |
+| Kayak/canoe trips and paddle instruction | Kelani; Kalu; Bentota; Madu Ganga; Negombo and Puttalam lagoons | Expand by water type and skill: moving river, sheltered lagoon, reservoir and coastal paddle. Confirm permits, tides/levels, craft, buoyancy aids and rescue cover. |
+| Waterfall photography and viewpoint visits | Diyaluma; Bambarakanda; Ravana; Aberdeen; St Clair’s; Devon and other verified falls | Add as low-intensity experiences distinct from canyoning. Verify public viewpoints/access, trail condition and safe viewing areas; never promote cliff-edge posing or entering unsafe pools. |
+
+**Audit gap:** Represent the full inland-water spectrum: rafting, river kayaking, flatwater paddling, boat wildlife trips, stream scrambling, canyoning/abseiling, waterfall viewing and supervised water-based play. Link approach walks to hiking and ocean activities to the coast theme. A waterfall visit does not imply swimming access.
 
 ### 9. Scenic Train, Road & Water Journeys
 
@@ -257,8 +297,9 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Tea-country road journey | Nuwara Eliya; Hatton; Haputale; Ella | Narrow, winding roads and travel time; recommend planned stops rather than unrealistic timing. |
 | Lagoon or mangrove boat journey | Madu Ganga; Bentota River; Negombo Lagoon; Kalpitiya | Keep environmental and safety guidance with the trip. |
 | Island-hopping boat journey | Jaffna Peninsula; Delft Island; Nainativu | Ferry/boat schedules and sea conditions can change; confirm before travel. |
-| Scenic flight or seaplane | Route/operator-dependent (verify current service) | Conditional; route, availability, baggage and weather rules need current provider verification. |
-| Balloon flight over the Cultural Triangle | Dambulla; Sigiriya; Habarana region | Conditional; dawn weather, operator availability and safety credentials must be checked. |
+| Scenic flight or seaplane | Route/operator-dependent (verify current service) | Research before listing; route, availability, aviation approvals, baggage and weather rules need current verification. |
+| Hot-air balloon flight over the Cultural Triangle | Dambulla; Sigiriya; Habarana region | Verify current operators, approvals, schedule and weather policy; do not imply daily operation. |
+| Scenic helicopter or fixed-wing flight | Route/operator-dependent (verify current service) | Research before listing; confirm licensed operator, aircraft, landing permissions, route and current schedule. |
 
 ### 10. Tea, Spice & Plantation Landscapes
 
@@ -270,9 +311,13 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Lipton’s Seat sunrise/viewpoint visit | Haputale | Visibility is weather-dependent; early transport and tea-estate access should be explained. |
 | Pekoe Trail through tea country | Named official trail stages | Provide current stage links and note pass/closure guidance. |
 | Low-country tea experience | Handunugoda Tea Estate area; Galle (additional location) | Verify current public tours and distinguish low-country tea from high-grown tea. |
+| Tea blending and sensory workshop | Named tea venues in Nuwara Eliya; Haputale; Kandy; Colombo | Verify that visitors can participate rather than only purchase products; explain tea grades and tasting without unsupported wellness claims. |
+| Plantation landscape and labor-history walk | Named permitted estate routes in Hatton; Haputale; Nuwara Eliya | Add context on labor, migration and estate history with knowledgeable local interpretation; respect privacy and working conditions. |
 | Spice garden and spice-growing education | Matale; Kandy region | Avoid unsubstantiated health claims and high-pressure sales. Verify the garden’s educational value. |
 | Cinnamon-growing heritage visit | Galle District; coastal low-country estates (verify exact site) | Explain the product and local practice; ensure visitor access is genuine. |
 | Rubber, coconut or mixed-farm visit | Selected working farms (location-specific, verify) | Community/owner consent and fair compensation; do not list generic farms as open attractions. |
+
+**Audit gap:** Broaden this beyond factory visits and viewpoints: tea tasting, production learning, estate landscapes, spice/cinnamon heritage, home gardens and plantation history. Distinguish high-grown, mid-grown and low-country products accurately; do not present workers or working estates as scenery without consent.
 
 ### 11. Ancient Cities, Architecture & Archaeology
 
@@ -292,6 +337,11 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Discover colonial Colombo on foot | Colombo; Pettah (additional location) | Traffic and heat; use a clear route and explain that Colombo is a living city. |
 | Visit Kandy’s temple circuit | Embekka Devalaya; Lankatilaka Vihara; Gadaladeniya Vihara | Confirm access and dress/photography rules for each temple. |
 | Learn ancient irrigation and tank heritage | Minneriya; Polonnaruwa; Anuradhapura; Maduru Oya | Add a knowledgeable guide and explain the living water landscape. |
+| Archaeology with a specialist guide | Anuradhapura; Polonnaruwa; Sigiriya; Dambulla; Ritigala | Add interpretation by period, function and conservation; verify guide knowledge and site access. |
+| Architecture and living-heritage walk | Galle Fort; Colombo; Jaffna; Kandy | Include local, colonial and contemporary layers with historical balance; respect homes and religious sites. |
+| Museum or conservation-lab learning visit | Named public museums/collections only | Research current public access, opening and collection rules; do not imply behind-the-scenes access without permission. |
+
+**Audit gap:** Cover more of the island’s ancient capitals, irrigation landscapes, rock sites, monasteries, forts, civic architecture and living heritage. Give sites their own context; group them into a usable visitor route only when geography and time make sense.
 
 ### 12. Spirituality, Pilgrimage & Sacred Places
 
@@ -307,6 +357,10 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Shrine visit in a forest setting | Madhu Church & Shrine | Major pilgrimage destination; confirm current access and seasonal crowds. |
 | Observe a major religious festival | Kandy Esala Perahera; Nallur Festival; Kataragama festival | Date-specific and crowded; verify official dates, procession access and visitor behavior each year. |
 | Meditation or temple retreat | Only verified participating centers | Future/conditional; explain duration, participation rules and whether it is a visitor program or religious practice. |
+| Multi-faith sacred-place route | Named Buddhist, Hindu, Muslim and Christian sites in a coherent region | Build with community/historian review; explain distinct traditions accurately and do not imply all sites welcome casual entry. |
+| Public pilgrimage-season observation | Sri Pada, Kataragama, Nallur or Madhu where appropriate | Guide visitors to public routes and respectful observation; confirm season, crowd management, access and photography rules. |
+
+**Audit gap:** Include the breadth of Buddhist, Hindu, Muslim and Christian sacred landscapes and the island’s multi-faith pilgrimage traditions, while keeping each place accurate to its own community. Separate visitor interpretation from worship and date-specific festivals.
 
 ### 13. Food, Markets & Culinary Learning
 
@@ -326,6 +380,11 @@ Keep this separate from Marine Wildlife: visitors browse for different reasons, 
 | Farm-to-table meal | Verified farms or community venues | Publish only named providers with transparent provenance and current access. |
 | Vegetarian and vegan Sri Lankan food trail | Colombo; Kandy; Jaffna; Galle | Distinguish vegetarian, vegan and dairy-containing dishes accurately. |
 | Market visit with a cook or food guide | Colombo; Kandy; Jaffna; Galle | Treat markets as working places, not a staged set. |
+| Regional food comparison trail | Colombo; Jaffna; Batticaloa; Kandy; Galle; Negombo | Show regional variety through named dishes and local guides; distinguish daily foods from tourist-oriented menus. |
+| Tea, toddy or locally made beverage learning | Named producers and public venues only | Research legal service, production claims and responsible-consumption guidance; do not assume all products or venues are open to visitors. |
+| Seasonal fruit, spice or harvest market visit | Named markets in relevant growing regions | Align with actual harvest season; verify market days, respectful photography and food-safety guidance. |
+
+**Audit gap:** Expand the geographic and culinary range: Jaffna and eastern dishes, coastal seafood traditions, tea, spices, markets, sweets, vegetarian food, cooking and home meals. Name the food and format; make allergy, dietary and hygiene details clear where confirmed.
 
 ### 14. Village, Community & Everyday Life
 
@@ -340,6 +399,9 @@ This page needs careful editorial practice. “Authentic” should not be used a
 | Lagoon and fishing-community experience | Negombo; Kalpitiya; Batticaloa; Jaffna | Make participation voluntary and respect working hours and privacy. |
 | Community-led nature guiding | Knuckles; Sinharaja; Gal Oya; Meemure | Confirm guide credentials and community benefit; explain conservation boundaries. |
 | Learn a local craft from an artisan | Kandy; Matale; Galle; Jaffna | Pay for the workshop fairly; identify the craft and host accurately. |
+| Paddling or fishing with a community guide | Location-specific rivers, lagoons and coastal villages | Research before listing; confirm community benefit, permits, gear, safety and that participation does not disrupt livelihoods. |
+| Home-garden, paddy or seasonal harvest learning | Named willing hosts in the Cultural Triangle; Kandy region; Jaffna; east coast | Match activity to actual agricultural season; confirm access, payment, safety and visitor participation. Do not imply visitors can join daily work without prior agreement. |
+| Community-led food, music or storytelling evening | Named host/community venue | Verify public format, fair compensation, consent, accessibility and schedule; avoid packaging private life as a performance. |
 | Rural market and food traditions | Jaffna; Polonnaruwa; Kandy; regional towns | Ask before photographing people or stalls. |
 | Indigenous heritage education with community consent | Dambana | Only offer a community-designed experience; no intrusive “village visit” or staged performance. |
 | Stay with a local host or homestay | Location-specific, verified listings | Accommodation content may be separate; confirm safety, amenities and host permission. |
@@ -357,6 +419,10 @@ This page needs careful editorial practice. “Authentic” should not be used a
 | Tea-country slow stay and guided walk | Hatton; Haputale; Nuwara Eliya | Explain the experience, not just the accommodation; consider mobility and elevation. |
 | Forest bathing or mindful nature walk | Knuckles; Horton Plains; Sinharaja (permitted routes) | Present as a guided nature walk; avoid clinical claims. |
 | Wellness and food learning | Location-specific qualified providers | Avoid unsupported nutrition or health statements. |
+| Ayurveda and herbal-knowledge learning visit | Named, appropriately qualified educational provider | Separate cultural education from treatment. Check practitioner credentials and product claims; no diagnosis, cure, or guaranteed outcome language. |
+| Slow rail, garden or village stay with a light guided walk | Named accessible route and host/provider | Describe pace and actual activity, not generic “wellness”; include verified terrain, transport and inclusions. |
+
+**Audit gap:** Include more than massage and retreats: low-intensity walks, yoga/meditation classes, tea-country slow itineraries and carefully sourced Ayurveda learning. Make clear what is cultural, recreational or clinical, and never promise health outcomes.
 
 ### 16. Arts, Crafts, Festivals & Evening Culture
 
@@ -376,7 +442,14 @@ Combine related creative activities in one page but separate evergreen craft vis
 | Nallur Festival | Jaffna | Annual dates vary; verify current calendar and temple visitor guidance. |
 | Kataragama festival | Kataragama | Date-specific, crowded pilgrimage; explain respectful attendance. |
 | Vesak lanterns and city observances | Islandwide; Colombo and Kandy (examples) | Dates follow religious calendar; content needs yearly verification. |
+| Sinhala and Tamil New Year customs and public celebrations | Islandwide; specific community events and venues must be named | Dates and formats vary by year and community. Feature public, consent-based events; do not imply private household traditions are open to visitors. |
+| Ramadan and Eid public food/cultural context | Colombo; Kattankudy; other named Muslim communities/venues | Calendar dates shift yearly. Include only explicitly public events with community consultation; avoid presenting worship or private observance as entertainment. |
+| Full-moon Poya observances and temple events | Named public sites, with local guidance | Dates change with lunar calendar. Explain that this is religious observance; visitors should follow site-specific conduct and photography rules. |
+| Contemporary music, theatre, gallery and live performance | Colombo; Kandy; Galle and current named venues | Verify event listings and venue opening close to travel dates; separate year-round venues from one-off events. |
+| Artisan-led craft learning | Ambalangoda; Matale; Kandy; Jaffna; named workshops | Expand from shopping to making/learning; verify artisan consent, public access, fair payment and actual workshop format. |
 | Colombo evening food and arts walk | Colombo | Verify venues and current opening; avoid promises about nightlife or safety beyond evidence. |
+
+**Audit gap:** Keep evergreen craft and performance experiences separate in presentation from annual events that require calendar updates. Expand beyond one or two famous festivals to community-confirmed public celebrations, contemporary arts, craft demonstrations and participatory workshops. Give religious events context and visitor etiquette, not spectacle language.
 
 ### 17. Beaches, Coast & Island Life
 
@@ -392,6 +465,12 @@ This page is about the coastal mood and beach activities. Surfing, diving and ma
 | Beach picnic or sunset experience | Bentota; Tangalle; Pasikuda; Nilaveli | Only at permitted locations; disclose transport and any booked meal inclusions. |
 | Coastal cycling or walking | Galle; Weligama; Negombo; Batticaloa | Route safety, tides and traffic vary. |
 | Turtle conservation learning visit | Kosgoda; Rekawa (additional location) | Vet the organization; avoid touching, crowding, artificial lighting and staged releases. |
+| Coastal rock-pool and shoreline nature walk | Site-specific safe, permitted rocky shores | Research location, tide and footing before listing; never invite visitors to collect or disturb marine life. |
+| Beach-combing and coastal geology walk | Selected beaches with appropriate tide and access | Focus on observation and interpretation; no collecting shells, coral, eggs, or cultural/archaeological material. |
+| Sand-dune and lagoon landscape walk | Kalpitiya; Mannar; selected east-coast sites (route/access verification) | Confirm conservation rules, guide access, heat exposure and vehicle restrictions; avoid fragile dune vegetation. |
+| Sea-kayaking or coastal paddle | Registered operators and sheltered, named routes | Distinguish lagoon paddling from exposed sea kayaking; verify wind, currents, rescue support and flotation. |
+
+**Audit gap:** This page should cover shore walks, island/lagoon crossings, calm-water beach days, harbours, coastal nature and island life without duplicating the full surfing, diving or marine-wildlife catalogue. Add swimming advice only from current local conditions and qualified sources.
 
 ### Additional specialist themes for later expansion
 
@@ -456,7 +535,7 @@ Recommended structured fields:
 | `relatedExperienceIds` | Related ideas without duplicating content |
 | `relatedDestinationIds` | Links back to destination pages |
 | `sources` | Source URLs, source type, relevant claim, and last checked date |
-| `editorialStatus` | Proposed, fact-check, reviewed, published or retired |
+| `editorialStatus` | Proposed, research-needed, reviewed, published or retired |
 | `reviewBy` | Next review date for time-sensitive information |
 
 Do not make operator names, prices, opening times, booking links, accessibility or availability first-class public claims until there is a content owner and verification process for them.
@@ -489,49 +568,62 @@ Do not make operator names, prices, opening times, booking links, accessibility 
 
 ## 11. Research sources
 
+### Audit and current adventure discovery sources
+
+- [Sri Lanka Tourism: Adventure and Special Interest Sports](https://www.srilanka.travel/adventure_and_sports): Official overview lists surfing, scuba/reef and wreck diving, snorkelling, windsurfing, water-skiing, kayaking/canoeing, rafting, trekking, paragliding, rock climbing, cave treks and mountain biking. It describes Kitulgala rafting as November–April. These are activity-type leads; they do not establish current availability at every named place.
+- [SLTDA: Register with Us / Adventure Activities](https://www.sltda.gov.lk/en/register-with-us): Current activity categories and linked guidelines, including high-rope activities.
+- [SLTDA: High Rope Activities guideline (PDF)](https://www.sltda.gov.lk/storage/common_media/1%20High%20Rope%20Activities.pdf): Defines high-rope activities and includes zipline elements; use for regulatory and safety checks.
+- [SLTDA: Adventure activity registration application (PDF)](https://www.sltda.gov.lk/storage/common_media/Manual%20Application%20for%20Water%20based%20and%20air%20based%20adventure.pdf): Lists categories including skydiving, paragliding and rock climbing/abseiling/rappelling; category inclusion is not proof of current operating supply.
+- [Flying Ravana: Mega Zip Line](https://www.flyingravana.com/activities/mega-zip-line.html): Location-specific lead for the Ella zipline near Little Adam’s Peak. Provider information is not an endorsement; verify current status and registration independently.
+- [Outdoor Adventure Center Kitulgala: activity terms](https://outdooradventure.lk/terms): Current local listing of rafting, rainforest canyoning, waterfall abseiling and ziplining. Use as an availability lead only; independently verify status, route permissions and safety credentials.
+- [Rapid Adventures: Kitulgala abseiling](https://www.rapidadventures.lk/experiences/waterfall-abseiling-at-kitulgala): Location-specific lead for waterfall abseiling at Sandun Ella; verify current operation and safety independently.
+- [Sri Lanka Tourism: Adventure Sports](https://www.srilanka.travel/adventure-sports): Official overview mentions rock climbing and waterfall climbing, including a Bambarakanda lead. It does not establish public access or a currently audited operator.
+
+**Current availability note:** The desk search found SLTDA categories for paragliding and skydiving, and current pages marketing the Ella zipline and Kitulgala canyoning/abseiling. It did not establish a current, reliable visitor-facing skydiving, paragliding or bungee-jumping service. Keep these marked **research-needed** until an active operator, permissions/registration, schedule and safety process are independently verified. Do not publish “available” based solely on a regulatory category, an old advertisement or an operator’s coming-soon page.
+
 ### Earlier conversation references
 
-The original research conversation proposed a broad 14-theme framework—Wildlife & Safaris; Adventure & Outdoors; Beaches & Ocean; Culture & Heritage; Food & Culinary; Nature & Scenic; Tea & Plantation Life; Village & Local Life; Wellness & Ayurveda; Spiritual & Pilgrimage; Scenic Journeys; Arts, Crafts & Shopping; Festivals & Entertainment; and Photography & Special Interests. It also raised a broad inventory including hiking, cycling, rafting, diving, birding, cooking, markets, festivals, crafts, wellness, village experiences and conservation learning. This expanded brief separates themes where the visitor intent or practical guidance is meaningfully different, for a total of 16 main pages plus later specialist themes.
+The original research conversation proposed a broad 14-theme framework: Wildlife & Safaris; Adventure & Outdoors; Beaches & Ocean; Culture & Heritage; Food & Culinary; Nature & Scenic; Tea & Plantation Life; Village & Local Life; Wellness & Ayurveda; Spiritual & Pilgrimage; Scenic Journeys; Arts, Crafts & Shopping; Festivals & Entertainment; and Photography & Special Interests. It also raised a broad inventory including hiking, cycling, rafting, diving, birding, cooking, markets, festivals, crafts, wellness, village experiences and conservation learning. The current live project has since organized these visitor intents into 17 separate themes; retain that live structure while linking overlapping activities rather than duplicating them.
 
 The earlier conversation mentioned Viathra Leisure, ACT Sri Lanka, Tour The Sri Lanka and Visit Lanka as discovery sources. Treat those as leads for further research; verify current URLs, operation and specific claims before relying on them.
 
 ### Official tourism, regulatory and conservation sources
 
-- [Sri Lanka Tourism — What to Do](https://www.srilanka.travel/what-to-do): Official tourism experience discovery structure.
-- [Sri Lanka Tourism — Wild Safaris](https://www.srilanka.travel/wild-safaris): Wildlife and protected-area positioning.
-- [Sri Lanka Tourism — Wildlife](https://www.srilanka.travel/wildlife): Wildlife, biodiversity and park context.
-- [Sri Lanka Tourism — Adventure and Special Interest Sports](https://www.srilanka.travel/adventure_and_sports): Surfing, diving, sailing, paddling, rafting and hiking overview; source states Kitulgala rafting season as November–April.
-- [SLTDA — Register with Us / Adventure Activities](https://www.sltda.gov.lk/en/register-with-us): Current activity categories and linked guidelines for water, air and land adventure.
-- [SLTDA — Adventure Tourism Activity Descriptions (PDF)](https://www.sltda.gov.lk/storage/common_media/AdventureTourismActivitiesWaterBased%26AirBasedDecsriptions.pdf): Categories and definitions for adventure offerings.
-- [SLTDA — Manual application for land, water and air adventure activities (PDF)](https://www.sltda.gov.lk/storage/common_media/Manual%20Application%20for%20Water%20based%20and%20air%20based%20adventure.pdf): Lists activities such as trekking, cycling, safari operations, rafting, diving, surfing, kayaking and air-based activities.
-- [SLTDA — Whale and Dolphin Watching Guideline (PDF)](https://www.sltda.gov.lk/storage/common_media/GuidelineForWhaleandDolphinWatching.pdf): Marine mammal watching guidance.
-- [International Whaling Commission — Sri Lanka profile](https://wwhandbook.iwc.int/en/country-profiles/sri-lanka): Whale watching locations, season windows and regulatory context.
-- [Department of Wildlife Conservation — Protected Areas](https://www.dwc.gov.lk/?page_id=72): Protected-area administration and permits.
-- [Sri Lanka Tourism — Arugam Bay](https://www.srilanka.travel/attraction?attraction_id=49): Arugam Bay surf season reference.
-- [Sri Lanka Tourism — Minneriya](https://www.srilanka.travel/attraction?attraction_id=173): Elephant gathering and park context.
-- [SLTDA — Visitor Management report (PDF)](https://sltda.gov.lk/storage/common_media/Final%20Report%20VM%20Sri%20Lanka%20-%20Final%20Dec%202025%20-%20Vol%201.pdf): Seasonal elephant movements among Minneriya, Kaudulla and Hurulu, as described in its visitor management research.
-- [The Pekoe Trail — Official stages](https://portal.thepekoetrail.org/pekoe-stages): Stage information and official trail access.
+- [Sri Lanka Tourism: What to Do](https://www.srilanka.travel/what-to-do): Official tourism experience discovery structure.
+- [Sri Lanka Tourism: Wild Safaris](https://www.srilanka.travel/wild-safaris): Wildlife and protected-area positioning.
+- [Sri Lanka Tourism: Wildlife](https://www.srilanka.travel/wildlife): Wildlife, biodiversity and park context.
+- [Sri Lanka Tourism: Adventure and Special Interest Sports](https://www.srilanka.travel/adventure_and_sports): Surfing, diving, sailing, paddling, rafting and hiking overview; source states Kitulgala rafting season as November–April.
+- [SLTDA: Register with Us / Adventure Activities](https://www.sltda.gov.lk/en/register-with-us): Current activity categories and linked guidelines for water, air and land adventure.
+- [SLTDA: Adventure Tourism Activity Descriptions (PDF)](https://www.sltda.gov.lk/storage/common_media/AdventureTourismActivitiesWaterBased%26AirBasedDecsriptions.pdf): Categories and definitions for adventure offerings.
+- [SLTDA: Manual application for land, water and air adventure activities (PDF)](https://www.sltda.gov.lk/storage/common_media/Manual%20Application%20for%20Water%20based%20and%20air%20based%20adventure.pdf): Lists activities such as trekking, cycling, safari operations, rafting, diving, surfing, kayaking and air-based activities.
+- [SLTDA: Whale and Dolphin Watching Guideline (PDF)](https://www.sltda.gov.lk/storage/common_media/GuidelineForWhaleandDolphinWatching.pdf): Marine mammal watching guidance.
+- [International Whaling Commission: Sri Lanka profile](https://wwhandbook.iwc.int/en/country-profiles/sri-lanka): Whale watching locations, season windows and regulatory context.
+- [Department of Wildlife Conservation: Protected Areas](https://www.dwc.gov.lk/?page_id=72): Protected-area administration and permits.
+- [Sri Lanka Tourism: Arugam Bay](https://www.srilanka.travel/attraction?attraction_id=49): Arugam Bay surf season reference.
+- [Sri Lanka Tourism: Minneriya](https://www.srilanka.travel/attraction?attraction_id=173): Elephant gathering and park context.
+- [SLTDA: Visitor Management report (PDF)](https://sltda.gov.lk/storage/common_media/Final%20Report%20VM%20Sri%20Lanka%20-%20Final%20Dec%202025%20-%20Vol%201.pdf): Seasonal elephant movements among Minneriya, Kaudulla and Hurulu, as described in its visitor management research.
+- [The Pekoe Trail: Official stages](https://portal.thepekoetrail.org/pekoe-stages): Stage information and official trail access.
 
 ### Local operator examples for product discovery
 
 These help identify experiences currently marketed locally; they are not endorsements and should not replace licensing, safety or quality checks.
 
-- [Island Life Sri Lanka — Experiences](https://islandlifesrilanka.com/experiences/): Local examples of cooking, tea, village and walking experiences.
+- [Island Life Sri Lanka: Experiences](https://islandlifesrilanka.com/experiences/): Local examples of cooking, tea, village and walking experiences.
 - [MAG Adventures](https://www.magadventures.com/): Local examples of cycling, boat, village and cooking combinations.
-- [Sri Lanka In Style — Galle experiences](https://www.srilankainstyle.com/location-experiences/galle): Examples of Galle-area cooking, tea and village activities.
-- [Welikande Sri Lanka — Nature and cultural experiences](https://www.welikandeyogaretreats.com/nature/experiences/): Examples of community, village, tea and nature experiences.
+- [Sri Lanka In Style: Galle experiences](https://www.srilankainstyle.com/location-experiences/galle): Examples of Galle-area cooking, tea and village activities.
+- [Welikande Sri Lanka: Nature and cultural experiences](https://www.welikandeyogaretreats.com/nature/experiences/): Examples of community, village, tea and nature experiences.
 
 ## 12. Work required before and during implementation
 
 ### Discovery and content validation
 
-1. Inspect the live Senvira Lanka project, homepage, destinations page, route conventions, design tokens and components.
-2. Compare destination labels and IDs against `senvira-lanka-destination-catalogue.md`; identify destinations not yet represented in the current live site.
-3. Decide whether the site navigation will say **Experiences**, **Discover**, or another term, while preserving the central discovery promise.
-4. Confirm the 17 proposed theme pages against the existing navigation and user journeys. Merge themes only where doing so makes visitor intent clearer; do not split pages solely to inflate page count.
-5. Verify each proposed activity’s actual locations, current availability, season, access permissions and safety/etiquette notes using authoritative sources and local providers.
-6. Mark items **Launch**, **Next**, or **Research** so the first release is controlled even though the information architecture supports a larger catalogue.
-7. Review sensitive content about wildlife, religious practices, communities, Indigenous heritage and colonial history with knowledgeable Sri Lankan reviewers.
+1. Compare this brief to `src/data/experiences.ts`; keep the 17 current theme IDs stable unless a separate IA review authorizes a change.
+2. Create a 17-row coverage matrix: existing detailed records, theme guidance, missing experience clusters, destinations needing IDs, source status and next review date.
+3. Cross-check destination names and IDs against live destination data; identify missing destination pages and preserve precise place/route/park types.
+4. Verify each candidate activity’s actual location, current availability, season, access permissions, operator registration and safety/etiquette notes using authoritative sources and independently checked local information.
+5. Prioritize **Launch**, **Next** and **Research** entries. Keep paragliding, skydiving, bungee, ATV/off-road, waterfall climbing and similar technical products in **Research** until current supply and authorization are established.
+6. Review sensitive content about wildlife, religious practices, communities, Indigenous heritage and colonial history with knowledgeable Sri Lankan reviewers.
+7. Recheck time-sensitive claims immediately before publication and record the source, claim it supports, checked date and review date.
 
 ### Information architecture and design
 
@@ -543,7 +635,7 @@ These help identify experiences currently marketed locally; they are not endorse
 
 ### Content model and build
 
-13. Implement theme pages and experience records as structured content, not repeated hard-coded copy.
+13. Implement theme pages and experience records as structured content, not repeated hard-coded copy; this brief’s candidate inventory is not already reviewed public content.
 14. Connect experience location records to destination pages, while allowing route/region/park/site names where no destination page exists.
 15. Add search and filters in stages: theme page first, then location and season; add difficulty or skill only for applicable themes.
 16. Add empty states, filter reset, related experiences and destination cross-links.
@@ -557,7 +649,7 @@ These help identify experiences currently marketed locally; they are not endorse
 21. Confirm all destination links work and added locations use a consistent naming convention.
 22. Review mobile layouts and accessible interaction.
 23. Remove or defer any unverified offering, date, operator, safety claim or guarantee.
-24. Launch with a curated set per theme page, then add researched entries gradually.
+24. Launch with a curated, accurate baseline on all 17 theme pages, then add researched entries gradually. Avoid empty themes, but do not inflate the catalogue with duplicates or unverified offerings.
 
 ## 13. What success looks like
 
@@ -567,6 +659,6 @@ Senvira Lanka can add and update experiences over time without duplicating desti
 
 ## 14. Recommended decision for the builder
 
-Use **one discovery hub plus dedicated theme landing pages**, with 17 proposed themes as the working taxonomy. Populate each page with a reviewed launch selection and expandable additional entries. Keep individual experience detail pages for later, where an activity needs more depth than a card can provide.
+Use **one discovery hub plus dedicated landing pages for the 17 current themes**. Populate each page with a reviewed baseline selection and expandable additional entries. Keep individual experience detail pages for later, where an activity needs more depth than a card can provide.
 
-The most important design outcome is that the site helps someone discover a side of Sri Lanka they did not even know existed—then gives them enough clear, reliable information to decide what to explore next.
+The most important design outcome is that the site helps someone discover a side of Sri Lanka they did not even know existed, then gives them enough clear, reliable information to decide what to explore next.

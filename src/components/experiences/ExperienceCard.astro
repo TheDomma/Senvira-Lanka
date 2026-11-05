@@ -124,21 +124,28 @@ const editorialLabel =
   .exp-card {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(178deg, rgba(8, 42, 38, 0.94) 0%, rgba(5, 30, 27, 0.98) 100%);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(20, 91, 89, 0.38);
+    background: #072623;
+    background: linear-gradient(178deg, rgba(8, 42, 38, 0.82) 0%, rgba(5, 30, 27, 0.90) 100%);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+    border: 1px solid rgba(246, 241, 231, 0.16);
     border-radius: 1rem;
     overflow: hidden;
     box-shadow:
-      0 12px 28px rgba(3, 20, 18, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      0 14px 34px rgba(3, 20, 18, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
     color: #fbf8f0;
     transition:
       transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
       border-color 200ms ease;
     scroll-margin-top: 6rem;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .exp-card {
+      background: linear-gradient(178deg, #092f2b 0%, #05211f 100%);
+    }
   }
 
   .exp-card.is-unverified {
@@ -153,9 +160,9 @@ const editorialLabel =
   .exp-card:hover {
     transform: translateY(-3px);
     box-shadow:
-      0 20px 42px rgba(3, 20, 18, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: rgba(240, 212, 141, 0.55);
+      0 22px 46px rgba(3, 20, 18, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    border-color: rgba(240, 212, 141, 0.50);
   }
 
   .exp-card-media {
