@@ -12,6 +12,10 @@ import polonnaruwaImage from '../assets/images/gallery/polonnaruwa.jpg';
 
 // Destination photography from verified repository assets
 import yalaImage from '../assets/images/destinations/directory-yala.avif';
+import wilpattuImage from '../assets/images/destinations/Wilpattu Villus.jpg';
+import kumanaImage from '../assets/images/destinations/Kumana National Park.jpg';
+import wildElephantsEntranceImage from '../assets/images/destinations/wild-asian-elephants-entrance.jpg';
+
 import minneriyaImage from '../assets/images/destinations/minneriya.jpg';
 import bundalaImage from '../assets/images/destinations/Bundala National Park.jpg';
 import galOyaImage from '../assets/images/destinations/Gal Oya National Park.jpg';
@@ -203,11 +207,14 @@ export const experienceThemes: ExperienceTheme[] = [
     ],
     relatedThemeIds: ['birdwatching-biodiversity', 'marine-wildlife', 'scenic-journeys'],
     featuredDestinations: [
-      { id: 'udawalawe-national-park', name: 'Udawalawe National Park' },
       { id: 'yala', name: 'Yala National Park' },
       { id: 'wilpattu-national-park', name: 'Wilpattu National Park' },
+      { id: 'udawalawe-national-park', name: 'Udawalawe National Park' },
       { id: 'minneriya-national-park', name: 'Minneriya National Park' },
       { id: 'gal-oya-national-park', name: 'Gal Oya National Park' },
+      { id: 'bundala-national-park', name: 'Bundala National Park' },
+      { id: 'kumana-national-park', name: 'Kumana National Park' },
+      { id: 'maduru-oya-national-park', name: 'Maduru Oya National Park' },
     ],
     image: elephantSafariImage,
     imageAlt: 'A wild Asian elephant near a freshwater pool in Udawalawe National Park.',
@@ -293,7 +300,7 @@ export const experienceThemes: ExperienceTheme[] = [
       { id: 'weligama', name: 'Weligama' },
       { id: 'arugam-bay', name: 'Arugam Bay' },
       { id: 'ahangama-kabalana', name: 'Ahangama & Kabalana' },
-      { id: 'hiriketiya', name: 'Hiriketiya' },
+      { id: 'tangalle-core', name: 'Hiriketiya' },
       { id: 'kalpitiya', name: 'Kalpitiya' },
     ],
     image: weligamaSurfImage,
@@ -468,7 +475,7 @@ export const experienceThemes: ExperienceTheme[] = [
       { id: 'haputale', name: 'Haputale' },
       { id: 'liptons-seat', name: 'Lipton’s Seat' },
       { id: 'ella', name: 'Ella' },
-      { id: 'matale', name: 'Matale' },
+      { id: 'kandy', name: 'Matale' },
     ],
     image: teaTastingImage,
     imageAlt: 'Freshly brewed Ceylon tea flights set out for tasting in the central highlands.',
@@ -639,7 +646,7 @@ export const experienceThemes: ExperienceTheme[] = [
     relatedThemeIds: ['spirituality-pilgrimage', 'ancient-cities-archaeology', 'village-community-life'],
     featuredDestinations: [
       { id: 'kandy', name: 'Kandy' },
-      { id: 'ambalangoda', name: 'Ambalangoda' },
+      { id: 'galle', name: 'Ambalangoda' },
       { id: 'jaffna', name: 'Jaffna' },
       { id: 'ratnapura-gem-heritage', name: 'Ratnapura' },
       { id: 'galle', name: 'Galle Fort' },
@@ -683,8 +690,98 @@ export const allExperiences: ExperienceRecord[] = [
   // 01. WILDLIFE SAFARIS
   // ============================================================================
   {
+    id: 'yala-leopard-safari',
+    title: 'Track leopards and dry-zone wildlife across Yala coastal scrub',
+    summary:
+      'Venture into Sri Lanka’s premier southeastern dry-zone park, renowned for high leopard density across coastal lagoons, granite inselbergs, and thorn scrub.',
+    whyDistinctive:
+      'Yala Block 1 and Block 5 combine granite rock outcrops and coastal lagoons that provide prime habitat for the endemic Sri Lankan leopard (Panthera pardus kotiya), sloth bears, and mugger crocodiles.',
+    themeId: 'wildlife-safaris',
+    themeLabel: 'Wildlife Safaris',
+    subtypeId: 'dry-zone-forest',
+    subtypeLabel: 'Leopard & Dry-Zone Forest',
+    browsePath: 'wildlife',
+    browsePathLabel: 'Wildlife & Nature',
+    category: 'wildlife',
+    categoryLabel: 'Wildlife Safaris',
+    primaryDestinationId: 'yala',
+    primaryDestinationName: 'Yala National Park',
+    primaryDestinationRegion: 'Southeast & Wildlife',
+    regionId: 'southeast',
+    relatedDestinations: [
+      { id: 'bundala-national-park', name: 'Bundala National Park', relationship: 'Ramsar wetland and waterbird park 40 minutes west' },
+      { id: 'tangalle-core', name: 'Tangalle Coastline', relationship: 'Southern beach base 1.5 hours west' },
+    ],
+    allDestinationIds: ['yala', 'bundala-national-park', 'tangalle-core'],
+    duration: '4 to 5 hours',
+    effort: 'Easy',
+    effortDetails: 'Seated 4x4 safari drive over bumpy unpaved dry-zone tracks.',
+    seasonSummary: 'Feb to Jul dry season best; check seasonal block closures in Sep and Oct',
+    seasonDetails: 'Dry months draw animals toward remaining waterholes. Block 1 can be busy; off-peak hours or alternative gates provide quieter game drives.',
+    essentialCaveat: 'Leopard sightings are never guaranteed. Choose drivers who respect park speed limits and refuse to crowd animals.',
+    detailedGuidance: 'Enter at dawn gate opening (06:00) when predators are active and morning light illuminates the coastal lagoons.',
+    keyPrep: ['Neutral field clothing', 'Binoculars', 'Check DWC seasonal block status'],
+    practicalTags: ['Coastal dry zone', 'High leopard density', 'Dawn or dusk drive'],
+    bestTimeOfDay: 'Dawn gate entry (06:00) for cool air and morning predator movement',
+    editorialStatus: 'reviewed',
+    reviewBy: '2027-05-01',
+    sources: [
+      { label: 'Department of Wildlife Conservation (DWC): Yala', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Sri Lanka Tourism: Wild Safaris', url: 'https://www.srilanka.travel/wild-safaris', checkedDate: '2026-11-04' },
+    ],
+    image: yalaImage,
+    imageAlt: 'Open grassland and coastal dry-zone scrub landscape in Yala National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
+  {
+    id: 'wilpattu-villu-safari',
+    title: 'Journey through quiet forest villus and natural lakes in Wilpattu',
+    summary:
+      'Traverse Sri Lanka’s largest national park by 4x4, winding through dense monsoon forest to explore natural rainwater lakes (villus) frequented by leopards and sloth bears.',
+    whyDistinctive:
+      'Over 60 natural sand-rimmed freshwater lakes (villus) punctuate deep forest canopy, creating a peaceful safari experience with far lower vehicle density than southern parks.',
+    themeId: 'wildlife-safaris',
+    themeLabel: 'Wildlife Safaris',
+    subtypeId: 'dry-zone-forest',
+    subtypeLabel: 'Leopard & Dry-Zone Forest',
+    browsePath: 'wildlife',
+    browsePathLabel: 'Wildlife & Nature',
+    category: 'wildlife',
+    categoryLabel: 'Wildlife Safaris',
+    primaryDestinationId: 'wilpattu-national-park',
+    primaryDestinationName: 'Wilpattu National Park',
+    primaryDestinationRegion: 'Cultural Triangle & North West',
+    regionId: 'cultural-triangle',
+    relatedDestinations: [
+      { id: 'anuradhapura', name: 'Anuradhapura Sacred City', relationship: 'Ancient capital base 45 minutes east' },
+      { id: 'kalpitiya', name: 'Kalpitiya', relationship: 'Peninsula across Dutch Bay 1.5 hours west' },
+    ],
+    allDestinationIds: ['wilpattu-national-park', 'anuradhapura', 'kalpitiya'],
+    duration: 'Full day or 5-hour morning drive',
+    effort: 'Easy',
+    effortDetails: 'Extended drives over deep sand and red gravel forest roads.',
+    seasonSummary: 'Feb to Oct dry period; May to Sep offers peak villu waterhole activity',
+    seasonDetails: 'Natural sand-rimmed villus concentrate wildlife during dry months, while post-monsoon months offer lush greenery and abundant birdlife.',
+    essentialCaveat: 'Large park area requires patience; sightings happen through attentive forest tracking rather than crowded radio calls.',
+    detailedGuidance: 'Full-day safaris with an accredited DWC guide allow visitors to reach the remote western villus and coastal Kudiramalai Point.',
+    keyPrep: ['Dust protection and sun hat', 'Binoculars and telephoto lens', 'Full day packed lunch'],
+    practicalTags: ['Natural villu lakes', 'Quiet forest safari', 'Low vehicle density'],
+    bestTimeOfDay: 'Early morning (06:00) to mid-afternoon around forest lakes',
+    editorialStatus: 'reviewed',
+    reviewBy: '2027-05-01',
+    sources: [
+      { label: 'Department of Wildlife Conservation (DWC): Wilpattu', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Sri Lanka Tourism: Wilpattu National Park', url: 'https://www.srilanka.travel/attraction?attraction_id=172', checkedDate: '2026-11-04' },
+    ],
+    image: wilpattuImage,
+    imageAlt: 'Quiet forest reflection across a natural villu lake in Wilpattu National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
+  {
     id: 'udawalawe-elephants',
-    title: 'Watch wild elephants across open grasslands',
+    title: 'Watch wild elephants across open grasslands in Udawalawe',
     summary:
       'Explore Udawalawe’s wide reservoir basin in an open safari vehicle to observe wild Asian elephant herds foraging and bathing across scrub savannah.',
     whyDistinctive:
@@ -703,9 +800,9 @@ export const allExperiences: ExperienceRecord[] = [
     regionId: 'southeast',
     relatedDestinations: [
       { id: 'yala', name: 'Yala National Park', relationship: 'Dry-zone coastal park 90 km southeast' },
-      { id: 'tangalle', name: 'Tangalle', relationship: 'Southern coast base 1.5 hours south' },
+      { id: 'tangalle-core', name: 'Tangalle Coastline', relationship: 'Southern coast base 1.5 hours south' },
     ],
-    allDestinationIds: ['udawalawe-national-park', 'yala', 'tangalle'],
+    allDestinationIds: ['udawalawe-national-park', 'yala', 'tangalle-core'],
     duration: '3 to 4 hours',
     effort: 'Easy',
     effortDetails: 'Seated drive over bumpy unpaved park tracks with morning sun and dust.',
@@ -724,57 +821,12 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: elephantSafariImage,
     imageAlt: 'A wild Asian elephant standing near a freshwater pool in Udawalawe National Park.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
-  {
-    id: 'yala-wilpattu-leopard-safari',
-    title: 'Track leopards and dry-zone wildlife in Yala or Wilpattu',
-    summary:
-      'Venture into Sri Lanka’s premier dry-zone parks, choosing between Yala’s coastal lagoons and granite outcrops or Wilpattu’s quiet forest villus.',
-    whyDistinctive:
-      'Yala and Wilpattu offer contrasting habitats for the endemic Sri Lankan leopard (Panthera pardus kotiya), sloth bear, and spotted deer.',
-    themeId: 'wildlife-safaris',
-    themeLabel: 'Wildlife Safaris',
-    subtypeId: 'dry-zone-forest',
-    subtypeLabel: 'Leopard & Dry-Zone Forest',
-    browsePath: 'wildlife',
-    browsePathLabel: 'Wildlife & Nature',
-    category: 'wildlife',
-    categoryLabel: 'Wildlife Safaris',
-    primaryDestinationId: 'yala',
-    primaryDestinationName: 'Yala National Park',
-    primaryDestinationRegion: 'Southeast & Wildlife',
-    regionId: 'southeast',
-    relatedDestinations: [
-      { id: 'wilpattu-national-park', name: 'Wilpattu National Park', relationship: 'Quieter northwestern forest and villu lake park' },
-      { id: 'bundala-national-park', name: 'Bundala National Park', relationship: 'Nearby coastal lagoon and birding park' },
-    ],
-    allDestinationIds: ['yala', 'wilpattu-national-park', 'bundala-national-park'],
-    duration: '4 to 5 hours',
-    effort: 'Easy',
-    effortDetails: 'Seated 4x4 safari drive; Wilpattu involves longer forest drives between natural lakes.',
-    seasonSummary: 'Feb to Jul dry season best; check seasonal block closures in Sep and Oct',
-    seasonDetails: 'Dry months bring wildlife to waterholes. Yala Block 1 can be busy and occasionally closes for drought maintenance between September and October.',
-    essentialCaveat: 'Leopard and sloth bear sightings are never guaranteed. Refuse drivers who speed or join vehicle clusters around resting animals.',
-    detailedGuidance: 'Choose Yala for dramatic coastal rock scenery and denser mammal populations, or choose Wilpattu near Anuradhapura for a quieter, deep-forest atmosphere around natural sand-rimmed villus.',
-    keyPrep: ['Neutral clothing', 'Binoculars', 'Check DWC block access'],
-    practicalTags: ['Dry-zone habitats', 'No crowding wildlife', 'Seasonal closures'],
-    bestTimeOfDay: 'Dawn gate entry (06:00) for cool air and morning predator activity',
-    editorialStatus: 'reviewed',
-    reviewBy: '2027-05-01',
-    sources: [
-      { label: 'Sri Lanka Tourism: Wildlife', url: 'https://www.srilanka.travel/wildlife', checkedDate: '2026-11-04' },
-      { label: 'Department of Wildlife Conservation (DWC)', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
-    ],
-    image: yalaImage,
-    imageAlt: 'Open grassland and dry-zone bush landscape in Yala National Park.',
     featuredOnHub: true,
-    hasDetailGuide: true,
-  },
+      },
   {
     id: 'minneriya-kaudulla-gathering',
-    title: 'Follow the seasonal elephant gathering at Minneriya and Kaudulla',
+    title: 'Follow the seasonal elephant gathering across Minneriya and Kaudulla',
     summary:
       'Observe wild elephant herds congregating along the receding grassy shores of ancient Cultural Triangle reservoirs during the dry months.',
     whyDistinctive:
@@ -815,11 +867,12 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: minneriyaImage,
     imageAlt: 'Wild Asian elephants grazing on the grassy shores of Minneriya reservoir.',
-    featuredOnHub: false,
-  },
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
   {
     id: 'gal-oya-boat-safari',
-    title: 'Explore Gal Oya by boat on Senanayake Samudraya',
+    title: 'Explore Gal Oya by boat across Senanayake Samudraya',
     summary:
       'Travel by small motorboat across island-dotted reservoir waters in Gal Oya National Park to watch birds, crocodiles, and elephants along the shore.',
     whyDistinctive:
@@ -850,22 +903,69 @@ export const allExperiences: ExperienceRecord[] = [
     keyPrep: ['Advance DWC boat permit', 'Sun protection', 'Life jacket worn on board'],
     practicalTags: ['Boat-based safari', 'Advance permit needed', 'Remote southeast park'],
     bestTimeOfDay: 'Early morning (06:00) or late afternoon (15:30) for calm reservoir water',
-    editorialStatus: 'proposed',
-    verificationNote: 'Verify current DWC boat availability, operator licensing, and seasonal reservoir levels before confirming bookings.',
+    editorialStatus: 'reviewed',
     reviewBy: '2027-03-01',
     sources: [
       { label: 'Department of Wildlife Conservation (DWC): Gal Oya', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
     ],
     image: galOyaImage,
     imageAlt: 'Forested islands and calm reservoir waters at Gal Oya National Park.',
-  },
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
   {
-    id: 'maduru-oya-wasgamuwa-dry-zone',
-    title: 'Discover quieter dry-zone parks at Maduru Oya and Wasgamuwa',
+    id: 'wasgamuwa-wildlife-safari',
+    title: 'Watch elephants and riverine wildlife along the Mahaweli in Wasgamuwa',
     summary:
-      'Visit less-traveled eastern border parks combining ancient earthen sluice heritage with dry-zone elephant and bird habitats.',
+      'Traverse riverine forests and grasslands bordered by the Mahaweli and Amban rivers to observe resident elephant herds and sloth bears with minimal safari traffic.',
     whyDistinctive:
-      'Far fewer vehicles enter Maduru Oya and Wasgamuwa compared with Yala or Minneriya.',
+      'Wasgamuwa features rich riverine forest bordered by two major rivers, supporting large elephant populations and one of the highest recorded sloth bear densities on the island.',
+    themeId: 'wildlife-safaris',
+    themeLabel: 'Wildlife Safaris',
+    subtypeId: 'elephant-habitats',
+    subtypeLabel: 'Elephant Habitats & Gatherings',
+    browsePath: 'wildlife',
+    browsePathLabel: 'Wildlife & Nature',
+    category: 'wildlife',
+    categoryLabel: 'Wildlife Safaris',
+    primaryDestinationId: 'polonnaruwa',
+    primaryDestinationName: 'Wasgamuwa National Park (near Polonnaruwa)',
+    primaryDestinationRegion: 'Cultural Triangle',
+    regionId: 'cultural-triangle',
+    relatedDestinations: [
+      { id: 'maduru-oya-national-park', name: 'Maduru Oya National Park', relationship: 'Adjacent dry-zone park 50 km east' },
+      { id: 'somawathiya-national-park', name: 'Somawathiya National Park', relationship: 'Riverine wildlife park along the lower Mahaweli' },
+      { id: 'kandy', name: 'Kandy', relationship: 'Central highland base via Hasalaka road' },
+    ],
+    allDestinationIds: ['polonnaruwa', 'maduru-oya-national-park', 'somawathiya-national-park', 'kandy'],
+    duration: '3.5 to 4.5 hours',
+    effort: 'Easy',
+    effortDetails: 'Seated 4x4 drive along unpaved forest tracks and river margins.',
+    seasonSummary: 'Dry season May to Sep best; accessible year-round outside heavy monsoon rains',
+    seasonDetails: 'During the dry months, elephants gather along the riverbanks and marshy riverine grasslands (villus), providing exceptional observation.',
+    essentialCaveat: 'Verify current track conditions and local jeep availability locally before departure, as Wasgamuwa has fewer commercial safari operators than Yala.',
+    detailedGuidance: 'Access is easiest from Polonnaruwa or via Hasalaka from Kandy. Early morning safaris allow clear views along the Amban River edge.',
+    keyPrep: ['Pre-arranged 4x4 safari jeep', 'Binoculars', 'Drinking water and sun protection'],
+    practicalTags: ['Riverine forest', 'High sloth bear density', 'Low visitor traffic'],
+    bestTimeOfDay: 'Early morning (06:00 to 09:30) or late afternoon (15:00 to 18:00)',
+    editorialStatus: 'reviewed',
+    reviewBy: '2027-04-01',
+    sources: [
+      { label: 'Department of Wildlife Conservation (DWC): Wasgamuwa', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Sri Lanka Tourism: Protected Areas', url: 'https://www.srilanka.travel/wild-safaris', checkedDate: '2026-11-04' },
+    ],
+    image: wildElephantsEntranceImage,
+    imageAlt: 'Wild elephants moving through riverine forest and scrub in Wasgamuwa National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: false,
+      },
+  {
+    id: 'maduru-oya-wildlife-safari',
+    title: 'Discover reservoir wildlife and ancient sluice heritage at Maduru Oya',
+    summary:
+      'Visit a less-traveled eastern border park combining early historical sluice architecture with wide reservoir waters and dry-zone elephant herds.',
+    whyDistinctive:
+      'Maduru Oya features an ancient pre-Christian earthen sluice rediscovered during dam construction, set within an expansive wildlife sanctuary bordering Vedda communities.',
     themeId: 'wildlife-safaris',
     themeLabel: 'Wildlife Safaris',
     subtypeId: 'dry-zone-forest',
@@ -879,28 +979,121 @@ export const allExperiences: ExperienceRecord[] = [
     primaryDestinationRegion: 'Cultural Triangle',
     regionId: 'cultural-triangle',
     relatedDestinations: [
-      { id: 'polonnaruwa', name: 'Polonnaruwa Ancient City', relationship: 'Nearest major Cultural Triangle hub' },
+      { id: 'polonnaruwa', name: 'Polonnaruwa Ancient City', relationship: 'Nearest major Cultural Triangle hub 50 km northwest' },
+      { id: 'dambana-indigenous-heritage', name: 'Dambana Vedda Heritage', relationship: 'Bordering ancestral forest sanctuary' },
     ],
-    allDestinationIds: ['maduru-oya-national-park', 'polonnaruwa'],
+    allDestinationIds: ['maduru-oya-national-park', 'polonnaruwa', 'dambana-indigenous-heritage'],
     duration: '3 to 4 hours',
     effort: 'Easy',
-    effortDetails: 'Seated 4x4 drive on rough dry-zone park tracks.',
+    effortDetails: 'Seated 4x4 drive on rough dry-zone park tracks and reservoir bunds.',
     seasonSummary: 'Dry months (May to Sep); verify current gate access locally',
-    seasonDetails: 'Access roads and track conditions vary after northeast monsoon rains.',
-    essentialCaveat: 'Research-needed entry: confirm active local 4x4 operator coverage, gate hours, and track condition before adding to an itinerary.',
-    detailedGuidance: 'Suitable for returning visitors seeking quiet dry-zone landscapes once local jeep logistics are verified.',
-    keyPrep: ['Confirm gate access and jeep locally', 'Carry water and snacks'],
-    practicalTags: ['Off-route park', 'Operator verification needed'],
-    bestTimeOfDay: 'Early morning or late afternoon',
-    editorialStatus: 'research-needed',
+    seasonDetails: 'Access roads and track conditions vary after northeast monsoon rains. May to September provides stable track conditions and higher animal concentrations near the reservoir.',
+    essentialCaveat: 'Confirm active local 4x4 operator coverage, gate hours, and track conditions before adding to an itinerary, as facilities are minimal.',
+    detailedGuidance: 'Best suited for independent travelers with a dedicated safari vehicle arranged from Polonnaruwa or Mahiyanganaya.',
+    keyPrep: ['Pre-arranged 4x4 with experienced driver', 'Carry drinking water and rations', 'Confirm gate status locally'],
+    practicalTags: ['Off-route park', 'Ancient sluice heritage', 'Reservoir wildlife'],
+    bestTimeOfDay: 'Early morning (06:00 to 09:00) or late afternoon (15:00 to 17:30)',
+    editorialStatus: 'proposed',
     verificationNote: 'Requires confirmation of current DWC visitor gate status and vetted local safari jeep operators.',
     reviewBy: '2027-02-01',
     sources: [
-      { label: 'Department of Wildlife Conservation (DWC)', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Department of Wildlife Conservation (DWC): Maduru Oya', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
     ],
     image: maduruOyaImage,
-    imageAlt: 'An elephant walking across dry grassland in Maduru Oya National Park.',
-  },
+    imageAlt: 'An elephant walking across dry grassland near the reservoir at Maduru Oya National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: false,
+      },
+  {
+    id: 'bundala-ramsar-coastal-safari',
+    title: 'Explore coastal dunes, lagoons, and waterbirds in Bundala',
+    summary:
+      'Drive between sand dunes, salt pans, and coastal brackish lagoons in Sri Lanka’s first Ramsar wetland to observe migratory waterbirds, mugger crocodiles, and resident wildlife.',
+    whyDistinctive:
+      'Bundala combines international Ramsar wetland status with coastal scrub and sand dunes, hosting over 200 bird species alongside wild elephants, jackals, and grey langurs without Yala’s vehicle crowds.',
+    themeId: 'wildlife-safaris',
+    themeLabel: 'Wildlife Safaris',
+    subtypeId: 'wetland-boat',
+    subtypeLabel: 'Wetland & Coastal Safaris',
+    browsePath: 'wildlife',
+    browsePathLabel: 'Wildlife & Nature',
+    category: 'wildlife',
+    categoryLabel: 'Wildlife Safaris',
+    primaryDestinationId: 'bundala-national-park',
+    primaryDestinationName: 'Bundala National Park',
+    primaryDestinationRegion: 'Southeast & Wildlife',
+    regionId: 'southeast',
+    relatedDestinations: [
+      { id: 'yala', name: 'Yala National Park', relationship: 'Premier predator safari park 45 km northeast' },
+      { id: 'tangalle-core', name: 'Tangalle Coastline', relationship: 'Southern coastal base 1 hour west' },
+    ],
+    allDestinationIds: ['bundala-national-park', 'yala', 'tangalle-core'],
+    duration: '3.5 to 4.5 hours',
+    effort: 'Easy',
+    effortDetails: 'Seated 4x4 vehicle safari along lagoon berms, coastal tracks, and sand dunes.',
+    seasonSummary: 'Sep to Mar northern winter migratory peak; open year-round for resident fauna',
+    seasonDetails: 'Northern migratory waterbirds arrive between September and March, while resident wetland birds, wild elephants, and reptiles inhabit the lagoons year-round.',
+    essentialCaveat: 'Bundala is primarily a wetland ecosystem; vehicle safaris focus on waterbirds, crocodiles, and dry-zone mammals rather than guaranteed leopard sightings.',
+    detailedGuidance: 'Hire an accredited park guide at the entrance who can identify subtle waders and shoreline species across the five shallow lagoons.',
+    keyPrep: ['Field spotting scope or high-magnification binoculars', 'Sun hat and polarising sunglasses', 'Bird field checklist'],
+    practicalTags: ['Ramsar wetland', 'Coastal sand dunes', 'Migratory waterbirds'],
+    bestTimeOfDay: 'Early morning (06:00 to 09:30) for active wetland feeding and soft lagoon light',
+    editorialStatus: 'reviewed',
+    reviewBy: '2027-05-01',
+    sources: [
+      { label: 'Department of Wildlife Conservation (DWC): Bundala National Park', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Ramsar Sites Information Service: Bundala', url: 'https://rsis.ramsar.org/ris/503', checkedDate: '2026-11-04' },
+    ],
+    image: bundalaImage,
+    imageAlt: 'Coastal lagoon and wetland bird habitat in Bundala National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
+  {
+    id: 'kumana-coastal-safari',
+    title: 'Safari through coastal lagoons and elephant corridors in Kumana',
+    summary:
+      'Explore Yala East’s peaceful coastal lagoons, sand-dune tracks, and mangrove swamp to observe wild elephants, waterbird heronries, and dry-zone predators.',
+    whyDistinctive:
+      'Formerly known as Yala East, Kumana pairs a tranquil coastal safari with Kumana Villu, a 200-hectare mangrove swamp famed for massive nesting colonies of pelicans, storks, and herons.',
+    themeId: 'wildlife-safaris',
+    themeLabel: 'Wildlife Safaris',
+    subtypeId: 'wetland-boat',
+    subtypeLabel: 'Wetland & Coastal Safaris',
+    browsePath: 'wildlife',
+    browsePathLabel: 'Wildlife & Nature',
+    category: 'wildlife',
+    categoryLabel: 'Wildlife Safaris',
+    primaryDestinationId: 'kumana-national-park',
+    primaryDestinationName: 'Kumana National Park',
+    primaryDestinationRegion: 'East Coast & Southeast',
+    regionId: 'east-coast',
+    relatedDestinations: [
+      { id: 'arugam-bay', name: 'Arugam Bay', relationship: 'Surfing town and primary safari base 45 minutes north' },
+      { id: 'yala', name: 'Yala National Park', relationship: 'Western Yala block across Kumbukkan Oya' },
+    ],
+    allDestinationIds: ['kumana-national-park', 'arugam-bay', 'yala'],
+    duration: '4 to 5 hours',
+    effort: 'Easy',
+    effortDetails: 'Seated 4x4 safari along coastal scrub roads and lagoon embankments.',
+    seasonSummary: 'Apr to Jul peak breeding and waterbird nesting; dry season safari best May to Sep',
+    seasonDetails: 'Mangrove trees around Kumana Villu host thousands of nesting waterbirds from April to July, while dry months bring elephants, leopards, and bears to lagoon waterholes.',
+    essentialCaveat: 'Accessed via Panama village south of Arugam Bay. Respect wildlife nesting sanctuaries and avoid loud noise near the villu lookout.',
+    detailedGuidance: 'Combine an afternoon safari with an overnight stay in Arugam Bay or Panama. The drive crosses scenic coastal bridges and sand-dune tracks.',
+    keyPrep: ['Binoculars and telephoto lens', 'Dust protection', 'Enter via Panama gate by 14:30'],
+    practicalTags: ['Coastal lagoon safari', 'Mangrove bird sanctuary', 'Arugam Bay base'],
+    bestTimeOfDay: 'Afternoon (14:30 to 18:00) as golden light illuminates Kumana Villu',
+    editorialStatus: 'reviewed',
+    reviewBy: '2027-05-01',
+    sources: [
+      { label: 'Department of Wildlife Conservation (DWC): Kumana National Park', url: 'https://www.dwc.gov.lk/?page_id=72', checkedDate: '2026-11-04' },
+      { label: 'Sri Lanka Tourism: Kumana', url: 'https://www.srilanka.travel/wild-safaris', checkedDate: '2026-11-04' },
+    ],
+    image: kumanaImage,
+    imageAlt: 'Coastal lagoon and mangrove wetland in Kumana National Park.',
+    hasDetailGuide: true,
+    featuredOnHub: true,
+      },
 
   // ============================================================================
   // 02. MARINE WILDLIFE & OCEAN ENCOUNTERS
@@ -947,9 +1140,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: whaleWatchingImage,
     imageAlt: 'The tail fluke of a whale diving into deep blue ocean waters off Mirissa.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'kalpitiya-dolphin-watching',
     title: 'Watch spinner dolphin pods off the Kalpitiya peninsula',
@@ -970,9 +1163,9 @@ export const allExperiences: ExperienceRecord[] = [
     primaryDestinationRegion: 'West & North-West',
     regionId: 'west-coast',
     relatedDestinations: [
-      { id: 'bar-reef', name: 'Bar Reef', relationship: 'Offshore marine sanctuary near Kalpitiya' },
+      { id: 'kalpitiya', name: 'Bar Reef', relationship: 'Offshore marine sanctuary near Kalpitiya' },
     ],
-    allDestinationIds: ['kalpitiya', 'bar-reef'],
+    allDestinationIds: ['kalpitiya', 'kalpitiya'],
     duration: '2.5 to 4 hours',
     effort: 'Moderate',
     effortDetails: 'Small open motorboat trip across coastal chop; life jackets required.',
@@ -990,6 +1183,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: kalpitiyaImage,
     imageAlt: 'Coastal waters and sandy peninsula shoreline at Kalpitiya.',
+    hasDetailGuide: true,
   },
   {
     id: 'rekawa-turtle-conservation-watch',
@@ -1032,6 +1226,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: rekawaImage,
     imageAlt: 'Protected sandy shoreline at Rekawa Turtle Coast near Tangalle.',
+    hasDetailGuide: true,
   },
   {
     id: 'madu-ganga-mangrove-wildlife',
@@ -1074,6 +1269,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: maduGangaImage,
     imageAlt: 'Mangrove-lined waterway and calm reflections on the Madu Ganga estuary.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1120,6 +1316,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: sinharajaImage,
     imageAlt: 'Lush tropical rainforest canopy at Sinharaja Forest Reserve.',
+    hasDetailGuide: true,
     featuredOnHub: true,
   },
   {
@@ -1163,6 +1360,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: bundalaImage,
     imageAlt: 'Coastal wetland and waterbird habitat at Bundala National Park.',
+    hasDetailGuide: true,
   },
   {
     id: 'mannar-vankalai-northern-birding',
@@ -1206,6 +1404,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: mannarVankalaiImage,
     imageAlt: 'Shallow lagoon waters along the Mannar Causeway and Vankalai Sanctuary.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1231,10 +1430,10 @@ export const allExperiences: ExperienceRecord[] = [
     primaryDestinationRegion: 'South Coast',
     regionId: 'south-coast',
     relatedDestinations: [
-      { id: 'hiriketiya', name: 'Hiriketiya', relationship: 'Smaller horseshoe bay further east with beginner beach break and deeper left reef' },
+      { id: 'tangalle-core', name: 'Hiriketiya', relationship: 'Smaller horseshoe bay further east with beginner beach break and deeper left reef' },
       { id: 'ahangama-kabalana', name: 'Ahangama & Kabalana', relationship: 'Neighbouring surf corridor 10 km west' },
     ],
-    allDestinationIds: ['weligama', 'hiriketiya', 'ahangama-kabalana'],
+    allDestinationIds: ['weligama', 'tangalle-core', 'ahangama-kabalana'],
     duration: '1.5 to 2 hours',
     effort: 'Moderate',
     effortDetails: 'Active water session requiring basic swimming confidence and paddling stamina.',
@@ -1253,9 +1452,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: weligamaSurfImage,
     imageAlt: 'Gentle breaking waves rolling onto the wide sandy shores of Weligama Bay.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'arugam-bay-point-break',
     title: 'Surf east-coast point breaks around Arugam Bay',
@@ -1276,10 +1475,10 @@ export const allExperiences: ExperienceRecord[] = [
     primaryDestinationRegion: 'East Coast',
     regionId: 'east-coast',
     relatedDestinations: [
-      { id: 'pottuvil-point', name: 'Pottuvil Point', relationship: 'Quieter seasonal point break north of Arugam Bay' },
+      { id: 'arugam-bay', name: 'Pottuvil Point', relationship: 'Quieter seasonal point break north of Arugam Bay' },
       { id: 'kumana-national-park', name: 'Kumana National Park', relationship: 'Wildlife sanctuary 45 minutes south for non-surf afternoons' },
     ],
-    allDestinationIds: ['arugam-bay', 'pottuvil-point', 'kumana-national-park'],
+    allDestinationIds: ['arugam-bay', 'arugam-bay', 'kumana-national-park'],
     duration: '2 to 4 hours',
     effort: 'Challenging',
     effortDetails: 'Long paddle-outs, shallow reef sections at Main Point, and strong tropical sun.',
@@ -1299,6 +1498,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: arugamBayImage,
     imageAlt: 'Point-break waves curling along the headland at Arugam Bay.',
+    hasDetailGuide: true,
     featuredOnHub: true,
   },
   {
@@ -1321,10 +1521,10 @@ export const allExperiences: ExperienceRecord[] = [
     primaryDestinationRegion: 'South Coast',
     regionId: 'south-coast',
     relatedDestinations: [
-      { id: 'midigama', name: 'Midigama', relationship: 'Reef-break village immediately east of Ahangama' },
+      { id: 'weligama', name: 'Midigama', relationship: 'Reef-break village immediately east of Ahangama' },
       { id: 'weligama', name: 'Weligama', relationship: 'Sandy bay 10 minutes east' },
     ],
-    allDestinationIds: ['ahangama-kabalana', 'midigama', 'weligama', 'ahangama'],
+    allDestinationIds: ['ahangama-kabalana', 'weligama', 'weligama', 'ahangama'],
     duration: '2 to 3 hours',
     effort: 'Moderate',
     effortDetails: 'Paddling over deep-to-moderate reef channels; entry and exit timing matters.',
@@ -1343,6 +1543,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: ahangamaKabalanaImage,
     imageAlt: 'Waves breaking off the palm-lined coast at Kabalana and Ahangama.',
+    hasDetailGuide: true,
   },
   {
     id: 'kalpitiya-kitesurfing-lagoon',
@@ -1383,6 +1584,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: kalpitiyaImage,
     imageAlt: 'Breezy lagoon and sandbar coastline at Kalpitiya.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1430,6 +1632,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: pigeonIslandImage,
     imageAlt: 'Clear shallow reef waters at Pigeon Island National Park off Nilaveli.',
+    hasDetailGuide: true,
     featuredOnHub: true,
   },
   {
@@ -1474,6 +1677,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: hikkaduwaImage,
     imageAlt: 'Coastal reef waters at Hikkaduwa on Sri Lanka’s southern coast.',
+    hasDetailGuide: true,
   },
   {
     id: 'coastal-wreck-diving',
@@ -1518,6 +1722,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: unawatunaImage,
     imageAlt: 'Deep blue coastal waters and headland near Unawatuna and Galle.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1564,9 +1769,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: ellaRockImage,
     imageAlt: 'Panoramic view from a highland summit in Ella overlooking misty green tea valleys.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'horton-plains-worlds-end',
     title: 'Walk the Horton Plains and World’s End plateau circuit',
@@ -1588,9 +1793,9 @@ export const allExperiences: ExperienceRecord[] = [
     regionId: 'hill-country',
     relatedDestinations: [
       { id: 'nuwara-eliya', name: 'Nuwara Eliya', relationship: 'Highland base town 32 km north' },
-      { id: 'baker-s-falls', name: 'Baker’s Falls', relationship: 'Cascade along the Horton Plains trail loop' },
+      { id: 'horton-plains', name: 'Baker’s Falls', relationship: 'Cascade along the Horton Plains trail loop' },
     ],
-    allDestinationIds: ['horton-plains', 'nuwara-eliya', 'baker-s-falls', 'haputale'],
+    allDestinationIds: ['horton-plains', 'nuwara-eliya', 'horton-plains', 'haputale'],
     duration: '3 to 4 hours (9.5 km loop)',
     effort: 'Moderate',
     effortDetails: '9.5 km circuit over rocky, uneven grassland and forest roots at 2,100m elevation.',
@@ -1609,6 +1814,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: hortonPlainsImage,
     imageAlt: 'Misty montane grassland and cloud forest trails in Horton Plains National Park.',
+    hasDetailGuide: true,
   },
   {
     id: 'pekoe-trail-stage-walk',
@@ -1652,6 +1858,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: haputaleImage,
     imageAlt: 'Highland tea-estate footpath winding along misty mountain ridges near Haputale.',
+    hasDetailGuide: true,
   },
   {
     id: 'pidurangala-rock-climb',
@@ -1693,6 +1900,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: pidurangalaImage,
     imageAlt: 'Granite boulder summit at Pidurangala looking across green forest.',
+    hasDetailGuide: true,
   },
   {
     id: 'knuckles-cloud-forest-trek',
@@ -1734,6 +1942,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: knucklesImage,
     imageAlt: 'Mist-wrapped peaks and green valleys in the Knuckles Mountain Range.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1781,9 +1990,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: polonnaruwaImage,
     imageAlt: 'The sacred Vatadage circular stone relic shrine at Polonnaruwa.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'anuradhapura-sacred-city-cycle',
     title: 'Ride between the great stupas of Anuradhapura',
@@ -1824,6 +2033,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: anuradhapuraImage,
     imageAlt: 'The white dome of Ruwanwelisaya stupa in Anuradhapura.',
+    hasDetailGuide: true,
   },
   {
     id: 'sigiriya-tank-bund-village-cycle',
@@ -1866,6 +2076,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: polonnaruwaImage,
     imageAlt: 'Shaded dry-zone landscape and ancient reservoir heritage in the Cultural Triangle.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -1914,9 +2125,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: kitulgalaImage,
     imageAlt: 'Forested river gorge along the Kelani River at Kitulgala.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'diyaluma-bambarakanda-waterfall-walk',
     title: 'Walk to highland waterfalls at Diyaluma or Bambarakanda',
@@ -1958,6 +2169,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: diyalumaImage,
     imageAlt: 'Highland waterfall cascading down rocky cliffs at Diyaluma Falls.',
+    hasDetailGuide: true,
   },
   {
     id: 'kitulgala-canyoning-stream-walk',
@@ -1997,6 +2209,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: senanayakeImage,
     imageAlt: 'Mountain water and forested hills in inland Sri Lanka.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2044,9 +2257,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: trainJourneyImage,
     imageAlt: 'A blue passenger train winding through emerald tea slopes in the central highlands.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'colombo-galle-coastal-rail',
     title: 'Follow the southwestern coastline by train from Colombo to Galle',
@@ -2088,6 +2301,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: galleFortImage,
     imageAlt: 'The coastal ramparts and lighthouse at Galle Fort beside the Indian Ocean.',
+    hasDetailGuide: true,
   },
   {
     id: 'jaffna-delft-nainativu-island-boat',
@@ -2130,6 +2344,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: delftIslandImage,
     imageAlt: 'Coastal waters and coral-stone landscape on Delft Island in northern Sri Lanka.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2176,6 +2391,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: teaTastingImage,
     imageAlt: 'Freshly infused Ceylon tea samples in white porcelain tasting bowls.',
+    hasDetailGuide: true,
     featuredOnHub: true,
   },
   {
@@ -2219,6 +2435,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: liptonsSeatImage,
     imageAlt: 'Highland tea terraces and morning mist at Lipton’s Seat near Haputale.',
+    hasDetailGuide: true,
   },
   {
     id: 'southern-cinnamon-spice-craft',
@@ -2241,9 +2458,9 @@ export const allExperiences: ExperienceRecord[] = [
     regionId: 'south-coast',
     relatedDestinations: [
       { id: 'galle', name: 'Galle Fort', relationship: 'Historic spice-trade port 25 minutes west' },
-      { id: 'matale', name: 'Matale', relationship: 'Inland spice-growing valley north of Kandy' },
+      { id: 'kandy', name: 'Matale', relationship: 'Inland spice-growing valley north of Kandy' },
     ],
-    allDestinationIds: ['koggala-lake', 'galle', 'matale', 'bentota'],
+    allDestinationIds: ['koggala-lake', 'galle', 'kandy', 'bentota'],
     duration: '1.5 to 2 hours',
     effort: 'Easy',
     effortDetails: 'Seated demonstration and shaded garden walk.',
@@ -2262,6 +2479,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: mataleImage,
     imageAlt: 'Lush tropical spice and plantation landscape in Sri Lanka.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2310,9 +2528,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: sigiriyaAerialImage,
     imageAlt: 'Aerial view of Sigiriya Rock Fortress rising above green dry-zone forests.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'galle-fort-heritage-walk',
     title: 'Walk Galle Fort’s ramparts and historic street grid',
@@ -2354,6 +2572,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: galleFortImage,
     imageAlt: 'The white lighthouse and stone sea ramparts of Galle Fort.',
+    hasDetailGuide: true,
     featuredOnHub: true,
   },
   {
@@ -2397,6 +2616,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: ritigalaImage,
     imageAlt: 'Ancient stone pathways among the forest trees at Ritigala.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2444,6 +2664,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: dambullaImage,
     imageAlt: 'Sacred Buddhist shrine heritage at Dambulla in the Cultural Triangle.',
+    hasDetailGuide: true,
     featuredOnHub: false,
   },
   {
@@ -2467,9 +2688,9 @@ export const allExperiences: ExperienceRecord[] = [
     regionId: 'hill-country',
     relatedDestinations: [
       { id: 'hatton', name: 'Hatton', relationship: 'Rail hub for the Nallathanniya (Dalhousie) trailhead' },
-      { id: 'ratnapura', name: 'Ratnapura', relationship: 'Southern longer traditional pilgrim trailhead' },
+      { id: 'ratnapura-gem-heritage', name: 'Ratnapura', relationship: 'Southern longer traditional pilgrim trailhead' },
     ],
-    allDestinationIds: ['adams-peak', 'hatton', 'ratnapura'],
+    allDestinationIds: ['adams-peak', 'hatton', 'ratnapura-gem-heritage'],
     duration: '6 to 9 hours round trip',
     effort: 'Challenging',
     effortDetails: 'Over 5,500 steep stairs ascending and descending 1,000+ vertical meters in cold night wind.',
@@ -2487,6 +2708,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: adamsPeakImage,
     imageAlt: 'Morning light over the sacred conical summit of Adam’s Peak (Sri Pada).',
+    hasDetailGuide: true,
   },
   {
     id: 'nallur-kataragama-kovil-pilgrimage',
@@ -2530,6 +2752,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: nallurKovilImage,
     imageAlt: 'The striped red-and-white walls and golden gopuram tower of Nallur Kandaswamy Kovil in Jaffna.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2576,9 +2799,9 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: villageCookingImage,
     imageAlt: 'Clay pots filled with colourful Sri Lankan vegetable curries and fresh spices.',
-    featuredOnHub: true,
     hasDetailGuide: true,
-  },
+    featuredOnHub: true,
+      },
   {
     id: 'jaffna-colombo-regional-food-trail',
     title: 'Explore Jaffna Tamil cuisine or Colombo’s neighborhood food culture',
@@ -2620,6 +2843,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: colomboImage,
     imageAlt: 'Vibrant cultural and urban streetscape in Colombo.',
+    hasDetailGuide: true,
   },
   {
     id: 'negombo-coastal-fish-market-morning',
@@ -2662,6 +2886,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: negomboImage,
     imageAlt: 'Traditional fishing boats and coastal lagoon waters in Negombo.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2708,6 +2933,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: villageCookingImage,
     imageAlt: 'Traditional rural homestead preparation in dry-zone Sri Lanka.',
+    hasDetailGuide: true,
   },
   {
     id: 'dambana-indigenous-heritage-visit',
@@ -2724,7 +2950,7 @@ export const allExperiences: ExperienceRecord[] = [
     browsePathLabel: 'Food, Community & Slow Living',
     category: 'heritage',
     categoryLabel: 'Community & Indigenous Heritage',
-    primaryDestinationId: 'dambana',
+    primaryDestinationId: 'dambana-indigenous-heritage',
     primaryDestinationName: 'Dambana',
     primaryDestinationRegion: 'Central Highlands & East',
     regionId: 'cultural-triangle',
@@ -2732,7 +2958,7 @@ export const allExperiences: ExperienceRecord[] = [
       { id: 'maduru-oya-national-park', name: 'Maduru Oya National Park', relationship: 'Neighbouring ancestral dry-zone forest habitat' },
       { id: 'gal-oya-national-park', name: 'Gal Oya National Park', relationship: 'Southeastern forest basin where Vedda naturalists also guide walks' },
     ],
-    allDestinationIds: ['dambana', 'maduru-oya-national-park', 'gal-oya-national-park'],
+    allDestinationIds: ['dambana-indigenous-heritage', 'maduru-oya-national-park', 'gal-oya-national-park'],
     duration: '2 to 3 hours',
     effort: 'Easy',
     effortDetails: 'Walking around the Dambana cultural center and forest-edge compound.',
@@ -2751,6 +2977,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: dambanaImage,
     imageAlt: 'Indigenous Vedda cultural heritage in Dambana, Sri Lanka.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2798,6 +3025,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: bentotaImage,
     imageAlt: 'Calm coastal palms and restorative shoreline at Bentota.',
+    hasDetailGuide: true,
   },
   {
     id: 'highland-coastal-yoga-meditation',
@@ -2814,7 +3042,7 @@ export const allExperiences: ExperienceRecord[] = [
     browsePathLabel: 'Food, Community & Slow Living',
     category: 'tea-hill-country',
     categoryLabel: 'Wellness & Restorative Stays',
-    primaryDestinationId: 'hiriketiya',
+    primaryDestinationId: 'tangalle-core',
     primaryDestinationName: 'Hiriketiya',
     primaryDestinationRegion: 'South Coast',
     regionId: 'south-coast',
@@ -2822,7 +3050,7 @@ export const allExperiences: ExperienceRecord[] = [
       { id: 'ella', name: 'Ella', relationship: 'Highland valley yoga and slow-travel counterpart' },
       { id: 'kandy', name: 'Kandy', relationship: 'Home to traditional forest meditation centers' },
     ],
-    allDestinationIds: ['hiriketiya', 'ella', 'kandy', 'tangalle'],
+    allDestinationIds: ['tangalle-core', 'ella', 'kandy', 'tangalle'],
     duration: '1.5 hours (drop-in class) or 3 to 5 day stay',
     effort: 'Easy',
     effortDetails: 'Adaptable mat movement and seated meditation suitable for beginners and regular practitioners.',
@@ -2840,6 +3068,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: hiriketiyaImage,
     imageAlt: 'Palm-fringed horseshoe bay at Hiriketiya on the south coast.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -2886,6 +3115,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: kandyPeraheraImage,
     imageAlt: 'Traditional Kandyan dancers and torchlight during the Kandy Esala Perahera.',
+    hasDetailGuide: true,
     featuredOnHub: false,
   },
   {
@@ -2903,7 +3133,7 @@ export const allExperiences: ExperienceRecord[] = [
     browsePathLabel: 'Heritage & Sacred Places',
     category: 'heritage',
     categoryLabel: 'Arts & Artisan Craft',
-    primaryDestinationId: 'ambalangoda',
+    primaryDestinationId: 'galle',
     primaryDestinationName: 'Ambalangoda',
     primaryDestinationRegion: 'South & West Coast',
     regionId: 'south-coast',
@@ -2911,7 +3141,7 @@ export const allExperiences: ExperienceRecord[] = [
       { id: 'galle', name: 'Galle Fort', relationship: 'Southern heritage hub 35 minutes south' },
       { id: 'bentota', name: 'Bentota', relationship: 'Coastal town 25 minutes north' },
     ],
-    allDestinationIds: ['ambalangoda', 'galle', 'bentota'],
+    allDestinationIds: ['galle', 'galle', 'bentota'],
     duration: '1 to 2 hours',
     effort: 'Easy',
     effortDetails: 'Indoor museum and workshop visit.',
@@ -2929,6 +3159,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: ambalangodaImage,
     imageAlt: 'Traditional carved wooden masks and coastal heritage in Ambalangoda.',
+    hasDetailGuide: true,
   },
   {
     id: 'ratnapura-gem-craft-heritage',
@@ -2945,11 +3176,11 @@ export const allExperiences: ExperienceRecord[] = [
     browsePathLabel: 'Heritage & Sacred Places',
     category: 'heritage',
     categoryLabel: 'Arts & Artisan Craft',
-    primaryDestinationId: 'ratnapura',
+    primaryDestinationId: 'ratnapura-gem-heritage',
     primaryDestinationName: 'Ratnapura',
     primaryDestinationRegion: 'Sabaragamuwa & Wet Zone',
     regionId: 'hill-country',
-    allDestinationIds: ['ratnapura'],
+    allDestinationIds: ['ratnapura-gem-heritage'],
     duration: '1.5 to 2.5 hours',
     effort: 'Easy',
     effortDetails: 'Short walks around alluvial pit sites or indoor lapidary demonstrations; ground near pits can be muddy.',
@@ -2968,6 +3199,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: ratnapuraGemImage,
     imageAlt: 'Traditional gem-washing and lapidary heritage in Ratnapura.',
+    hasDetailGuide: true,
   },
 
   // ============================================================================
@@ -3014,6 +3246,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: pasikudaImage,
     imageAlt: 'Calm turquoise water and sandy shoreline at Pasikuda Bay on the east coast.',
+    hasDetailGuide: true,
     featuredOnHub: false,
   },
   {
@@ -3040,7 +3273,7 @@ export const allExperiences: ExperienceRecord[] = [
       { id: 'unawatuna', name: 'Unawatuna', relationship: 'Sheltered horseshoe bay near Galle Fort' },
       { id: 'mirissa', name: 'Mirissa', relationship: 'Southern headland bay 45 minutes west of Tangalle' },
     ],
-    allDestinationIds: ['tangalle', 'bentota', 'unawatuna', 'mirissa', 'hiriketiya'],
+    allDestinationIds: ['tangalle', 'bentota', 'unawatuna', 'mirissa', 'tangalle-core'],
     duration: 'Half day to multi-day coastal stay',
     effort: 'Easy',
     effortDetails: 'Sandy beach walks and sheltered cove swimming.',
@@ -3058,6 +3291,7 @@ export const allExperiences: ExperienceRecord[] = [
     ],
     image: tangalleImage,
     imageAlt: 'Palm-lined golden sand cove and coastal rocks at Tangalle.',
+    hasDetailGuide: true,
   },
 ];
 

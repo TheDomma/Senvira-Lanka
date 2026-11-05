@@ -10,15 +10,13 @@ import {
 } from '../../../data/experiences';
 
 export function getStaticPaths() {
-  return allExperiences
-    .filter((exp) => exp.hasDetailGuide)
-    .map((experience) => ({
-      params: {
-        theme: experience.themeId,
-        id: experience.id,
-      },
-      props: { experience },
-    }));
+  return allExperiences.map((experience) => ({
+    params: {
+      theme: experience.themeId,
+      id: experience.id,
+    },
+    props: { experience },
+  }));
 }
 
 interface Props {
@@ -292,9 +290,10 @@ const pageDescription = experience.summary;
   .guide-hero h1 {
     margin: 0;
     max-width: 22ch;
-    font: 500 clamp(2.15rem, 4vw, 3.4rem)/1.1 var(--font-serif);
+    font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
     letter-spacing: -0.028em;
     color: #fbf8f0;
+    text-wrap: balance;
   }
 
   .hero-copy {
@@ -619,6 +618,18 @@ const pageDescription = experience.summary;
   @media (max-width: 54rem) {
     .guide-hero {
       padding-top: calc(4.35rem + 1.75rem);
+    }
+
+    .guide-hero h1 {
+      font-size: var(--text-hero-subpage-mobile, clamp(1.95rem, 6.8vw, 2.75rem));
+      line-height: 1.08;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .guide-hero h1 {
+      font-size: var(--text-hero-subpage-narrow, clamp(1.8rem, 6.2vw, 2.35rem));
+      line-height: 1.1;
     }
   }
 </style>

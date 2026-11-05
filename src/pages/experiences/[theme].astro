@@ -469,9 +469,10 @@ const pageDescription = theme.promise;
   .theme-hero h1 {
     margin: 0;
     max-width: 20ch;
-    font: 500 clamp(2.25rem, 4.2vw, 3.6rem)/1.08 var(--font-serif);
+    font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
     letter-spacing: -0.03em;
     color: #fbf8f0;
+    text-wrap: balance;
   }
 
   .hero-copy {
@@ -926,6 +927,18 @@ const pageDescription = theme.promise;
   @media (max-width: 54rem) {
     .theme-hero {
       padding-top: calc(4.35rem + 1.75rem);
+    }
+
+    .theme-hero h1 {
+      font-size: var(--text-hero-subpage-mobile, clamp(1.95rem, 6.8vw, 2.75rem));
+      line-height: 1.08;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .theme-hero h1 {
+      font-size: var(--text-hero-subpage-narrow, clamp(1.8rem, 6.2vw, 2.35rem));
+      line-height: 1.1;
     }
   }
 

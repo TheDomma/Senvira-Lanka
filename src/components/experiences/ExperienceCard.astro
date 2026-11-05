@@ -7,7 +7,7 @@ export interface Props {
   context?: 'hub' | 'theme';
 }
 
-const { experience, context = 'hub' } = Astro.props;
+const { experience, context: _context = 'hub' } = Astro.props;
 
 const allDestinationsString = experience.allDestinationIds.join(',');
 const searchIndexText = [
@@ -23,17 +23,8 @@ const searchIndexText = [
   .join(' ')
   .toLowerCase();
 
-const primaryHref = experience.hasDetailGuide
-  ? `/experiences/${experience.themeId}/${experience.id}/`
-  : context === 'hub'
-    ? `/experiences/${experience.themeId}/#${experience.id}`
-    : `/destinations/#${experience.primaryDestinationId}`;
-
-const primaryLinkLabel = experience.hasDetailGuide
-  ? 'Read activity guide'
-  : context === 'hub'
-    ? `Explore ${experience.themeLabel}`
-    : `View ${experience.primaryDestinationName} in Destinations`;
+const guideHref = `/experiences/${experience.themeId}/${experience.id}/`;
+const destinationHref = `/destinations/#${experience.primaryDestinationId}`;
 
 const isUnverified = experience.editorialStatus !== 'reviewed';
 const editorialLabel =
@@ -58,7 +49,7 @@ const editorialLabel =
   data-status={experience.editorialStatus}
   data-search-text={searchIndexText}
 >
-  <a href={primaryHref} class="exp-card-media" tabindex="-1" aria-hidden="true">
+  <a href={guideHref} class="exp-card-media" tabindex="-1" aria-hidden="true">
     <Image
       src={experience.image}
       alt={experience.imageAlt}
@@ -75,29 +66,55 @@ const editorialLabel =
 
   <div class="exp-card-body">
     <div class="exp-card-kicker">
-      <a href={`/destinations/#${experience.primaryDestinationId}`} class="exp-card-destination">
-        {experience.primaryDestinationName}
+      <a href={destinationHref} class="exp-card-destination" title={`View ${experience.primaryDestinationName} in Destinations directory`}>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>{experience.primaryDestinationName}</span>
       </a>
       <span class="exp-card-dot" aria-hidden="true">·</span>
       <span class="exp-card-effort">{experience.effort}</span>
     </div>
 
     <h3 class="exp-card-title">
-      <a href={primaryHref}>{experience.title}</a>
+      <a href={guideHref}>{experience.title}</a>
     </h3>
 
     <p class="exp-card-summary">{experience.summary}</p>
 
-    <p class="exp-card-detail">
-      <strong>Season:</strong> {experience.seasonSummary}
-    </p>
+    <div class="exp-card-meta">
+      <p class="exp-card-detail">
+        <strong class="meta-label">Season:</strong>
+        <span>{experience.seasonSummary}</span>
+      </p>
+
+      {experience.relatedDestinations && experience.relatedDestinations.length > 0 && (
+        <div class="exp-card-related">
+          <span class="related-label">Also:</span>
+          <div class="related-pills">
+            {experience.relatedDestinations.slice(0, 2).map((rel) => (
+              <a href={`/destinations/#${rel.id}`} class="related-pill" title={`${rel.name}: ${rel.relationship}`}>
+                {rel.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
 
     <div class="exp-card-footer">
-      <a href={primaryHref} class="exp-card-cta">
-        <span>{primaryLinkLabel}</span>
+      <a href={guideHref} class="exp-card-cta-primary">
+        <span>Read activity guide</span>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
         </svg>
+      </a>
+
+      <a href={destinationHref} class="exp-card-cta-secondary" title={`View ${experience.primaryDestinationName} on the island map`}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/>
+        </svg>
+        <span>Map</span>
       </a>
     </div>
   </div>
@@ -107,22 +124,26 @@ const editorialLabel =
   .exp-card {
     display: flex;
     flex-direction: column;
-    background: #ffffff;
-    border: 1px solid rgba(20, 38, 28, 0.09);
-    border-radius: 0.95rem;
+    background: linear-gradient(178deg, rgba(8, 42, 38, 0.94) 0%, rgba(5, 30, 27, 0.98) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(20, 91, 89, 0.38);
+    border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(17, 29, 23, 0.035);
+    box-shadow:
+      0 12px 28px rgba(3, 20, 18, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    color: #fbf8f0;
     transition:
-      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
       border-color 200ms ease;
     scroll-margin-top: 6rem;
   }
 
   .exp-card.is-unverified {
-    background: #faf7f0;
     border-style: dashed;
-    border-color: rgba(146, 98, 24, 0.28);
+    border-color: rgba(217, 154, 69, 0.55);
   }
 
   .exp-card[hidden] {
@@ -130,9 +151,11 @@ const editorialLabel =
   }
 
   .exp-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(17, 29, 23, 0.075);
-    border-color: rgba(15, 118, 110, 0.26);
+    transform: translateY(-3px);
+    box-shadow:
+      0 20px 42px rgba(3, 20, 18, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(240, 212, 141, 0.55);
   }
 
   .exp-card-media {
@@ -140,7 +163,7 @@ const editorialLabel =
     display: block;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: #13251d;
+    background: #062320;
     text-decoration: none;
   }
 
@@ -161,9 +184,9 @@ const editorialLabel =
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(8, 19, 15, 0.38) 0%,
-      rgba(8, 19, 15, 0) 48%,
-      rgba(8, 19, 15, 0.28) 100%
+      rgba(4, 22, 20, 0.45) 0%,
+      rgba(4, 22, 20, 0.05) 50%,
+      rgba(4, 22, 20, 0.55) 100%
     );
     pointer-events: none;
   }
@@ -175,16 +198,16 @@ const editorialLabel =
     z-index: 2;
     display: inline-flex;
     align-items: center;
-    padding: 0.22rem 0.58rem;
+    padding: 0.24rem 0.6rem;
     border-radius: 999px;
-    background: rgba(10, 26, 20, 0.76);
+    background: rgba(4, 24, 22, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #f8f5ec;
+    border: 1px solid rgba(240, 212, 141, 0.38);
+    color: #f0d48d;
     font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     max-width: calc(100% - 1.4rem);
     white-space: nowrap;
     overflow: hidden;
@@ -200,9 +223,12 @@ const editorialLabel =
     align-items: center;
     padding: 0.18rem 0.52rem;
     border-radius: 999px;
-    background: rgba(254, 243, 199, 0.94);
-    color: #78350f;
-    font-size: 0.64rem;
+    background: rgba(45, 28, 6, 0.88);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(240, 180, 70, 0.5);
+    color: #fef3c7;
+    font-size: 0.63rem;
     font-weight: 700;
     letter-spacing: 0.02em;
   }
@@ -211,7 +237,7 @@ const editorialLabel =
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 1rem 1.15rem 1.05rem;
+    padding: 1.05rem 1.15rem 1.1rem;
     gap: 0.45rem;
   }
 
@@ -221,12 +247,15 @@ const editorialLabel =
     gap: 0.38rem;
     font-size: 0.74rem;
     line-height: 1.3;
-    color: #5a6b60;
+    color: #99f6e4;
   }
 
   .exp-card-destination {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     font-weight: 700;
-    color: #0f766e;
+    color: #5eead4;
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
@@ -234,27 +263,28 @@ const editorialLabel =
   }
 
   .exp-card-destination:hover {
+    color: #f0d48d;
     text-decoration: underline;
   }
 
   .exp-card-dot {
-    color: #95a39a;
+    color: rgba(246, 241, 231, 0.45);
   }
 
   .exp-card-effort {
-    font-weight: 500;
-    color: #5a6b60;
+    font-weight: 600;
+    color: rgba(246, 241, 231, 0.78);
     flex-shrink: 0;
   }
 
   .exp-card-title {
     margin: 0;
     font-family: var(--font-serif);
-    font-size: clamp(1.14rem, 1.3vw, 1.26rem);
+    font-size: clamp(1.15rem, 1.3vw, 1.28rem);
     font-weight: 600;
     line-height: 1.24;
     letter-spacing: -0.015em;
-    color: #14261c;
+    color: #fbf8f0;
   }
 
   .exp-card-title a {
@@ -264,63 +294,130 @@ const editorialLabel =
   }
 
   .exp-card-title a:hover {
-    color: #0f766e;
+    color: #f0d48d;
   }
 
   .exp-card-summary {
     margin: 0;
     font-size: 0.85rem;
     line-height: 1.54;
-    color: #48584e;
+    color: rgba(246, 241, 231, 0.85);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  .exp-card-meta {
+    margin-top: 0.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
   .exp-card-detail {
-    margin: 0.15rem 0 0;
+    margin: 0;
     font-size: 0.76rem;
     line-height: 1.42;
-    color: #526258;
+    color: rgba(246, 241, 231, 0.75);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .exp-card-detail strong {
-    color: #1c3024;
+    color: #f0d48d;
     font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  .exp-card-related {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .related-label {
+    color: rgba(246, 241, 231, 0.6);
+    font-weight: 600;
+  }
+
+  .related-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .related-pill {
+    display: inline-block;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.42);
+    border: 1px solid rgba(246, 241, 231, 0.18);
+    color: #99f6e4;
+    font-size: 0.68rem;
+    text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .related-pill:hover {
+    background: rgba(20, 91, 89, 0.75);
+    border-color: rgba(240, 212, 141, 0.5);
+    color: #f0d48d;
   }
 
   .exp-card-footer {
     margin-top: auto;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba(20, 38, 28, 0.07);
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(246, 241, 231, 0.14);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
-  .exp-card-cta {
+  .exp-card-cta-primary {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 0.35rem;
     font-size: 0.78rem;
     font-weight: 700;
-    color: #0f766e;
+    color: #f0d48d;
     text-decoration: none;
     transition: color 150ms ease;
   }
 
-  .exp-card-cta:hover {
-    color: #0b5852;
+  .exp-card-cta-primary:hover {
+    color: #fef08a;
   }
 
-  .exp-card-cta svg {
+  .exp-card-cta-primary svg {
     transition: transform 150ms ease;
   }
 
-  .exp-card-cta:hover svg {
+  .exp-card-cta-primary:hover svg {
     transform: translateX(2px);
+  }
+
+  .exp-card-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(246, 241, 231, 0.08);
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    color: rgba(246, 241, 231, 0.85);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .exp-card-cta-secondary:hover {
+    background: rgba(246, 241, 231, 0.16);
+    border-color: rgba(240, 212, 141, 0.45);
+    color: #f0d48d;
   }
 </style>
