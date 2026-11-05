@@ -397,8 +397,9 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .destinations-hero h1 {
     margin: 0;
     color: #fbf8f0;
-    font: 500 clamp(2.35rem, 4.4vw, 3.75rem)/1.08 var(--font-serif);
+    font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
     letter-spacing: -0.03em;
+    text-wrap: balance;
   }
 
   .destinations-hero h1 em { color: #f0d48d; font-weight: 500; }
@@ -541,6 +542,17 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
 
   @media (max-width: 54rem) {
     .destinations-hero { padding-top: calc(4.35rem + 1.75rem); }
+    .destinations-hero h1 {
+      font-size: var(--text-hero-subpage-mobile, clamp(1.95rem, 6.8vw, 2.75rem));
+      line-height: 1.08;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .destinations-hero h1 {
+      font-size: var(--text-hero-subpage-narrow, clamp(1.8rem, 6.2vw, 2.35rem));
+      line-height: 1.1;
+    }
   }
 
   @media (max-width: 40rem) {

@@ -34,6 +34,14 @@
   --text-xl: clamp(1.35rem, 1.18rem + 0.65vw, 1.7rem);
   --text-2xl: clamp(1.85rem, 1.45rem + 1.5vw, 2.75rem);
   --text-hero: clamp(2.25rem, 1.75rem + 2.4vw, 3.65rem);
+  --text-hero-subpage: clamp(2.15rem, 3.8vw, 3.25rem);
+  --text-hero-subpage-mobile: clamp(1.95rem, 6.8vw, 2.75rem);
+  --text-hero-subpage-narrow: clamp(1.8rem, 6.2vw, 2.35rem);
+
+  --glass-card-bg: rgba(6, 32, 29, 0.76);
+  --glass-card-bg-hover: rgba(8, 40, 36, 0.88);
+  --glass-card-border: rgba(246, 241, 231, 0.16);
+  --glass-card-border-hover: rgba(240, 212, 141, 0.45);
 
   --space-2xs: 0.375rem;
   --space-xs: 0.75rem;
