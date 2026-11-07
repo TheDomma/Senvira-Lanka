@@ -75,15 +75,18 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                   </div>
                 )}
                 <div class="reise-card-shade" aria-hidden="true"></div>
-                <span class="reise-card-number">{place.number}</span>
+                <span class="reise-card-number">Hub {place.number}</span>
                 <span class="reise-card-badge">{place.badge}</span>
-                <div class="reise-card-media-title">
-                  <small>{place.provinceArea}</small>
-                  <h3>{place.name}</h3>
-                </div>
               </div>
 
               <div class="reise-card-body">
+                <div class="reise-card-kicker">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>{place.provinceArea}</span>
+                </div>
+                <h3 class="reise-card-title">{place.name}</h3>
                 <p class="reise-card-why">{place.whyFeatureIt}</p>
                 <div class="reise-card-chips">
                   {place.highlights.slice(0, 3).map((tag) => (
@@ -289,6 +292,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                             style={`object-position: ${cardPhoto.objectPosition || 'center 45%'};`}
                           />
                           <div class="catalogue-card-shade" aria-hidden="true" />
+                          <span class="catalogue-card-tag">{entry.categoryLabel}</span>
                           {cardPhoto.credit && (
                             <span class="catalogue-card-credit" title={`Photo: ${cardPhoto.credit}`}>
                               {cardPhoto.credit}
@@ -300,10 +304,15 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                       <div class="catalogue-card-content">
                         <div class="card-top-meta">
                           <span class={`tier-pill tier-pill-${entry.tier}`}>{entry.tierLabel}</span>
-                          <span class="cat-pill">{entry.categoryLabel}</span>
+                          {!cardPhoto && <span class="cat-pill">{entry.categoryLabel}</span>}
+                          <span class="card-province-meta">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span>{entry.provinceArea}</span>
+                          </span>
                         </div>
 
-                        <p class="card-province">{entry.provinceArea}</p>
                         <h4 class="card-title">{entry.name}</h4>
                         <p class="card-description">{entry.description}</p>
 
@@ -328,7 +337,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                                 </button>
                                 {entry.hubId !== entry.id && (
                                   <span class="nearby-base-note">
-                                    Nearby base: <strong>{entry.hubName}</strong>
+                                    Near: <strong>{entry.hubName}</strong>
                                   </span>
                                 )}
                               </>
@@ -341,7 +350,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
                                   Not mapped yet
                                 </span>
                                 <span class="nearby-base-note">
-                                  Nearby base: <strong>{entry.hubName}</strong>
+                                  Near: <strong>{entry.hubName}</strong>
                                 </span>
                               </>
                             )}
@@ -532,13 +541,9 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .featured-showcase-section {
     scroll-margin-top: 5.5rem;
     padding-block: clamp(3.5rem, 5.5vw, 5rem);
-    background:
-      radial-gradient(ellipse at 15% 10%, rgba(217, 154, 69, 0.05), transparent 36rem),
-      radial-gradient(ellipse at 85% 90%, rgba(11, 79, 75, 0.35), transparent 40rem),
-      linear-gradient(180deg, #031413 0%, #052422 50%, #031413 100%);
-    color: var(--dp-text, #f6f1e7);
-    border-top: 1px solid rgba(246, 241, 231, 0.1);
-    border-bottom: 1px solid rgba(246, 241, 231, 0.1);
+    background: transparent;
+    color: #14261c;
+    border-top: 1px solid rgba(20, 38, 28, 0.08);
   }
 
   .showcase-header {
@@ -555,24 +560,25 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    color: #f0d48d;
-    font-size: 0.66rem;
+    color: #0f766e;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
   .section-kicker-light::before {
+    display: inline-block;
     width: 0.38rem;
     height: 0.38rem;
     border-radius: 50%;
-    background: #e9c66f;
+    background: #0f766e;
     content: '';
   }
 
   .showcase-header h2 {
     margin: 0;
-    color: #fbf8f0;
+    color: #14261c;
     font: 500 clamp(1.95rem, 3.4vw, 2.75rem)/1.1 var(--font-serif);
     letter-spacing: -0.025em;
   }
@@ -580,7 +586,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .showcase-lead {
     max-width: 54ch;
     margin: 0.75rem 0 0;
-    color: rgba(250, 248, 240, 0.8);
+    color: #3e5046;
     font-size: clamp(0.88rem, 1.05vw, 0.95rem);
     line-height: 1.68;
   }
@@ -592,52 +598,62 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   }
 
   .showcase-stat-pills span {
-    padding: 0.35rem 0.75rem;
-    border: 1px solid rgba(246, 241, 231, 0.14);
+    padding: 0.38rem 0.8rem;
+    border: 1px solid rgba(20, 38, 28, 0.12);
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.06);
-    color: rgba(250, 248, 240, 0.85);
-    font-size: 0.68rem;
+    background: #ffffff;
+    color: #26382e;
+    font-size: 0.72rem;
     font-weight: 600;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 6px rgba(20, 38, 28, 0.04);
   }
 
   .featured-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.35rem;
+    gap: 1.25rem;
   }
 
   .reise-featured-card {
     position: relative;
     display: flex;
     flex-direction: column;
+    background: #072623;
+    background: linear-gradient(178deg, rgba(8, 42, 38, 0.85) 0%, rgba(5, 30, 27, 0.94) 100%);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+    border: 1px solid rgba(246, 241, 231, 0.16);
+    border-radius: 1rem;
     overflow: hidden;
-    border: 1px solid rgba(246, 241, 231, 0.14);
-    border-radius: 1.25rem;
-    background: linear-gradient(165deg, rgba(8, 44, 40, 0.55), rgba(3, 24, 22, 0.78));
-    box-shadow: 0 18px 38px -14px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px) saturate(130%);
-    -webkit-backdrop-filter: blur(20px) saturate(130%);
+    box-shadow:
+      0 14px 34px rgba(3, 20, 18, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    color: #fbf8f0;
     cursor: pointer;
-    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1), border-color 220ms ease, box-shadow 220ms ease;
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms ease;
   }
 
   .reise-featured-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(240, 212, 141, 0.6);
-    box-shadow: 0 22px 46px -12px rgba(0, 0, 0, 0.7);
+    box-shadow:
+      0 22px 46px rgba(3, 20, 18, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    border-color: rgba(240, 212, 141, 0.50);
   }
 
   .reise-featured-card.is-selected-hub {
     border-color: #f0d48d;
-    box-shadow: 0 0 0 1px rgba(240, 212, 141, 0.4), 0 22px 46px -12px rgba(0, 0, 0, 0.7);
+    box-shadow:
+      0 0 0 2px rgba(240, 212, 141, 0.4),
+      0 22px 46px rgba(3, 20, 18, 0.32);
   }
 
   .reise-card-media {
     position: relative;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
     background: #06201e;
     flex: 0 0 auto;
@@ -649,12 +665,12 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     height: 100%;
     object-fit: cover;
     object-position: center 45%;
-    filter: saturate(0.96) brightness(0.92);
-    transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+    display: block;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .reise-featured-card:hover .reise-card-img {
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
 
   .reise-card-fallback {
@@ -673,7 +689,13 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(3, 16, 14, 0.35) 0%, transparent 38%, rgba(3, 16, 14, 0.9) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(4, 22, 20, 0.45) 0%,
+      rgba(4, 22, 20, 0.05) 50%,
+      rgba(4, 22, 20, 0.55) 100%
+    );
+    pointer-events: none;
   }
 
   .reise-card-number {
@@ -681,18 +703,18 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     top: 0.75rem;
     left: 0.75rem;
     z-index: 2;
-    display: grid;
-    min-width: 1.85rem;
-    min-height: 1.85rem;
-    place-items: center;
-    padding: 0.15rem 0.45rem;
-    border: 1px solid rgba(246, 241, 231, 0.2);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.6rem;
     border-radius: 999px;
-    background: rgba(5, 24, 22, 0.75);
-    color: #f0d48d;
-    font: 600 0.8rem var(--font-serif);
+    background: rgba(4, 24, 22, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 212, 141, 0.38);
+    color: #f0d48d;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .reise-card-badge {
@@ -700,121 +722,141 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     top: 0.75rem;
     right: 0.75rem;
     z-index: 2;
-    padding: 0.24rem 0.58rem;
-    border: 1px solid rgba(246, 241, 231, 0.18);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.6rem;
     border-radius: 999px;
-    background: rgba(14, 58, 52, 0.8);
-    color: #fbf8f0;
-    font: 650 0.62rem/1.1 var(--font-sans);
-    letter-spacing: 0.04em;
+    background: rgba(4, 24, 22, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-  }
-
-  .reise-card-media-title {
-    position: absolute;
-    right: 0.95rem;
-    bottom: 0.85rem;
-    left: 0.95rem;
-    z-index: 2;
-  }
-
-  .reise-card-media-title small {
-    display: block;
-    margin-bottom: 0.15rem;
-    color: #f0d48d;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .reise-card-media-title h3 {
-    margin: 0;
-    color: #ffffff;
-    font: 500 clamp(1.25rem, 1.6vw, 1.45rem)/1.12 var(--font-serif);
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    color: #fbf8f0;
+    font-size: 0.64rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
   }
 
   .reise-card-body {
     display: flex;
-    flex: 1 1 auto;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.85rem;
-    padding: 1.1rem 1.15rem 1.15rem;
+    flex: 1 1 auto;
+    padding: 1.05rem 1.15rem 1.1rem;
+    gap: 0.45rem;
+  }
+
+  .reise-card-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.74rem;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #5eead4;
+  }
+
+  .reise-card-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.3vw, 1.32rem);
+    font-weight: 600;
+    line-height: 1.24;
+    letter-spacing: -0.015em;
+    color: #fbf8f0;
+    transition: color 150ms ease;
+  }
+
+  .reise-featured-card:hover .reise-card-title {
+    color: #f0d48d;
   }
 
   .reise-card-why {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.54;
+    color: rgba(246, 241, 231, 0.85);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: calc(3 * 1.6em);
-    margin: 0;
-    color: rgba(250, 248, 240, 0.82);
-    font-size: 0.8rem;
-    line-height: 1.6;
   }
 
   .reise-card-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
-    min-height: 2.85rem;
-    align-content: flex-start;
+    margin-top: 0.15rem;
   }
 
   .reise-card-chips span {
-    padding: 0.22rem 0.52rem;
-    border: 1px solid rgba(246, 241, 231, 0.1);
+    display: inline-block;
+    padding: 0.14rem 0.5rem;
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.05);
-    color: rgba(250, 248, 240, 0.8);
-    font-size: 0.65rem;
+    background: rgba(20, 91, 89, 0.42);
+    border: 1px solid rgba(246, 241, 231, 0.18);
+    color: #99f6e4;
+    font-size: 0.68rem;
     font-weight: 500;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .reise-featured-card:hover .reise-card-chips span {
+    border-color: rgba(240, 212, 141, 0.35);
   }
 
   .reise-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.6rem;
+    gap: 0.5rem;
     margin-top: auto;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba(246, 241, 231, 0.1);
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(246, 241, 231, 0.14);
   }
 
   .inspect-map-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    min-height: 2.15rem;
-    padding: 0.35rem 0.75rem;
-    border: 1px solid rgba(246, 241, 231, 0.2);
-    border-radius: 999px;
-    background: rgba(246, 241, 231, 0.06);
-    color: rgba(250, 248, 240, 0.9);
-    font: 650 0.7rem/1 var(--font-sans);
+    gap: 0.35rem;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f0d48d;
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+    transition: color 150ms ease;
   }
 
   .inspect-map-btn:hover {
-    border-color: #f0d48d;
-    background: rgba(14, 64, 58, 0.9);
-    color: #ffffff;
+    color: #fef08a;
+  }
+
+  .inspect-map-btn span:last-child {
+    transition: transform 150ms ease;
+  }
+
+  .inspect-map-btn:hover span:last-child {
+    transform: translateY(-2px);
   }
 
   .plan-mini-link {
-    color: rgba(250, 248, 240, 0.78);
-    font: 600 0.72rem var(--font-sans);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(246, 241, 231, 0.08);
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    color: rgba(246, 241, 231, 0.85);
+    font-size: 0.72rem;
+    font-weight: 600;
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
   }
 
   .plan-mini-link:hover {
+    background: rgba(246, 241, 231, 0.16);
+    border-color: rgba(240, 212, 141, 0.45);
     color: #f0d48d;
   }
 
@@ -824,11 +866,10 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .catalogue-section {
     scroll-margin-top: 5.5rem;
     padding-block: clamp(3.5rem, 5.5vw, 5.5rem);
-    background:
-      radial-gradient(circle at 0% 15%, rgba(11, 79, 75, 0.28), transparent 34rem),
-      radial-gradient(circle at 100% 55%, rgba(217, 154, 69, 0.04), transparent 36rem),
-      linear-gradient(180deg, #031413 0%, #041b19 45%, #020f0e 100%);
-    color: var(--dp-text, #f6f1e7);
+    background: #f4f0e4;
+    border-top: 1px solid rgba(20, 38, 28, 0.08);
+    border-bottom: 1px solid rgba(20, 38, 28, 0.08);
+    color: #14261c;
   }
 
   .catalogue-intro {
@@ -845,24 +886,25 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    color: #f0d48d;
-    font-size: 0.66rem;
+    color: #0f766e;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
   .section-kicker-dark::before {
+    display: inline-block;
     width: 0.38rem;
     height: 0.38rem;
     border-radius: 50%;
-    background: #e9c66f;
+    background: #0f766e;
     content: '';
   }
 
   .catalogue-intro h2 {
     margin: 0;
-    color: #fbf8f0;
+    color: #14261c;
     font: 500 clamp(1.95rem, 3.4vw, 2.75rem)/1.1 var(--font-serif);
     letter-spacing: -0.025em;
   }
@@ -870,7 +912,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .catalogue-lead {
     max-width: 58ch;
     margin: 0.75rem 0 0;
-    color: rgba(250, 248, 240, 0.8);
+    color: #3e5046;
     font-size: clamp(0.88rem, 1.05vw, 0.95rem);
     line-height: 1.68;
   }
@@ -880,21 +922,19 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     align-items: baseline;
     gap: 0.5rem;
     padding: 0.65rem 1.15rem;
-    border: 1px solid rgba(246, 241, 231, 0.12);
+    border: 1px solid rgba(20, 38, 28, 0.12);
     border-radius: 1rem;
-    background: rgba(5, 30, 28, 0.7);
-    box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(20, 38, 28, 0.05);
   }
 
   .catalogue-counter-box strong {
-    color: #f0d48d;
+    color: #0f766e;
     font: 600 1.75rem/1 var(--font-serif);
   }
 
   .catalogue-counter-box span {
-    color: rgba(250, 248, 240, 0.72);
+    color: #3e5046;
     font-size: 0.75rem;
     font-weight: 600;
   }
@@ -904,12 +944,10 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     gap: 0.85rem;
     margin-bottom: 2.25rem;
     padding: 1.15rem 1.25rem;
-    border: 1px solid rgba(246, 241, 231, 0.12);
+    border: 1px solid rgba(20, 38, 28, 0.1);
     border-radius: 1.25rem;
-    background: rgba(5, 28, 26, 0.75);
-    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px) saturate(130%);
-    -webkit-backdrop-filter: blur(20px) saturate(130%);
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(20, 38, 28, 0.04);
   }
 
   .tier-tabs {
@@ -925,35 +963,33 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0.55rem 0.9rem;
-    border: 1px solid rgba(246, 241, 231, 0.12);
+    border: 1px solid rgba(20, 38, 28, 0.12);
     border-radius: 0.8rem;
-    background: rgba(246, 241, 231, 0.05);
-    color: rgba(250, 248, 240, 0.85);
+    background: #fcfbf8;
+    color: #26382e;
     font: 600 0.76rem/1.2 var(--font-sans);
     cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
   }
 
   .tier-tab:hover {
-    border-color: rgba(246, 241, 231, 0.32);
-    background: rgba(246, 241, 231, 0.1);
-    color: #ffffff;
+    border-color: rgba(20, 38, 28, 0.28);
+    background: #f4efe4;
+    color: #14261c;
     transform: translateY(-1px);
   }
 
   .tier-tab.active {
-    border-color: #f0d48d;
-    background: rgba(14, 64, 58, 0.85);
-    color: #ffffff;
+    border-color: #14261c;
+    background: #14261c;
+    color: #fbf8f0;
   }
 
   .tier-tab small {
     padding: 0.18rem 0.5rem;
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.1);
-    color: rgba(250, 248, 240, 0.85);
+    background: rgba(20, 38, 28, 0.08);
+    color: #26382e;
     font-size: 0.68rem;
     font-weight: 700;
   }
@@ -980,7 +1016,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .cat-search-icon {
     position: absolute;
     left: 0.9rem;
-    color: rgba(240, 212, 141, 0.7);
+    color: #0f766e;
     pointer-events: none;
   }
 
@@ -988,17 +1024,23 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     width: 100%;
     min-height: 2.65rem;
     padding: 0.5rem 0.9rem 0.5rem 2.45rem;
-    border: 1px solid rgba(246, 241, 231, 0.14);
+    border: 1px solid rgba(20, 38, 28, 0.16);
     border-radius: 999px;
-    background: rgba(2, 18, 16, 0.65);
-    color: var(--color-ivory);
+    background: #fcfbf8;
+    color: #14261c;
     font: 500 0.8rem/1.3 var(--font-sans);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .catalogue-search:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+    background: #ffffff;
   }
 
   .catalogue-search::placeholder {
-    color: rgba(246, 241, 231, 0.45);
+    color: rgba(20, 38, 28, 0.45);
   }
 
   .catalogue-category-pills,
@@ -1012,62 +1054,56 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .cat-region-pill {
     min-height: 2.15rem;
     padding: 0.35rem 0.75rem;
-    border: 1px solid rgba(246, 241, 231, 0.12);
+    border: 1px solid rgba(20, 38, 28, 0.14);
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.05);
-    color: rgba(250, 248, 240, 0.85);
+    background: #fcfbf8;
+    color: #26382e;
     font: 600 0.7rem/1 var(--font-sans);
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
   }
 
   .cat-theme-pill:hover,
   .cat-region-pill:hover {
-    border-color: rgba(246, 241, 231, 0.3);
-    background: rgba(246, 241, 231, 0.1);
-    color: #ffffff;
+    border-color: rgba(20, 38, 28, 0.28);
+    background: #f4efe4;
+    color: #14261c;
   }
 
   .cat-theme-pill.active,
   .cat-region-pill.active {
-    border-color: #f0d48d;
-    background: rgba(14, 64, 58, 0.85);
+    border-color: #0f766e;
+    background: #0f766e;
     color: #ffffff;
   }
 
   .catalogue-empty {
     padding: 2.5rem 1.5rem;
-    border: 1px dashed rgba(246, 241, 231, 0.2);
+    border: 1px dashed rgba(20, 38, 28, 0.2);
     border-radius: 1.15rem;
-    background: rgba(3, 20, 18, 0.5);
+    background: #ffffff;
     text-align: center;
   }
 
   .catalogue-empty p {
     margin: 0 auto 0.75rem;
-    color: rgba(250, 248, 240, 0.75);
+    color: #3e5046;
   }
 
   .catalogue-reset-btn {
     min-height: 2.5rem;
     padding: 0.5rem 1.15rem;
-    border: 1px solid rgba(246, 241, 231, 0.2);
+    border: none;
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.08);
-    color: #f0d48d;
+    background: #0f766e;
+    color: #ffffff;
     font: 650 0.76rem var(--font-sans);
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: background-color 160ms ease, border-color 160ms ease;
+    transition: background-color 160ms ease;
   }
 
   .catalogue-reset-btn:hover {
-    border-color: #f0d48d;
-    background: rgba(14, 64, 58, 0.85);
-    color: #ffffff;
+    background: #115e59;
   }
 
   .regional-sections {
@@ -1084,11 +1120,11 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     position: relative;
     min-height: 11.5rem;
     overflow: hidden;
-    border: 1px solid rgba(246, 241, 231, 0.14);
+    border: 1px solid rgba(20, 38, 28, 0.14);
     border-radius: 1.25rem;
     background: var(--color-forest-deep);
     color: var(--color-ivory);
-    box-shadow: 0 18px 38px -22px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 16px 36px -16px rgba(3, 20, 18, 0.25);
     isolation: isolate;
   }
 
@@ -1188,7 +1224,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   .catalogue-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.15rem;
+    gap: 1.25rem;
   }
 
   .catalogue-card {
@@ -1198,14 +1234,20 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     justify-content: space-between;
     padding: 0;
     overflow: hidden;
-    border: 1px solid rgba(246, 241, 231, 0.12);
-    border-top: 2px solid rgba(246, 241, 231, 0.22);
-    border-radius: 1.15rem;
-    background: linear-gradient(165deg, rgba(8, 42, 38, 0.55), rgba(3, 24, 22, 0.78));
-    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px) saturate(130%);
-    -webkit-backdrop-filter: blur(20px) saturate(130%);
-    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+    background: #072623;
+    background: linear-gradient(178deg, rgba(8, 42, 38, 0.85) 0%, rgba(5, 30, 27, 0.94) 100%);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+    border: 1px solid rgba(246, 241, 231, 0.16);
+    border-radius: 1rem;
+    box-shadow:
+      0 14px 34px rgba(3, 20, 18, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    color: #fbf8f0;
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms ease;
   }
 
   .catalogue-card.is-mapped-card {
@@ -1214,21 +1256,25 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
 
   .catalogue-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(240, 212, 141, 0.5);
-    box-shadow: 0 20px 42px -14px rgba(0, 0, 0, 0.7);
+    box-shadow:
+      0 22px 46px rgba(3, 20, 18, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    border-color: rgba(240, 212, 141, 0.50);
   }
 
   .catalogue-card.is-selected-card {
     border-color: #f0d48d;
-    box-shadow: 0 0 0 1px rgba(240, 212, 141, 0.4), 0 18px 36px -16px rgba(0, 0, 0, 0.6);
+    box-shadow:
+      0 0 0 2px rgba(240, 212, 141, 0.4),
+      0 22px 46px rgba(3, 20, 18, 0.32);
   }
 
   .catalogue-card-media {
     position: relative;
     width: 100%;
-    height: 10.75rem;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: #041c1a;
+    background: #06201e;
     flex: 0 0 auto;
     isolation: isolate;
   }
@@ -1237,19 +1283,48 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: saturate(0.96) brightness(0.94);
-    transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+    display: block;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .catalogue-card:hover .catalogue-card-img {
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
 
   .catalogue-card-shade {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(3, 16, 14, 0.1) 0%, transparent 45%, rgba(3, 16, 14, 0.85) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(4, 22, 20, 0.45) 0%,
+      rgba(4, 22, 20, 0.05) 50%,
+      rgba(4, 22, 20, 0.55) 100%
+    );
+    pointer-events: none;
+  }
+
+  .catalogue-card-tag {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(4, 24, 22, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 212, 141, 0.38);
+    color: #f0d48d;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    max-width: calc(100% - 1.4rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .catalogue-card-credit {
@@ -1275,9 +1350,8 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 1.1rem 1.15rem 1.15rem;
-    background: transparent;
+    padding: 1.05rem 1.15rem 1.1rem;
+    gap: 0.45rem;
   }
 
   .card-top-meta {
@@ -1286,7 +1360,7 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     align-items: center;
     justify-content: space-between;
     gap: 0.4rem;
-    margin-bottom: 0.55rem;
+    margin-bottom: 0.15rem;
   }
 
   .tier-pill {
@@ -1298,69 +1372,90 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   }
 
   .tier-pill-featured {
-    background: rgba(217, 154, 69, 0.18);
-    border: 1px solid rgba(240, 212, 141, 0.28);
+    background: rgba(217, 154, 69, 0.22);
+    border: 1px solid rgba(240, 212, 141, 0.38);
     color: #f0d48d;
   }
 
   .tier-pill-core {
-    background: rgba(20, 91, 89, 0.35);
-    border: 1px solid rgba(20, 91, 89, 0.45);
-    color: #bfe9e3;
+    background: rgba(20, 91, 89, 0.45);
+    border: 1px solid rgba(94, 234, 212, 0.35);
+    color: #99f6e4;
   }
 
   .tier-pill-extended {
-    background: rgba(246, 241, 231, 0.07);
-    border: 1px solid rgba(246, 241, 231, 0.15);
-    color: rgba(250, 248, 240, 0.85);
+    background: rgba(246, 241, 231, 0.08);
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    color: rgba(250, 248, 240, 0.88);
   }
 
   .tier-pill-attraction {
-    background: rgba(246, 241, 231, 0.05);
-    border: 1px solid rgba(246, 241, 231, 0.12);
-    color: rgba(250, 248, 240, 0.75);
+    background: rgba(246, 241, 231, 0.06);
+    border: 1px solid rgba(246, 241, 231, 0.14);
+    color: rgba(250, 248, 240, 0.78);
   }
 
   .cat-pill {
-    color: rgba(250, 248, 240, 0.65);
+    color: #99f6e4;
     font: 600 0.64rem/1.1 var(--font-sans);
   }
 
-  .card-province {
-    margin: 0 0 0.2rem;
-    color: rgba(250, 248, 240, 0.65);
-    font: 650 0.62rem/1.3 var(--font-sans);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .card-province-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #5eead4;
+    font-size: 0.68rem;
+    font-weight: 700;
   }
 
   .card-title {
-    margin: 0 0 0.4rem;
+    margin: 0;
     color: #fbf8f0;
-    font: 500 clamp(1.15rem, 1.45vw, 1.35rem)/1.15 var(--font-serif);
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.3vw, 1.28rem);
+    font-weight: 600;
+    line-height: 1.24;
+    letter-spacing: -0.015em;
+    transition: color 150ms ease;
+  }
+
+  .catalogue-card:hover .card-title {
+    color: #f0d48d;
   }
 
   .card-description {
-    margin: 0 0 0.75rem;
-    color: rgba(250, 248, 240, 0.8);
-    font-size: 0.78rem;
-    line-height: 1.6;
+    margin: 0;
+    color: rgba(246, 241, 231, 0.85);
+    font-size: 0.85rem;
+    line-height: 1.54;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .card-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.32rem;
-    margin-bottom: 0.85rem;
+    margin-top: 0.15rem;
   }
 
   .card-tag {
-    padding: 0.2rem 0.5rem;
-    border: 1px solid rgba(246, 241, 231, 0.1);
-    border-radius: 0.4rem;
-    background: rgba(246, 241, 231, 0.04);
-    color: rgba(250, 248, 240, 0.75);
-    font: 600 0.64rem/1.15 var(--font-sans);
+    display: inline-block;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.42);
+    border: 1px solid rgba(246, 241, 231, 0.18);
+    color: #99f6e4;
+    font-size: 0.66rem;
+    font-weight: 500;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .catalogue-card:hover .card-tag {
+    border-color: rgba(240, 212, 141, 0.35);
   }
 
   .card-bottom-bar {
@@ -1369,30 +1464,31 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
     justify-content: space-between;
     gap: 0.5rem;
     margin-top: auto;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba(246, 241, 231, 0.1);
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(246, 241, 231, 0.14);
   }
 
   .hub-jump-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.28rem 0.6rem;
-    border: 1px solid rgba(246, 241, 231, 0.18);
+    gap: 0.28rem;
+    padding: 0.25rem 0.55rem;
     border-radius: 999px;
-    background: rgba(246, 241, 231, 0.06);
-    color: rgba(250, 248, 240, 0.88);
-    font: 600 0.66rem/1.1 var(--font-sans);
+    background: rgba(246, 241, 231, 0.08);
+    border: 1px solid rgba(246, 241, 231, 0.2);
+    color: rgba(246, 241, 231, 0.85);
+    font-size: 0.72rem;
+    font-weight: 600;
     cursor: pointer;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
   }
 
   .hub-jump-btn:hover {
-    border-color: #f0d48d;
-    background: rgba(14, 64, 58, 0.85);
-    color: #ffffff;
+    background: rgba(246, 241, 231, 0.16);
+    border-color: rgba(240, 212, 141, 0.45);
+    color: #f0d48d;
   }
 
   .card-location-actions {
@@ -1404,35 +1500,39 @@ const attractionCount = catalogueEntries.filter((e) => e.tier === 'attraction').
   }
 
   .nearby-base-note {
-    color: rgba(250, 248, 240, 0.6);
-    font: 500 0.65rem/1.2 var(--font-sans);
+    color: rgba(246, 241, 231, 0.65);
+    font: 500 0.68rem/1.2 var(--font-sans);
   }
 
   .nearby-base-note strong {
-    color: rgba(250, 248, 240, 0.88);
-    font-weight: 650;
+    color: rgba(246, 241, 231, 0.9);
+    font-weight: 600;
   }
 
   .unmapped-status-pill {
     display: inline-flex;
     align-items: center;
     padding: 0.22rem 0.5rem;
-    border: 1px dashed rgba(246, 241, 231, 0.2);
+    border: 1px dashed rgba(246, 241, 231, 0.25);
     border-radius: 999px;
     background: rgba(246, 241, 231, 0.04);
-    color: rgba(250, 248, 240, 0.65);
+    color: rgba(246, 241, 231, 0.7);
     font: 600 0.62rem/1.1 var(--font-sans);
   }
 
   .card-plan-link {
-    color: rgba(250, 248, 240, 0.78);
-    font: 650 0.7rem var(--font-sans);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f0d48d;
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: color 150ms ease;
   }
 
   .card-plan-link:hover {
-    color: #f0d48d;
+    color: #fef08a;
   }
 
   [hidden] {
