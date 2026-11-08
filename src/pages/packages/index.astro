@@ -1,0 +1,1377 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PackageCard from '../../components/packages/PackageCard.astro';
+import PackageEnquiryForm from '../../components/packages/PackageEnquiryForm.astro';
+import {
+  bands,
+  costStatusLabel,
+  formatRange,
+  getBand,
+  getPackageImage,
+  getPackagesByBand,
+  getPackagesByTheme,
+  hubFaq,
+  launchPackages,
+  officialLinks,
+  plannedPackages,
+  PRICE_BASIS_POINTS,
+  PRICE_BASIS_SHORT,
+  PRICE_DISCLAIMER,
+  PRICE_LABEL,
+  REVIEW_DATE,
+  standardCosts,
+  themes,
+  TIER_NOTE,
+  TIERS,
+} from '../../data/packages';
+
+const pageTitle = 'Sri Lanka Tour Packages & Sample Itineraries | Senvira Lanka';
+const pageDescription =
+  'Browse 12 thoughtfully paced Sri Lanka itinerary starting points from 4 to 21 days, plus 12 custom-quoted draft routes. Compare durations, travel styles, seasonal notes, and transparent land-only planning budgets.';
+
+const heroImage = getPackageImage('nuwara-eliya-tea');
+
+const durationBudgetMatrix = [
+  { band: '4–5 days', budget: 'US$250–450', comfort: 'US$450–850', premium: 'US$1,000–1,900+' },
+  { band: '6–7 days', budget: 'US$350–650', comfort: 'US$650–1,250', premium: 'US$1,500–3,000+' },
+  { band: '8–10 days', budget: 'US$500–900', comfort: 'US$900–1,850', premium: 'US$2,000–4,300+' },
+  { band: '12–14 days', budget: 'US$750–1,250', comfort: 'US$1,350–2,600', premium: 'US$3,000–6,000+' },
+  { band: '15–16 days', budget: 'US$900–1,450', comfort: 'US$1,650–3,000', premium: 'US$3,600–6,800+' },
+  { band: '20–22 days', budget: 'US$1,200–2,000', comfort: 'US$2,200–4,100', premium: 'US$5,000–9,000+' },
+  { band: '28–30 days', budget: 'US$1,700–2,800', comfort: 'US$3,200–5,800', premium: 'US$7,000–13,000+' },
+];
+
+const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="packages-hub">
+    <!-- 1. Editorial Hero -->
+    <header class="hub-hero" data-hero-surface aria-labelledby="hub-title">
+      <div class="hub-hero-bg" aria-hidden="true">
+        <Image
+          src={heroImage.src}
+          alt={heroImage.alt}
+          class="hub-hero-img"
+          widths={[960, 1440, 1920]}
+          sizes="100vw"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="hub-hero-overlay"></div>
+      </div>
+
+      <div class="container hub-hero-inner">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Senvira Lanka · Private Land-Only Itineraries</p>
+          <h1 id="hub-title">
+            Choose a journey by time, then shape it around your <em>travel month.</em>
+          </h1>
+          <p class="hero-copy">
+            Every route below is a practical starting point for a private Sri Lankan trip—built with realistic road pacing, multi-night bases, and honest seasonal caveats. Compare 12 launch itineraries from 4 to 21 days, or ask us to adapt any route to your dates and party.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#catalogue" class="hero-btn hero-btn-primary">
+              <span>Browse 12 launch itineraries</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#enquiry" class="hero-btn hero-btn-secondary">
+              <span>Request a confirmed quote</span>
+            </a>
+          </div>
+
+          <div class="hero-basis-strip" role="note" aria-label="Pricing and planning status">
+            <strong>{PRICE_LABEL}:</strong> {PRICE_BASIS_SHORT} · Reviewed {REVIEW_DATE}. Accommodation/breakfast and core private ground transport assumed; most entry, safari/jeep, rail and optional activity fees excluded unless confirmed in a written quote.
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Browse by Duration, Theme & Budget Tier Controls + Catalogue -->
+    <section id="catalogue" class="hub-section" aria-labelledby="catalogue-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">01 · Curated Starting Points</p>
+            <h2 id="catalogue-heading">Explore itineraries by duration, style &amp; budget basis</h2>
+          </div>
+          <p class="section-subcopy">
+            We keep multiple distinct choices at each trip length rather than forcing every visitor onto a single loop.
+          </p>
+        </div>
+
+        <!-- Filter & Budget Tier Panel -->
+        <div class="hub-controls" role="region" aria-label="Filter packages by duration, travel style and planning tier">
+          <div class="filter-block">
+            <span class="filter-label" id="duration-filter-label">1. Trip duration</span>
+            <div class="pill-row" role="group" aria-labelledby="duration-filter-label">
+              <button
+                type="button"
+                class="filter-pill is-active"
+                data-filter-band="all"
+                aria-pressed="true"
+              >
+                All launch lengths ({launchPackages.length})
+              </button>
+              {launchBands.map((band) => {
+                const count = getPackagesByBand(band.id).length;
+                return (
+                  <button
+                    type="button"
+                    class="filter-pill"
+                    data-filter-band={band.id}
+                    aria-pressed="false"
+                  >
+                    {band.label} · {band.range} ({count})
+                  </button>
+                );
+              })}
+              <a href="#draft-portfolio" class="filter-pill filter-pill-link">
+                28–30 days &amp; draft routes (12) &darr;
+              </a>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <span class="filter-label" id="theme-filter-label">2. Travel style &amp; focus</span>
+            <div class="pill-row" role="group" aria-labelledby="theme-filter-label">
+              <button
+                type="button"
+                class="filter-pill is-active"
+                data-filter-theme="all"
+                aria-pressed="true"
+              >
+                All styles ({launchPackages.length})
+              </button>
+              {themes.map((t) => {
+                const count = getPackagesByTheme(t.id).length;
+                return (
+                  <button
+                    type="button"
+                    class="filter-pill"
+                    data-filter-theme={t.id}
+                    aria-pressed="false"
+                  >
+                    {t.label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div class="tier-selector-bar">
+            <div class="tier-selector-left">
+              <span class="filter-label" id="tier-selector-label">3. Highlighted planning tier on cards</span>
+              <div class="tier-buttons" role="group" aria-labelledby="tier-selector-label">
+                {TIERS.map((tier) => (
+                  <button
+                    type="button"
+                    class:list={['tier-btn', { 'is-active': tier.id === 'comfort' }]}
+                    data-select-tier={tier.id}
+                    aria-pressed={tier.id === 'comfort' ? 'true' : 'false'}
+                  >
+                    <strong>{tier.label}</strong>
+                    <span>{tier.assumption}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <p class="tier-assumption-note">
+              <strong>Basis beside every range:</strong> {PRICE_BASIS_SHORT} (reviewed {REVIEW_DATE}). {TIER_NOTE}
+            </p>
+          </div>
+
+          <div class="hub-status-row">
+            <p class="hub-status-text" data-hub-status aria-live="polite">
+              Showing all <strong>{launchPackages.length}</strong> launch itineraries (Comfort tier highlighted)
+            </p>
+            <button type="button" class="reset-btn" data-hub-reset hidden>
+              Reset filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Package Cards Grid -->
+        <div class="packages-grid" data-packages-grid>
+          {launchPackages.map((pkg) => (
+            <PackageCard pkg={pkg} />
+          ))}
+        </div>
+
+        <!-- Empty state when duration + theme combination has no launch card -->
+        <div class="empty-state" data-hub-empty hidden>
+          <h3>No launch package matches that exact duration and style pair</h3>
+          <p>
+            Try resetting either the duration or the travel style filter, or inspect the 12 additional draft concepts below. Any route can be adapted to your dates.
+          </p>
+          <button type="button" class="btn btn-primary" data-hub-empty-reset>
+            Show all {launchPackages.length} launch packages
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Browse by Travel Theme Overview -->
+    <section id="by-theme" class="hub-section hub-section-alt" aria-labelledby="themes-overview-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">02 · Browse by Motivation</p>
+            <h2 id="themes-overview-heading">Which Sri Lanka journey fits how you travel?</h2>
+          </div>
+          <p class="section-subcopy">
+            Select a theme to filter the launch catalogue above and compare routes built for that interest.
+          </p>
+        </div>
+
+        <div class="theme-cards-grid">
+          {themes.map((t) => {
+            const matching = getPackagesByTheme(t.id);
+            return (
+              <article class="theme-overview-card">
+                <div class="theme-card-top">
+                  <h3>{t.label}</h3>
+                  <span class="theme-count">{matching.length} {matching.length === 1 ? 'route' : 'routes'}</span>
+                </div>
+                <p>{t.blurb}</p>
+                <ul class="theme-sample-links">
+                  {matching.slice(0, 3).map((p) => (
+                    <li>
+                      <a href={`/packages/${p.slug}/`}>
+                        {p.title} ({p.days}d/{p.nights}n) &rarr;
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  class="theme-jump-btn"
+                  data-jump-theme={t.id}
+                >
+                  Filter cards by {t.label}
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. How Pricing Works & Indicative Planning Budget Table -->
+    <section id="pricing-guide" class="hub-section" aria-labelledby="pricing-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">03 · Transparent Price Basis</p>
+            <h2 id="pricing-heading">How indicative planning budgets work</h2>
+          </div>
+          <p class="section-subcopy">
+            Reviewed {REVIEW_DATE}. {PRICE_DISCLAIMER}
+          </p>
+        </div>
+
+        <div class="pricing-layout">
+          <div class="pricing-table-card">
+            <div class="table-caption-bar">
+              <strong>{PRICE_LABEL} by duration</strong>
+              <span>{PRICE_BASIS_SHORT} · reviewed {REVIEW_DATE}</span>
+            </div>
+            <div class="table-scroll">
+              <table class="budget-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Budget<br /><small>Simpler stays</small></th>
+                    <th scope="col">Comfort<br /><small>Modest hotels / boutique guesthouses</small></th>
+                    <th scope="col">Premium<br /><small>Upscale / boutique stays</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {durationBudgetMatrix.map((row) => (
+                    <tr>
+                      <th scope="row">{row.band}</th>
+                      <td>{row.budget}</td>
+                      <td><strong>{row.comfort}</strong></td>
+                      <td>{row.premium}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <ul class="basis-points-list">
+              {PRICE_BASIS_POINTS.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="inclusions-summary-card">
+            <h3>Standard cost treatment across routes</h3>
+            <p class="inclusions-intro">
+              Every package detail page labels each cost line explicitly so nothing is hidden in fine print:
+            </p>
+            <ul class="standard-cost-list">
+              {standardCosts.map((item) => (
+                <li class="std-cost-item">
+                  <span class={`std-pill std-pill-${item.status}`}>
+                    {costStatusLabel[item.status]}
+                  </span>
+                  <div>
+                    <strong>{item.label}</strong>
+                    {item.note && <p>{item.note}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div class="official-sources-box">
+              <h4>Official regulatory &amp; ticket references (checked {REVIEW_DATE})</h4>
+              <ul>
+                {officialLinks.map((link) => (
+                  <li>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} &nearr;</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Seasonal Guidance -->
+    <section id="seasonal-guidance" class="hub-section hub-section-alt" aria-labelledby="seasonal-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">04 · Month-Aware Planning</p>
+            <h2 id="seasonal-heading">Matching your route to Sri Lanka’s two monsoons</h2>
+          </div>
+          <p class="section-subcopy">
+            Sri Lanka is a year-round destination when your coast and wildlife parks are chosen for the month you travel. Weather is variable, so treat seasonal guidance as a planning aid rather than a guarantee.
+          </p>
+        </div>
+
+        <div class="season-cards-grid">
+          <article class="season-card">
+            <span class="season-tag">December to April</span>
+            <h3>South Coast, West Coast &amp; High Peaks</h3>
+            <p>
+              Generally drier and calmer along Galle, Unawatuna, Weligama, Mirissa, Tangalle and Bentota, as well as the central highlands and Adam’s Peak. Best fit for <em>Colombo, Galle &amp; the South Coast</em>, <em>Classic Island Journey</em>, and <em>Wild Landscapes &amp; Southern Coast</em>.
+            </p>
+          </article>
+
+          <article class="season-card">
+            <span class="season-tag">May to September</span>
+            <h3>East Coast, Jaffna Peninsula &amp; Dry-Zone Tanks</h3>
+            <p>
+              Calmer seas shift to Trincomalee, Nilaveli and Pasikuda, while dry-season water levels draw elephants toward Minneriya and Kaudulla reservoirs. Best fit for <em>Northern Heritage &amp; Jaffna</em>, <em>North &amp; East Discovery</em>, and <em>North, East &amp; Cultural Heart</em>.
+            </p>
+          </article>
+
+          <article class="season-card">
+            <span class="season-tag">Year-Round Principles</span>
+            <h3>Responsible Wildlife, Rail &amp; Heritage Etiquette</h3>
+            <p>
+              Wild animal sightings, clear mountain views and specific train seats are never guaranteed. We follow SLTDA wildlife guidelines (no crowding, baiting or in-water marine mammal interaction) and distinguish drivers from licensed site guides.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Held / Draft Portfolio (Remaining 12 Routes from the 24-Route Brief) -->
+    <section id="draft-portfolio" class="hub-section" aria-labelledby="draft-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">05 · Planned &amp; Extended Inventory (12 Draft Concepts)</p>
+            <h2 id="draft-heading">Additional routes &amp; 28–30 day stays available by custom quote</h2>
+          </div>
+          <p class="section-subcopy">
+            Our research portfolio spans 24 distinct concepts. We launched with 12 complete itineraries above and hold the remaining 12 as draft concepts while supplier logistics, long-stay rates or specialist safety checks are finalised. You can still enquire about any of them below.
+          </p>
+        </div>
+
+        <div class="drafts-grid">
+          {plannedPackages.map((draft) => {
+            const bandInfo = getBand(draft.band);
+            return (
+              <article class="draft-card">
+                <div class="draft-top">
+                  <span class="draft-badge">Draft #{draft.briefNo} · {bandInfo.label}</span>
+                  <span class="draft-duration">{draft.days} days / {draft.nights} nights</span>
+                </div>
+                <h3>{draft.title}</h3>
+                <p class="draft-route"><strong>Route:</strong> {draft.route}</p>
+                <p class="draft-audience"><strong>For:</strong> {draft.audience}</p>
+                <p class="draft-budget">
+                  <strong>Indicative Comfort range:</strong> {formatRange(draft.budget.comfort)} <small>({PRICE_BASIS_SHORT})</small>
+                </p>
+                <p class="draft-reason">
+                  <strong>Why held as draft:</strong> {draft.heldBecause}
+                </p>
+                <a
+                  href="#enquiry"
+                  class="draft-enquire-link"
+                  data-enquire-draft={`${draft.title} — ${draft.days} days (Draft concept #${draft.briefNo})`}
+                >
+                  Enquire about this draft route &rarr;
+                </a>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Custom Quote Enquiry Form -->
+    <div class="hub-section hub-section-enquiry">
+      <div class="container">
+        <PackageEnquiryForm />
+      </div>
+    </div>
+
+    <!-- 8. Frequently Asked Questions & Image Ledger Note -->
+    <section id="faq" class="hub-section" aria-labelledby="faq-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">06 · Practical Questions</p>
+            <h2 id="faq-heading">Frequently asked questions</h2>
+          </div>
+        </div>
+
+        <div class="faq-grid">
+          {hubFaq.map((item) => (
+            <details class="faq-item">
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <aside class="hub-image-credit-note" aria-label="Hero image credit">
+          <strong>Photography &amp; rights ledger:</strong> Hero photograph ({heroImage.subject}) by {heroImage.creator} via {heroImage.platform} (<a href={heroImage.licenseUrl} target="_blank" rel="noopener noreferrer">{heroImage.license}</a>, <a href={heroImage.sourceUrl} target="_blank" rel="noopener noreferrer">source</a>). Every package card and itinerary day uses only photographs documented in the project image ledgers.
+        </aside>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  function initPackagesHub() {
+    const bandBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-band]'));
+    const themeBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-theme]'));
+    const tierBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-select-tier]'));
+    const jumpThemeBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-jump-theme]'));
+    const draftLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-enquire-draft]'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-package-card]'));
+    const statusEl = document.querySelector<HTMLElement>('[data-hub-status]');
+    const resetBtn = document.querySelector<HTMLButtonElement>('[data-hub-reset]');
+    const emptyBox = document.querySelector<HTMLElement>('[data-hub-empty]');
+    const emptyResetBtn = document.querySelector<HTMLButtonElement>('[data-hub-empty-reset]');
+
+    let activeBand = 'all';
+    let activeTheme = 'all';
+    let activeTier = 'comfort';
+
+    function updateCards() {
+      let visibleCount = 0;
+      for (const card of cards) {
+        const cardBand = card.dataset.band || '';
+        const cardThemes = (card.dataset.themes || '').split(',');
+        const matchBand = activeBand === 'all' || cardBand === activeBand;
+        const matchTheme = activeTheme === 'all' || cardThemes.includes(activeTheme);
+        const visible = matchBand && matchTheme;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+
+        const tierRows = card.querySelectorAll<HTMLElement>('[data-card-tier]');
+        tierRows.forEach((row) => {
+          row.hidden = row.dataset.cardTier !== activeTier;
+        });
+      }
+
+      const hasFilter = activeBand !== 'all' || activeTheme !== 'all';
+      if (resetBtn) resetBtn.hidden = !hasFilter;
+      if (emptyBox) emptyBox.hidden = visibleCount > 0;
+
+      if (statusEl) {
+        const tierLabel = activeTier.charAt(0).toUpperCase() + activeTier.slice(1);
+        statusEl.innerHTML = `Showing <strong>${visibleCount}</strong> of ${cards.length} launch itineraries (${tierLabel} planning tier highlighted)`;
+      }
+    }
+
+    function setBand(band: string) {
+      activeBand = band;
+      bandBtns.forEach((b) => {
+        const current = b.dataset.filterBand === band;
+        b.classList.toggle('is-active', current);
+        b.setAttribute('aria-pressed', String(current));
+      });
+      updateCards();
+    }
+
+    function setTheme(theme: string) {
+      activeTheme = theme;
+      themeBtns.forEach((b) => {
+        const current = b.dataset.filterTheme === theme;
+        b.classList.toggle('is-active', current);
+        b.setAttribute('aria-pressed', String(current));
+      });
+      updateCards();
+    }
+
+    function setTier(tier: string) {
+      activeTier = tier;
+      tierBtns.forEach((b) => {
+        const current = b.dataset.selectTier === tier;
+        b.classList.toggle('is-active', current);
+        b.setAttribute('aria-pressed', String(current));
+      });
+      updateCards();
+    }
+
+    bandBtns.forEach((btn) => {
+      btn.addEventListener('click', () => setBand(btn.dataset.filterBand || 'all'));
+    });
+
+    themeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => setTheme(btn.dataset.filterTheme || 'all'));
+    });
+
+    tierBtns.forEach((btn) => {
+      btn.addEventListener('click', () => setTier(btn.dataset.selectTier || 'comfort'));
+    });
+
+    jumpThemeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetTheme = btn.dataset.jumpTheme || 'all';
+        setBand('all');
+        setTheme(targetTheme);
+        document.getElementById('catalogue')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    function resetAll() {
+      setBand('all');
+      setTheme('all');
+    }
+
+    resetBtn?.addEventListener('click', resetAll);
+    emptyResetBtn?.addEventListener('click', resetAll);
+
+    // Pre-fill enquiry dropdown when clicking a draft card CTA
+    draftLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const draftVal = link.dataset.enquireDraft;
+        const select = document.querySelector<HTMLSelectElement>('#enq-package');
+        if (draftVal && select) {
+          select.value = draftVal;
+        }
+      });
+    });
+
+    // Support footer hash anchors (e.g. #cultural-triangle-kandy, #tea-country-rail, #wildlife-south-coast, #island-highlights)
+    function applyHashRoute() {
+      const hash = window.location.hash.replace(/^#/, '').trim();
+      if (!hash) return;
+
+      const footerHashToSlug: Record<string, string> = {
+        'cultural-triangle-kandy': 'cultural-triangle-first-taste',
+        'tea-country-rail': 'tea-country-scenic-rail',
+        'wildlife-south-coast': 'wildlife-and-coast-responsibly',
+        'island-highlights': 'classic-island-journey',
+      };
+
+      const targetSlug = footerHashToSlug[hash] || hash;
+      const targetCard = document.getElementById(targetSlug);
+      if (targetCard && targetCard.hasAttribute('data-package-card')) {
+        resetAll();
+        setTimeout(() => {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 60);
+      }
+    }
+
+    applyHashRoute();
+    window.addEventListener('hashchange', applyHashRoute);
+  }
+
+  initPackagesHub();
+</script>
+
+<style>
+  .packages-hub {
+    background: var(--color-ivory, #F6F1E7);
+    color: var(--color-charcoal, #263238);
+    min-height: 100vh;
+  }
+
+  .container {
+    width: min(100%, 84rem);
+    margin-inline: auto;
+    padding-inline: clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  /* Hero */
+  .hub-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #072220;
+    color: var(--color-ivory, #F6F1E7);
+    padding: calc(5.2rem + clamp(2.5rem, 5vw, 4rem)) 0 clamp(2.75rem, 5vw, 4rem);
+    border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+  }
+
+  .hub-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .hub-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    filter: brightness(0.78) contrast(1.03);
+    display: block;
+  }
+
+  .hub-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(98deg, rgba(6, 28, 26, 0.92) 0%, rgba(8, 38, 36, 0.78) 55%, rgba(6, 28, 26, 0.62) 100%),
+      linear-gradient(180deg, rgba(4, 18, 17, 0.55) 0%, transparent 40%, rgba(6, 28, 26, 0.9) 100%);
+  }
+
+  .hero-content {
+    max-width: 48rem;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-amber, #D99A45);
+  }
+
+  .hub-hero h1 {
+    margin: 0;
+    max-width: 21ch;
+    font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
+    letter-spacing: -0.025em;
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .hub-hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  .hero-copy {
+    margin: 1rem 0 0;
+    max-width: 58ch;
+    font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+    line-height: 1.68;
+    color: rgba(246, 241, 231, 0.88);
+  }
+
+  .hero-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .hero-btn-primary {
+    background: var(--color-amber, #D99A45);
+    color: #162220;
+  }
+
+  .hero-btn-primary:hover {
+    background: #e5a854;
+  }
+
+  .hero-btn-secondary {
+    background: rgba(10, 48, 46, 0.7);
+    color: var(--color-ivory, #F6F1E7);
+    border: 1px solid rgba(246, 241, 231, 0.28);
+  }
+
+  .hero-btn-secondary:hover {
+    border-color: var(--color-gold-light, #E9C779);
+    background: rgba(20, 91, 89, 0.82);
+  }
+
+  .hero-basis-strip {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: rgba(6, 26, 24, 0.78);
+    border-left: 3px solid var(--color-amber, #D99A45);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(246, 241, 231, 0.86);
+  }
+
+  /* Sections */
+  .hub-section {
+    padding-block: clamp(2.75rem, 5vw, 4.25rem);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .hub-section-alt {
+    background: #efe9dc;
+    border-top: 1px solid rgba(38, 50, 56, 0.08);
+    border-bottom: 1px solid rgba(38, 50, 56, 0.08);
+  }
+
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-teal, #145B59);
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+    color: var(--color-charcoal, #263238);
+  }
+
+  .section-subcopy {
+    margin: 0;
+    max-width: 48ch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4a5960;
+  }
+
+  /* Filter Panel */
+  .hub-controls {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: 1.75rem;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .filter-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .filter-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(38, 50, 56, 0.2);
+    background: #faf6ee;
+    color: var(--color-charcoal, #263238);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-teal, #145B59);
+    background: #ffffff;
+  }
+
+  .filter-pill.is-active {
+    background: var(--color-teal, #145B59);
+    border-color: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .filter-pill-link {
+    border-style: dashed;
+    color: var(--color-teal, #145B59);
+  }
+
+  .tier-selector-bar {
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(38, 50, 56, 0.1);
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .tier-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0.55rem;
+    margin-top: 0.45rem;
+  }
+
+  .tier-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-height: 3.1rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(38, 50, 56, 0.18);
+    background: #faf6ee;
+    color: var(--color-charcoal, #263238);
+    text-align: left;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .tier-btn strong {
+    font-size: 0.82rem;
+  }
+
+  .tier-btn span {
+    font-size: 0.72rem;
+    color: #4a5960;
+  }
+
+  .tier-btn.is-active {
+    background: rgba(20, 91, 89, 0.1);
+    border-color: var(--color-teal, #145B59);
+  }
+
+  .tier-btn.is-active strong {
+    color: var(--color-teal, #145B59);
+  }
+
+  .tier-assumption-note {
+    margin: 0;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: #4a5960;
+  }
+
+  .hub-status-row {
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(38, 50, 56, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .hub-status-text {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .reset-btn {
+    min-height: 2.25rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid var(--color-teal, #145B59);
+    background: transparent;
+    color: var(--color-teal, #145B59);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Grid */
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: 1.35rem;
+  }
+
+  .empty-state {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .empty-state h3 {
+    color: var(--color-charcoal, #263238);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    margin-inline: auto;
+    margin-bottom: 1rem;
+    color: #4a5960;
+  }
+
+  /* Theme Overview Cards */
+  .theme-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.5rem), 1fr));
+    gap: 1.1rem;
+  }
+
+  .theme-overview-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.12);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .theme-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .theme-card-top h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .theme-count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-teal, #145B59);
+    background: var(--color-ivory, #F6F1E7);
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  .theme-overview-card p {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #4a5960;
+  }
+
+  .theme-sample-links {
+    margin: 0;
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .theme-sample-links a {
+    color: var(--color-teal, #145B59);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .theme-sample-links a:hover {
+    text-decoration: underline;
+  }
+
+  .theme-jump-btn {
+    margin-top: auto;
+    min-height: 2.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(20, 91, 89, 0.28);
+    background: #faf6ee;
+    color: var(--color-teal, #145B59);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .theme-jump-btn:hover {
+    background: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  /* Pricing Section */
+  .pricing-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .pricing-table-card,
+  .inclusions-summary-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: clamp(1.15rem, 2.5vw, 1.65rem);
+  }
+
+  .table-caption-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .table-caption-bar strong {
+    color: var(--color-teal, #145B59);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+
+  .budget-table th,
+  .budget-table td {
+    padding: 0.65rem 0.6rem;
+    border-bottom: 1px solid rgba(38, 50, 56, 0.12);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .budget-table thead th {
+    background: #faf6ee;
+    font-weight: 700;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .budget-table thead small {
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: #526168;
+  }
+
+  .basis-points-list {
+    margin: 1rem 0 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: #3e4c52;
+  }
+
+  .inclusions-summary-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.35rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .inclusions-intro {
+    margin: 0 0 0.85rem;
+    font-size: 0.84rem;
+    color: #4a5960;
+  }
+
+  .standard-cost-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .std-cost-item {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 0.65rem;
+    align-items: start;
+    font-size: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(38, 50, 56, 0.08);
+  }
+
+  .std-cost-item p {
+    margin: 0.15rem 0 0;
+    font-size: 0.74rem;
+    color: #526168;
+  }
+
+  .std-pill {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  .std-pill-included {
+    background: rgba(20, 91, 89, 0.14);
+    color: var(--color-teal, #145B59);
+  }
+
+  .std-pill-optional {
+    background: rgba(217, 154, 69, 0.22);
+    color: #6b4710;
+  }
+
+  .std-pill-excluded {
+    background: rgba(38, 50, 56, 0.1);
+    color: #3e4c52;
+  }
+
+  .official-sources-box {
+    margin-top: 1.1rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: #faf6ee;
+    border: 1px solid rgba(20, 91, 89, 0.18);
+  }
+
+  .official-sources-box h4 {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .official-sources-box ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.28rem;
+    font-size: 0.78rem;
+  }
+
+  .official-sources-box a {
+    color: var(--color-teal, #145B59);
+    font-weight: 600;
+  }
+
+  /* Season cards */
+  .season-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .season-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.12);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.35rem;
+  }
+
+  .season-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(20, 91, 89, 0.12);
+    color: var(--color-teal, #145B59);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+  }
+
+  .season-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.3rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .season-card p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #3e4c52;
+  }
+
+  /* Drafts grid */
+  .drafts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: 1rem;
+  }
+
+  .draft-card {
+    background: #ffffff;
+    border: 1px dashed rgba(38, 50, 56, 0.28);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .draft-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .draft-badge {
+    color: #6b4710;
+    background: rgba(217, 154, 69, 0.2);
+    padding: 0.16rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  .draft-duration {
+    color: var(--color-teal, #145B59);
+  }
+
+  .draft-card h3 {
+    margin: 0.15rem 0 0;
+    font-size: 1.18rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .draft-route,
+  .draft-audience,
+  .draft-budget,
+  .draft-reason {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.48;
+    color: #3e4c52;
+  }
+
+  .draft-enquire-link {
+    margin-top: auto;
+    padding-top: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-teal, #145B59);
+    text-decoration: none;
+  }
+
+  .draft-enquire-link:hover {
+    text-decoration: underline;
+  }
+
+  /* FAQ */
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 0.85rem;
+  }
+
+  .faq-item {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-sm, 0.5rem);
+    padding: 0.95rem 1.15rem;
+  }
+
+  .faq-item summary {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--color-charcoal, #263238);
+    cursor: pointer;
+  }
+
+  .faq-item p {
+    margin: 0.65rem 0 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #3e4c52;
+  }
+
+  .hub-image-credit-note {
+    margin-top: 1.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: #efe9dc;
+    font-size: 0.76rem;
+    color: #4a5960;
+  }
+
+  .hub-image-credit-note a {
+    color: var(--color-teal, #145B59);
+  }
+
+  @media (max-width: 60rem) {
+    .pricing-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .std-cost-item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

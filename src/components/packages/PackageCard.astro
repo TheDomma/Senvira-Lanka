@@ -1,0 +1,462 @@
+---
+import { Image } from 'astro:assets';
+import {
+  formatRange,
+  getBand,
+  getPackageImage,
+  getTheme,
+  PRICE_BASIS_SHORT,
+  PRICE_LABEL,
+  REVIEW_DATE,
+  type TravelPackage,
+} from '../../data/packages';
+
+export interface Props {
+  pkg: TravelPackage;
+}
+
+const { pkg } = Astro.props;
+const cardImg = getPackageImage(pkg.cardImage);
+const bandInfo = getBand(pkg.band);
+const primaryThemeInfo = getTheme(pkg.primaryTheme);
+const detailHref = `/packages/${pkg.slug}/`;
+const routeLine = pkg.routeNote || pkg.route.join(' → ');
+
+const searchIndex = [
+  pkg.title,
+  pkg.promise,
+  pkg.audience,
+  routeLine,
+  pkg.pace,
+  pkg.season.fit,
+  ...pkg.themes.map((t) => getTheme(t).label),
+]
+  .join(' ')
+  .toLowerCase();
+---
+
+<article
+  id={pkg.slug}
+  class="pkg-card"
+  data-package-card
+  data-slug={pkg.slug}
+  data-band={pkg.band}
+  data-themes={pkg.themes.join(',')}
+  data-primary-theme={pkg.primaryTheme}
+  data-pace={pkg.pace.toLowerCase()}
+  data-search-text={searchIndex}
+>
+  <a href={detailHref} class="pkg-card-media">
+    <Image
+      src={cardImg.src}
+      alt={cardImg.alt}
+      class="pkg-card-img"
+      widths={[440, 720]}
+      sizes="(max-width: 767px) 100vw, (max-width: 1180px) 50vw, 33vw"
+    />
+    <div class="pkg-card-badges">
+      <span class="pkg-badge pkg-badge-duration">
+        {pkg.days} days · {pkg.nights} nights
+      </span>
+      <span class="pkg-badge pkg-badge-theme">
+        {primaryThemeInfo.label}
+      </span>
+    </div>
+  </a>
+
+  <div class="pkg-card-body">
+    <div class="pkg-card-kicker">
+      <span>{bandInfo.label}</span>
+      <span aria-hidden="true">·</span>
+      <span>{pkg.pace} pace</span>
+      <span aria-hidden="true">·</span>
+      <span>{pkg.effort.level} effort</span>
+    </div>
+
+    <h3 class="pkg-card-title">
+      <a href={detailHref}>{pkg.title}</a>
+    </h3>
+
+    <p class="pkg-card-promise">{pkg.promise}</p>
+
+    <dl class="pkg-card-facts">
+      <div class="pkg-fact-row">
+        <dt>Route</dt>
+        <dd>{routeLine}</dd>
+      </div>
+      <div class="pkg-fact-row">
+        <dt>Suited to</dt>
+        <dd>{pkg.audience}</dd>
+      </div>
+      <div class="pkg-fact-row">
+        <dt>Season</dt>
+        <dd>{pkg.season.fit}</dd>
+      </div>
+    </dl>
+
+    <div class="pkg-card-tags" aria-label="Travel styles">
+      {pkg.themes.map((tId) => (
+        <span class="pkg-style-tag">{getTheme(tId).label}</span>
+      ))}
+    </div>
+
+    <div class="pkg-card-pricing" aria-label="Planning budget and basis">
+      {pkg.quoteOnlyOnCard ? (
+        <div class="pkg-price-quote-only">
+          <div class="pkg-price-header">
+            <span class="pkg-price-label">Planning budget</span>
+            <span class="pkg-price-review">Reviewed {REVIEW_DATE}</span>
+          </div>
+          <p class="pkg-quote-status">Request a confirmed quote</p>
+          <p class="pkg-price-basis">
+            {pkg.quoteOnlyReason} Indicative range on detail page ({formatRange(pkg.budget.comfort)} Comfort) · {PRICE_BASIS_SHORT}.
+          </p>
+        </div>
+      ) : (
+        <div class="pkg-price-range-box">
+          <div class="pkg-price-header">
+            <span class="pkg-price-label">{PRICE_LABEL}</span>
+            <span class="pkg-price-review">Reviewed {REVIEW_DATE}</span>
+          </div>
+
+          <div class="pkg-tier-values">
+            <div class="pkg-tier-item" data-card-tier="budget" hidden>
+              <span class="pkg-tier-name">Budget tier:</span>
+              <strong class="pkg-tier-amount">{formatRange(pkg.budget.budget)}</strong>
+            </div>
+            <div class="pkg-tier-item is-active" data-card-tier="comfort">
+              <span class="pkg-tier-name">Comfort tier:</span>
+              <strong class="pkg-tier-amount">{formatRange(pkg.budget.comfort)}</strong>
+            </div>
+            <div class="pkg-tier-item" data-card-tier="premium" hidden>
+              <span class="pkg-tier-name">Premium tier:</span>
+              <strong class="pkg-tier-amount">{formatRange(pkg.budget.premium)}</strong>
+            </div>
+          </div>
+
+          <p class="pkg-price-all-tiers">
+            <span>Budget {formatRange(pkg.budget.budget)}</span>
+            <span aria-hidden="true">·</span>
+            <span>Comfort {formatRange(pkg.budget.comfort)}</span>
+            <span aria-hidden="true">·</span>
+            <span>Premium {formatRange(pkg.budget.premium)}</span>
+          </p>
+
+          <p class="pkg-price-basis">
+            {PRICE_BASIS_SHORT}. Accommodation/breakfast and core private transport assumed; most entry, safari/park/jeep, rail and optional activity fees excluded.
+          </p>
+        </div>
+      )}
+    </div>
+
+    <div class="pkg-card-actions">
+      <a href={detailHref} class="pkg-btn-primary">
+        <span>View itinerary</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      </a>
+      <a href={`${detailHref}#enquiry`} class="pkg-btn-secondary">
+        Request a quote
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .pkg-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    overflow: hidden;
+    color: var(--color-charcoal, #263238);
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    scroll-margin-top: 6rem;
+  }
+
+  .pkg-card[hidden] {
+    display: none !important;
+  }
+
+  .pkg-card:hover {
+    border-color: rgba(20, 91, 89, 0.45);
+    box-shadow: 0 12px 28px -12px rgba(20, 91, 89, 0.16);
+    transform: translateY(-2px);
+  }
+
+  .pkg-card-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #182b29;
+    text-decoration: none;
+  }
+
+  .pkg-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 360ms ease;
+  }
+
+  .pkg-card:hover .pkg-card-img {
+    transform: scale(1.02);
+  }
+
+  .pkg-card-badges {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem;
+    pointer-events: none;
+  }
+
+  .pkg-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.26rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .pkg-badge-duration {
+    background: rgba(10, 48, 46, 0.9);
+    color: var(--color-ivory, #F6F1E7);
+    border: 1px solid rgba(246, 241, 231, 0.25);
+  }
+
+  .pkg-badge-theme {
+    background: rgba(246, 241, 231, 0.94);
+    color: var(--color-teal, #145B59);
+    border: 1px solid rgba(20, 91, 89, 0.22);
+  }
+
+  .pkg-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.25rem;
+    gap: 0.65rem;
+  }
+
+  .pkg-card-kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.38rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-teal, #145B59);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .pkg-card-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 1.6vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .pkg-card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pkg-card-title a:hover {
+    color: var(--color-teal, #145B59);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .pkg-card-promise {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #3e4c52;
+  }
+
+  .pkg-card-facts {
+    margin: 0.15rem 0 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(38, 50, 56, 0.1);
+    border-bottom: 1px solid rgba(38, 50, 56, 0.1);
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .pkg-fact-row {
+    display: grid;
+    grid-template-columns: 4.8rem 1fr;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .pkg-fact-row dt {
+    font-weight: 600;
+    color: #526168;
+  }
+
+  .pkg-fact-row dd {
+    margin: 0;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .pkg-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .pkg-style-tag {
+    display: inline-block;
+    padding: 0.16rem 0.55rem;
+    border-radius: 999px;
+    background: var(--color-ivory, #F6F1E7);
+    border: 1px solid rgba(20, 91, 89, 0.18);
+    color: var(--color-teal, #145B59);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .pkg-card-pricing {
+    margin-top: auto;
+    padding: 0.85rem 0.95rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: #faf6ee;
+    border: 1px solid rgba(20, 91, 89, 0.18);
+  }
+
+  .pkg-price-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .pkg-price-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .pkg-price-review {
+    font-size: 0.68rem;
+    color: #526168;
+  }
+
+  .pkg-tier-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .pkg-tier-item[hidden] {
+    display: none !important;
+  }
+
+  .pkg-tier-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #3e4c52;
+  }
+
+  .pkg-tier-amount {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .pkg-price-all-tiers {
+    margin: 0 0 0.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    font-size: 0.73rem;
+    color: #46555c;
+  }
+
+  .pkg-quote-status {
+    margin: 0.1rem 0 0.3rem;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-teal, #145B59);
+  }
+
+  .pkg-price-basis {
+    margin: 0;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: #4a5960;
+  }
+
+  .pkg-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+    padding-top: 0.25rem;
+  }
+
+  .pkg-btn-primary {
+    flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.65rem;
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+
+  .pkg-btn-primary:hover {
+    background: var(--color-canopy-green, #0F4C49);
+  }
+
+  .pkg-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: transparent;
+    border: 1px solid rgba(20, 91, 89, 0.32);
+    color: var(--color-teal, #145B59);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .pkg-btn-secondary:hover {
+    background: rgba(20, 91, 89, 0.08);
+    border-color: var(--color-teal, #145B59);
+  }
+</style>
