@@ -1,0 +1,1222 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PackageItinerary from '../../components/packages/PackageItinerary.astro';
+import PackageRouteSketch from '../../components/packages/PackageRouteSketch.astro';
+import PackageEnquiryForm from '../../components/packages/PackageEnquiryForm.astro';
+import PackageCard from '../../components/packages/PackageCard.astro';
+import {
+  commonFaq,
+  costStatusLabel,
+  formatRange,
+  getBand,
+  getPackageImage,
+  getPackageUsedImages,
+  getTheme,
+  launchPackages,
+  officialLinks,
+  PRICE_BASIS_POINTS,
+  PRICE_BASIS_SHORT,
+  PRICE_DISCLAIMER,
+  PRICE_LABEL,
+  REVIEW_DATE,
+  standardCosts,
+  TIERS,
+  type TravelPackage,
+} from '../../data/packages';
+
+export function getStaticPaths() {
+  return launchPackages.map((pkg) => ({
+    params: { slug: pkg.slug },
+    props: { pkg },
+  }));
+}
+
+export interface Props {
+  pkg: TravelPackage;
+}
+
+const { pkg } = Astro.props;
+const heroImg = getPackageImage(pkg.heroImage.id);
+const bandInfo = getBand(pkg.band);
+const primaryThemeInfo = getTheme(pkg.primaryTheme);
+const routeLine = pkg.routeNote || pkg.route.join(' → ');
+
+const mergedCosts = [...(pkg.extraCosts ?? []), ...standardCosts];
+const includedCosts = mergedCosts.filter((c) => c.status === 'included');
+const optionalCosts = mergedCosts.filter((c) => c.status === 'optional');
+const excludedCosts = mergedCosts.filter((c) => c.status === 'excluded');
+
+const allFaqs = [...(pkg.faq ?? []), ...commonFaq];
+const usedImages = getPackageUsedImages(pkg);
+
+const relatedPackages = launchPackages
+  .filter(
+    (other) =>
+      other.slug !== pkg.slug &&
+      (other.primaryTheme === pkg.primaryTheme ||
+        other.band === pkg.band ||
+        other.themes.some((t) => pkg.themes.includes(t))),
+  )
+  .slice(0, 3);
+
+const pageTitle = `${pkg.title} (${pkg.days} Days) | Sri Lanka Itinerary | Senvira Lanka`;
+const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights private land-only itinerary concept with day-by-day plan and transparent budget basis.`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="pkg-detail-page" data-pkg-detail-page>
+    <!-- 1. Hero Above the Fold -->
+    <header class="detail-hero" data-hero-surface aria-labelledby="pkg-title">
+      <div class="detail-hero-bg" aria-hidden="true">
+        <Image
+          src={heroImg.src}
+          alt={heroImg.alt}
+          class="detail-hero-img"
+          widths={[960, 1440, 1920]}
+          sizes="100vw"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="detail-hero-overlay"></div>
+      </div>
+
+      <div class="container detail-hero-inner">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/packages/">Packages</a></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{pkg.title}</li>
+          </ol>
+        </nav>
+
+        <p class="detail-eyebrow">
+          {bandInfo.label} · {pkg.days} Days / {pkg.nights} Nights · {primaryThemeInfo.label}
+        </p>
+
+        <h1 id="pkg-title">{pkg.title}</h1>
+        <p class="detail-promise">{pkg.promise}</p>
+
+        <div class="detail-hero-actions">
+          <a href="#enquiry" class="hero-cta-primary">
+            <span>Request a confirmed quote</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#itinerary" class="hero-cta-secondary">
+            Jump to day-by-day itinerary
+          </a>
+        </div>
+
+        <p class="hero-photo-caption">
+          {pkg.heroImage.caption ? `${pkg.heroImage.caption} ` : ''}
+          <span>
+            Hero photo: {heroImg.subject} by {heroImg.creator} (
+            <a href={heroImg.licenseUrl} target="_blank" rel="noopener noreferrer">{heroImg.license}</a>
+            )
+          </span>
+        </p>
+      </div>
+    </header>
+
+    <!-- 2. First-Screen Facts & Transparent Price Basis Panel -->
+    <section class="summary-strip" aria-label="Trip summary and indicative planning budget">
+      <div class="container summary-strip-grid">
+        <div class="facts-panel">
+          <div class="fact-box">
+            <span class="fact-kicker">Duration &amp; Route</span>
+            <strong class="fact-main">{pkg.days} days / {pkg.nights} nights</strong>
+            <span class="fact-sub">{routeLine}</span>
+          </div>
+
+          <div class="fact-box">
+            <span class="fact-kicker">Suited To &amp; Style</span>
+            <strong class="fact-main">{pkg.audience}</strong>
+            <span class="fact-sub">
+              Themes: {pkg.themes.map((t) => getTheme(t).label).join(', ')}
+            </span>
+          </div>
+
+          <div class="fact-box">
+            <span class="fact-kicker">Pace &amp; Physical Effort</span>
+            <strong class="fact-main">{pkg.pace} pace · {pkg.effort.level} effort</strong>
+            <span class="fact-sub">{pkg.effort.note}</span>
+          </div>
+
+          <div class="fact-box">
+            <span class="fact-kicker">Seasonal Fit &amp; Caveat</span>
+            <strong class="fact-main">{pkg.season.fit}</strong>
+            <span class="fact-sub">{pkg.season.caveat}</span>
+          </div>
+        </div>
+
+        <div class="budget-panel">
+          <div class="budget-panel-top">
+            <span class="budget-badge">{PRICE_LABEL}</span>
+            <span class="budget-review">Reviewed {REVIEW_DATE}</span>
+          </div>
+
+          {pkg.quoteOnlyOnCard && pkg.quoteOnlyReason && (
+            <p class="quote-only-banner">
+              <strong>Route validation note:</strong> {pkg.quoteOnlyReason}
+            </p>
+          )}
+
+          <div class="tier-ranges-grid">
+            {TIERS.map((tier) => (
+              <div class:list={['tier-range-col', { 'is-comfort': tier.id === 'comfort' }]}>
+                <span class="tier-col-label">{tier.label}</span>
+                <strong class="tier-col-val">{formatRange(pkg.budget[tier.id])}</strong>
+                <small class="tier-col-note">{tier.assumption}</small>
+              </div>
+            ))}
+          </div>
+
+          <p class="budget-basis-line">
+            <strong>Basis:</strong> {PRICE_BASIS_SHORT}. Accommodation/breakfast and core private ground transport assumed; most entry, safari/park/jeep, rail and optional activity fees excluded unless confirmed in a written quote.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Route Overview & Interactive Day-by-Day Itinerary -->
+    <section id="itinerary" class="detail-section" aria-labelledby="itinerary-heading">
+      <div class="container">
+        <div class="detail-layout">
+          <div class="detail-main-col">
+            <div class="overview-card">
+              <p class="section-eyebrow">01 · Route Overview</p>
+              <h2 id="itinerary-heading">How this {pkg.days}-day journey is paced</h2>
+              {pkg.overview.map((para) => (
+                <p class="overview-para">{para}</p>
+              ))}
+            </div>
+
+            <PackageItinerary pkg={pkg} />
+          </div>
+
+          <div class="detail-side-col">
+            <PackageRouteSketch pkg={pkg} />
+
+            {pkg.seasonalAlternatives.length > 0 && (
+              <aside class="seasonal-alt-card" aria-labelledby="seasonal-alt-heading">
+                <span class="side-eyebrow">Month &amp; Pacing Adjustments</span>
+                <h3 id="seasonal-alt-heading">Seasonal &amp; route alternatives</h3>
+                <div class="alt-list">
+                  {pkg.seasonalAlternatives.map((alt) => (
+                    <div class="alt-item">
+                      <h4>{alt.title}</h4>
+                      <p class="alt-when"><strong>When:</strong> {alt.when}</p>
+                      <p class="alt-text">{alt.text}</p>
+                      <p class="alt-impact"><strong>Impact:</strong> {alt.impact}</p>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Practical Details: Lodging, Transport, Guides, Accessibility & Family -->
+    <section id="practical-details" class="detail-section detail-section-alt" aria-labelledby="practical-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">02 · Practical Ground Realities</p>
+            <h2 id="practical-heading">Accommodation, transport, guides &amp; suitability</h2>
+          </div>
+          <p class="section-subcopy">
+            What is assumed in this planning concept and what we confirm with you before issuing a date-specific quote.
+          </p>
+        </div>
+
+        <div class="practical-grid">
+          <article class="practical-card">
+            <h3>Lodging &amp; overnight bases</h3>
+            <p>{pkg.practical.lodging}</p>
+          </article>
+
+          <article class="practical-card">
+            <h3>Private transport &amp; transfers</h3>
+            <p>{pkg.practical.transport}</p>
+          </article>
+
+          <article class="practical-card">
+            <h3>Driver vs. licensed guides</h3>
+            <p>{pkg.practical.guide}</p>
+          </article>
+
+          <article class="practical-card">
+            <h3>Physical effort &amp; accessibility</h3>
+            <p>{pkg.practical.access}</p>
+          </article>
+
+          <article class="practical-card">
+            <h3>Children &amp; family travel</h3>
+            <p>{pkg.practical.familyNote}</p>
+          </article>
+
+          <article class="practical-card">
+            <h3>Seasonal &amp; wildlife caveats</h3>
+            <p>{pkg.season.caveat}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Inclusions, Optional Extras & Exclusions -->
+    <section id="inclusions" class="detail-section" aria-labelledby="inclusions-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">03 · Transparent Cost Treatment</p>
+            <h2 id="inclusions-heading">What the indicative planning budget covers</h2>
+          </div>
+          <p class="section-subcopy">
+            {PRICE_DISCLAIMER}
+          </p>
+        </div>
+
+        <div class="costs-columns">
+          <div class="cost-col cost-col-included">
+            <div class="cost-col-header">
+              <span class="std-pill std-pill-included">{costStatusLabel.included}</span>
+              <h3>Assumed in planning range</h3>
+            </div>
+            <ul>
+              {includedCosts.map((c) => (
+                <li>
+                  <strong>{c.label}</strong>
+                  {c.note && <p>{c.note}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="cost-col cost-col-optional">
+            <div class="cost-col-header">
+              <span class="std-pill std-pill-optional">{costStatusLabel.optional}</span>
+              <h3>Optional extras (quoted on request)</h3>
+            </div>
+            <ul>
+              {optionalCosts.map((c) => (
+                <li>
+                  <strong>{c.label}</strong>
+                  {c.note && <p>{c.note}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="cost-col cost-col-excluded">
+            <div class="cost-col-header">
+              <span class="std-pill std-pill-excluded">{costStatusLabel.excluded}</span>
+              <h3>Excluded unless stated in quote</h3>
+            </div>
+            <ul>
+              {excludedCosts.map((c) => (
+                <li>
+                  <strong>{c.label}</strong>
+                  {c.note && <p>{c.note}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="basis-recap-box">
+          <div>
+            <h4>Summary of planning basis (reviewed {REVIEW_DATE})</h4>
+            <ul>
+              {PRICE_BASIS_POINTS.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4>Official references</h4>
+            <ul>
+              {officialLinks.map((l) => (
+                <li>
+                  <a href={l.url} target="_blank" rel="noopener noreferrer">{l.label} &nearr;</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Quote Enquiry Form -->
+    <div class="detail-section detail-section-alt">
+      <div class="container">
+        <PackageEnquiryForm selectedPackage={pkg} />
+      </div>
+    </div>
+
+    <!-- 7. FAQs & Image Credits Ledger -->
+    <section id="faq" class="detail-section" aria-labelledby="detail-faq-heading">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">04 · Questions &amp; Photo Ledger</p>
+            <h2 id="detail-faq-heading">Questions about {pkg.title}</h2>
+          </div>
+        </div>
+
+        <div class="faq-grid">
+          {allFaqs.map((item) => (
+            <details class="faq-item">
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <aside class="credits-ledger-box" aria-labelledby="credits-heading">
+          <h3 id="credits-heading">Image rights &amp; attribution ledger for this page</h3>
+          <p>
+            Every photograph displayed on this itinerary page is documented in the project image ledgers:
+          </p>
+          <ul class="credits-list">
+            {usedImages.map((img) => (
+              <li>
+                <strong>{img.subject}:</strong> Photo by {img.creator} via {img.platform} —{' '}
+                <a href={img.licenseUrl} target="_blank" rel="noopener noreferrer">{img.license}</a>{' '}
+                (<a href={img.sourceUrl} target="_blank" rel="noopener noreferrer">source page</a>;{' '}
+                recorded in <code>{img.ledger}</code>).
+                {img.note ? ` ${img.note}` : ''}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 8. Related Packages -->
+    {relatedPackages.length > 0 && (
+      <section class="detail-section detail-section-alt" aria-labelledby="related-pkg-heading">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <p class="section-eyebrow">05 · Compare Starting Points</p>
+              <h2 id="related-pkg-heading">Related Sri Lanka itineraries</h2>
+            </div>
+            <a href="/packages/" class="back-all-link">
+              &larr; View all 12 launch itineraries
+            </a>
+          </div>
+
+          <div class="related-grid">
+            {relatedPackages.map((rel) => (
+              <PackageCard pkg={rel} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  function initPackageDetailPage() {
+    const page = document.querySelector<HTMLElement>('[data-pkg-detail-page]');
+    if (!page) return;
+
+    const modeBtns = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-itinerary-mode]'));
+    const dayPills = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-day-pill]'));
+    const dayCards = Array.from(page.querySelectorAll<HTMLElement>('[data-day-card]'));
+    const statusText = page.querySelector<HTMLElement>('[data-itinerary-status]');
+    const stepperBar = page.querySelector<HTMLElement>('[data-focus-stepper]');
+    const prevBtn = page.querySelector<HTMLButtonElement>('[data-step-prev]');
+    const nextBtn = page.querySelector<HTMLButtonElement>('[data-step-next]');
+    const showAllBtn = page.querySelector<HTMLButtonElement>('[data-step-show-all]');
+
+    const sketchStopItems = Array.from(page.querySelectorAll<HTMLElement>('[data-sketch-stop]'));
+    const sketchMarkers = Array.from(page.querySelectorAll<SVGElement>('[data-sketch-marker]'));
+    const sketchSelectBtns = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-sketch-select-day]'));
+    const sketchCaption = page.querySelector<HTMLElement>('[data-sketch-active-caption]');
+
+    if (!dayCards.length) return;
+
+    let mode: 'all' | 'focus' = 'all';
+    let selectedIdx = 0;
+
+    function syncSketch(activeMapStop: string, activeDayLabel: string) {
+      sketchStopItems.forEach((item) => {
+        const isMatch = item.dataset.sketchStop === activeMapStop;
+        item.classList.toggle('is-active', isMatch);
+      });
+      sketchMarkers.forEach((marker) => {
+        const isMatch = marker.dataset.sketchMarker === activeMapStop;
+        marker.classList.toggle('is-active', isMatch);
+      });
+      if (sketchCaption && activeMapStop) {
+        const matchingItem = sketchStopItems.find((i) => i.dataset.sketchStop === activeMapStop);
+        const stopName = matchingItem?.querySelector('strong')?.textContent || activeMapStop;
+        sketchCaption.innerHTML = `Highlighted stop: <strong>${stopName}</strong> (${activeDayLabel})`;
+      }
+    }
+
+    function updateView(scrollIntoView = false) {
+      modeBtns.forEach((btn) => {
+        const isCurrent = btn.dataset.itineraryMode === mode;
+        btn.classList.toggle('is-active', isCurrent);
+        btn.setAttribute('aria-pressed', String(isCurrent));
+      });
+
+      dayPills.forEach((pill, idx) => {
+        const isCurrent = idx === selectedIdx;
+        pill.classList.toggle('is-selected', isCurrent);
+        pill.setAttribute('aria-pressed', String(isCurrent));
+      });
+
+      dayCards.forEach((card, idx) => {
+        const isCurrent = idx === selectedIdx;
+        card.classList.toggle('is-selected', isCurrent);
+        card.hidden = mode === 'focus' && !isCurrent;
+      });
+
+      if (stepperBar) {
+        stepperBar.hidden = mode !== 'focus';
+      }
+      if (prevBtn) {
+        prevBtn.disabled = selectedIdx <= 0;
+      }
+      if (nextBtn) {
+        nextBtn.disabled = selectedIdx >= dayCards.length - 1;
+      }
+
+      const activeCard = dayCards[selectedIdx];
+      const activeDayLabel = activeCard?.dataset.dayLabel || `Stage ${selectedIdx + 1}`;
+      const activeTitle = activeCard?.querySelector('.day-title')?.textContent || '';
+      const activeMapStop = activeCard?.dataset.mapStop || '';
+
+      if (statusText) {
+        if (mode === 'focus') {
+          statusText.textContent = `Focused on ${activeDayLabel} of ${dayCards.length} stages: ${activeTitle}`;
+        } else {
+          statusText.textContent = `Showing all ${dayCards.length} stages. Selected highlight: ${activeDayLabel} — ${activeTitle}`;
+        }
+      }
+
+      syncSketch(activeMapStop, activeDayLabel);
+
+      if (scrollIntoView && activeCard) {
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    modeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        mode = (btn.dataset.itineraryMode as 'all' | 'focus') || 'all';
+        updateView(false);
+      });
+    });
+
+    dayPills.forEach((pill, idx) => {
+      pill.addEventListener('click', () => {
+        selectedIdx = idx;
+        updateView(mode === 'all');
+      });
+
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = (idx + 1) % dayPills.length;
+          selectedIdx = next;
+          dayPills[next]?.focus();
+          updateView(false);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = (idx - 1 + dayPills.length) % dayPills.length;
+          selectedIdx = prev;
+          dayPills[prev]?.focus();
+          updateView(false);
+        }
+      });
+    });
+
+    sketchSelectBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetIdx = Number(btn.dataset.sketchSelectDay ?? '0');
+        if (!Number.isNaN(targetIdx) && targetIdx >= 0 && targetIdx < dayCards.length) {
+          selectedIdx = targetIdx;
+          updateView(true);
+        }
+      });
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      if (selectedIdx > 0) {
+        selectedIdx -= 1;
+        updateView(true);
+      }
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      if (selectedIdx < dayCards.length - 1) {
+        selectedIdx += 1;
+        updateView(true);
+      }
+    });
+
+    showAllBtn?.addEventListener('click', () => {
+      mode = 'all';
+      updateView(false);
+    });
+  }
+
+  initPackageDetailPage();
+</script>
+
+<style>
+  .pkg-detail-page {
+    background: var(--color-ivory, #F6F1E7);
+    color: var(--color-charcoal, #263238);
+    min-height: 100vh;
+  }
+
+  .container {
+    width: min(100%, 84rem);
+    margin-inline: auto;
+    padding-inline: clamp(1.125rem, 4vw, 2.5rem);
+  }
+
+  /* Hero */
+  .detail-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #072220;
+    color: var(--color-ivory, #F6F1E7);
+    padding: calc(5.2rem + clamp(2rem, 4.5vw, 3.5rem)) 0 clamp(2.25rem, 4vw, 3.25rem);
+  }
+
+  .detail-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .detail-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75) contrast(1.03);
+    display: block;
+  }
+
+  .detail-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(100deg, rgba(5, 24, 22, 0.93) 0%, rgba(8, 36, 34, 0.8) 56%, rgba(6, 26, 24, 0.62) 100%),
+      linear-gradient(180deg, rgba(4, 18, 17, 0.5) 0%, transparent 45%, rgba(5, 24, 22, 0.92) 100%);
+  }
+
+  .breadcrumbs ol {
+    list-style: none;
+    margin: 0 0 0.9rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    color: rgba(246, 241, 231, 0.76);
+  }
+
+  .breadcrumbs a {
+    color: rgba(246, 241, 231, 0.9);
+    text-decoration: none;
+  }
+
+  .breadcrumbs a:hover {
+    color: var(--color-gold-light, #E9C779);
+    text-decoration: underline;
+  }
+
+  .detail-eyebrow {
+    margin: 0 0 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  .detail-hero h1 {
+    margin: 0;
+    max-width: 22ch;
+    font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .detail-promise {
+    margin: 0.85rem 0 0;
+    max-width: 58ch;
+    font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+    line-height: 1.65;
+    color: rgba(246, 241, 231, 0.9);
+  }
+
+  .detail-hero-actions {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
+    background: var(--color-amber, #D99A45);
+    color: #162220;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hero-cta-primary:hover {
+    background: #e6a955;
+  }
+
+  .hero-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.6rem 1.15rem;
+    border-radius: 999px;
+    border: 1px solid rgba(246, 241, 231, 0.3);
+    background: rgba(10, 48, 46, 0.65);
+    color: var(--color-ivory, #F6F1E7);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .hero-cta-secondary:hover {
+    border-color: var(--color-gold-light, #E9C779);
+  }
+
+  .hero-photo-caption {
+    margin: 1.25rem 0 0;
+    font-size: 0.74rem;
+    color: rgba(246, 241, 231, 0.72);
+  }
+
+  .hero-photo-caption a {
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  /* Summary Strip */
+  .summary-strip {
+    background: #0c2b29;
+    color: var(--color-ivory, #F6F1E7);
+    padding-block: 1.5rem;
+    border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+  }
+
+  .summary-strip-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 1.35rem;
+    align-items: start;
+  }
+
+  .facts-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .fact-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(246, 241, 231, 0.12);
+    border-radius: var(--radius-sm, 0.5rem);
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .fact-kicker {
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  .fact-main {
+    font-size: 0.9rem;
+    color: #ffffff;
+  }
+
+  .fact-sub {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: rgba(246, 241, 231, 0.82);
+  }
+
+  .budget-panel {
+    background: rgba(6, 22, 20, 0.75);
+    border: 1px solid rgba(233, 199, 121, 0.35);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.1rem 1.2rem;
+  }
+
+  .budget-panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .budget-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gold-light, #E9C779);
+  }
+
+  .budget-review {
+    font-size: 0.72rem;
+    color: rgba(246, 241, 231, 0.72);
+  }
+
+  .quote-only-banner {
+    margin: 0 0 0.65rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.4rem;
+    background: rgba(217, 154, 69, 0.18);
+    border-left: 3px solid var(--color-amber, #D99A45);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .tier-ranges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tier-range-col {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(246, 241, 231, 0.14);
+    border-radius: 0.45rem;
+    padding: 0.55rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+  }
+
+  .tier-range-col.is-comfort {
+    background: rgba(20, 91, 89, 0.45);
+    border-color: var(--color-gold-light, #E9C779);
+  }
+
+  .tier-col-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(246, 241, 231, 0.82);
+  }
+
+  .tier-col-val {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    color: #ffffff;
+  }
+
+  .tier-col-note {
+    font-size: 0.66rem;
+    line-height: 1.3;
+    color: rgba(246, 241, 231, 0.72);
+  }
+
+  .budget-basis-line {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    color: rgba(246, 241, 231, 0.85);
+  }
+
+  /* Main Sections */
+  .detail-section {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .detail-section-alt {
+    background: #efe9dc;
+    border-top: 1px solid rgba(38, 50, 56, 0.08);
+    border-bottom: 1px solid rgba(38, 50, 56, 0.08);
+  }
+
+  .detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(18rem, 0.95fr);
+    gap: 1.65rem;
+    align-items: start;
+  }
+
+  .detail-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+  }
+
+  .detail-side-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: sticky;
+    top: 5rem;
+  }
+
+  .overview-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+
+  .section-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-teal, #145B59);
+  }
+
+  .overview-card h2,
+  .section-header h2 {
+    margin: 0 0 0.65rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.65rem, 2.5vw, 2.2rem);
+    color: var(--color-charcoal, #263238);
+  }
+
+  .overview-para {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.68;
+    color: #2f3d43;
+  }
+
+  .overview-para:last-child {
+    margin-bottom: 0;
+  }
+
+  .seasonal-alt-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.25rem;
+  }
+
+  .side-eyebrow {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .seasonal-alt-card h3 {
+    margin: 0.15rem 0 0.85rem;
+    font-size: 1.3rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .alt-list {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .alt-item {
+    padding: 0.75rem 0.85rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: #faf6ee;
+    border-left: 3px solid var(--color-amber, #D99A45);
+  }
+
+  .alt-item h4 {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .alt-when,
+  .alt-text,
+  .alt-impact {
+    margin: 0 0 0.25rem;
+    font-size: 0.8rem;
+    line-height: 1.48;
+    color: #3e4c52;
+  }
+
+  .alt-impact {
+    margin-bottom: 0;
+  }
+
+  /* Practical Grid */
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .section-subcopy {
+    margin: 0;
+    max-width: 52ch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4a5960;
+  }
+
+  .practical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1.1rem;
+  }
+
+  .practical-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.12);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.25rem;
+  }
+
+  .practical-card h3 {
+    margin: 0 0 0.45rem;
+    font-size: 1.22rem;
+    color: var(--color-teal, #145B59);
+  }
+
+  .practical-card p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--color-charcoal, #263238);
+  }
+
+  /* Costs Columns */
+  .costs-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  .cost-col {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.25rem;
+  }
+
+  .cost-col-header {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(38, 50, 56, 0.1);
+  }
+
+  .cost-col-header h3 {
+    margin: 0.4rem 0 0;
+    font-size: 1.2rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .std-pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .std-pill-included {
+    background: rgba(20, 91, 89, 0.14);
+    color: var(--color-teal, #145B59);
+  }
+
+  .std-pill-optional {
+    background: rgba(217, 154, 69, 0.22);
+    color: #6b4710;
+  }
+
+  .std-pill-excluded {
+    background: rgba(38, 50, 56, 0.1);
+    color: #3e4c52;
+  }
+
+  .cost-col ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.84rem;
+  }
+
+  .cost-col li p {
+    margin: 0.15rem 0 0;
+    font-size: 0.76rem;
+    color: #526168;
+  }
+
+  .basis-recap-box {
+    margin-top: 1.35rem;
+    background: #faf6ee;
+    border: 1px solid rgba(20, 91, 89, 0.2);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.25rem;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .basis-recap-box h4 {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .basis-recap-box ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: #3e4c52;
+  }
+
+  .basis-recap-box a {
+    color: var(--color-teal, #145B59);
+    font-weight: 600;
+  }
+
+  /* FAQ & Credits */
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 0.85rem;
+  }
+
+  .faq-item {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-sm, 0.5rem);
+    padding: 0.95rem 1.15rem;
+  }
+
+  .faq-item summary {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--color-charcoal, #263238);
+    cursor: pointer;
+  }
+
+  .faq-item p {
+    margin: 0.65rem 0 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #3e4c52;
+  }
+
+  .credits-ledger-box {
+    margin-top: 1.75rem;
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.25rem;
+    font-size: 0.8rem;
+    color: #4a5960;
+  }
+
+  .credits-ledger-box h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.15rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .credits-ledger-box p {
+    margin: 0 0 0.55rem;
+  }
+
+  .credits-list {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .credits-list a {
+    color: var(--color-teal, #145B59);
+  }
+
+  .back-all-link {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--color-teal, #145B59);
+    text-decoration: none;
+  }
+
+  .back-all-link:hover {
+    text-decoration: underline;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    gap: 1.35rem;
+  }
+
+  @media (max-width: 64rem) {
+    .summary-strip-grid,
+    .detail-layout,
+    .costs-columns,
+    .basis-recap-box {
+      grid-template-columns: 1fr;
+    }
+
+    .detail-side-col {
+      position: static;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .facts-panel,
+    .tier-ranges-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,631 @@
+---
+import { Image } from 'astro:assets';
+import {
+  costStatusLabel,
+  formatDayLabel,
+  formatDayShort,
+  getPackageImage,
+  resolveStop,
+  type TravelPackage,
+} from '../../data/packages';
+
+export interface Props {
+  pkg: TravelPackage;
+}
+
+const { pkg } = Astro.props;
+---
+
+<div class="itinerary-module" data-itinerary-module>
+  <div class="itinerary-controls" role="region" aria-label="Itinerary day navigation and view controls">
+    <div class="itinerary-controls-top">
+      <div>
+        <span class="controls-label">Day-by-day navigation</span>
+        <p class="controls-subcopy" data-itinerary-status aria-live="polite">
+          Showing all {pkg.itinerary.length} itinerary stages ({pkg.days} days). Select any day to highlight it or switch to single-day focus.
+        </p>
+      </div>
+
+      <div class="view-mode-group" role="group" aria-label="Itinerary display mode">
+        <button
+          type="button"
+          class="mode-btn is-active"
+          data-itinerary-mode="all"
+          aria-pressed="true"
+        >
+          Show all days
+        </button>
+        <button
+          type="button"
+          class="mode-btn"
+          data-itinerary-mode="focus"
+          aria-pressed="false"
+        >
+          Focus one day at a time
+        </button>
+      </div>
+    </div>
+
+    <div class="day-pills-bar" role="group" aria-label="Select itinerary day">
+      {pkg.itinerary.map((block, idx) => {
+        const dayLabel = formatDayLabel(block.days);
+        const shortLabel = formatDayShort(block.days);
+        return (
+          <button
+            type="button"
+            class:list={['day-pill', { 'is-selected': idx === 0 }]}
+            data-day-pill={idx}
+            aria-pressed={idx === 0 ? 'true' : 'false'}
+            aria-controls={`itinerary-day-${idx + 1}`}
+            title={`${dayLabel}: ${block.title}`}
+          >
+            <span class="day-pill-num">{shortLabel}</span>
+            <span class="day-pill-place">{block.base ? block.base.split(/[,/]/)[0] : 'Depart'}</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+
+  <ol class="itinerary-list">
+    {pkg.itinerary.map((block, idx) => {
+      const dayLabel = formatDayLabel(block.days);
+      const dayImg = block.image ? getPackageImage(block.image.id) : null;
+      const resolvedStops = (block.stops ?? []).map((s) => resolveStop(s));
+      const destinationStops = resolvedStops.filter((s) => s.kind === 'destination');
+      const experienceStops = resolvedStops.filter((s) => s.kind === 'experience');
+
+      return (
+        <li
+          id={`itinerary-day-${idx + 1}`}
+          class:list={['day-card', { 'is-selected': idx === 0 }]}
+          data-day-card={idx}
+          data-map-stop={block.mapStop || ''}
+          data-day-label={dayLabel}
+        >
+          <div class="day-card-header">
+            <div class="day-header-meta">
+              <span class="day-badge">{dayLabel}</span>
+              {block.base ? (
+                <span class="day-base">
+                  <strong>Overnight base:</strong> {block.base}
+                </span>
+              ) : (
+                <span class="day-base">
+                  <strong>Departure day</strong>
+                </span>
+              )}
+              {block.moves && (
+                <span class="day-transfer-pill">
+                  Transfer included · exact drive/rail timing confirmed in quote
+                </span>
+              )}
+            </div>
+            <h3 class="day-title">{block.title}</h3>
+          </div>
+
+          <div class="day-card-body">
+            <div class="day-main-content">
+              <p class="day-summary">{block.summary}</p>
+
+              <div class="day-plan-block">
+                <h4 class="day-subhead">Practical plan for the day</h4>
+                <ul class="day-plan-list">
+                  {block.plan.map((step) => (
+                    <li>{step}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="day-effort-box">
+                <strong>Pace, effort &amp; accessibility:</strong> {block.effort}
+              </div>
+
+              {block.items && block.items.length > 0 && (
+                <div class="day-costs-block">
+                  <h4 class="day-subhead">Day-specific cost &amp; option notes</h4>
+                  <ul class="day-costs-list">
+                    {block.items.map((item) => (
+                      <li class={`cost-line cost-${item.status}`}>
+                        <span class={`cost-pill pill-${item.status}`}>
+                          {costStatusLabel[item.status]}
+                        </span>
+                        <span class="cost-text">
+                          <strong>{item.label}</strong>
+                          {item.note ? ` — ${item.note}` : ''}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {resolvedStops.length > 0 && (
+                <div class="day-links-block">
+                  <h4 class="day-subhead">Explore places &amp; experiences on this leg</h4>
+                  <div class="day-stop-links">
+                    {destinationStops.map((stop) => (
+                      <a href={stop.href} class="stop-chip stop-chip-dest">
+                        <span class="chip-kind">Place</span>
+                        <span>{stop.label}</span>
+                        <span aria-hidden="true">&rarr;</span>
+                      </a>
+                    ))}
+                    {experienceStops.map((stop) => (
+                      <a href={stop.href} class="stop-chip stop-chip-exp">
+                        <span class="chip-kind">Experience</span>
+                        <span>{stop.label} ({stop.context})</span>
+                        <span aria-hidden="true">&rarr;</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {dayImg && (
+              <figure class="day-figure">
+                <Image
+                  src={dayImg.src}
+                  alt={dayImg.alt}
+                  class="day-img"
+                  widths={[420, 680]}
+                  sizes="(max-width: 767px) 100vw, 340px"
+                />
+                <figcaption class="day-figcaption">
+                  {block.image?.caption && (
+                    <span class="caption-main">{block.image.caption} </span>
+                  )}
+                  <span class="caption-credit">
+                    {dayImg.subject} · Photo: {dayImg.creator} (
+                    <a href={dayImg.licenseUrl} target="_blank" rel="noopener noreferrer">
+                      {dayImg.license}
+                    </a>
+                    )
+                  </span>
+                </figcaption>
+              </figure>
+            )}
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+
+  <div class="focus-stepper-bar" data-focus-stepper hidden>
+    <button type="button" class="stepper-btn" data-step-prev>
+      &larr; Previous stage
+    </button>
+    <button type="button" class="stepper-btn stepper-btn-all" data-step-show-all>
+      Show all {pkg.itinerary.length} stages ({pkg.days} days)
+    </button>
+    <button type="button" class="stepper-btn" data-step-next>
+      Next stage &rarr;
+    </button>
+  </div>
+</div>
+
+<style>
+  .itinerary-module {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .itinerary-controls {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.15rem 1.25rem;
+    position: sticky;
+    top: 4.6rem;
+    z-index: 15;
+    box-shadow: 0 8px 22px -12px rgba(20, 38, 28, 0.12);
+  }
+
+  .itinerary-controls-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .controls-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .controls-subcopy {
+    margin: 0.15rem 0 0;
+    font-size: 0.82rem;
+    color: #4a5960;
+  }
+
+  .view-mode-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    background: var(--color-ivory, #F6F1E7);
+    padding: 0.25rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(20, 91, 89, 0.2);
+  }
+
+  .mode-btn {
+    min-height: 2.35rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 0.35rem;
+    border: none;
+    background: transparent;
+    color: var(--color-charcoal, #263238);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .mode-btn.is-active {
+    background: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .day-pills-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .day-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 2.65rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(38, 50, 56, 0.18);
+    background: #faf6ee;
+    color: var(--color-charcoal, #263238);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .day-pill:hover {
+    border-color: var(--color-teal, #145B59);
+    background: #ffffff;
+  }
+
+  .day-pill.is-selected {
+    background: var(--color-teal, #145B59);
+    border-color: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .day-pill-num {
+    font-weight: 700;
+  }
+
+  .day-pill-place {
+    font-size: 0.75rem;
+    opacity: 0.9;
+  }
+
+  .itinerary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .day-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: clamp(1.15rem, 2.5vw, 1.65rem);
+    scroll-margin-top: 13.5rem;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .day-card[hidden] {
+    display: none !important;
+  }
+
+  .day-card.is-selected {
+    border-color: var(--color-teal, #145B59);
+    box-shadow: 0 0 0 1px rgba(20, 91, 89, 0.25);
+  }
+
+  .day-card-header {
+    padding-bottom: 0.9rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(38, 50, 56, 0.1);
+  }
+
+  .day-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .day-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+    background: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .day-base {
+    font-size: 0.82rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .day-transfer-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: #f5efe2;
+    border: 1px solid rgba(217, 154, 69, 0.4);
+    color: #5a4219;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .day-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    color: var(--color-charcoal, #263238);
+  }
+
+  .day-card-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.9fr);
+    gap: 1.35rem;
+    align-items: start;
+  }
+
+  .day-card-body:not(:has(.day-figure)) {
+    grid-template-columns: 1fr;
+  }
+
+  .day-summary {
+    margin: 0 0 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #2f3d43;
+  }
+
+  .day-subhead {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .day-plan-block {
+    margin-bottom: 0.95rem;
+  }
+
+  .day-plan-list {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .day-effort-box {
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: #faf6ee;
+    border-left: 3px solid var(--color-teal, #145B59);
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--color-charcoal, #263238);
+    margin-bottom: 0.95rem;
+  }
+
+  .day-costs-block {
+    margin-bottom: 0.95rem;
+  }
+
+  .day-costs-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .cost-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .cost-pill {
+    display: inline-block;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .pill-included {
+    background: rgba(20, 91, 89, 0.14);
+    color: var(--color-teal, #145B59);
+  }
+
+  .pill-optional {
+    background: rgba(217, 154, 69, 0.22);
+    color: #6b4710;
+  }
+
+  .pill-excluded {
+    background: rgba(38, 50, 56, 0.1);
+    color: #3e4c52;
+  }
+
+  .day-links-block {
+    margin-top: 0.85rem;
+  }
+
+  .day-stop-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .stop-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.25rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .stop-chip-dest {
+    background: #eef6f4;
+    border: 1px solid rgba(20, 91, 89, 0.25);
+    color: var(--color-teal, #145B59);
+  }
+
+  .stop-chip-dest:hover {
+    background: #dfeeeb;
+    border-color: var(--color-teal, #145B59);
+  }
+
+  .stop-chip-exp {
+    background: #faf6ee;
+    border: 1px solid rgba(38, 50, 56, 0.2);
+    color: var(--color-charcoal, #263238);
+  }
+
+  .stop-chip-exp:hover {
+    border-color: var(--color-teal, #145B59);
+    background: #ffffff;
+  }
+
+  .chip-kind {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.78;
+  }
+
+  .day-figure {
+    margin: 0;
+    border-radius: var(--radius-sm, 0.5rem);
+    overflow: hidden;
+    background: #faf6ee;
+    border: 1px solid rgba(38, 50, 56, 0.12);
+  }
+
+  .day-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .day-figcaption {
+    padding: 0.55rem 0.7rem;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: #4a5960;
+  }
+
+  .day-figcaption a {
+    color: var(--color-teal, #145B59);
+    text-decoration: underline;
+  }
+
+  .focus-stepper-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.65rem;
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 0.9rem 1.15rem;
+  }
+
+  .focus-stepper-bar[hidden] {
+    display: none !important;
+  }
+
+  .stepper-btn {
+    min-height: 2.65rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(20, 91, 89, 0.3);
+    background: #faf6ee;
+    color: var(--color-charcoal, #263238);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .stepper-btn:hover:not(:disabled) {
+    border-color: var(--color-teal, #145B59);
+    background: #ffffff;
+  }
+
+  .stepper-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .stepper-btn-all {
+    background: var(--color-teal, #145B59);
+    border-color: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  @media (max-width: 52rem) {
+    .itinerary-controls {
+      position: static;
+    }
+
+    .day-card-body {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

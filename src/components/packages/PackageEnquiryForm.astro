@@ -1,0 +1,423 @@
+---
+import { siteConfig } from '../../config/site';
+import {
+  launchPackages,
+  plannedPackages,
+  PRICE_BASIS_SHORT,
+  TIERS,
+  type TravelPackage,
+} from '../../data/packages';
+
+export interface Props {
+  selectedPackage?: TravelPackage;
+  heading?: string;
+  subcopy?: string;
+}
+
+const {
+  selectedPackage,
+  heading = selectedPackage
+    ? `Request a confirmed quote for ${selectedPackage.title}`
+    : 'Request a date-specific quote or custom itinerary',
+  subcopy = 'Tell us your travel month, party size, room needs and interests. Submitting this form prepares a structured enquiry—it is not a booking, payment or availability guarantee.',
+} = Astro.props;
+
+const contactEmail = siteConfig.contact.email || 'senviralanka@gmail.com';
+---
+
+<section id="enquiry" class="enquiry-section" aria-labelledby="enquiry-heading">
+  <div class="enquiry-card" data-enquiry-root data-contact-email={contactEmail}>
+    <div class="enquiry-header">
+      <span class="enquiry-eyebrow">Enquiry · Not a Booking</span>
+      <h2 id="enquiry-heading">{heading}</h2>
+      <p class="enquiry-lead">{subcopy}</p>
+    </div>
+
+    <form class="enquiry-form" data-enquiry-form novalidate>
+      <div class="form-grid">
+        <div class="field-group field-full">
+          <label for="enq-package">Starting itinerary or concept</label>
+          <select id="enq-package" name="package" required>
+            {selectedPackage ? (
+              <option value={`${selectedPackage.title} (${selectedPackage.days} days / ${selectedPackage.nights} nights)`} selected>
+                {selectedPackage.title} ({selectedPackage.days} days / {selectedPackage.nights} nights)
+              </option>
+            ) : (
+              <option value="Custom Sri Lanka itinerary (shape around my dates)">
+                Custom Sri Lanka itinerary (shape around my dates)
+              </option>
+            )}
+            <optgroup label="Launch Itineraries (4–21 Days)">
+              {launchPackages.map((p) => {
+                const val = `${p.title} (${p.days} days / ${p.nights} nights)`;
+                if (selectedPackage && p.slug === selectedPackage.slug) return null;
+                return <option value={val}>{val}</option>;
+              })}
+            </optgroup>
+            <optgroup label="Draft & Extended Concepts (Available on Request)">
+              {plannedPackages.map((d) => {
+                const val = `${d.title} — ${d.days} days (Draft concept #${d.briefNo})`;
+                return <option value={val}>{val}</option>;
+              })}
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="enq-dates">Preferred travel month or dates</label>
+          <input
+            id="enq-dates"
+            name="dates"
+            type="text"
+            placeholder="e.g. February 2027, or flexible mid-year"
+            required
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="enq-tier">Accommodation &amp; planning tier</label>
+          <select id="enq-tier" name="tier">
+            <option value="Comfort (modest hotels / boutique guesthouses)">
+              Comfort (modest hotels / boutique guesthouses)
+            </option>
+            {TIERS.filter((t) => t.id !== 'comfort').map((t) => (
+              <option value={`${t.label} (${t.assumption})`}>
+                {t.label} ({t.assumption})
+              </option>
+            ))}
+            <option value="Not sure yet — please advise">Not sure yet — please advise</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="enq-adults">Number of adults</label>
+          <input id="enq-adults" name="adults" type="number" min="1" max="20" value="2" required />
+        </div>
+
+        <div class="field-group">
+          <label for="enq-children">Children &amp; ages (if any)</label>
+          <input
+            id="enq-children"
+            name="children"
+            type="text"
+            placeholder="e.g. None, or 2 children (ages 7 and 10)"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="enq-rooms">Room count &amp; configuration</label>
+          <input
+            id="enq-rooms"
+            name="rooms"
+            type="text"
+            placeholder="e.g. 1 double room, or 1 twin + 1 single"
+            value="1 double/twin room"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="enq-name">Your name</label>
+          <input id="enq-name" name="name" type="text" autocomplete="name" placeholder="Full name" required />
+        </div>
+
+        <div class="field-group field-full">
+          <label for="enq-email">Your email address</label>
+          <input
+            id="enq-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+
+        <div class="field-group field-full">
+          <label for="enq-notes">
+            Interests, pace adjustments, flight times, dietary or accessibility notes
+          </label>
+          <textarea
+            id="enq-notes"
+            name="notes"
+            rows="4"
+            placeholder="Tell us which stops matter most, whether you prefer fewer hotel changes, if anyone avoids stairs, or if you want rail/safari fees included in the quote."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="enquiry-basis-reminder" role="note">
+        <strong>How quotes work:</strong> Published ranges are indicative planning budgets ({PRICE_BASIS_SHORT}). Your written quote will confirm specific accommodation, vehicle class, guide category, included admissions/safaris, and cancellation terms for your dates.
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit-enquiry">
+          <span>Prepare quote enquiry email</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </button>
+
+        <button type="button" class="btn-copy-enquiry" data-copy-enquiry>
+          Copy enquiry details
+        </button>
+
+        <span class="direct-email-note">
+          Or email directly: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </span>
+      </div>
+
+      <div class="enquiry-feedback" data-enquiry-feedback hidden aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<script>
+  function initEnquiryForms() {
+    document.querySelectorAll<HTMLElement>('[data-enquiry-root]').forEach((root) => {
+      const form = root.querySelector<HTMLFormElement>('[data-enquiry-form]');
+      const copyBtn = root.querySelector<HTMLButtonElement>('[data-copy-enquiry]');
+      const feedback = root.querySelector<HTMLElement>('[data-enquiry-feedback]');
+      const emailTo = root.dataset.contactEmail || 'senviralanka@gmail.com';
+
+      if (!form) return;
+
+      function buildSummary() {
+        const data = new FormData(form!);
+        const pkg = String(data.get('package') || '').trim();
+        const dates = String(data.get('dates') || 'Not specified').trim();
+        const tier = String(data.get('tier') || 'Comfort').trim();
+        const adults = String(data.get('adults') || '2').trim();
+        const children = String(data.get('children') || 'None').trim();
+        const rooms = String(data.get('rooms') || '1 room').trim();
+        const name = String(data.get('name') || '').trim();
+        const email = String(data.get('email') || '').trim();
+        const notes = String(data.get('notes') || '').trim();
+
+        const lines = [
+          `Senvira Lanka — Package Quote Enquiry (Not a booking)`,
+          `--------------------------------------------------`,
+          `Itinerary / Concept: ${pkg}`,
+          `Preferred Dates / Month: ${dates}`,
+          `Adults: ${adults}`,
+          `Children / Ages: ${children || 'None'}`,
+          `Rooms: ${rooms}`,
+          `Accommodation Tier: ${tier}`,
+          `Name: ${name || 'Not provided'}`,
+          `Reply Email: ${email || 'Not provided'}`,
+          ``,
+          `Notes / Accessibility / Interests:`,
+          notes || 'No additional notes.',
+        ];
+        return { subject: `Quote Enquiry: ${pkg} (${dates})`, body: lines.join('\n') };
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const { subject, body } = buildSummary();
+        const mailto = `mailto:${emailTo}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        if (feedback) {
+          feedback.hidden = false;
+          feedback.textContent = `Opening your email client addressed to ${emailTo}. If it does not open automatically, use "Copy enquiry details" below and send to ${emailTo}.`;
+        }
+        window.location.href = mailto;
+      });
+
+      copyBtn?.addEventListener('click', async () => {
+        const { body } = buildSummary();
+        try {
+          await navigator.clipboard.writeText(body);
+          if (feedback) {
+            feedback.hidden = false;
+            feedback.textContent = `Enquiry details copied to clipboard. You can paste them into an email to ${emailTo}.`;
+          }
+        } catch {
+          if (feedback) {
+            feedback.hidden = false;
+            feedback.textContent = `Please email your requirements directly to ${emailTo}.`;
+          }
+        }
+      });
+    });
+  }
+
+  initEnquiryForms();
+</script>
+
+<style>
+  .enquiry-section {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .enquiry-card {
+    background: #0d2b29;
+    color: var(--color-ivory, #F6F1E7);
+    border: 1px solid rgba(246, 241, 231, 0.16);
+    border-radius: var(--radius-lg, 1.25rem);
+    padding: clamp(1.5rem, 3.5vw, 2.75rem);
+  }
+
+  .enquiry-header {
+    max-width: 46rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .enquiry-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-gold-light, #E9C779);
+    margin-bottom: 0.4rem;
+  }
+
+  .enquiry-header h2 {
+    margin: 0 0 0.55rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .enquiry-lead {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgba(246, 241, 231, 0.84);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.15rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .field-full {
+    grid-column: 1 / -1;
+  }
+
+  .field-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(246, 241, 231, 0.92);
+  }
+
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(246, 241, 231, 0.24);
+    background: rgba(6, 24, 22, 0.85);
+    color: var(--color-ivory, #F6F1E7);
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .field-group textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+
+  .field-group input::placeholder,
+  .field-group textarea::placeholder {
+    color: rgba(246, 241, 231, 0.5);
+  }
+
+  .enquiry-basis-reminder {
+    margin-top: 1.15rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: rgba(20, 91, 89, 0.35);
+    border-left: 3px solid var(--color-amber, #D99A45);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: rgba(246, 241, 231, 0.9);
+  }
+
+  .form-actions {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-submit-enquiry {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.85rem;
+    padding: 0.65rem 1.35rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid var(--color-amber, #D99A45);
+    background: var(--color-amber, #D99A45);
+    color: #182422;
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+  }
+
+  .btn-submit-enquiry:hover {
+    background: #e6ac58;
+  }
+
+  .btn-copy-enquiry {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.85rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(246, 241, 231, 0.28);
+    background: transparent;
+    color: var(--color-ivory, #F6F1E7);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .btn-copy-enquiry:hover {
+    background: rgba(246, 241, 231, 0.1);
+    border-color: var(--color-gold-light, #E9C779);
+  }
+
+  .direct-email-note {
+    font-size: 0.78rem;
+    color: rgba(246, 241, 231, 0.78);
+  }
+
+  .direct-email-note a {
+    color: var(--color-gold-light, #E9C779);
+    text-decoration: underline;
+  }
+
+  .enquiry-feedback {
+    margin-top: 0.9rem;
+    padding: 0.75rem 0.95rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    background: rgba(233, 199, 121, 0.16);
+    border: 1px solid rgba(233, 199, 121, 0.45);
+    font-size: 0.82rem;
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  @media (max-width: 44rem) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

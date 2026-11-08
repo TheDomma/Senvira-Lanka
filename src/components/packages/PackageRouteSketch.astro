@@ -1,0 +1,243 @@
+---
+import { getPackageMapRoute, type TravelPackage } from '../../data/packages';
+
+export interface Props {
+  pkg: TravelPackage;
+}
+
+const { pkg } = Astro.props;
+const routePoints = getPackageMapRoute(pkg);
+
+const polylinePoints = routePoints.map((pt) => `${pt.x.toFixed(1)},${pt.y.toFixed(1)}`).join(' ');
+---
+
+<aside class="route-sketch-card" aria-labelledby="route-sketch-heading" data-route-sketch>
+  <div class="route-sketch-header">
+    <div>
+      <span class="sketch-eyebrow">Supplementary Visual Aid</span>
+      <h3 id="route-sketch-heading">Route overview</h3>
+    </div>
+    <span class="sketch-note">Text itinerary is the source of truth</span>
+  </div>
+
+  <!-- Text route sequence (source of truth) -->
+  <ol class="route-stop-list" aria-label="Ordered route stops">
+    {routePoints.map((pt, idx) => (
+      <li
+        class:list={['route-stop-item', { 'is-active': idx === 0 }]}
+        data-sketch-stop={pt.id}
+        data-day-indices={pt.dayIndices.join(',')}
+      >
+        <button
+          type="button"
+          class="route-stop-btn"
+          data-sketch-select-day={pt.dayIndices[0]}
+          aria-label={`Jump to ${pt.name} (${pt.dayLabels.join(', ')})`}
+        >
+          <span class="stop-num">{pt.stepNumber}</span>
+          <span class="stop-text">
+            <strong>{pt.name}</strong>
+            <small>{pt.dayLabels.join(', ')}</small>
+          </span>
+        </button>
+      </li>
+    ))}
+  </ol>
+
+  <!-- Lightweight SVG island sketch -->
+  {routePoints.length > 0 && (
+    <div class="sketch-svg-wrap" aria-hidden="true">
+      <svg viewBox="0 0 100 110" class="sketch-svg" preserveAspectRatio="xMidYMid meet">
+        <path
+          class="sketch-island"
+          d="M48 2 C44 5 43 10 44 14 L40 18 38 24 35 28 37 34 33 39 31 46 28 52 25 59 22 66 20 72 22 78 25 83 28 88 33 92 38 97 44 101 50 104 57 103 62 100 68 97 72 91 77 87 81 81 83 75 86 68 88 61 88 55 85 49 83 43 81 37 78 33 77 28 73 23 71 18 67 14 66 10 61 7 57 4 53 2 Z"
+        />
+        {routePoints.length > 1 && (
+          <polyline class="sketch-line" points={polylinePoints} fill="none" />
+        )}
+        {routePoints.map((pt, idx) => (
+          <g
+            class:list={['sketch-node', { 'is-active': idx === 0 }]}
+            data-sketch-marker={pt.id}
+            transform={`translate(${pt.x.toFixed(1)}, ${pt.y.toFixed(1)})`}
+          >
+            <circle class="node-halo" r="4.2" />
+            <circle class="node-dot" r="2.6" />
+            <text y="0.9" text-anchor="middle" class="node-num">{pt.stepNumber}</text>
+          </g>
+        ))}
+      </svg>
+      <p class="sketch-caption" data-sketch-active-caption>
+        Highlighted stop: <strong>{routePoints[0]?.name}</strong> ({routePoints[0]?.dayLabels.join(', ')})
+      </p>
+    </div>
+  )}
+</aside>
+
+<style>
+  .route-sketch-card {
+    background: #ffffff;
+    border: 1px solid rgba(38, 50, 56, 0.14);
+    border-radius: var(--radius-md, 0.875rem);
+    padding: 1.2rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .route-sketch-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .sketch-eyebrow {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-teal, #145B59);
+  }
+
+  .route-sketch-header h3 {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .sketch-note {
+    font-size: 0.72rem;
+    color: #526168;
+  }
+
+  .route-stop-list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .route-stop-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.65rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: var(--radius-sm, 0.5rem);
+    border: 1px solid rgba(38, 50, 56, 0.12);
+    background: #faf6ee;
+    color: var(--color-charcoal, #263238);
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .route-stop-btn:hover {
+    border-color: var(--color-teal, #145B59);
+    background: #ffffff;
+  }
+
+  .route-stop-item.is-active .route-stop-btn {
+    background: rgba(20, 91, 89, 0.1);
+    border-color: var(--color-teal, #145B59);
+  }
+
+  .stop-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.55rem;
+    height: 1.55rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--color-teal, #145B59);
+    color: var(--color-ivory, #F6F1E7);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .route-stop-item.is-active .stop-num {
+    background: var(--color-amber, #D99A45);
+    color: #1c262b;
+  }
+
+  .stop-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+
+  .stop-text strong {
+    font-size: 0.82rem;
+    color: var(--color-charcoal, #263238);
+  }
+
+  .stop-text small {
+    font-size: 0.72rem;
+    color: #526168;
+  }
+
+  .sketch-svg-wrap {
+    background: #0d2e2c;
+    border-radius: var(--radius-sm, 0.5rem);
+    padding: 0.85rem;
+    color: var(--color-ivory, #F6F1E7);
+  }
+
+  .sketch-svg {
+    width: 100%;
+    max-width: 13.5rem;
+    margin-inline: auto;
+    display: block;
+  }
+
+  .sketch-island {
+    fill: #145B59;
+    stroke: rgba(246, 241, 231, 0.45);
+    stroke-width: 0.8;
+  }
+
+  .sketch-line {
+    stroke: #E9C779;
+    stroke-width: 1.1;
+    stroke-dasharray: 2.2 1.6;
+  }
+
+  .sketch-node .node-halo {
+    fill: rgba(217, 154, 69, 0);
+    transition: fill 150ms ease;
+  }
+
+  .sketch-node .node-dot {
+    fill: #F6F1E7;
+    stroke: #0A302E;
+    stroke-width: 0.7;
+  }
+
+  .sketch-node.is-active .node-halo {
+    fill: rgba(217, 154, 69, 0.42);
+  }
+
+  .sketch-node.is-active .node-dot {
+    fill: #D99A45;
+  }
+
+  .sketch-node .node-num {
+    font-size: 2.8px;
+    font-weight: 700;
+    fill: #0A302E;
+  }
+
+  .sketch-caption {
+    margin: 0.6rem 0 0;
+    font-size: 0.75rem;
+    text-align: center;
+    color: rgba(246, 241, 231, 0.88);
+  }
+</style>
