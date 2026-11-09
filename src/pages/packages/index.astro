@@ -624,16 +624,17 @@ const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    background: #072220;
+    background: #031514;
     color: var(--color-ivory, #F6F1E7);
-    padding: calc(5.2rem + clamp(2.5rem, 5vw, 4rem)) 0 clamp(2.75rem, 5vw, 4rem);
-    border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+    padding: calc(5.2rem + clamp(2.5rem, 5vw, 4rem)) clamp(1.125rem, 4vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem);
+    border-bottom: 1px solid rgba(246, 241, 231, 0.12);
   }
 
   .hub-hero-bg {
     position: absolute;
     inset: 0;
     z-index: -2;
+    overflow: hidden;
   }
 
   .hub-hero-img {
@@ -641,7 +642,8 @@ const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
     height: 100%;
     object-fit: cover;
     object-position: center 45%;
-    filter: brightness(0.78) contrast(1.03);
+    filter: saturate(0.96) contrast(1.02) brightness(0.82);
+    transform: scale(1.02);
     display: block;
   }
 
@@ -649,54 +651,56 @@ const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(98deg, rgba(6, 28, 26, 0.92) 0%, rgba(8, 38, 36, 0.78) 55%, rgba(6, 28, 26, 0.62) 100%),
-      linear-gradient(180deg, rgba(4, 18, 17, 0.55) 0%, transparent 40%, rgba(6, 28, 26, 0.9) 100%);
+      radial-gradient(ellipse at 82% 18%, rgba(217, 154, 69, 0.14), transparent 34rem),
+      linear-gradient(96deg, rgba(2, 16, 15, 0.9) 0%, rgba(4, 28, 26, 0.76) 52%, rgba(3, 20, 19, 0.62) 100%),
+      linear-gradient(180deg, rgba(2, 14, 13, 0.6) 0%, transparent 38%, rgba(3, 20, 19, 0.92) 100%);
   }
 
-  .hero-content {
-    max-width: 48rem;
+  .hero-intro {
+    max-width: 44rem;
   }
 
   .hero-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
+    gap: 0.65rem;
     margin: 0 0 0.85rem;
-    font-size: 0.7rem;
+    font-size: 0.66rem;
     font-weight: 700;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-gold-light, #E9C779);
+    color: #f0d48d;
   }
 
   .hero-eyebrow::before {
     content: '';
-    width: 0.4rem;
-    height: 0.4rem;
+    width: 0.38rem;
+    height: 0.38rem;
     border-radius: 50%;
-    background: var(--color-amber, #D99A45);
+    background: #e9c66f;
   }
 
   .hub-hero h1 {
     margin: 0;
-    max-width: 21ch;
+    max-width: 20ch;
     font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
-    letter-spacing: -0.025em;
-    color: var(--color-ivory, #F6F1E7);
+    letter-spacing: -0.03em;
+    color: #fbf8f0;
+    text-wrap: balance;
   }
 
   .hub-hero h1 em {
     font-style: italic;
     font-weight: 500;
-    color: var(--color-gold-light, #E9C779);
+    color: #f0d48d;
   }
 
   .hero-copy {
     margin: 1rem 0 0;
-    max-width: 58ch;
-    font-size: clamp(0.92rem, 1.1vw, 1.02rem);
-    line-height: 1.68;
-    color: rgba(246, 241, 231, 0.88);
+    max-width: 52ch;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.7;
+    color: rgba(250, 248, 240, 0.82);
   }
 
   .hero-actions {
@@ -1351,15 +1355,24 @@ const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
 
   .hub-image-credit-note {
     margin-top: 1.75rem;
-    padding: 0.85rem 1rem;
+    padding: 0.6rem 0.85rem;
     border-radius: var(--radius-sm, 0.5rem);
-    background: #efe9dc;
-    font-size: 0.76rem;
-    color: #4a5960;
+    background: #fbf8f2;
+    border: 1px solid rgba(38, 50, 56, 0.1);
+    font-size: 0.68rem;
+    line-height: 1.45;
+    color: #768580;
   }
 
   .hub-image-credit-note a {
+    color: inherit;
+    text-decoration: underline;
+    opacity: 0.85;
+  }
+
+  .hub-image-credit-note a:hover {
     color: var(--color-teal, #145B59);
+    opacity: 1;
   }
 
   @media (max-width: 60rem) {
@@ -1368,10 +1381,34 @@ const launchBands = bands.filter((b) => b.id !== 'twenty-eight-thirty');
     }
   }
 
+  @media (max-width: 54rem) {
+    .hub-hero {
+      padding-top: calc(4.35rem + 1.75rem);
+    }
+
+    .hub-hero h1 {
+      font-size: var(--text-hero-subpage-mobile, clamp(1.95rem, 6.8vw, 2.75rem));
+      line-height: 1.08;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .hub-hero {
+      padding-inline: 0.95rem;
+    }
+  }
+
   @media (max-width: 38rem) {
     .std-cost-item {
       grid-template-columns: 1fr;
       gap: 0.25rem;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .hub-hero h1 {
+      font-size: var(--text-hero-subpage-narrow, clamp(1.8rem, 6.2vw, 2.35rem));
+      line-height: 1.1;
     }
   }
 </style>
