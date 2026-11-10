@@ -174,14 +174,10 @@ const { pkg } = Astro.props;
                 />
                 <figcaption class="day-figcaption">
                   {block.image?.caption && (
-                    <span class="caption-main">{block.image.caption} </span>
+                    <span class="caption-main">{block.image.caption} · </span>
                   )}
                   <span class="caption-credit">
-                    {dayImg.subject} · Photo: {dayImg.creator} (
-                    <a href={dayImg.licenseUrl} target="_blank" rel="noopener noreferrer">
-                      {dayImg.license}
-                    </a>
-                    )
+                    Photo: {dayImg.creator} (<a href={dayImg.licenseUrl} target="_blank" rel="noopener noreferrer">{dayImg.license}</a>)
                   </span>
                 </figcaption>
               </figure>
@@ -563,15 +559,29 @@ const { pkg } = Astro.props;
   }
 
   .day-figcaption {
-    padding: 0.55rem 0.7rem;
-    font-size: 0.72rem;
-    line-height: 1.45;
-    color: #4a5960;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.62rem;
+    line-height: 1.35;
+    color: #768580;
+  }
+
+  .caption-main {
+    color: #556560;
+  }
+
+  .caption-credit {
+    white-space: normal;
   }
 
   .day-figcaption a {
-    color: var(--color-teal, #145B59);
+    color: inherit;
     text-decoration: underline;
+    opacity: 0.85;
+  }
+
+  .day-figcaption a:hover {
+    color: var(--color-teal, #145B59);
+    opacity: 1;
   }
 
   .focus-stepper-bar {
@@ -626,6 +636,12 @@ const { pkg } = Astro.props;
 
     .day-card-body {
       grid-template-columns: 1fr;
+    }
+
+    .day-figcaption {
+      padding: 0.22rem 0.45rem;
+      font-size: 0.58rem;
+      line-height: 1.3;
     }
   }
 </style>
