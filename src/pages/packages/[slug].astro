@@ -112,12 +112,7 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
         </div>
 
         <p class="hero-photo-caption">
-          {pkg.heroImage.caption ? `${pkg.heroImage.caption} ` : ''}
-          <span>
-            Hero photo: {heroImg.subject} by {heroImg.creator} (
-            <a href={heroImg.licenseUrl} target="_blank" rel="noopener noreferrer">{heroImg.license}</a>
-            )
-          </span>
+          Photo: {heroImg.creator} (<a href={heroImg.licenseUrl} target="_blank" rel="noopener noreferrer">{heroImg.license}</a>)
         </p>
       </div>
     </header>
@@ -364,7 +359,7 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
       <div class="container">
         <div class="section-header">
           <div>
-            <p class="section-eyebrow">04 · Questions &amp; Photo Ledger</p>
+            <p class="section-eyebrow">04 · Practical Questions</p>
             <h2 id="detail-faq-heading">Questions about {pkg.title}</h2>
           </div>
         </div>
@@ -378,23 +373,20 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
           ))}
         </div>
 
-        <aside class="credits-ledger-box" aria-labelledby="credits-heading">
-          <h3 id="credits-heading">Image rights &amp; attribution ledger for this page</h3>
-          <p>
-            Every photograph displayed on this itinerary page is documented in the project image ledgers:
-          </p>
+        <details class="credits-ledger-details">
+          <summary>Image rights &amp; attribution ledger ({usedImages.length} verified photos)</summary>
           <ul class="credits-list">
             {usedImages.map((img) => (
               <li>
                 <strong>{img.subject}:</strong> Photo by {img.creator} via {img.platform} —{' '}
                 <a href={img.licenseUrl} target="_blank" rel="noopener noreferrer">{img.license}</a>{' '}
-                (<a href={img.sourceUrl} target="_blank" rel="noopener noreferrer">source page</a>;{' '}
+                (<a href={img.sourceUrl} target="_blank" rel="noopener noreferrer">source</a>;{' '}
                 recorded in <code>{img.ledger}</code>).
                 {img.note ? ` ${img.note}` : ''}
               </li>
             ))}
           </ul>
-        </aside>
+        </details>
       </div>
     </section>
 
@@ -593,22 +585,25 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    background: #072220;
+    background: #031514;
     color: var(--color-ivory, #F6F1E7);
-    padding: calc(5.2rem + clamp(2rem, 4.5vw, 3.5rem)) 0 clamp(2.25rem, 4vw, 3.25rem);
+    padding: calc(5.2rem + clamp(2.5rem, 5vw, 4rem)) clamp(1.125rem, 4vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem);
+    border-bottom: 1px solid rgba(246, 241, 231, 0.12);
   }
 
   .detail-hero-bg {
     position: absolute;
     inset: 0;
     z-index: -2;
+    overflow: hidden;
   }
 
   .detail-hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.75) contrast(1.03);
+    filter: saturate(0.96) contrast(1.02) brightness(0.82);
+    transform: scale(1.02);
     display: block;
   }
 
@@ -616,8 +611,9 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(100deg, rgba(5, 24, 22, 0.93) 0%, rgba(8, 36, 34, 0.8) 56%, rgba(6, 26, 24, 0.62) 100%),
-      linear-gradient(180deg, rgba(4, 18, 17, 0.5) 0%, transparent 45%, rgba(5, 24, 22, 0.92) 100%);
+      radial-gradient(ellipse at 82% 18%, rgba(217, 154, 69, 0.14), transparent 34rem),
+      linear-gradient(96deg, rgba(2, 16, 15, 0.9) 0%, rgba(4, 28, 26, 0.76) 52%, rgba(3, 20, 19, 0.62) 100%),
+      linear-gradient(180deg, rgba(2, 14, 13, 0.6) 0%, transparent 38%, rgba(3, 20, 19, 0.92) 100%);
   }
 
   .breadcrumbs ol {
@@ -643,27 +639,40 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
   }
 
   .detail-eyebrow {
-    margin: 0 0 0.55rem;
-    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 0.85rem;
+    color: #f0d48d;
+    font-size: 0.66rem;
     font-weight: 700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-gold-light, #E9C779);
+  }
+
+  .detail-eyebrow::before {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: #e9c66f;
+    content: '';
   }
 
   .detail-hero h1 {
     margin: 0;
     max-width: 22ch;
     font: 500 var(--text-hero-subpage, clamp(2.15rem, 3.8vw, 3.25rem))/1.1 var(--font-serif);
-    color: var(--color-ivory, #F6F1E7);
+    letter-spacing: -0.03em;
+    color: #fbf8f0;
+    text-wrap: balance;
   }
 
   .detail-promise {
-    margin: 0.85rem 0 0;
-    max-width: 58ch;
-    font-size: clamp(0.95rem, 1.15vw, 1.06rem);
-    line-height: 1.65;
-    color: rgba(246, 241, 231, 0.9);
+    margin: 1rem 0 0;
+    max-width: 52ch;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.7;
+    color: rgba(250, 248, 240, 0.82);
   }
 
   .detail-hero-actions {
@@ -712,12 +721,18 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
   }
 
   .hero-photo-caption {
-    margin: 1.25rem 0 0;
-    font-size: 0.74rem;
-    color: rgba(246, 241, 231, 0.72);
+    margin: 1.15rem 0 0;
+    font-size: 0.62rem;
+    line-height: 1.35;
+    color: rgba(246, 241, 231, 0.45);
   }
 
   .hero-photo-caption a {
+    color: rgba(246, 241, 231, 0.65);
+    text-decoration: underline;
+  }
+
+  .hero-photo-caption a:hover {
     color: var(--color-gold-light, #E9C779);
   }
 
@@ -1152,31 +1167,33 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
     color: #3e4c52;
   }
 
-  .credits-ledger-box {
+  .credits-ledger-details {
     margin-top: 1.75rem;
-    background: #ffffff;
-    border: 1px solid rgba(38, 50, 56, 0.14);
-    border-radius: var(--radius-md, 0.875rem);
-    padding: 1.25rem;
-    font-size: 0.8rem;
-    color: #4a5960;
+    background: #fbf8f2;
+    border: 1px solid rgba(38, 50, 56, 0.12);
+    border-radius: var(--radius-sm, 0.5rem);
+    padding: 0.75rem 1rem;
+    font-size: 0.72rem;
+    color: #6a787e;
   }
 
-  .credits-ledger-box h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1.15rem;
-    color: var(--color-charcoal, #263238);
+  .credits-ledger-details summary {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: #556560;
+    cursor: pointer;
   }
 
-  .credits-ledger-box p {
-    margin: 0 0 0.55rem;
+  .credits-ledger-details summary:hover {
+    color: var(--color-teal, #145B59);
   }
 
   .credits-list {
-    margin: 0;
+    margin: 0.75rem 0 0;
     padding-left: 1.15rem;
     display: grid;
-    gap: 0.35rem;
+    gap: 0.45rem;
+    line-height: 1.45;
   }
 
   .credits-list a {
@@ -1213,10 +1230,39 @@ const pageDescription = `${pkg.promise} ${pkg.days} days / ${pkg.nights} nights 
     }
   }
 
+  @media (max-width: 54rem) {
+    .detail-hero {
+      padding-top: calc(4.35rem + 1.75rem);
+    }
+
+    .detail-hero h1 {
+      font-size: var(--text-hero-subpage-mobile, clamp(1.95rem, 6.8vw, 2.75rem));
+      line-height: 1.08;
+    }
+  }
+
   @media (max-width: 42rem) {
     .facts-panel,
     .tier-ranges-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .detail-hero {
+      padding-inline: 0.95rem;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .detail-hero h1 {
+      font-size: var(--text-hero-subpage-narrow, clamp(1.8rem, 6.2vw, 2.35rem));
+      line-height: 1.1;
+    }
+
+    .hero-photo-caption {
+      font-size: 0.58rem;
+      margin-top: 0.85rem;
     }
   }
 </style>
